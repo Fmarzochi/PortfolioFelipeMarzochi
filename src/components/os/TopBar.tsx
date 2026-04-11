@@ -1,64 +1,64 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Wifi, BatteryMedium, Search, Command } from 'lucide-react';
+import { Wifi, BatteryMedium, Search, SlidersHorizontal } from 'lucide-react';
+import { ControlCenter } from './ControlCenter';
 
 export const TopBar = () => {
   const [time, setTime] = useState<Date | null>(null);
+  const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
 
   useEffect(() => {
     setTime(new Date());
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-
+    const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('pt-BR', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
       hour: '2-digit',
       minute: '2-digit',
-    });
-  };
-
-  const formatDate = (date: Date) => {
-    const formatted = date.toLocaleDateString('pt-BR', {
-      weekday: 'short',
-      day: '2-digit',
-      month: 'short',
-    });
-    // Remove pontos e converte a primeira letra para maiúscula para ficar padrão Apple
-    return formatted.replace('.', '').replace(',', '').replace(/^\w/, (c) => c.toUpperCase());
+    }).replace(/,/g, '');
   };
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 flex h-7 items-center justify-between bg-black/40 px-3 text-[13px] font-medium tracking-wide text-white shadow-sm backdrop-blur-md border-b border-white/10">
+    <div className="relative z-50 flex h-7 w-full items-center justify-between bg-black/40 px-4 text-[13px] font-medium text-white/90 backdrop-blur-md">
+      {/* Lado Esquerdo - Menus */}
       <div className="flex items-center gap-4">
-        <div className="flex cursor-pointer items-center justify-center transition-colors hover:text-white/70">
-          <Command size={14} className="fill-current" />
-        </div>
-        <div className="cursor-default font-bold">CatchUp Tech</div>
-        <div className="hidden cursor-default space-x-4 md:flex">
-          <span className="cursor-pointer transition-colors hover:text-white/70">File</span>
-          <span className="cursor-pointer transition-colors hover:text-white/70">Edit</span>
-          <span className="cursor-pointer transition-colors hover:text-white/70">View</span>
-          <span className="cursor-pointer transition-colors hover:text-white/70">Go</span>
-          <span className="cursor-pointer transition-colors hover:text-white/70">Window</span>
-          <span className="cursor-pointer transition-colors hover:text-white/70">Help</span>
+        <span className="font-bold tracking-wide cursor-pointer hover:text-white">CatchUp Tech</span>
+        <div className="flex gap-4 text-white/80">
+          <span className="cursor-pointer hover:text-white">File</span>
+          <span className="cursor-pointer hover:text-white">Edit</span>
+          <span className="cursor-pointer hover:text-white">View</span>
+          <span className="cursor-pointer hover:text-white">Go</span>
+          <span className="cursor-pointer hover:text-white">Window</span>
+          <span className="cursor-pointer hover:text-white">Help</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex cursor-pointer items-center gap-3 transition-colors hover:text-white/70">
-          <BatteryMedium size={16} />
-          <Wifi size={14} />
-          <Search size={14} />
-        </div>
-        <div className="cursor-default text-[13px]">
-          {time ? `${formatDate(time)}  ${formatTime(time)}` : '...'}
-        </div>
+      {/* Lado Direito - Status e Central de Controle */}
+      <div className="flex items-center gap-4 text-white/80">
+        <BatteryMedium size={14} className="cursor-pointer hover:text-white" />
+        <Wifi size={14} className="cursor-pointer hover:text-white" />
+        <Search size={14} className="cursor-pointer hover:text-white" />
+
+        {/* Botão da Central de Controle */}
+        <SlidersHorizontal
+          size={14}
+          className={`cursor-pointer transition-colors ${isControlCenterOpen ? 'text-blue-400' : 'hover:text-white'}`}
+          onClick={() => setIsControlCenterOpen(!isControlCenterOpen)}
+        />
+
+        <span className="cursor-pointer hover:text-white">
+          {time ? formatTime(time) : 'Carregando...'}
+        </span>
       </div>
+
+      {/* Renderiza a Central de Controle */}
+      <ControlCenter isOpen={isControlCenterOpen} />
     </div>
   );
 };
