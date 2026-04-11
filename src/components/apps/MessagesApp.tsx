@@ -67,9 +67,9 @@ export const MessagesApp = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
+    <div className="flex flex-col md:flex-row h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
       {/* Sidebar de Conversas */}
-      <div className="w-[260px] flex-shrink-0 border-r border-white/10 bg-black/20 pt-4">
+      <div className="w-full max-h-[35vh] md:max-h-none md:w-[260px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
         <div className="mb-4 flex items-center justify-between px-4">
           <h2 className="text-sm font-bold tracking-wide text-white/80">Mensagens</h2>
           <div className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-blue-500 transition-colors hover:bg-blue-400">

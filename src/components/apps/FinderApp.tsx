@@ -57,9 +57,9 @@ export const FinderApp = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-[#1e1e1e]/80 text-white/90 backdrop-blur-3xl">
+    <div className="flex flex-col md:flex-row h-full w-full bg-[#1e1e1e]/80 text-white/90 backdrop-blur-3xl">
       {/* Sidebar */}
-      <div className="w-[200px] flex-shrink-0 border-r border-white/10 bg-black/20 pt-4">
+      <div className="w-full max-h-[35vh] md:max-h-none md:w-[200px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">
           Favoritos
         </div>
@@ -126,20 +126,22 @@ export const FinderApp = () => {
               <input
                 type="text"
                 placeholder="Buscar"
-                className="ml-2 w-32 bg-transparent text-sm outline-none placeholder:text-white/30"
+                className="ml-2 w-20 md:w-32 bg-transparent text-sm outline-none placeholder:text-white/30"
               />
             </div>
           </div>
         </div>
 
         {/* Files Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-2 md:p-6">
           {viewMode === 'grid' ? (
-            <div className="grid grid-cols-4 gap-6 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+            <div className="grid grid-cols-3 gap-2 md:grid-cols-5 md:gap-6">
               {files.map((file) => (
-                <div key={file.id} className="group flex cursor-pointer flex-col items-center gap-2 rounded-lg p-2 transition-colors hover:bg-white/10">
-                  {renderIcon(file.type)}
-                  <span className="text-center text-xs font-medium text-white/90 line-clamp-2">
+                <div key={file.id} className="group flex cursor-pointer flex-col items-center gap-1 md:gap-2 rounded-lg p-2 transition-colors hover:bg-white/10">
+                  <div className="[&>svg]:h-8 [&>svg]:w-8 md:[&>svg]:h-12 md:[&>svg]:w-12">
+                    {renderIcon(file.type)}
+                  </div>
+                  <span className="w-full truncate text-center text-xs font-medium text-white/90">
                     {file.name}
                   </span>
                 </div>

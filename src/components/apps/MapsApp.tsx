@@ -41,15 +41,15 @@ export const MapsApp = () => {
   const [selected, setSelected] = useState<Milestone>(milestones[2]);
 
   return (
-    <div className="flex h-full w-full bg-[#121212] text-white">
+    <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
       {/* Search & List Panel */}
-      <div className="w-[300px] flex-shrink-0 border-r border-white/10 bg-black/40 p-4 backdrop-blur-md">
+      <div className="w-full max-h-[35vh] md:max-h-none md:w-[300px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
         <div className="mb-6 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={16} className="text-blue-500" />
           <input
             type="text"
             placeholder="Destino: Senioridade"
-            className="bg-transparent text-sm outline-none placeholder:text-white/30"
+            className="w-full bg-transparent text-sm outline-none placeholder:text-white/30"
           />
         </div>
 
@@ -115,20 +115,20 @@ export const MapsApp = () => {
         {/* Bottom Info Card */}
         <motion.div
           layout
-          className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/10 bg-black/60 p-6 shadow-2xl backdrop-blur-xl"
+          className="absolute bottom-4 left-3 right-3 md:bottom-6 md:left-6 md:right-6 rounded-2xl border border-white/10 bg-black/60 p-3 md:p-6 shadow-2xl backdrop-blur-xl"
         >
-          <div className="flex items-start justify-between">
-            <div className="flex gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-0">
+            <div className="flex gap-2 md:gap-4">
+              <div className="flex h-9 w-9 md:h-12 md:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
                 {selected.icon}
               </div>
               <div>
-                <h2 className="text-xl font-bold tracking-tight">{selected.title}</h2>
-                <p className="text-sm text-white/50">{selected.description}</p>
+                <h2 className="text-base md:text-xl font-bold tracking-tight">{selected.title}</h2>
+                <p className="text-xs md:text-sm text-white/50">{selected.description}</p>
               </div>
             </div>
-            <button className="flex h-10 items-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-bold transition-all hover:bg-blue-500">
-              <Compass size={16} />
+            <button className="self-end md:self-auto flex h-8 md:h-10 items-center gap-2 rounded-full bg-blue-600 px-4 md:px-6 text-xs md:text-sm font-bold transition-all hover:bg-blue-500">
+              <Compass size={14} />
               Explorar
             </button>
           </div>
