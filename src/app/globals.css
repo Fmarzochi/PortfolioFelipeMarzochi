@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: black;
+    /* Suavização de fonte idêntica ao macOS/iOS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Bloqueia a rolagem nativa do navegador para simular um SO */
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  /* Utilitário base de Glassmorphism que usaremos nas janelas depois */
+  .glass-panel {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
+  }
+}
