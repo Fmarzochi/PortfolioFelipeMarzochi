@@ -6,6 +6,7 @@ import { FinderApp } from './FinderApp';
 import { ContactsApp } from './ContactsApp';
 import { PhotosApp } from './PhotosApp';
 import { MapsApp } from './MapsApp';
+import { MessagesApp } from './MessagesApp';
 
 interface AppRegistryProps {
   appId: string;
@@ -13,17 +14,27 @@ interface AppRegistryProps {
 
 export const AppRegistry = ({ appId }: AppRegistryProps) => {
   switch (appId) {
-    case 'terminal': return <TerminalApp />;
-    case 'safari': return <BrowserApp />;
-    case 'finder': return <FinderApp />;
-    case 'contacts': return <ContactsApp />;
-    case 'photos': return <PhotosApp />;
-    case 'maps': return <MapsApp />;
+    case 'terminal':
+      return <TerminalApp />;
+    case 'safari':
+      return <BrowserApp />;
+    case 'finder':
+      return <FinderApp />;
+    case 'contacts':
+      return <ContactsApp />;
+    case 'photos':
+      return <PhotosApp />;
+    case 'maps':
+      return MapsApp ? <MapsApp /> : <div>Erro ao carregar MapsApp</div>;
+    case 'messages':
+      return MessagesApp ? <MessagesApp /> : <div>Erro ao carregar MessagesApp</div>;
     default:
       return (
         <div className="flex h-full w-full flex-col items-center justify-center bg-white/5 p-8 text-center backdrop-blur-sm">
           <h2 className="text-xl font-medium text-white/80">Em Desenvolvimento</h2>
-          <p className="mt-2 text-sm text-white/40">Este aplicativo será implementado em breve.</p>
+          <p className="mt-2 text-sm text-white/40">
+            Este aplicativo será implementado nas próximas fases da arquitetura.
+          </p>
         </div>
       );
   }
