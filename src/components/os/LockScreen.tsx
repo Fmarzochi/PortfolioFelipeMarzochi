@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Fingerprint } from 'lucide-react';
+import { playSound } from '../../utils/audioEngine'; // IMPORTAÇÃO DO MOTOR AQUI
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -32,19 +33,21 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
     e?.preventDefault();
     setIsAuthenticating(true);
 
-    // Simula um tempo de carregamento de 800ms para a animação do spinner antes de abrir o OS
+    // Toca o som de clique ao apertar o botão ou dar Enter
+    playSound('click');
+
+    // Simula o tempo de carregamento antes de liberar
     setTimeout(() => {
+      playSound('boot'); // O ACORDE MAJESTOSO TOCA AQUI!
       onUnlock();
     }, 800);
   };
 
   return (
     <div className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black text-white">
-      {/* Background unificado para transição suave para a área de trabalho */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#050505] to-[#121212] z-0" />
 
       <div className="relative z-10 flex flex-col items-center">
-        {/* Relógio */}
         <div className="mb-12 flex flex-col items-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -63,21 +66,18 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           </motion.p>
         </div>
 
-        {/* User Login Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, type: 'spring' }}
           className="flex flex-col items-center"
         >
-          {/* Avatar com Gradiente Laranja/Azul Tecnológico */}
           <div className="mb-4 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-orange-500 shadow-2xl ring-4 ring-white/10 backdrop-blur-xl">
             <span className="text-4xl font-bold text-white drop-shadow-md">FM</span>
           </div>
 
           <h2 className="mb-6 text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
 
-          {/* Password Input */}
           <form onSubmit={handleLogin} className="relative flex w-64 items-center">
             <input
               type="password"
@@ -99,7 +99,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             )}
           </form>
 
-          <div className="mt-8 flex items-center gap-2 text-xs font-medium text-white/40">
+          <div className="mt-8 flex items-center gap-2 text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
             <Fingerprint size={14} />
             <span>Touch ID ou Senha</span>
           </div>
