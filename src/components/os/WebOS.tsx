@@ -5,6 +5,7 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 import { MacDock } from './MacDock';
 import { TopBar } from './TopBar';
 import { Desktop } from './Desktop';
+import { IOSMobile } from './IOSMobile';
 
 export const WebOS = () => {
   const isMobile = useIsMobile();
@@ -23,9 +24,7 @@ export const WebOS = () => {
   return (
     <div className="h-screen w-screen overflow-hidden bg-black text-white selection:bg-blue-500/30">
       {isMobile ? (
-        <div className="flex h-full w-full items-center justify-center">
-          <p>Interface iOS (Ilha Dinâmica) em construção...</p>
-        </div>
+        <IOSMobile />
       ) : (
         <div className="relative h-full w-full bg-gradient-to-br from-gray-900 to-black">
           <TopBar />
