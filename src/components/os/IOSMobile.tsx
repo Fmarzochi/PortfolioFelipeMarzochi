@@ -95,29 +95,29 @@ export const IOSMobile = () => {
       </AnimatePresence>
 
       {/* Home Screen Grid */}
-      <div className="absolute inset-0 px-6 pt-20">
-        <div className="grid grid-cols-4 gap-x-4 gap-y-8">
+      <div className="absolute inset-0 px-4 pt-20">
+        <div className="grid grid-cols-4 gap-x-3 gap-y-6">
           {HOME_APPS.map((app) => (
             <div key={app.id} className="flex flex-col items-center gap-1.5">
               <button
                 onClick={() => handleOpenApp(app.id)}
-                className="group relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-md transition-transform active:scale-90"
+                className="group relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-md transition-transform active:scale-90"
               >
                 <app.icon className={`h-1/2 w-1/2 ${app.color}`} strokeWidth={1.5} />
               </button>
-              <span className="text-[11px] font-medium text-white/80">{app.title}</span>
+              <span className="text-xs font-medium text-white/80">{app.title}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Mobile Dock */}
-      <div className="absolute bottom-6 left-4 right-4 flex h-[80px] items-center justify-around rounded-3xl bg-white/10 px-2 ring-1 ring-white/20 backdrop-blur-2xl">
+      <div className="absolute bottom-6 left-4 right-4 flex h-[72px] items-center justify-around rounded-3xl bg-white/10 px-2 ring-1 ring-white/20 backdrop-blur-2xl">
         {DOCK_APPS.map((app) => (
           <button
             key={app.id}
             onClick={() => handleOpenApp(app.id)}
-            className="group relative flex h-[52px] w-[52px] items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 transition-transform active:scale-90"
+            className="group relative flex h-[48px] w-[48px] items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 transition-transform active:scale-90"
           >
             <app.icon className={`h-1/2 w-1/2 ${app.color}`} strokeWidth={1.5} />
           </button>

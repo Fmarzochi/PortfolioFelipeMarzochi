@@ -60,29 +60,29 @@ export const ContactsApp = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
+    <div className="flex flex-col md:flex-row h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
       {/* Sidebar de Lista de Contatos */}
-      <div className="w-[240px] flex-shrink-0 border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
+      <div className="w-full max-h-[38vh] md:max-h-none md:w-[240px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
         {renderContactList('Me')}
         {renderContactList('Família')}
         {renderContactList('CatchUp Tech')}
       </div>
 
       {/* Área Principal - Detalhes do Contato */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-white/5 p-8">
-        <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-black/20 p-8 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
+      <div className="flex flex-1 flex-col items-center justify-center bg-white/5 p-4 md:p-8 overflow-y-auto">
+        <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-black/20 p-4 md:p-8 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
           {/* Avatar Grande */}
-          <div className={`mb-6 flex h-24 w-24 items-center justify-center rounded-full shadow-lg ${selectedContact.avatarColor}`}>
-            <span className="text-4xl font-bold text-white shadow-black/20 drop-shadow-md">
+          <div className={`mb-4 md:mb-6 flex h-16 w-16 md:h-24 md:w-24 items-center justify-center rounded-full shadow-lg ${selectedContact.avatarColor}`}>
+            <span className="text-2xl md:text-4xl font-bold text-white shadow-black/20 drop-shadow-md">
               {getInitials(selectedContact.name)}
             </span>
           </div>
 
-          <h2 className="mb-1 text-2xl font-bold tracking-tight text-white">{selectedContact.name}</h2>
-          <p className="mb-6 text-sm font-medium text-white/50">{selectedContact.role}</p>
+          <h2 className="mb-1 text-xl md:text-2xl font-bold tracking-tight text-white">{selectedContact.name}</h2>
+          <p className="mb-4 md:mb-6 text-sm font-medium text-white/50">{selectedContact.role}</p>
 
           {/* Action Buttons */}
-          <div className="mb-8 flex gap-4">
+          <div className="mb-6 md:mb-8 flex gap-2 md:gap-4">
             <button className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20">
               <MessageCircle size={18} className="text-blue-400" />
               <span className="text-xs text-white/70">Mensagem</span>

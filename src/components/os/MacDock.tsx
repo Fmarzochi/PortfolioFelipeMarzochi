@@ -28,14 +28,14 @@ export const MacDock = () => {
     windows.some((w) => w.id === id && w.isOpen && !w.isMinimized);
 
   return (
-    <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 rounded-2xl bg-white/10 px-3 pb-2 pt-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl select-none max-w-[calc(100vw-32px)] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 md:gap-4 rounded-2xl bg-white/10 px-3 pb-2 pt-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl select-none w-[90%] max-w-[400px] md:max-w-none md:w-max overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {DOCK_ITEMS.map((item) => (
         <motion.div
           key={item.id}
           whileHover={{ scale: 1.3, y: -10 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => handleAppClick(item.id, item.title)}
-          className="group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 transition-colors hover:bg-white/10"
+          className="group relative flex h-10 w-10 md:h-12 md:w-12 cursor-pointer items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 transition-colors hover:bg-white/10"
         >
           <item.icon className={`h-1/2 w-1/2 ${item.color}`} strokeWidth={1.5} />
 
