@@ -2,6 +2,7 @@
 
 import { TerminalApp } from './TerminalApp';
 import { BrowserApp } from './BrowserApp';
+import { FinderApp } from './FinderApp';
 
 interface AppRegistryProps {
   appId: string;
@@ -13,6 +14,8 @@ export const AppRegistry = ({ appId }: AppRegistryProps) => {
       return <TerminalApp />;
     case 'safari':
       return <BrowserApp />;
+    case 'finder':
+      return <FinderApp />;
     default:
       return (
         <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-white/5 backdrop-blur-sm">
