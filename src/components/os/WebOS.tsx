@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { MacDock } from './MacDock';
+import { TopBar } from './TopBar';
 
 export const WebOS = () => {
   const isMobile = useIsMobile();
@@ -24,8 +26,10 @@ export const WebOS = () => {
           <p>Interface iOS (Ilha Dinâmica) em construção...</p>
         </div>
       ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <p>Interface macOS (Dock e Janelas) em construção...</p>
+        <div className="relative h-full w-full bg-gradient-to-br from-gray-900 to-black">
+          <TopBar />
+          {/* Aqui entrará o gerenciador de janelas depois */}
+          <MacDock />
         </div>
       )}
     </div>
