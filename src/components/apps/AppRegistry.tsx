@@ -1,0 +1,24 @@
+'use client';
+
+import { TerminalApp } from './TerminalApp';
+
+interface AppRegistryProps {
+  appId: string;
+}
+
+export const AppRegistry = ({ appId }: AppRegistryProps) => {
+  switch (appId) {
+    case 'terminal':
+      return <TerminalApp />;
+    // Os próximos apps entrarão aqui (Safari, Galeria, etc)
+    default:
+      return (
+        <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-white/5 backdrop-blur-sm">
+          <h2 className="text-xl font-medium text-white/80">Em Desenvolvimento</h2>
+          <p className="mt-2 text-sm text-white/40">
+            Este aplicativo será implementado nas próximas fases da arquitetura.
+          </p>
+        </div>
+      );
+  }
+};
