@@ -5,6 +5,7 @@ import { BrowserApp } from './BrowserApp';
 import { FinderApp } from './FinderApp';
 import { ContactsApp } from './ContactsApp';
 import { PhotosApp } from './PhotosApp';
+import { GalleryApp } from './GalleryApp';
 import { MapsApp } from './MapsApp';
 import { MessagesApp } from './MessagesApp';
 
@@ -24,10 +25,12 @@ export const AppRegistry = ({ appId }: AppRegistryProps) => {
       return <ContactsApp />;
     case 'photos':
       return <PhotosApp />;
+    case 'gallery':
+      return <GalleryApp />;
     case 'maps':
-      return MapsApp ? <MapsApp /> : <div>Erro ao carregar MapsApp</div>;
+      return <MapsApp />;
     case 'messages':
-      return MessagesApp ? <MessagesApp /> : <div>Erro ao carregar MessagesApp</div>;
+      return <MessagesApp />;
     default:
       return (
         <div className="flex h-full w-full flex-col items-center justify-center bg-white/5 p-8 text-center backdrop-blur-sm">
