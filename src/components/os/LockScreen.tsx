@@ -44,15 +44,15 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   };
 
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black text-white">
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
       <div className="absolute inset-0 bg-gradient-to-br from-[#050505] to-[#121212] z-0" />
 
       <div className="relative z-10 flex flex-col items-center">
-        <div className="mb-12 flex flex-col items-center">
+        <div className="mb-8 md:mb-12 flex flex-col items-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[80px] font-bold tracking-tighter text-white/90 drop-shadow-2xl"
+            className="text-[60px] md:text-[80px] font-bold tracking-tighter text-white/90 drop-shadow-2xl"
           >
             {time ? formatTime(time) : '--:--'}
           </motion.h1>
@@ -60,7 +60,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-xl font-medium tracking-wide text-white/60 capitalize"
+            className="text-base md:text-xl font-medium tracking-wide text-white/60 capitalize"
           >
             {time ? formatDate(time) : 'Carregando...'}
           </motion.p>
@@ -78,7 +78,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
           <h2 className="mb-6 text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
 
-          <form onSubmit={handleLogin} className="relative flex w-64 items-center">
+          <form onSubmit={handleLogin} className="relative flex w-[min(90vw,256px)] items-center">
             <input
               type="password"
               placeholder="Digite a senha..."
@@ -99,7 +99,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             )}
           </form>
 
-          <div className="mt-8 flex items-center gap-2 text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
+          <div className="mt-8 flex min-h-[44px] items-center gap-2 text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
             <Fingerprint size={14} />
             <span>Touch ID ou Senha</span>
           </div>

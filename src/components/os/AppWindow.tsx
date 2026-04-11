@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { X, Minus, Maximize2 } from 'lucide-react';
 import { useWindowManager, WindowState } from '../../store/useWindowManager';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface AppWindowProps {
   windowState: WindowState;
@@ -12,15 +13,15 @@ interface AppWindowProps {
 export const AppWindow = ({ windowState, children }: AppWindowProps) => {
   const { closeApp, minimizeApp, toggleFullScreen, focusApp, updatePosition } = useWindowManager();
   const { id, title, isMinimized, isFullScreen, x, y, zIndex } = windowState;
+  const isMobile = useIsMobile();
 
   if (isMinimized) return null;
 
   return (
     <motion.div
-      drag={!isFullScreen}
+      drag={!isFullScreen && !isMobile}
       dragMomentum={false}
       onDragEnd={(_, info) => {
-        // Atualiza a posição final na store para que a janela lembre onde foi deixada
         updatePosition(id, x + info.offset.x, y + info.offset.y);
       }}
       initial={{ opacity: 0, scale: 0.85 }}
@@ -30,14 +31,15 @@ export const AppWindow = ({ windowState, children }: AppWindowProps) => {
         x: isFullScreen ? 0 : x,
         y: isFullScreen ? 0 : y,
         width: isFullScreen ? '100vw' : 850,
-        height: isFullScreen ? 'calc(100vh - 28px - 72px)' : 550, // Subtrai o tamanho aproximado da Menu Bar e do Dock
+        height: isFullScreen ? 'calc(100vh - 28px - 72px)' : 550,
       }}
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       onPointerDown={() => focusApp(id)}
       style={{ zIndex }}
-      className={`absolute flex flex-col overflow-hidden bg-black/60 shadow-2xl backdrop-blur-2xl ring-1 ring-white/20 ${
-        isFullScreen ? 'top-7 left-0 rounded-none' : 'rounded-xl'
-      }`}
+      className={`absolute flex flex-col overflow-hidden bg-black/60 shadow-2xl backdrop-blur-2xl ring-1 ring-white/20
+        max-md:!fixed max-md:!inset-0 max-md:!w-screen max-md:!h-[100dvh] max-md:![transform:none] max-md:!rounded-none max-md:!top-0 max-md:!left-0
+        ${isFullScreen ? 'top-7 left-0 rounded-none' : 'rounded-xl'}
+      `}
     >
       {/* Barra de Título (Header) */}
       <div

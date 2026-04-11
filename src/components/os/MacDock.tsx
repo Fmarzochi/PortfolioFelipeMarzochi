@@ -28,7 +28,7 @@ export const MacDock = () => {
     windows.some((w) => w.id === id && w.isOpen && !w.isMinimized);
 
   return (
-    <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 rounded-2xl bg-white/10 px-3 pb-2 pt-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl">
+    <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 rounded-2xl bg-white/10 px-3 pb-2 pt-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl select-none max-w-[calc(100vw-32px)] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {DOCK_ITEMS.map((item) => (
         <motion.div
           key={item.id}
