@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine'; // IMPORTAÇÃO DO MOTOR AQUI
+import profileImg from '../../assets/images/profile.jpg';
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -72,8 +73,15 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           transition={{ delay: 0.3, type: 'spring' }}
           className="flex flex-col items-center"
         >
-          <div className="mb-3 md:mb-4 flex h-20 w-20 md:h-28 md:w-28 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-orange-500 shadow-2xl ring-4 ring-white/10 backdrop-blur-xl">
-            <span className="text-2xl md:text-4xl font-bold text-white drop-shadow-md">FM</span>
+          <div className="mb-3 md:mb-4 rounded-full bg-gradient-to-br from-blue-600 to-orange-500 p-[3px] shadow-2xl ring-4 ring-white/10">
+            <div className="h-20 w-20 md:h-28 md:w-28 overflow-hidden rounded-full">
+              <img
+                src={profileImg.src}
+                alt="Felipe Marzochi"
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </div>
           </div>
 
           <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
