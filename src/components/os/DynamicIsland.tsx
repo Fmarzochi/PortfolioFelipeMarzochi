@@ -109,7 +109,7 @@ export const DynamicIsland = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold tracking-wide text-white">Engenharia de Software</span>
-                    <span className="text-xs font-medium text-white/50">CatchUp Podcast</span>
+                    <span className="text-xs font-medium text-white/50">Felipe Marzochi Radio</span>
                   </div>
                 </div>
 

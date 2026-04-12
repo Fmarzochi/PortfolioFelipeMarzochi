@@ -17,7 +17,7 @@ const mockPhotos: PhotoMock[] = [
   { id: '3', title: 'Gestão Financeira ERP', project: 'DuAutomações PRO', gradient: 'from-orange-500 to-amber-500', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
   { id: '4', title: 'Controle de Serviços', project: 'DuAutomações PRO', gradient: 'from-amber-400 to-orange-600', icon: <MonitorPlay size={32} className="text-white/50" /> },
   { id: '5', title: 'Certificados de Calibração', project: 'CalibrFlow', gradient: 'from-emerald-500 to-teal-400', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
-  { id: '6', title: 'Landing Page Oficial', project: 'CatchUp Tech', gradient: 'from-blue-900 to-blue-600', icon: <Briefcase size={32} className="text-white/50" /> },
+  { id: '6', title: 'Landing Page Oficial', project: 'Portfólio Pessoal', gradient: 'from-blue-900 to-blue-600', icon: <Briefcase size={32} className="text-white/50" /> },
   { id: '7', title: 'Sistema de Doadores', project: 'Unilab', gradient: 'from-blue-400 to-indigo-500', icon: <Heart size={32} className="text-white/50" /> },
   { id: '8', title: 'Fluxo ISO', project: 'CalibrFlow', gradient: 'from-teal-500 to-emerald-600', icon: <Activity size={32} className="text-white/50" /> },
 ];
@@ -51,7 +51,7 @@ export const PhotosApp = () => {
           Projetos (Álbuns)
         </div>
         <nav className="flex flex-col gap-1 px-2">
-          {['Unilab', 'DuAutomações PRO', 'CalibrFlow', 'CatchUp Tech'].map(project => (
+          {['Unilab', 'DuAutomações PRO', 'CalibrFlow', 'Portfólio Pessoal'].map(project => (
             <button
               key={project}
               onClick={() => setActiveFilter(project)}

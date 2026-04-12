@@ -20,14 +20,14 @@ export const WebOS = () => {
   }, []);
 
   if (!mounted) {
-    return <div className="h-screen w-screen bg-black" />;
+    return <div className="fixed inset-0 h-[100dvh] w-screen bg-black" />;
   }
 
   return (
     // OSProvider wraps the entire OS so every component can access global
     // state (volume, brightness, wallpaper, focusMode) via useOSContext().
     <OSProvider>
-      <div className="h-screen w-screen overflow-hidden bg-black text-white selection:bg-blue-500/30 relative select-none">
+      <div className="fixed inset-0 h-[100dvh] w-screen overflow-hidden overscroll-none bg-black text-white selection:bg-blue-500/30 select-none">
         {isLocked ? (
           <div className="absolute inset-0 z-[100] bg-black">
             <LockScreen onUnlock={() => setIsLocked(false)} />

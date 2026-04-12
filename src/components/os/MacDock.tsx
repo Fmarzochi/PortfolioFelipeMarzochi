@@ -7,12 +7,12 @@ import { useWindowManager } from '../../store/useWindowManager';
 
 // Map of dock entries — id must match AppRegistry cases
 const DOCK_ITEMS = [
-  { id: 'finder',   title: 'Arquivos', icon: Folder,          color: 'text-blue-400'   },
-  { id: 'safari',   title: 'CatchUp',  icon: Compass,         color: 'text-blue-500'   },
-  { id: 'terminal', title: 'Skills',   icon: TerminalSquare,  color: 'text-gray-300'   },
-  { id: 'messages', title: 'Contato',  icon: MessageCircle,   color: 'text-green-500'  },
-  { id: 'photos',   title: 'Galeria',  icon: ImageIcon,       color: 'text-purple-400' },
-  { id: 'settings', title: 'Ajustes',  icon: Settings,        color: 'text-gray-400'   },
+  { id: 'finder', title: 'Arquivos', icon: Folder, color: 'text-blue-400' },
+  { id: 'safari', title: 'Portfólio', icon: Compass, color: 'text-blue-500' },
+  { id: 'terminal', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
+  { id: 'messages', title: 'Contato', icon: MessageCircle, color: 'text-green-500' },
+  { id: 'photos', title: 'Galeria', icon: ImageIcon, color: 'text-purple-400' },
+  { id: 'settings', title: 'Ajustes', icon: Settings, color: 'text-gray-400' },
 ] as const;
 
 export const MacDock = () => {
@@ -28,7 +28,7 @@ export const MacDock = () => {
     windows.some((w) => w.id === id && w.isOpen && !w.isMinimized);
 
   return (
-    <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 md:gap-4 rounded-2xl bg-white/10 px-3 pb-2 pt-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl select-none w-[90%] max-w-[400px] md:max-w-none md:w-max overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="absolute left-1/2 z-50 flex -translate-x-1/2 items-end gap-2 md:gap-4 rounded-2xl bg-white/10 px-3 pt-2 pb-2 shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl select-none w-[90%] max-w-[400px] md:max-w-none md:w-max overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bottom-[calc(env(safe-area-inset-bottom,0px)+16px)] md:bottom-4">
       {DOCK_ITEMS.map((item) => (
         <motion.div
           key={item.id}
@@ -46,9 +46,8 @@ export const MacDock = () => {
 
           {/* Running indicator dot — only shown when app window is open */}
           <div
-            className={`absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full transition-colors ${
-              isRunning(item.id) ? 'bg-white' : 'bg-white/30'
-            }`}
+            className={`absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full transition-colors ${isRunning(item.id) ? 'bg-white' : 'bg-white/30'
+              }`}
           />
         </motion.div>
       ))}

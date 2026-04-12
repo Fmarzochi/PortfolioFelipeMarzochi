@@ -45,7 +45,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   };
 
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
+    <div className="relative flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
       <div className="absolute inset-0 bg-gradient-to-br from-[#050505] to-[#121212] z-0" />
 
       <div className="relative z-10 flex flex-col items-center">

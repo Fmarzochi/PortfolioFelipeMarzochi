@@ -9,7 +9,7 @@ import { playSound } from '../../utils/audioEngine';
 import { DynamicIsland } from './DynamicIsland';
 
 const HOME_APPS = [
-  { id: 'safari', title: 'CatchUp', icon: Compass, color: 'text-blue-500' },
+  { id: 'safari', title: 'Portfólio', icon: Compass, color: 'text-blue-500' },
   { id: 'maps', title: 'Jornada', icon: MapIcon, color: 'text-green-400' },
   { id: 'photos', title: 'Galeria', icon: ImageIcon, color: 'text-purple-400' },
   { id: 'finder', title: 'Arquivos', icon: Folder, color: 'text-blue-300' },
@@ -50,7 +50,7 @@ export const IOSMobile = () => {
   };
 
   return (
-    <div className="relative flex flex-col h-full w-full overflow-hidden bg-black text-white">
+    <div className="relative flex flex-col h-full w-full overflow-hidden overscroll-none bg-black text-white">
       {/* Background Wallpaper */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-blue-900/20" />
 
@@ -111,8 +111,8 @@ export const IOSMobile = () => {
         </div>
       </div>
 
-      {/* Mobile Dock — com safe area para barra de navegação do Android/iOS */}
-      <div className="relative z-10 flex-shrink-0 px-4 pb-safe" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 16px)' }}>
+      {/* Mobile Dock — com safe area nativa do Tailwind calculada */}
+      <div className="relative z-10 flex-shrink-0 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+24px)]">
         <div className="flex h-[76px] items-center justify-around rounded-[28px] bg-white/10 px-3 ring-1 ring-white/20 backdrop-blur-2xl">
           {DOCK_APPS.map((app) => (
             <button
@@ -136,13 +136,12 @@ export const IOSMobile = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="absolute inset-0 z-40 bg-black"
           >
-            <div className="h-full w-full overflow-hidden pt-14 pb-safe" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 32px)' }}>
+            <div className="h-full w-full overflow-hidden pt-14 pb-[calc(env(safe-area-inset-bottom,0px)+32px)]">
               <AppRegistry appId={activeApp} />
             </div>
 
             <div
-              className="absolute bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center pb-safe"
-              style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 4px)' }}
+              className="absolute bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 flex h-12 cursor-pointer items-center justify-center pb-2"
               onClick={handleCloseApp}
             >
               <div className="h-[5px] w-36 rounded-full bg-white/50 transition-colors hover:bg-white" />

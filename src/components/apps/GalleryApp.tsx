@@ -15,12 +15,12 @@ const PROJECTS = [
   { id: '4',  title: 'DuAutomações — Financeiro',  tag: 'React / Charts',  gradient: 'from-amber-500 to-orange-600'   },
   { id: '5',  title: 'CalibrFlow — Certificados',  tag: 'Next.js / PDF',   gradient: 'from-emerald-500 to-teal-500'   },
   { id: '6',  title: 'CalibrFlow — ISO Fluxo',     tag: 'TypeScript',      gradient: 'from-teal-500 to-emerald-600'   },
-  { id: '7',  title: 'CatchUp — Landing Page',     tag: 'Next.js / Vercel',gradient: 'from-blue-700 to-indigo-600'    },
-  { id: '8',  title: 'CatchUp — Web OS',           tag: 'Framer Motion',   gradient: 'from-indigo-600 to-violet-600'  },
+  { id: '7',  title: 'Portfolio — Landing Page',     tag: 'Next.js / Vercel',gradient: 'from-blue-700 to-indigo-600'    },
+  { id: '8',  title: 'Portfolio — Web OS',           tag: 'Framer Motion',   gradient: 'from-indigo-600 to-violet-600'  },
   { id: '9',  title: 'Unilab — Doadores',          tag: 'React / Tailwind',gradient: 'from-blue-500 to-indigo-500'    },
   { id: '10', title: 'DuAutomações — Relatórios',  tag: 'Spring / Jasper', gradient: 'from-rose-500 to-pink-500'      },
   { id: '11', title: 'CalibrFlow — Dashboard',     tag: 'React / Recharts',gradient: 'from-green-600 to-emerald-500'  },
-  { id: '12', title: 'CatchUp — API Gateway',      tag: 'Spring / Docker', gradient: 'from-slate-600 to-slate-500'    },
+  { id: '12', title: 'Portfolio — API Gateway',      tag: 'Spring / Docker', gradient: 'from-slate-600 to-slate-500'    },
 ];
 
 export const GalleryApp = () => {
@@ -122,7 +122,7 @@ export const GalleryApp = () => {
             <h3 className="text-sm font-semibold leading-snug text-white">{selectedProject.title}</h3>
             <p className="mt-1 text-xs text-white/40">{selectedProject.tag}</p>
             <div className="mt-4 text-xs leading-relaxed text-white/50">
-              Projeto desenvolvido como parte do portfólio CatchUp Tech. Arquitetura limpa com SOLID e Clean Code.
+              Projeto desenvolvido como parte do portfólio pessoal. Arquitetura limpa com SOLID e Clean Code.
             </div>
           </motion.div>
         )}

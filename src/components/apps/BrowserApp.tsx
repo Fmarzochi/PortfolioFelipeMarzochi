@@ -17,7 +17,7 @@ export const BrowserApp = () => {
         {/* Address Bar */}
         <div className="flex h-7 flex-1 items-center justify-center rounded-md bg-black/40 px-3 text-[13px] text-white/60 shadow-inner ring-1 ring-white/10">
           <Globe size={12} className="mr-2 opacity-50" />
-          <span className="tracking-wide">https://catchup.tech</span>
+          <span className="tracking-wide">https://felipe.marzochi.dev</span>
         </div>
 
         <div className="w-[88px]" /> {/* Spacer para manter a barra de endereço centralizada */}
@@ -34,7 +34,7 @@ export const BrowserApp = () => {
               <Globe size={42} className="text-blue-500" strokeWidth={1} />
             </div>
             <h1 className="mb-4 bg-gradient-to-b from-white to-white/60 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent">
-              CatchUp Tech
+              Felipe Marzochi
             </h1>
             <p className="max-w-md text-base text-white/50 leading-relaxed">
               Software Factory de alta performance. Arquiteturas robustas, Clean Code e design focado na experiência do usuário.

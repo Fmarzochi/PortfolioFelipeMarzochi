@@ -8,17 +8,17 @@ interface Contact {
   name: string;
   role: string;
   email?: string;
-  group: 'Me' | 'Família' | 'CatchUp Tech';
+  group: 'Me' | 'Família' | 'Equipe Principal';
   avatarColor: string;
 }
 
 const contacts: Contact[] = [
   { id: '1', name: 'Felipe Marzochi', role: 'Founder & Software Engineer', email: 'fmarzochi@gmail.com', group: 'Me', avatarColor: 'bg-blue-600' },
   { id: '2', name: 'Matheus', role: 'Filho', group: 'Família', avatarColor: 'bg-red-500' },
-  { id: '3', name: 'Matheus Fuentes', role: 'Desenvolvedor', group: 'CatchUp Tech', avatarColor: 'bg-green-500' },
-  { id: '4', name: 'Igor Mendes', role: 'Desenvolvedor', group: 'CatchUp Tech', avatarColor: 'bg-purple-500' },
-  { id: '5', name: 'Kimberly', role: 'Desenvolvedora', group: 'CatchUp Tech', avatarColor: 'bg-pink-500' },
-  { id: '6', name: 'Vitor Hugo', role: 'Desenvolvedor', group: 'CatchUp Tech', avatarColor: 'bg-yellow-600' },
+  { id: '3', name: 'Matheus Fuentes', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-green-500' },
+  { id: '4', name: 'Igor Mendes', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-purple-500' },
+  { id: '5', name: 'Kimberly', role: 'Desenvolvedora', group: 'Equipe Principal', avatarColor: 'bg-pink-500' },
+  { id: '6', name: 'Vitor Hugo', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-yellow-600' },
 ];
 
 export const ContactsApp = () => {
@@ -65,7 +65,7 @@ export const ContactsApp = () => {
       <div className="w-full max-h-[38vh] md:max-h-none md:w-[240px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
         {renderContactList('Me')}
         {renderContactList('Família')}
-        {renderContactList('CatchUp Tech')}
+        {renderContactList('Equipe Principal')}
       </div>
 
       {/* Área Principal - Detalhes do Contato */}

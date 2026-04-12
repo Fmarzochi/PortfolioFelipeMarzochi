@@ -31,7 +31,7 @@ const milestones: Milestone[] = [
     icon: <Code2 size={20} />, status: 'current', location: { x: 65, y: 55 }
   },
   {
-    id: '4', year: 'Futuro', title: 'CatchUp Tech & Fintech',
+    id: '4', year: 'Futuro', title: 'Fintech Solutions',
     description: 'Fundação da software factory e desenvolvimento de produtos financeiros disruptivos.',
     icon: <Rocket size={20} />, status: 'current', location: { x: 85, y: 25 }
   },
