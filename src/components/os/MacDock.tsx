@@ -5,11 +5,10 @@ import { Compass, Image as ImageIcon, Folder, TerminalSquare, MessageCircle, Set
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
 
-// Map of dock entries — id must match AppRegistry cases
 const DOCK_ITEMS = [
   { id: 'finder', title: 'Arquivos', icon: Folder, color: 'text-blue-400' },
   { id: 'safari', title: 'Portfólio', icon: Compass, color: 'text-blue-500' },
-  { id: 'terminal', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
+  { id: 'skills', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
   { id: 'messages', title: 'Contato', icon: MessageCircle, color: 'text-green-500' },
   { id: 'photos', title: 'Galeria', icon: ImageIcon, color: 'text-purple-400' },
   { id: 'settings', title: 'Ajustes', icon: Settings, color: 'text-gray-400' },
@@ -23,7 +22,6 @@ export const MacDock = () => {
     openApp(id, title);
   };
 
-  // Shows the dot indicator when a window with this id is open and not minimized
   const isRunning = (id: string) =>
     windows.some((w) => w.id === id && w.isOpen && !w.isMinimized);
 
@@ -38,13 +36,9 @@ export const MacDock = () => {
           className="group relative flex h-10 w-10 md:h-12 md:w-12 cursor-pointer items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 transition-colors hover:bg-white/10"
         >
           <item.icon className={`h-1/2 w-1/2 ${item.color}`} strokeWidth={1.5} />
-
-          {/* macOS-style tooltip */}
           <div className="absolute -top-12 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-black/60 px-3 py-1 text-xs font-medium text-white opacity-0 shadow-lg backdrop-blur-md transition-opacity group-hover:block group-hover:opacity-100 ring-1 ring-white/10">
             {item.title}
           </div>
-
-          {/* Running indicator dot — only shown when app window is open */}
           <div
             className={`absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full transition-colors ${isRunning(item.id) ? 'bg-white' : 'bg-white/30'
               }`}
