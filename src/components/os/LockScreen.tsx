@@ -48,11 +48,11 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
       <div className="absolute inset-0 bg-gradient-to-br from-[#050505] to-[#121212] z-0" />
 
       <div className="relative z-10 flex flex-col items-center">
-        <div className="mb-8 md:mb-12 flex flex-col items-center">
+        <div className="mb-6 md:mb-12 flex flex-col items-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[60px] md:text-[80px] font-bold tracking-tighter text-white/90 drop-shadow-2xl"
+            className="text-[48px] md:text-[80px] font-bold tracking-tighter text-white/90 drop-shadow-2xl"
           >
             {time ? formatTime(time) : '--:--'}
           </motion.h1>
@@ -60,7 +60,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-base md:text-xl font-medium tracking-wide text-white/60 capitalize"
+            className="text-sm md:text-xl font-medium tracking-wide text-white/60 capitalize"
           >
             {time ? formatDate(time) : 'Carregando...'}
           </motion.p>
@@ -72,20 +72,20 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           transition={{ delay: 0.3, type: 'spring' }}
           className="flex flex-col items-center"
         >
-          <div className="mb-4 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-orange-500 shadow-2xl ring-4 ring-white/10 backdrop-blur-xl">
-            <span className="text-4xl font-bold text-white drop-shadow-md">FM</span>
+          <div className="mb-3 md:mb-4 flex h-20 w-20 md:h-28 md:w-28 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-orange-500 shadow-2xl ring-4 ring-white/10 backdrop-blur-xl">
+            <span className="text-2xl md:text-4xl font-bold text-white drop-shadow-md">FM</span>
           </div>
 
-          <h2 className="mb-6 text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
+          <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
 
-          <form onSubmit={handleLogin} className="relative flex w-[min(90vw,256px)] items-center">
+          <form onSubmit={handleLogin} className="relative flex w-[min(85vw,220px)] md:w-[min(90vw,256px)] items-center">
             <input
               type="password"
               placeholder="Digite a senha..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isAuthenticating}
-              className="w-full rounded-full bg-white/10 py-2.5 pl-5 pr-10 text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/40 focus:bg-white/20 focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
+              className="w-full rounded-full bg-white/10 py-2 md:py-2.5 pl-4 md:pl-5 pr-9 md:pr-10 text-xs md:text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/40 focus:bg-white/20 focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
             />
             {isAuthenticating ? (
               <div className="absolute right-3 flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white/20 border-t-white" />
@@ -99,7 +99,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             )}
           </form>
 
-          <div className="mt-8 flex min-h-[44px] items-center gap-2 text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
+          <div className="mt-6 md:mt-8 flex min-h-[44px] items-center gap-2 text-[11px] md:text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
             <Fingerprint size={14} />
             <span>Touch ID ou Senha</span>
           </div>
