@@ -50,15 +50,15 @@ export const IOSMobile = () => {
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-black text-white">
+    <div className="relative flex flex-col h-full w-full overflow-hidden bg-black text-white">
       {/* Background Wallpaper */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-blue-900/20" />
 
       {/* ILHA DINÂMICA (Completamente isolada das outras barras) */}
       <DynamicIsland />
 
-      {/* Status Bar (Apenas Relógio e Bateria) */}
-      <div className="absolute top-0 left-0 right-0 z-[60] flex h-12 items-center justify-between px-6 pointer-events-none">
+      {/* Status Bar (Apenas Relógio e Bateria) — com safe area para notch */}
+      <div className="relative z-[60] flex h-14 flex-shrink-0 items-center justify-between px-6 pt-safe pointer-events-none">
         <div className="w-16 text-[14px] font-semibold tracking-wider pointer-events-auto">
           {time ? formatTime(time) : '--:--'}
         </div>
@@ -94,34 +94,36 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* Home Screen Grid */}
-      <div className="absolute inset-0 px-4 pt-20">
-        <div className="grid grid-cols-4 gap-x-3 gap-y-6">
+      {/* Home Screen Grid — flex-1 para ocupar o centro, com padding adequado */}
+      <div className="relative z-10 flex-1 flex flex-col justify-start px-6 pt-4">
+        <div className="grid grid-cols-4 gap-x-4 gap-y-7">
           {HOME_APPS.map((app) => (
-            <div key={app.id} className="flex flex-col items-center gap-1.5">
+            <div key={app.id} className="flex flex-col items-center gap-2">
               <button
                 onClick={() => handleOpenApp(app.id)}
-                className="group relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-md transition-transform active:scale-90"
+                className="group relative flex h-[56px] w-[56px] items-center justify-center rounded-[16px] bg-white/10 ring-1 ring-white/20 backdrop-blur-md transition-transform active:scale-90"
               >
-                <app.icon className={`h-1/2 w-1/2 ${app.color}`} strokeWidth={1.5} />
+                <app.icon className={`h-7 w-7 ${app.color}`} strokeWidth={1.5} />
               </button>
-              <span className="text-xs font-medium text-white/80">{app.title}</span>
+              <span className="text-[11px] font-medium text-white/80">{app.title}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mobile Dock */}
-      <div className="absolute bottom-6 left-4 right-4 flex h-[72px] items-center justify-around rounded-3xl bg-white/10 px-2 ring-1 ring-white/20 backdrop-blur-2xl">
-        {DOCK_APPS.map((app) => (
-          <button
-            key={app.id}
-            onClick={() => handleOpenApp(app.id)}
-            className="group relative flex h-[48px] w-[48px] items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 transition-transform active:scale-90"
-          >
-            <app.icon className={`h-1/2 w-1/2 ${app.color}`} strokeWidth={1.5} />
-          </button>
-        ))}
+      {/* Mobile Dock — com safe area para barra de navegação do Android/iOS */}
+      <div className="relative z-10 flex-shrink-0 px-4 pb-safe" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 16px)' }}>
+        <div className="flex h-[76px] items-center justify-around rounded-[28px] bg-white/10 px-3 ring-1 ring-white/20 backdrop-blur-2xl">
+          {DOCK_APPS.map((app) => (
+            <button
+              key={app.id}
+              onClick={() => handleOpenApp(app.id)}
+              className="group relative flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-white/5 ring-1 ring-white/10 transition-transform active:scale-90"
+            >
+              <app.icon className={`h-7 w-7 ${app.color}`} strokeWidth={1.5} />
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Fullscreen App Overlay */}
@@ -134,15 +136,16 @@ export const IOSMobile = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="absolute inset-0 z-40 bg-black"
           >
-            <div className="h-full w-full overflow-hidden pt-12 pb-8">
+            <div className="h-full w-full overflow-hidden pt-14 pb-safe" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 32px)' }}>
               <AppRegistry appId={activeApp} />
             </div>
 
             <div
-              className="absolute bottom-2 left-1/2 flex h-6 w-full -translate-x-1/2 cursor-pointer items-center justify-center"
+              className="absolute bottom-0 left-0 right-0 flex h-10 cursor-pointer items-center justify-center pb-safe"
+              style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 4px)' }}
               onClick={handleCloseApp}
             >
-              <div className="h-1 w-32 rounded-full bg-white/50 transition-colors hover:bg-white" />
+              <div className="h-[5px] w-36 rounded-full bg-white/50 transition-colors hover:bg-white" />
             </div>
           </motion.div>
         )}

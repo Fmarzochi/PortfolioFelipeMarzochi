@@ -35,8 +35,8 @@ export const MessagesApp = () => {
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
-  // Substitua pelos seus dados reais depois
-  const WHATSAPP_NUMBER = '5500000000000';
+  // Dados reais de contato
+  const WHATSAPP_NUMBER = '5519982341110';
   const EMAIL = 'fmarzochi@gmail.com';
 
   const handleSendWhatsApp = () => {

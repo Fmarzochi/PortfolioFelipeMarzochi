@@ -6,8 +6,13 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Felipe Marzochi | Web OS',
+  title: 'Portfólio | Felipe Marzochi',
   description: 'Portfólio de Engenharia de Software e Desenvolvimento Full-Stack',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Portfólio | Felipe Marzochi',
+  },
 };
 
 // Impede o pinch-to-zoom do Safari e garante escala 1:1 em todos os dispositivos
@@ -16,6 +21,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: 'cover', // Expande o viewport para incluir safe areas
 };
 
 export default function RootLayout({
