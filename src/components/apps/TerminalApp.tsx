@@ -14,7 +14,7 @@ export const TerminalApp = () => {
       command: '',
       output: (
         <div className="text-gray-400">
-          Bem-vindo ao CatchUp OS Terminal v1.0.0
+          Bem-vindo ao Marzochi OS Terminal v1.0.0
           <br />
           Digite <span className="text-green-400">'help'</span> para ver os comandos disponíveis.
         </div>
@@ -51,7 +51,7 @@ export const TerminalApp = () => {
         );
         break;
       case 'whoami':
-        output = <p>Felipe Marzochi - Software Engineer & Founder da CatchUp Tech</p>;
+        output = <p>Felipe Marzochi - Software Engineer</p>;
         break;
       case 'about':
         output = (
@@ -107,7 +107,7 @@ export const TerminalApp = () => {
           <div key={index} className="flex flex-col gap-1">
             {record.command && (
               <div className="flex items-center gap-2">
-                <span className="text-green-500 font-bold">felipe@catchup-tech:~$</span>
+                <span className="text-green-500 font-bold">felipe@marzochi-tech:~$</span>
                 <span>{record.command}</span>
               </div>
             )}
@@ -117,7 +117,7 @@ export const TerminalApp = () => {
       </div>
 
       <div className="mt-2 flex items-center gap-2">
-        <span className="text-green-500 font-bold">felipe@catchup-tech:~$</span>
+        <span className="text-green-500 font-bold">felipe@marzochi-tech:~$</span>
         <input
           ref={inputRef}
           type="text"

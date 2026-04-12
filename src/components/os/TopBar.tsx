@@ -28,7 +28,7 @@ export const TopBar = () => {
     <div className="relative z-50 flex h-7 w-full items-center justify-between bg-black/40 px-4 text-[13px] font-medium text-white/90 backdrop-blur-md">
       {/* Lado Esquerdo - Menus */}
       <div className="flex items-center gap-4">
-        <span className="font-bold tracking-wide cursor-pointer hover:text-white">CatchUp Tech</span>
+        <span className="font-bold tracking-wide cursor-pointer hover:text-white">Felipe Marzochi</span>
         <div className="flex gap-4 text-white/80">
           <span className="cursor-pointer hover:text-white">File</span>
           <span className="cursor-pointer hover:text-white">Edit</span>

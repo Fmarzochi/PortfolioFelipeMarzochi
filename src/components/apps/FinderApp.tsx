@@ -106,6 +106,7 @@ const CATEGORIES: Category[] = [
     folder: '06_SQL_Banco_Dados',
     icon: 'briefcase',
     files: [
+      { id: 'sql-0', name: 'Bancos de Dados SQL e NoSQL — Do Básico ao Avançado (52h)', path: '06_SQL_Banco_Dados/Bancos de Dados SQL e NoSQL Basico ao Avancado.jpg' },
       { id: 'sql-1', name: 'Formação SQL MySQL Server Oracle', path: '06_SQL_Banco_Dados/Formacao SQL MySQL Server Oracle - Frente.jpg', versoPath: '06_SQL_Banco_Dados/Formacao SQL MySQL Server Oracle - Verso.jpg' },
       { id: 'sql-2', name: 'SQL Procedures MySQL', path: '06_SQL_Banco_Dados/SQL Procedures MySQL - Frente.jpg', versoPath: '06_SQL_Banco_Dados/SQL Procedures MySQL - Verso.jpg' },
       { id: 'sql-3', name: 'SQL Consultas Avançadas MySQL', path: '06_SQL_Banco_Dados/SQL Consultas Avancadas MySQL - Frente.jpg', versoPath: '06_SQL_Banco_Dados/SQL Consultas Avancadas MySQL - Verso.jpg' },

@@ -13,7 +13,7 @@ interface Message {
 const initialMessages: Message[] = [
   {
     id: '1',
-    text: 'Olá! Bem-vindo ao meu Web OS.',
+    text: 'Olá! Bem-vindo ao meu canal de comunicação.',
     sender: 'felipe',
     time: '10:00'
   },
