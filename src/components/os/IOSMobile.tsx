@@ -13,14 +13,14 @@ const HOME_APPS = [
   { id: 'maps', title: 'Jornada', icon: MapIcon, color: 'text-green-400' },
   { id: 'photos', title: 'Galeria', icon: ImageIcon, color: 'text-purple-400' },
   { id: 'finder', title: 'Arquivos', icon: Folder, color: 'text-blue-300' },
-  { id: 'terminal', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
+  { id: 'skills', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
   { id: 'contacts', title: 'Equipe', icon: Users, color: 'text-gray-400' },
 ];
 
 const DOCK_APPS = [
   { id: 'messages', title: 'Contato', icon: MessageCircle, color: 'text-green-500' },
   { id: 'safari', title: 'Safari', icon: Compass, color: 'text-blue-500' },
-  { id: 'terminal', title: 'Terminal', icon: TerminalSquare, color: 'text-gray-300' },
+  { id: 'skills', title: 'Skills', icon: TerminalSquare, color: 'text-gray-300' },
   { id: 'photos', title: 'Fotos', icon: ImageIcon, color: 'text-purple-400' },
 ];
 
@@ -51,19 +51,12 @@ export const IOSMobile = () => {
 
   return (
     <div className="relative flex flex-col h-full w-full overflow-hidden overscroll-none bg-black text-white">
-      {/* Background Wallpaper */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-blue-900/20" />
-
-      {/* ILHA DINÂMICA (Completamente isolada das outras barras) */}
       <DynamicIsland />
-
-      {/* Status Bar (Apenas Relógio e Bateria) — com safe area para notch */}
       <div className="relative z-[60] flex h-14 flex-shrink-0 items-center justify-between px-6 pt-safe pointer-events-none">
         <div className="w-16 text-[14px] font-semibold tracking-wider pointer-events-auto">
           {time ? formatTime(time) : '--:--'}
         </div>
-
-        {/* Lado Direito (Bateria/Wifi/Central) */}
         <div
           className="flex w-16 cursor-pointer items-center justify-end gap-1.5 transition-opacity hover:opacity-70 pointer-events-auto"
           onClick={() => {
@@ -76,12 +69,9 @@ export const IOSMobile = () => {
           <BatteryMedium size={16} className="fill-white" />
         </div>
       </div>
-
-      {/* Central de Controle */}
       <div className="absolute right-0 top-0 z-[70]">
         <ControlCenter isOpen={isControlCenterOpen} />
       </div>
-
       <AnimatePresence>
         {isControlCenterOpen && (
           <motion.div
@@ -93,8 +83,6 @@ export const IOSMobile = () => {
           />
         )}
       </AnimatePresence>
-
-      {/* Home Screen Grid — flex-1 para ocupar o centro, com padding adequado */}
       <div className="relative z-10 flex-1 flex flex-col justify-start px-6 pt-4">
         <div className="grid grid-cols-4 gap-x-4 gap-y-7">
           {HOME_APPS.map((app) => (
@@ -110,8 +98,6 @@ export const IOSMobile = () => {
           ))}
         </div>
       </div>
-
-      {/* Mobile Dock — com safe area nativa do Tailwind calculada */}
       <div className="relative z-10 flex-shrink-0 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+24px)]">
         <div className="flex h-[76px] items-center justify-around rounded-[28px] bg-white/10 px-3 ring-1 ring-white/20 backdrop-blur-2xl">
           {DOCK_APPS.map((app) => (
@@ -125,8 +111,6 @@ export const IOSMobile = () => {
           ))}
         </div>
       </div>
-
-      {/* Fullscreen App Overlay */}
       <AnimatePresence>
         {activeApp && (
           <motion.div
@@ -139,7 +123,6 @@ export const IOSMobile = () => {
             <div className="h-full w-full overflow-hidden pt-14 pb-[calc(env(safe-area-inset-bottom,0px)+32px)]">
               <AppRegistry appId={activeApp} />
             </div>
-
             <div
               className="absolute bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 flex h-12 cursor-pointer items-center justify-center pb-2"
               onClick={handleCloseApp}

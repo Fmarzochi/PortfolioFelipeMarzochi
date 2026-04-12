@@ -8,6 +8,7 @@ import { PhotosApp } from './PhotosApp';
 import { GalleryApp } from './GalleryApp';
 import { MapsApp } from './MapsApp';
 import { MessagesApp } from './MessagesApp';
+import { SkillsApp } from './SkillsApp';
 
 interface AppRegistryProps {
   appId: string;
@@ -15,6 +16,8 @@ interface AppRegistryProps {
 
 export const AppRegistry = ({ appId }: AppRegistryProps) => {
   switch (appId) {
+    case 'skills':
+      return <SkillsApp />;
     case 'terminal':
       return <TerminalApp />;
     case 'safari':
