@@ -12,16 +12,12 @@
   body {
     color: rgb(var(--foreground-rgb));
     background: black;
-    /* Suavização de fonte idêntica ao macOS/iOS */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Bloqueia a rolagem nativa do navegador para simular um SO */
     overflow: hidden;
-    /* Evita double-tap zoom em dispositivos mobile */
     touch-action: manipulation;
   }
 
-  /* Garante que 100vh funcione corretamente em mobile (conta a barra de endereço) */
   html, body, #__next {
     height: 100%;
     height: 100dvh;
@@ -29,12 +25,65 @@
 }
 
 @layer utilities {
-  /* Utilitário base de Glassmorphism que usaremos nas janelas depois */
+  /* ── Liquid Glass — iOS 26 / macOS 26 ──────────────────────────────────── */
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .liquid-glass-dock {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(60px) saturate(200%) brightness(108%);
+    -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(108%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow:
+      0 32px 80px rgba(0, 0, 0, 0.55),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .liquid-glass-menubar {
+    background: rgba(8, 8, 14, 0.62);
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+      0 2px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .liquid-glass-window {
+    background: rgba(12, 12, 20, 0.72);
+    backdrop-filter: blur(52px) saturate(180%);
+    -webkit-backdrop-filter: blur(52px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow:
+      0 56px 120px rgba(0, 0, 0, 0.70),
+      0 12px 32px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  /* ── App icon squircle (iOS / macOS 26 style) ─────────────────────────── */
+  .app-icon {
+    border-radius: 22.37%;
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.45),
+      0 2px 6px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+
+  /* ── Legacy helper ─────────────────────────────────────────────────────── */
   .glass-panel {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
   }
 
-  /* Safe area utilities para dispositivos com notch/barra de navegação */
   .pb-safe {
     padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
   }

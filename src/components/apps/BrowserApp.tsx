@@ -2,6 +2,8 @@
 
 import { Globe, Shield, Zap, ChevronLeft, ChevronRight, RotateCw, Home } from 'lucide-react';
 
+const SIGNATURE_SRC = '/signature.png';
+
 export const BrowserApp = () => {
   return (
     <div className="flex h-full w-full flex-col bg-[#050505] text-white">
@@ -20,22 +22,36 @@ export const BrowserApp = () => {
           <span className="tracking-wide">https://felipe.marzochi.dev</span>
         </div>
 
-        <div className="w-[88px]" /> {/* Spacer para manter a barra de endereço centralizada */}
+        <div className="w-[88px]" />
       </div>
 
       {/* Web Content */}
       <div className="flex-1 overflow-y-auto pb-10">
         {/* Hero Section */}
         <div className="relative flex min-h-[380px] flex-col items-center justify-center overflow-hidden px-6 text-center">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/15 via-[#050505] to-[#050505]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/15 via-[#050505] to-[#050505]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(90,40,200,0.18),transparent)] pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center">
-            <div className="mb-6 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur-xl shadow-2xl">
+            <div className="mb-5 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur-xl shadow-2xl">
               <Globe size={42} className="text-blue-500" strokeWidth={1} />
             </div>
-            <h1 className="mb-4 bg-gradient-to-b from-white to-white/60 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent">
-              Felipe Marzochi
-            </h1>
+
+            {/* Signature as hero identity mark */}
+            <div className="mb-4 flex items-center justify-center">
+              <img
+                src={SIGNATURE_SRC}
+                alt="Felipe Marzochi"
+                draggable={false}
+                className="h-auto w-[260px] md:w-[320px] pointer-events-none"
+                style={{
+                  filter: 'invert(1) brightness(5) contrast(2)',
+                  mixBlendMode: 'screen',
+                  opacity: 0.78,
+                }}
+              />
+            </div>
+
             <p className="max-w-md text-base text-white/50 leading-relaxed">
               Software Factory de alta performance. Arquiteturas robustas, Clean Code e design focado na experiência do usuário.
             </p>

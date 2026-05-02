@@ -15,7 +15,7 @@ export const DynamicIsland = () => {
   };
 
   const handlePlayPause = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Impede que o clique feche a ilha
+    e.stopPropagation();
     playSound('click');
     setIsPlaying(!isPlaying);
   };
@@ -27,109 +27,136 @@ export const DynamicIsland = () => {
 
   return (
     /*
-     * FIX: Outer wrapper changed from `left-1/2 -translate-x-1/2` to
-     * `left-0 right-0 flex justify-center pointer-events-none`.
-     *
-     * The old approach applied a CSS transform (translateX) on the wrapper
-     * while Framer Motion's layout engine also applies its own transforms on
-     * the child motion.div. The two transform systems conflict, shifting the
-     * hit-testing bounding box away from the visual element.
-     *
-     * Full-width + justify-center avoids any parent transform, and
-     * pointer-events-none ensures the transparent sides don't block other UI.
+     * Full-width + justify-center avoids parent transform conflicts with
+     * Framer Motion's own transform system on the child motion.div.
+     * pointer-events-none ensures transparent sides never block other UI.
      */
     <div className="absolute left-0 right-0 top-2 z-[999] flex justify-center pointer-events-none">
       <motion.div
         /*
-         * FIX: `layout` prop removed.
-         *
-         * Using `layout` simultaneously with explicit `animate={{ width, height }}`
-         * is a Framer Motion anti-pattern: the layout-projection system and the
-         * animate system both try to own the element's size, producing a
-         * compensating transform that detaches the rendered hit area from the
-         * visual position and makes the element impossible to click.
-         *
-         * `animate` alone (with spring transitions) fully handles the expansion
-         * and collapse — no `layout` needed.
+         * `animate` alone (with spring transitions) handles expansion/collapse.
+         * `layout` prop is intentionally omitted — combining it with explicit
+         * `animate={{ width, height }}` is a Framer Motion anti-pattern.
          */
         onClick={toggleIsland}
-        initial={{ borderRadius: 32 }}
+        initial={{ borderRadius: 40 }}
         animate={{
-          width: isExpanded ? 340 : 120,
-          height: isExpanded ? 160 : 28,
-          borderRadius: isExpanded ? 40 : 32,
+          width: isExpanded ? 340 : 118,
+          height: isExpanded ? 164 : 30,
+          borderRadius: isExpanded ? 44 : 40,
         }}
         transition={{
           type: 'spring',
-          stiffness: 400,
-          damping: 30,
-          mass: 1.2,
+          stiffness: 380,
+          damping: 28,
+          mass: 1.1,
         }}
-        /* pointer-events-auto overrides the parent's pointer-events-none */
-        className="relative cursor-pointer overflow-hidden bg-black text-white shadow-[0_10px_40px_rgba(0,0,0,0.8)] ring-1 ring-white/10 pointer-events-auto"
+        className="relative cursor-pointer overflow-hidden bg-black text-white pointer-events-auto"
+        style={{
+          boxShadow: '0 12px 48px rgba(0,0,0,0.85), 0 2px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)',
+        }}
       >
         <AnimatePresence mode="popLayout">
           {!isExpanded ? (
-            /* ESTADO FECHADO (Pílula) */
+            /* ── Collapsed (pill) ── */
             <motion.div
               key="collapsed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.15 }}
-              className="flex h-full w-full items-center justify-between px-3"
+              transition={{ duration: 0.14 }}
+              className="flex h-full w-full items-center justify-between px-4"
             >
-              {/* O "furo" da câmera simulado */}
-              <div className="h-3 w-3 rounded-full bg-white/10 shadow-inner" />
+              {/* Simulated front-camera cutout */}
+              <div className="h-[11px] w-[11px] rounded-full bg-[#0a0a0a] ring-[1.5px] ring-white/[0.06] shadow-inner" />
 
-              {/* Indicador visual se estiver tocando música */}
+              {/* Music equalizer bars — shown while playing */}
               {isPlaying && (
-                <div className="flex items-center gap-0.5">
-                  <motion.div animate={{ height: [6, 12, 6] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-1 rounded-full bg-blue-500" />
-                  <motion.div animate={{ height: [10, 6, 10] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.2 }} className="w-1 rounded-full bg-blue-500" />
-                  <motion.div animate={{ height: [8, 14, 8] }} transition={{ repeat: Infinity, duration: 0.8, delay: 0.4 }} className="w-1 rounded-full bg-blue-500" />
+                <div className="flex items-center gap-[3px]">
+                  <motion.div
+                    animate={{ height: [5, 12, 5] }}
+                    transition={{ repeat: Infinity, duration: 0.75, ease: 'easeInOut' }}
+                    className="w-[3px] rounded-full bg-blue-400"
+                  />
+                  <motion.div
+                    animate={{ height: [10, 5, 10] }}
+                    transition={{ repeat: Infinity, duration: 0.75, ease: 'easeInOut', delay: 0.18 }}
+                    className="w-[3px] rounded-full bg-blue-400"
+                  />
+                  <motion.div
+                    animate={{ height: [7, 14, 7] }}
+                    transition={{ repeat: Infinity, duration: 0.75, ease: 'easeInOut', delay: 0.36 }}
+                    className="w-[3px] rounded-full bg-blue-400"
+                  />
                 </div>
               )}
             </motion.div>
           ) : (
-            /* ESTADO EXPANDIDO (Mini Player) */
+            /* ── Expanded (mini player) ── */
             <motion.div
               key="expanded"
-              initial={{ opacity: 0, filter: 'blur(5px)' }}
+              initial={{ opacity: 0, filter: 'blur(6px)' }}
               animate={{ opacity: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, filter: 'blur(5px)' }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+              exit={{ opacity: 0, filter: 'blur(6px)' }}
+              transition={{ duration: 0.28, delay: 0.08 }}
               className="flex h-full w-full flex-col justify-between p-5"
             >
+              {/* Track info */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  {/* Capa do Álbum */}
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg ring-1 ring-white/20">
-                    <Music size={24} className="text-white/80" />
+                <div className="flex items-center gap-3.5">
+                  <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-gradient-to-br from-blue-600 to-violet-600 shadow-lg ring-1 ring-white/20">
+                    <Music size={22} className="text-white/85" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold tracking-wide text-white">Engenharia de Software</span>
-                    <span className="text-xs font-medium text-white/50">Felipe Marzochi Radio</span>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[13px] font-semibold leading-tight tracking-tight text-white">
+                      Engenharia de Software
+                    </span>
+                    <span className="text-[11px] font-medium text-white/45">
+                      Felipe Marzochi Radio
+                    </span>
                   </div>
                 </div>
 
                 {isPlaying && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                    <div className="flex items-center gap-0.5">
-                      <motion.div animate={{ height: [8, 16, 8] }} transition={{ repeat: Infinity, duration: 0.6 }} className="w-1 rounded-full bg-blue-500" />
-                      <motion.div animate={{ height: [12, 8, 12] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1 rounded-full bg-blue-500" />
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+                    <div className="flex items-center gap-[2.5px]">
+                      <motion.div
+                        animate={{ height: [6, 14, 6] }}
+                        transition={{ repeat: Infinity, duration: 0.58, ease: 'easeInOut' }}
+                        className="w-[3px] rounded-full bg-blue-400"
+                      />
+                      <motion.div
+                        animate={{ height: [11, 6, 11] }}
+                        transition={{ repeat: Infinity, duration: 0.58, ease: 'easeInOut', delay: 0.19 }}
+                        className="w-[3px] rounded-full bg-blue-400"
+                      />
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Controles de Mídia */}
-              <div className="flex items-center justify-center gap-8 pb-1">
-                <Rewind size={24} className="cursor-pointer fill-white/80 text-white/80 transition-colors hover:fill-white hover:text-white active:scale-90" onClick={handleSkip} />
-                <button onClick={handlePlayPause} className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition-transform active:scale-90">
-                  {isPlaying ? <Pause size={24} className="fill-black" /> : <Play size={24} className="ml-1 fill-black" />}
-                </button>
-                <FastForward size={24} className="cursor-pointer fill-white/80 text-white/80 transition-colors hover:fill-white hover:text-white active:scale-90" onClick={handleSkip} />
+              {/* Media controls */}
+              <div className="flex items-center justify-center gap-7 pb-0.5">
+                <Rewind
+                  size={22}
+                  className="cursor-pointer fill-white/75 text-white/75 transition-all hover:fill-white hover:text-white active:scale-90"
+                  onClick={handleSkip}
+                />
+                <motion.button
+                  whileTap={{ scale: 0.92 }}
+                  onClick={handlePlayPause}
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-black shadow-md transition-transform"
+                >
+                  {isPlaying
+                    ? <Pause size={20} className="fill-black" />
+                    : <Play size={20} className="ml-0.5 fill-black" />
+                  }
+                </motion.button>
+                <FastForward
+                  size={22}
+                  className="cursor-pointer fill-white/75 text-white/75 transition-all hover:fill-white hover:text-white active:scale-90"
+                  onClick={handleSkip}
+                />
               </div>
             </motion.div>
           )}

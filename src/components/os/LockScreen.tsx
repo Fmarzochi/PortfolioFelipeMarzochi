@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Fingerprint } from 'lucide-react';
-import { playSound } from '../../utils/audioEngine'; // IMPORTAÇÃO DO MOTOR AQUI
+import { playSound } from '../../utils/audioEngine';
 import profileImg from '../../assets/images/profile.jpg';
+
+const SIGNATURE_SRC = '/signature.png';
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -21,39 +23,46 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  };
+  const formatTime = (date: Date) =>
+    date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('pt-BR', options).replace(/^\w/, c => c.toUpperCase());
+    return date.toLocaleDateString('pt-BR', options).replace(/^\w/, (c) => c.toUpperCase());
   };
 
   const handleLogin = (e?: React.FormEvent) => {
     e?.preventDefault();
     setIsAuthenticating(true);
-
-    // Toca o som de clique ao apertar o botão ou dar Enter
     playSound('click');
-
-    // Simula o tempo de carregamento antes de liberar
     setTimeout(() => {
-      playSound('boot'); // O ACORDE MAJESTOSO TOCA AQUI!
+      playSound('boot');
       onUnlock();
     }, 800);
   };
 
   return (
     <div className="relative flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#050505] to-[#121212] z-0" />
 
+      {/* ── Aurora Wallpaper ─────────────────────────────────────────────── */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d0b22] via-[#170f38] to-[#09101e]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_58%_at_50%_-8%,rgba(105,55,215,0.68),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_52%_48%_at_12%_68%,rgba(25,95,200,0.42),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_42%_at_88%_82%,rgba(0,138,108,0.38),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_72%_28%,rgba(175,55,195,0.28),transparent)]" />
+      </div>
+
+      {/* ── Content ──────────────────────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col items-center">
-        <div className="mb-6 md:mb-12 flex flex-col items-center">
+
+        {/* Clock */}
+        <div className="mb-2 flex flex-col items-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-[48px] md:text-[80px] font-bold tracking-tighter text-white/90 drop-shadow-2xl"
+            transition={{ type: 'spring', damping: 20 }}
+            className="text-[56px] md:text-[86px] font-bold tracking-tighter text-white/92 drop-shadow-2xl tabular-nums"
           >
             {time ? formatTime(time) : '--:--'}
           </motion.h1>
@@ -61,19 +70,41 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-sm md:text-xl font-medium tracking-wide text-white/60 capitalize"
+            className="text-sm md:text-xl font-medium tracking-wide text-white/55 capitalize"
           >
             {time ? formatDate(time) : 'Carregando...'}
           </motion.p>
         </div>
 
+        {/* ── Signature ──────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, type: 'spring', damping: 22 }}
+          className="my-4 md:my-6"
+        >
+          <img
+            src={SIGNATURE_SRC}
+            alt="Assinatura Felipe Marzochi"
+            draggable={false}
+            className="h-auto w-[220px] md:w-[290px] pointer-events-none"
+            style={{
+              filter: 'invert(1) brightness(5) contrast(2)',
+              mixBlendMode: 'screen',
+              opacity: 0.82,
+            }}
+          />
+        </motion.div>
+
+        {/* Profile + Login Form */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, type: 'spring' }}
           className="flex flex-col items-center"
         >
-          <div className="mb-3 md:mb-4 rounded-full bg-gradient-to-br from-blue-600 to-orange-500 p-[3px] shadow-2xl ring-4 ring-white/10">
+          {/* Avatar */}
+          <div className="mb-3 md:mb-4 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 p-[3px] shadow-2xl ring-4 ring-white/10">
             <div className="h-20 w-20 md:h-28 md:w-28 overflow-hidden rounded-full">
               <img
                 src={profileImg.src}
@@ -84,8 +115,11 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             </div>
           </div>
 
-          <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold tracking-tight text-white/90">Felipe Marzochi</h2>
+          <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-semibold tracking-tight text-white/92">
+            Felipe Marzochi
+          </h2>
 
+          {/* Password Input */}
           <form onSubmit={handleLogin} className="relative flex w-[min(85vw,220px)] md:w-[min(90vw,256px)] items-center">
             <input
               type="password"
@@ -93,7 +127,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isAuthenticating}
-              className="w-full rounded-full bg-white/10 py-2 md:py-2.5 pl-4 md:pl-5 pr-9 md:pr-10 text-xs md:text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/40 focus:bg-white/20 focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
+              className="w-full rounded-full bg-white/10 py-2 md:py-2.5 pl-4 md:pl-5 pr-9 md:pr-10 text-xs md:text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/40 focus:bg-white/18 focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
             />
             {isAuthenticating ? (
               <div className="absolute right-3 flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white/20 border-t-white" />
@@ -107,7 +141,11 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             )}
           </form>
 
-          <div className="mt-6 md:mt-8 flex min-h-[44px] items-center gap-2 text-[11px] md:text-xs font-medium text-white/40 cursor-pointer hover:text-white transition-colors" onClick={() => handleLogin()}>
+          {/* Touch ID */}
+          <div
+            className="mt-6 md:mt-8 flex min-h-[44px] items-center gap-2 text-[11px] md:text-xs font-medium text-white/40 cursor-pointer hover:text-white/70 transition-colors"
+            onClick={() => handleLogin()}
+          >
             <Fingerprint size={14} />
             <span>Touch ID ou Senha</span>
           </div>
