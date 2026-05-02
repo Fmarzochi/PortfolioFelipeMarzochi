@@ -1,142 +1,243 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Navigation, Compass, Star, ChevronRight, Stethoscope, Code2, Rocket, GraduationCap } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { MapPin, Navigation, Compass, Stethoscope, Code2, Rocket, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface Milestone {
+interface Experience {
   id: string;
-  year: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
+  period: string;
+  role: string;
+  company: string;
+  type: string;
   status: 'completed' | 'current';
+  icon: React.ReactNode;
+  color: string;
   location: { x: number; y: number };
+  activities: string;
+  results: string;
 }
 
-const milestones: Milestone[] = [
+const EXPERIENCES: Experience[] = [
   {
-    id: '1', year: 'Passado', title: 'Medicina Veterinária',
-    description: 'Graduação e atuação clínica. Desenvolvimento de raciocínio analítico e diagnóstico.',
-    icon: <Stethoscope size={20} />, status: 'completed', location: { x: 20, y: 70 }
+    id: '1',
+    period: 'Passado',
+    role: 'Medicina Veterinária',
+    company: 'UNIP · 2009–2013',
+    type: 'Bacharelado',
+    status: 'completed',
+    icon: <Stethoscope size={18} />,
+    color: 'bg-indigo-500',
+    location: { x: 12, y: 72 },
+    activities: 'Graduação e atuação clínica. Desenvolvimento de raciocínio analítico, diagnóstico e tomada de decisão sob pressão — habilidades que moldaram minha abordagem sistemática para resolução de problemas em software.',
+    results: 'Formação multidisciplinar que contribuiu diretamente para minha capacidade analítica, foco em resultados e orientação à qualidade no desenvolvimento de software.',
   },
   {
-    id: '2', year: 'Transição', title: 'Engenharia de Software',
-    description: 'Imersão em lógica, algoritmos e as bases da computação.',
-    icon: <GraduationCap size={20} />, status: 'completed', location: { x: 40, y: 40 }
+    id: '2',
+    period: 'Transição',
+    role: 'MBA em Engenharia de Software',
+    company: 'Faculdade Metropolitana · Fev/2022–Fev/2023',
+    type: 'Pós-Graduação',
+    status: 'completed',
+    icon: <GraduationCap size={18} />,
+    color: 'bg-blue-500',
+    location: { x: 30, y: 48 },
+    activities: 'Imersão em lógica, algoritmos e as bases da computação. Engenharia de Software, princípios SOLID, arquitetura de sistemas, metodologias ágeis e desenvolvimento orientado a qualidade.',
+    results: 'Consolidação da base técnica necessária para atuar com excelência no ciclo completo de desenvolvimento — da análise de requisitos ao deploy em produção.',
   },
   {
-    id: '3', year: 'Atual', title: 'Arquitetura Java & Spring',
-    description: 'Especialização em sistemas de alta performance e princípios SOLID.',
-    icon: <Code2 size={20} />, status: 'current', location: { x: 65, y: 55 }
+    id: '3',
+    period: 'Set/2024 – Ago/2025',
+    role: 'Suporte Técnico (Estágio)',
+    company: 'Secretaria da Educação Americana-SP · Presencial',
+    type: 'Estágio',
+    status: 'completed',
+    icon: <Building2 size={18} />,
+    color: 'bg-teal-500',
+    location: { x: 50, y: 62 },
+    activities: 'Diagnóstico de incidentes em software para garantia da disponibilidade dos sistemas escolares, realizei manutenção preventiva de equipamentos e resolução ágil de chamados para suporte operacional administrativo.',
+    results: 'Redução de indisponibilidade de sistemas por meio de atendimento ágil e diagnóstico assertivo. Melhoria na experiência dos usuários internos com suporte mais rápido e padronizado. Contribuição para maior estabilidade do ambiente tecnológico escolar.',
   },
   {
-    id: '4', year: 'Futuro', title: 'Fintech Solutions',
-    description: 'Fundação da software factory e desenvolvimento de produtos financeiros disruptivos.',
-    icon: <Rocket size={20} />, status: 'current', location: { x: 85, y: 25 }
+    id: '4',
+    period: 'Jan/2022 – Atual',
+    role: 'Desenvolvedor de Software (Front-end)',
+    company: 'Freelance / Autônomo · Remoto',
+    type: 'Autônomo',
+    status: 'current',
+    icon: <Code2 size={18} />,
+    color: 'bg-green-500',
+    location: { x: 68, y: 38 },
+    activities: 'Atuação no desenvolvimento de soluções web e aplicações SaaS, participando de todo o ciclo de desenvolvimento de software, incluindo levantamento de requisitos, implementação, testes, manutenção e deploy. Criação de interfaces responsivas e modernas utilizando React.js, Next.js, TypeScript, JavaScript (ES6+), HTML5, CSS3 e Tailwind CSS, com foco em componentização, reuso e performance. Desenvolvimento de aplicações SPA e sistemas multi-tenant, com gerenciamento de estado utilizando Redux e React Hooks. Integração com APIs REST e webhooks, consumo de serviços backend em Node.js e tratamento estruturado de erros. Realização de manutenção evolutiva e refatoração de sistemas legados, aplicando boas práticas de desenvolvimento e arquitetura de software. Versionamento de código com Git e GitHub, participação em code reviews e suporte à automação de pipelines CI/CD para deploy em ambientes cloud, incluindo AWS CloudFront e serviços relacionados à infraestrutura de aplicações.',
+    results: 'Melhoria da performance e da qualidade do código por meio de padronização de componentes e implementação de testes. Otimização de SEO técnico e experiência do usuário, contribuindo para aumento de conversão em páginas digitais. Redução de bugs e retrabalho através de processos de desenvolvimento mais estruturados e entregas contínuas com maior estabilidade e escalabilidade das aplicações.',
+  },
+  {
+    id: '5',
+    period: 'Jan/2026 – Atual',
+    role: 'Desenvolvedor de Software (Front-end)',
+    company: 'Conecta 360° · Remoto',
+    type: 'CLT / Remoto',
+    status: 'current',
+    icon: <Briefcase size={18} />,
+    color: 'bg-violet-500',
+    location: { x: 86, y: 22 },
+    activities: 'Responsável pelo desenvolvimento front-end do Conecta 360°, plataforma SaaS voltada à gestão de Recursos Humanos, conformidade com NR-1 (PGR/GRO) e monitoramento de KPIs. Estruturação inicial da aplicação utilizando HTML5, CSS3 e JavaScript (ES6+), com desenvolvimento da interface em React.js e tipagem estática com TypeScript. Definição da arquitetura de componentes e padronização de código. Integração com APIs REST, implementação de autenticação e controle de permissões, containerização da aplicação com Docker e integração com banco de dados PostgreSQL.',
+    results: 'A solução está sendo desenvolvida com React.js, TypeScript, integração com APIs REST, seguindo boas práticas de componentização, Clean Code, responsividade e performance, com previsão de integração de recurso de Inteligência Artificial para apoio à análise de dados e geração de insights.',
   },
 ];
 
 export const MapsApp = () => {
-  const [selected, setSelected] = useState<Milestone>(milestones[2]);
+  const [selected, setSelected] = useState<Experience>(EXPERIENCES[4]);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
-      {/* Search & List Panel */}
-      <div className="w-full max-h-[35vh] md:max-h-none md:w-[300px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
-        <div className="mb-6 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
-          <Navigation size={16} className="text-blue-500" />
-          <input
-            type="text"
-            placeholder="Destino: Senioridade"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-white/30"
-          />
+
+      {/* ── Sidebar: lista de experiências ──────────────────────────────── */}
+      <div className="w-full max-h-[38vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
+        <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+          <Navigation size={14} className="text-blue-500 flex-shrink-0" />
+          <span className="text-sm text-white/40">Linha do Tempo Profissional</span>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="px-2 text-[11px] font-bold uppercase tracking-wider text-white/40">Sugestões de Rota</h3>
-          {milestones.map((m) => (
+        <div className="space-y-2">
+          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-white/30 mb-3">
+            Jornada · {EXPERIENCES.length} marcos
+          </h3>
+          {EXPERIENCES.map((exp) => (
             <button
-              key={m.id}
-              onClick={() => setSelected(m)}
-              className={`flex w-full items-start gap-3 rounded-xl p-3 transition-all ${
-                selected.id === m.id ? 'bg-blue-600/20 ring-1 ring-blue-500/50' : 'hover:bg-white/5'
+              key={exp.id}
+              onClick={() => { setSelected(exp); setExpanded(false); }}
+              className={`flex w-full items-start gap-3 rounded-xl p-3 transition-all text-left ${
+                selected.id === exp.id
+                  ? 'bg-blue-600/20 ring-1 ring-blue-500/40'
+                  : 'hover:bg-white/5'
               }`}
             >
-              <div className={`mt-1 flex h-8 w-8 items-center justify-center rounded-full ${selected.id === m.id ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/60'}`}>
-                {m.icon}
+              <div className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${selected.id === exp.id ? exp.color + ' text-white' : 'bg-white/10 text-white/50'}`}>
+                {exp.icon}
               </div>
-              <div className="flex flex-col text-left">
-                <span className="text-xs font-bold text-blue-400">{m.year}</span>
-                <span className="text-sm font-semibold">{m.title}</span>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[11px] font-bold text-blue-400 truncate">{exp.period}</span>
+                <span className="text-sm font-semibold truncate leading-tight">{exp.role}</span>
+                <span className="text-[11px] text-white/40 truncate">{exp.company}</span>
               </div>
+              {exp.status === 'current' && (
+                <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-400 animate-pulse mt-2" />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Interactive Map Area */}
-      <div className="relative flex-1 overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] bg-[#0a0a0a]">
-        {/* Grid Background */}
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+      {/* ── Mapa ────────────────────────────────────────────────────────── */}
+      <div className="relative flex-1 overflow-hidden bg-[#0a0a0a]">
 
-        {/* Connection Lines (SVG) */}
-        <svg className="absolute inset-0 h-full w-full">
+        {/* Grid */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
+          backgroundImage: 'linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
+        }} />
+
+        {/* Linha de conexão SVG */}
+        <svg className="absolute inset-0 h-full w-full pointer-events-none">
           <polyline
-            points={milestones.map(m => `${m.location.x}%,${m.location.y}%`).join(' ')}
+            points={EXPERIENCES.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
             fill="none"
-            stroke="rgba(59, 130, 246, 0.2)"
+            stroke="rgba(59,130,246,0.18)"
             strokeWidth="2"
-            strokeDasharray="8 4"
+            strokeDasharray="8 5"
           />
         </svg>
 
-        {/* Milestone Pins */}
-        {milestones.map((m) => (
+        {/* Pins */}
+        {EXPERIENCES.map((exp) => (
           <motion.div
-            key={m.id}
+            key={exp.id}
             initial={false}
-            animate={{ scale: selected.id === m.id ? 1.2 : 1 }}
+            animate={{ scale: selected.id === exp.id ? 1.25 : 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             className="absolute cursor-pointer"
-            style={{ left: `${m.location.x}%`, top: `${m.location.y}%`, transform: 'translate(-50%, -50%)' }}
-            onClick={() => setSelected(m)}
+            style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
+            onClick={() => { setSelected(exp); setExpanded(false); }}
           >
             <div className="relative">
-              <div className={`h-4 w-4 rounded-full ${m.status === 'completed' ? 'bg-blue-500' : 'bg-blue-400 animate-pulse'} ring-4 ring-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.5)]`}></div>
-              {selected.id === m.id && (
-                <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-white px-2 py-1 text-[10px] font-bold text-black shadow-xl">
-                  {m.title}
-                </div>
+              <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''}`} />
+              {selected.id === exp.id && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2.5 py-1 text-[10px] font-bold text-black shadow-xl"
+                >
+                  {exp.role.split(' (')[0]}
+                </motion.div>
               )}
             </div>
           </motion.div>
         ))}
 
-        {/* Bottom Info Card */}
+        {/* Card de detalhe */}
         <motion.div
           layout
-          className="absolute bottom-4 left-3 right-3 md:bottom-6 md:left-6 md:right-6 rounded-2xl border border-white/10 bg-black/60 p-3 md:p-6 shadow-2xl backdrop-blur-xl"
+          className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
         >
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-0">
-            <div className="flex gap-2 md:gap-4">
-              <div className="flex h-9 w-9 md:h-12 md:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]">
-                {selected.icon}
-              </div>
-              <div>
-                <h2 className="text-base md:text-xl font-bold tracking-tight">{selected.title}</h2>
-                <p className="text-xs md:text-sm text-white/50">{selected.description}</p>
-              </div>
+          {/* Header */}
+          <div className="flex items-start gap-3 p-4 md:p-5">
+            <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${selected.color} text-white shadow-lg`}>
+              {selected.icon}
             </div>
-            <button className="self-end md:self-auto flex h-8 md:h-10 items-center gap-2 rounded-full bg-blue-600 px-4 md:px-6 text-xs md:text-sm font-bold transition-all hover:bg-blue-500">
-              <Compass size={14} />
-              Explorar
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-base font-bold tracking-tight leading-tight">{selected.role}</h2>
+                {selected.status === 'current' && (
+                  <span className="text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full px-2 py-0.5">ATUAL</span>
+                )}
+              </div>
+              <p className="text-xs text-white/50 mt-0.5">{selected.company}</p>
+            </div>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors mt-1"
+            >
+              {expanded ? <><ChevronUp size={14} />Menos</> : <><ChevronDown size={14} />Detalhes</>}
             </button>
           </div>
+
+          {/* Expanded detail */}
+          <AnimatePresence>
+            {expanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden"
+              >
+                <div className="border-t border-white/10 px-4 pb-4 md:px-5 md:pb-5 pt-3 space-y-3 max-h-[35vh] overflow-y-auto">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
+                    <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.activities}</p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-green-400 mb-1.5">Resultados</p>
+                    <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.results}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Preview condensado */}
+          {!expanded && (
+            <p className="px-4 pb-4 md:px-5 md:pb-4 text-xs text-white/45 leading-relaxed line-clamp-2">
+              {selected.activities}
+            </p>
+          )}
         </motion.div>
 
-        {/* Compass Overlay */}
-        <div className="absolute right-6 top-6 text-white/20">
-          <Compass size={80} strokeWidth={1} />
+        {/* Compass deco */}
+        <div className="absolute right-5 top-5 text-white/10 pointer-events-none">
+          <Compass size={64} strokeWidth={1} />
         </div>
       </div>
     </div>

@@ -5,8 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import profileImg from '../../assets/images/profile.jpg';
-
-const SIGNATURE_SRC = '/signature.png';
+import signatureImg from '../../assets/images/signature.png';
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -84,7 +83,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           className="my-4 md:my-6"
         >
           <img
-            src={SIGNATURE_SRC}
+            src={signatureImg.src}
             alt="Assinatura Felipe Marzochi"
             draggable={false}
             className="h-auto w-[220px] md:w-[290px] pointer-events-none"

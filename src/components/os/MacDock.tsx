@@ -29,7 +29,8 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 type DockItem = {
   id: string;
   title: string;
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ComponentType<any>;
   gradient: string;
 };
 
