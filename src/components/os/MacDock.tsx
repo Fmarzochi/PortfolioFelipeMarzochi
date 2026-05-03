@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Compass, Image as ImageIcon } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
@@ -49,17 +50,20 @@ type DockItem = {
 };
 
 const DOCK_ITEMS: DockItem[] = [
-  { id: 'finder',    title: 'Diplomas',  icon: DiplomasIcon,  gradient: 'from-amber-400 to-orange-500'               },
-  { id: 'safari',    title: 'Portfólio', icon: Compass,       gradient: 'from-blue-400 to-cyan-500'                  },
-  { id: 'skills',    title: 'Skills',    icon: SkillsIcon,     gradient: 'from-slate-500 to-slate-700'               },
-  { id: 'messages',  title: 'Contato',   icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
-  { id: 'photos',    title: 'Galeria de Projetos',   icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'                },
-  { id: 'linkedin',  title: 'LinkedIn',  icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
-  { id: 'github',    title: 'GitHub',    icon: GitHubIcon,    gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
+  { id: 'finder',   title: 'Diplomas',          icon: DiplomasIcon, gradient: 'from-amber-400 to-orange-500'               },
+  { id: 'safari',   title: 'Portfólio',         icon: Compass,      gradient: 'from-blue-400 to-cyan-500'                  },
+  { id: 'skills',   title: 'Skills',            icon: SkillsIcon,   gradient: 'from-slate-500 to-slate-700'                },
+  { id: 'messages', title: 'Contato',           icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
+  { id: 'photos',   title: 'Galeria de Projetos', icon: ImageIcon,  gradient: 'from-pink-400 to-violet-600'                },
+  { id: 'linkedin', title: 'LinkedIn',          icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
+  { id: 'github',   title: 'GitHub',            icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
 ];
+
+type DockMenu = { item: DockItem; x: number; y: number } | null;
 
 export const MacDock = () => {
   const { openApp, closeApp, windows } = useWindowManager();
+  const [dockMenu, setDockMenu] = useState<DockMenu>(null);
 
   const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
 
@@ -79,46 +83,101 @@ export const MacDock = () => {
     }
   };
 
+  const handleContextMenu = (e: React.MouseEvent, item: DockItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    (e.nativeEvent as Event).stopImmediatePropagation();
+    setDockMenu({ item, x: e.clientX, y: e.clientY });
+  };
+
+  const closeDockMenu = () => setDockMenu(null);
+
   return (
-    <div className="group/dock absolute bottom-0 left-0 right-0 z-[200] flex justify-center items-end h-[100px]">
-      <div
-        className={`transition-transform duration-300 ease-in-out pb-4
-          ${anyFullScreen ? 'translate-y-full group-hover/dock:translate-y-0' : 'translate-y-0'}
-        `}
-      >
-        <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
+    <>
+      {/* Click-outside overlay to close dock menu */}
+      {dockMenu && (
+        <div className="fixed inset-0 z-[9998]" onClick={closeDockMenu} />
+      )}
 
-          <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" />
-
-          {DOCK_ITEMS.map((item) => (
-            <motion.div
-              key={item.id}
-              whileHover={{ scale: 1.38, y: -16 }}
-              whileTap={{ scale: 0.94 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-              onClick={() => handleClick(item)}
-              className="group relative flex flex-col items-center cursor-pointer"
-            >
-              <div className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}>
-                <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" />
-                <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
+      {/* Dock mini-menu */}
+      <AnimatePresence>
+        {dockMenu && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 6 }}
+            transition={{ duration: 0.12 }}
+            style={{
+              top: Math.max(dockMenu.y - 120, 8),
+              left: Math.min(Math.max(dockMenu.x - 80, 8), window.innerWidth - 168),
+            }}
+            className="fixed z-[9999] w-40 overflow-hidden rounded-xl border border-white/10 bg-black/75 shadow-2xl backdrop-blur-2xl"
+          >
+            <div className="py-1">
+              <div className="px-3 py-2 text-[11px] font-bold text-white/40 uppercase tracking-wider truncate">
+                {dockMenu.item.title}
               </div>
+              <div className="h-px bg-white/10" />
+              <button
+                onClick={() => { handleClick(dockMenu.item); closeDockMenu(); }}
+                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+              >
+                {isRunning(dockMenu.item.id) ? 'Fechar' : 'Abrir'}
+              </button>
+              <div className="h-px bg-white/10" />
+              <button
+                onClick={() => window.location.reload()}
+                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+              >
+                Recarregar
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-              <div className="absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 group-hover:block pointer-events-none">
-                {item.title}
-              </div>
+      {/* Dock */}
+      <div className="group/dock absolute bottom-0 left-0 right-0 z-[200] flex justify-center items-end h-[100px]">
+        <div
+          className={`transition-transform duration-300 ease-in-out pb-4
+            ${anyFullScreen ? 'translate-y-full group-hover/dock:translate-y-0' : 'translate-y-0'}
+          `}
+        >
+          <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
 
-              <div
-                className={`mt-1.5 h-[5px] w-[5px] rounded-full transition-all duration-300 ${
-                  !item.href && isRunning(item.id)
-                    ? 'bg-white/80 shadow-[0_0_4px_rgba(255,255,255,0.6)]'
-                    : 'bg-transparent'
-                }`}
-              />
-            </motion.div>
-          ))}
+            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" />
+
+            {DOCK_ITEMS.map((item) => (
+              <motion.div
+                key={item.id}
+                whileHover={{ scale: 1.38, y: -16 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ type: 'spring', stiffness: 380, damping: 18 }}
+                onClick={() => { closeDockMenu(); handleClick(item); }}
+                onContextMenu={e => handleContextMenu(e, item)}
+                className="group relative flex flex-col items-center cursor-pointer"
+              >
+                <div className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}>
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" />
+                  <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
+                </div>
+
+                <div className="absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 group-hover:block pointer-events-none">
+                  {item.title}
+                </div>
+
+                <div
+                  className={`mt-1.5 h-[5px] w-[5px] rounded-full transition-all duration-300 ${
+                    !item.href && isRunning(item.id)
+                      ? 'bg-white/80 shadow-[0_0_4px_rgba(255,255,255,0.6)]'
+                      : 'bg-transparent'
+                  }`}
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

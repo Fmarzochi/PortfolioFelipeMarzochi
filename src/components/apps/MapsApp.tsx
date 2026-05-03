@@ -93,7 +93,7 @@ const EXPERIENCES: Experience[] = [
   {
     id: '1',
     period: '2009 – 2013',
-    role: 'Medicina Veterinária',
+    role: 'Bacharelado em Medicina Veterinária',
     company: 'UNIP · Bacharelado',
     type: 'Bacharelado',
     status: 'completed',
@@ -150,14 +150,13 @@ interface DetailCardProps {
 
 const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) => (
   <>
-    {/* Header */}
-    <div className="flex items-start gap-3 p-4 md:p-5">
+    <div className="flex items-start gap-3 p-4">
       <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${selected.color} text-white shadow-lg`}>
         {selected.icon}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <h2 className="text-base font-bold tracking-tight leading-tight">{selected.role}</h2>
+          <h2 className="text-sm font-bold tracking-tight leading-tight">{selected.role}</h2>
           {selected.status === 'current' && (
             <span className="text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full px-2 py-0.5">ATUAL</span>
           )}
@@ -165,43 +164,41 @@ const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) =
             {selected.category === 'work' ? 'Profissional' : 'Acadêmico'}
           </span>
         </div>
-        <p className="text-xs text-white/50 mt-0.5">{selected.company}</p>
+        <p className="text-[11px] text-white/50 mt-0.5">{selected.company}</p>
       </div>
       <button
         onClick={onToggleExpanded}
-        className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors mt-1"
+        className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
       >
-        {expanded ? <><ChevronUp size={14} />Menos</> : <><ChevronDown size={14} />Detalhes</>}
+        {expanded ? <><ChevronUp size={13} />Menos</> : <><ChevronDown size={13} />Detalhes</>}
       </button>
     </div>
 
-    {/* Expanded detail */}
     <AnimatePresence>
       {expanded && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.22 }}
           className="overflow-hidden"
         >
-          <div className="border-t border-white/10 px-4 pb-4 md:px-5 md:pb-5 pt-3 space-y-3 max-h-[35vh] overflow-y-auto">
+          <div className="border-t border-white/10 px-4 pb-4 pt-3 space-y-3 max-h-[30vh] overflow-y-auto">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
-              <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.activities}</p>
+              <p className="text-xs text-white/70 leading-relaxed">{selected.activities}</p>
             </div>
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wider text-green-400 mb-1.5">Resultados</p>
-              <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.results}</p>
+              <p className="text-xs text-white/70 leading-relaxed">{selected.results}</p>
             </div>
           </div>
         </motion.div>
       )}
     </AnimatePresence>
 
-    {/* Preview condensado */}
     {!expanded && (
-      <p className="px-4 pb-4 md:px-5 md:pb-4 text-xs text-white/45 leading-relaxed line-clamp-2">
+      <p className="px-4 pb-4 text-xs text-white/45 leading-relaxed line-clamp-2">
         {selected.activities}
       </p>
     )}
@@ -221,29 +218,26 @@ export const MapsApp = () => {
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
       {/* ── Sidebar ─────────────────────────────────────────────────────── */}
-      <div className="w-full max-h-[42vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
-        <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
-          <Navigation size={14} className="text-blue-500 flex-shrink-0" />
-          <span className="text-sm text-white/40">Linha do Tempo · Experiência</span>
+      <div className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
+        <div className="mb-3 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+          <Navigation size={13} className="text-blue-500 flex-shrink-0" />
+          <span className="text-xs text-white/40">Linha do Tempo · Experiência</span>
         </div>
 
-        {/* Experiência Profissional */}
-        <div className="space-y-1 mb-4">
-          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-blue-400/60 mb-2 flex items-center gap-1.5">
-            <Briefcase size={10} /> Experiência Profissional · {WORK.length}
+        <div className="space-y-1 mb-3">
+          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-blue-400/60 mb-1.5 flex items-center gap-1.5">
+            <Briefcase size={9} /> Experiência Profissional · {WORK.length}
           </h3>
           {WORK.map((exp) => (
             <SidebarItem key={exp.id} exp={exp} isSelected={selected.id === exp.id} onClick={() => handleSelect(exp)} />
           ))}
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-white/8 my-3" />
+        <div className="h-px bg-white/8 my-2" />
 
-        {/* Formação Acadêmica */}
         <div className="space-y-1">
-          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-indigo-400/60 mb-2 flex items-center gap-1.5">
-            <GraduationCap size={10} /> Formação Acadêmica · {EDUCATION.length}
+          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-indigo-400/60 mb-1.5 flex items-center gap-1.5">
+            <GraduationCap size={9} /> Formação Acadêmica · {EDUCATION.length}
           </h3>
           {EDUCATION.map((exp) => (
             <SidebarItem key={exp.id} exp={exp} isSelected={selected.id === exp.id} onClick={() => handleSelect(exp)} />
@@ -251,11 +245,11 @@ export const MapsApp = () => {
         </div>
       </div>
 
-      {/* ── Mapa + Card ─────────────────────────────────────────────────── */}
+      {/* ── Mapa + Card (sempre em fluxo normal) ────────────────────────── */}
       <div className="flex flex-col flex-1 min-h-0">
 
-        {/* Map visuals */}
-        <div className="relative flex-1 min-h-[120px] overflow-hidden bg-[#0a0a0a]">
+        {/* Mapa visual — sem overflow-hidden para não clipar nada */}
+        <div className="relative flex-1 min-h-[80px] bg-[#0a0a0a]">
 
           {/* Grid */}
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
@@ -263,21 +257,15 @@ export const MapsApp = () => {
             backgroundSize: '40px 40px'
           }} />
 
-          {/* Linha de conexão SVG — work path */}
+          {/* Linhas de conexão SVG */}
           <svg className="absolute inset-0 h-full w-full pointer-events-none">
             <polyline
               points={WORK.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
-              fill="none"
-              stroke="rgba(59,130,246,0.22)"
-              strokeWidth="2"
-              strokeDasharray="8 5"
+              fill="none" stroke="rgba(59,130,246,0.22)" strokeWidth="2" strokeDasharray="8 5"
             />
             <polyline
               points={EDUCATION.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
-              fill="none"
-              stroke="rgba(99,102,241,0.22)"
-              strokeWidth="2"
-              strokeDasharray="8 5"
+              fill="none" stroke="rgba(99,102,241,0.22)" strokeWidth="2" strokeDasharray="8 5"
             />
           </svg>
 
@@ -298,35 +286,31 @@ export const MapsApp = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2.5 py-1 text-[10px] font-bold text-black shadow-xl"
+                    className="absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2 py-0.5 text-[10px] font-bold text-black shadow-xl z-10"
                   >
-                    {exp.role.split(' (')[0]}
+                    {exp.role.split(' (')[0].split(' em ')[0]}
                   </motion.div>
                 )}
               </div>
             </motion.div>
           ))}
 
-          {/* Desktop card — absolute overlay inside map */}
-          <motion.div
-            layout
-            className="hidden md:block absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
-          >
-            <DetailCard selected={selected} expanded={expanded} onToggleExpanded={() => setExpanded(!expanded)} />
-          </motion.div>
-
-          {/* Compass deco */}
-          <div className="absolute right-5 top-5 text-white/10 pointer-events-none">
-            <Compass size={64} strokeWidth={1} />
+          {/* Compass */}
+          <div className="absolute right-4 top-4 text-white/10 pointer-events-none">
+            <Compass size={56} strokeWidth={1} />
           </div>
         </div>
 
-        {/* Mobile card — in normal flow below the map, never clipped */}
+        {/* Card de detalhe — SEMPRE em fluxo normal, nunca clipado */}
         <motion.div
           layout
-          className="md:hidden flex-shrink-0 mx-3 mb-3 mt-3 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
+          className="flex-shrink-0 mx-3 mb-3 mt-2 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
         >
-          <DetailCard selected={selected} expanded={expanded} onToggleExpanded={() => setExpanded(!expanded)} />
+          <DetailCard
+            selected={selected}
+            expanded={expanded}
+            onToggleExpanded={() => setExpanded(!expanded)}
+          />
         </motion.div>
 
       </div>
