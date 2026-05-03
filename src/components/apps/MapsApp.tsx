@@ -20,43 +20,17 @@ interface Experience {
 
 const EXPERIENCES: Experience[] = [
   {
-    id: '1',
-    period: 'Passado',
-    role: 'Medicina Veterinária',
-    company: 'UNIP · 2009–2013',
-    type: 'Bacharelado',
-    status: 'completed',
-    icon: <Stethoscope size={18} />,
-    color: 'bg-indigo-500',
-    location: { x: 12, y: 72 },
-    activities: 'Graduação e atuação clínica. Desenvolvimento de raciocínio analítico, diagnóstico e tomada de decisão sob pressão — habilidades que moldaram minha abordagem sistemática para resolução de problemas em software.',
-    results: 'Formação multidisciplinar que contribuiu diretamente para minha capacidade analítica, foco em resultados e orientação à qualidade no desenvolvimento de software.',
-  },
-  {
-    id: '2',
-    period: 'Transição',
-    role: 'MBA em Engenharia de Software',
-    company: 'Faculdade Metropolitana · Fev/2022–Fev/2023',
-    type: 'Pós-Graduação',
-    status: 'completed',
-    icon: <GraduationCap size={18} />,
-    color: 'bg-blue-500',
-    location: { x: 30, y: 48 },
-    activities: 'Imersão em lógica, algoritmos e as bases da computação. Engenharia de Software, princípios SOLID, arquitetura de sistemas, metodologias ágeis e desenvolvimento orientado a qualidade.',
-    results: 'Consolidação da base técnica necessária para atuar com excelência no ciclo completo de desenvolvimento — da análise de requisitos ao deploy em produção.',
-  },
-  {
-    id: '3',
-    period: 'Set/2024 – Ago/2025',
-    role: 'Suporte Técnico (Estágio)',
-    company: 'Secretaria da Educação Americana-SP · Presencial',
-    type: 'Estágio',
-    status: 'completed',
-    icon: <Building2 size={18} />,
-    color: 'bg-teal-500',
-    location: { x: 50, y: 62 },
-    activities: 'Diagnóstico de incidentes em software para garantia da disponibilidade dos sistemas escolares, realizei manutenção preventiva de equipamentos e resolução ágil de chamados para suporte operacional administrativo.',
-    results: 'Redução de indisponibilidade de sistemas por meio de atendimento ágil e diagnóstico assertivo. Melhoria na experiência dos usuários internos com suporte mais rápido e padronizado. Contribuição para maior estabilidade do ambiente tecnológico escolar.',
+    id: '5',
+    period: 'Jan/2026 – Atual',
+    role: 'Desenvolvedor de Software (Front-end)',
+    company: 'Conecta 360° · Remoto',
+    type: 'CLT / Remoto',
+    status: 'current',
+    icon: <Briefcase size={18} />,
+    color: 'bg-violet-500',
+    location: { x: 12, y: 22 },
+    activities: 'Responsável pelo desenvolvimento front-end do Conecta 360°, plataforma SaaS voltada à gestão de Recursos Humanos, conformidade com NR-1 (PGR/GRO) e monitoramento de KPIs. Estruturação inicial da aplicação utilizando HTML5, CSS3 e JavaScript (ES6+), com desenvolvimento da interface em React.js e tipagem estática com TypeScript. Definição da arquitetura de componentes e padronização de código. Integração com APIs REST, implementação de autenticação e controle de permissões, containerização da aplicação com Docker e integração com banco de dados PostgreSQL.',
+    results: 'A solução está sendo desenvolvida com React.js, TypeScript, integração com APIs REST, seguindo boas práticas de componentização, Clean Code, responsividade e performance, com previsão de integração de recurso de Inteligência Artificial para apoio à análise de dados e geração de insights.',
   },
   {
     id: '4',
@@ -67,27 +41,53 @@ const EXPERIENCES: Experience[] = [
     status: 'current',
     icon: <Code2 size={18} />,
     color: 'bg-green-500',
-    location: { x: 68, y: 38 },
+    location: { x: 30, y: 38 },
     activities: 'Atuação no desenvolvimento de soluções web e aplicações SaaS, participando de todo o ciclo de desenvolvimento de software, incluindo levantamento de requisitos, implementação, testes, manutenção e deploy. Criação de interfaces responsivas e modernas utilizando React.js, Next.js, TypeScript, JavaScript (ES6+), HTML5, CSS3 e Tailwind CSS, com foco em componentização, reuso e performance. Desenvolvimento de aplicações SPA e sistemas multi-tenant, com gerenciamento de estado utilizando Redux e React Hooks. Integração com APIs REST e webhooks, consumo de serviços backend em Node.js e tratamento estruturado de erros. Realização de manutenção evolutiva e refatoração de sistemas legados, aplicando boas práticas de desenvolvimento e arquitetura de software. Versionamento de código com Git e GitHub, participação em code reviews e suporte à automação de pipelines CI/CD para deploy em ambientes cloud, incluindo AWS CloudFront e serviços relacionados à infraestrutura de aplicações.',
     results: 'Melhoria da performance e da qualidade do código por meio de padronização de componentes e implementação de testes. Otimização de SEO técnico e experiência do usuário, contribuindo para aumento de conversão em páginas digitais. Redução de bugs e retrabalho através de processos de desenvolvimento mais estruturados e entregas contínuas com maior estabilidade e escalabilidade das aplicações.',
   },
   {
-    id: '5',
-    period: 'Jan/2026 – Atual',
-    role: 'Desenvolvedor de Software (Front-end)',
-    company: 'Conecta 360° · Remoto',
-    type: 'CLT / Remoto',
-    status: 'current',
-    icon: <Briefcase size={18} />,
-    color: 'bg-violet-500',
-    location: { x: 86, y: 22 },
-    activities: 'Responsável pelo desenvolvimento front-end do Conecta 360°, plataforma SaaS voltada à gestão de Recursos Humanos, conformidade com NR-1 (PGR/GRO) e monitoramento de KPIs. Estruturação inicial da aplicação utilizando HTML5, CSS3 e JavaScript (ES6+), com desenvolvimento da interface em React.js e tipagem estática com TypeScript. Definição da arquitetura de componentes e padronização de código. Integração com APIs REST, implementação de autenticação e controle de permissões, containerização da aplicação com Docker e integração com banco de dados PostgreSQL.',
-    results: 'A solução está sendo desenvolvida com React.js, TypeScript, integração com APIs REST, seguindo boas práticas de componentização, Clean Code, responsividade e performance, com previsão de integração de recurso de Inteligência Artificial para apoio à análise de dados e geração de insights.',
+    id: '3',
+    period: 'Set/2024 – Ago/2025',
+    role: 'Suporte Técnico (Estágio)',
+    company: 'Secretaria da Educação Americana-SP · Presencial',
+    type: 'Estágio',
+    status: 'completed',
+    icon: <Building2 size={18} />,
+    color: 'bg-teal-500',
+    location: { x: 50, y: 55 },
+    activities: 'Diagnóstico de incidentes em software para garantia da disponibilidade dos sistemas escolares, realizei manutenção preventiva de equipamentos e resolução ágil de chamados para suporte operacional administrativo.',
+    results: 'Redução de indisponibilidade de sistemas por meio de atendimento ágil e diagnóstico assertivo. Melhoria na experiência dos usuários internos com suporte mais rápido e padronizado. Contribuição para maior estabilidade do ambiente tecnológico escolar.',
+  },
+  {
+    id: '2',
+    period: 'Fev/2022 – Fev/2023',
+    role: 'MBA em Engenharia de Software',
+    company: 'Faculdade Metropolitana · Pós-Graduação',
+    type: 'Pós-Graduação',
+    status: 'completed',
+    icon: <GraduationCap size={18} />,
+    color: 'bg-blue-500',
+    location: { x: 70, y: 65 },
+    activities: 'Imersão em lógica, algoritmos e as bases da computação. Engenharia de Software, princípios SOLID, arquitetura de sistemas, metodologias ágeis e desenvolvimento orientado a qualidade.',
+    results: 'Consolidação da base técnica necessária para atuar com excelência no ciclo completo de desenvolvimento — da análise de requisitos ao deploy em produção.',
+  },
+  {
+    id: '1',
+    period: '2009 – 2013',
+    role: 'Medicina Veterinária',
+    company: 'UNIP · Bacharelado',
+    type: 'Bacharelado',
+    status: 'completed',
+    icon: <Stethoscope size={18} />,
+    color: 'bg-indigo-500',
+    location: { x: 88, y: 78 },
+    activities: 'Graduação e atuação clínica. Desenvolvimento de raciocínio analítico, diagnóstico e tomada de decisão sob pressão — habilidades que moldaram minha abordagem sistemática para resolução de problemas em software.',
+    results: 'Formação multidisciplinar que contribuiu diretamente para minha capacidade analítica, foco em resultados e orientação à qualidade no desenvolvimento de software.',
   },
 ];
 
 export const MapsApp = () => {
-  const [selected, setSelected] = useState<Experience>(EXPERIENCES[4]);
+  const [selected, setSelected] = useState<Experience>(EXPERIENCES[0]);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -97,12 +97,12 @@ export const MapsApp = () => {
       <div className="w-full max-h-[38vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
         <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={14} className="text-blue-500 flex-shrink-0" />
-          <span className="text-sm text-white/40">Linha do Tempo Profissional</span>
+          <span className="text-sm text-white/40">Linha do Tempo · Experiência</span>
         </div>
 
         <div className="space-y-2">
           <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-white/30 mb-3">
-            Jornada · {EXPERIENCES.length} marcos
+            Experiência · {EXPERIENCES.length} marcos
           </h3>
           {EXPERIENCES.map((exp) => (
             <button

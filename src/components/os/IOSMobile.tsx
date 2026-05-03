@@ -69,7 +69,7 @@ type AppEntry = {
 
 const HOME_APPS: AppEntry[] = [
   { id: 'safari',   title: 'Portfólio', icon: Compass,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'maps',     title: 'Jornada',   icon: MapIcon,        gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'maps',     title: 'Experiência', icon: MapIcon,      gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
   { id: 'photos',   title: 'Galeria de Projetos',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder',   title: 'Diplomas',  icon: DiplomasIcon,   gradient: 'from-amber-400 via-orange-400 to-orange-500' },
   { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
@@ -191,22 +191,30 @@ export const IOSMobile = () => {
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: '100%', scale: 0.97, opacity: 0 }}
             transition={{ type: 'spring', damping: 27, stiffness: 310, mass: 0.85 }}
+            drag="y"
+            dragConstraints={{ top: 0 }}
+            dragElastic={{ top: 0, bottom: 0.25 }}
+            dragMomentum={false}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 60 || info.velocity.y > 400) handleCloseApp();
+            }}
             className="absolute inset-0 z-40 flex flex-col overflow-hidden"
+            style={{ touchAction: 'none' }}
           >
             {/* App background */}
             <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(80,40,180,0.4),transparent)] pointer-events-none" />
 
-            {/* Swipe handle / close bar */}
-            <div
-              className="relative z-10 flex flex-col items-center pt-[env(safe-area-inset-top,12px)] pb-1 shrink-0 cursor-pointer"
-              onClick={handleCloseApp}
-            >
-              <div className="h-[5px] w-[36px] rounded-full bg-white/25 mt-2" />
+            {/* Swipe handle */}
+            <div className="relative z-10 flex flex-col items-center pt-[env(safe-area-inset-top,12px)] pb-2 shrink-0">
+              <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
             </div>
 
-            {/* App content — fills remaining space */}
-            <div className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]">
+            {/* App content — fills remaining space, restores scroll */}
+            <div
+              className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]"
+              style={{ touchAction: 'auto' }}
+            >
               <AppRegistry appId={activeApp} />
             </div>
           </motion.div>

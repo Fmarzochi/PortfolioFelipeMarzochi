@@ -261,7 +261,10 @@ export const BrowserApp = () => {
               <button className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)]">
                 Iniciar Projeto
               </button>
-              <button className="rounded-lg bg-white/5 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/20 transition-all hover:bg-white/10">
+              <button
+                onClick={() => window.open('/', '_blank')}
+                className="rounded-lg bg-white/5 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/20 transition-all hover:bg-white/10"
+              >
                 Ver Portfólio
               </button>
               <a

@@ -22,7 +22,7 @@ const APPS = [
   { id: 'photos',   title: 'Galeria de Projetos', subtitle: 'Estudos de caso dos projetos entregues', icon: <Image size={16} />,        accent: 'text-pink-400',   gradient: 'from-pink-400 to-violet-600' },
   { id: 'finder',   title: 'Diplomas',           subtitle: 'Diplomas e certificações acadêmicas',    icon: <BookOpen size={16} />,     accent: 'text-amber-400',  gradient: 'from-amber-400 to-orange-500' },
   { id: 'messages', title: 'Contato',            subtitle: 'WhatsApp, e-mail e redes sociais',       icon: <MessageSquare size={16} />,accent: 'text-green-400',  gradient: 'from-green-500 to-emerald-600' },
-  { id: 'maps',     title: 'Jornada',            subtitle: 'Linha do tempo da carreira',             icon: <MapPin size={16} />,       accent: 'text-emerald-400',gradient: 'from-emerald-500 to-teal-500' },
+  { id: 'maps',     title: 'Experiência',         subtitle: 'Linha do tempo da carreira',             icon: <MapPin size={16} />,       accent: 'text-emerald-400',gradient: 'from-emerald-500 to-teal-500' },
 ];
 
 const PROJECTS = [
