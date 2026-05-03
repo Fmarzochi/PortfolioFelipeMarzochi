@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BatteryMedium, Wifi, Signal,
   Compass, Map as MapIcon, Image as ImageIcon,
 } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
@@ -86,18 +85,8 @@ const DOCK_APPS: AppEntry[] = [
 ];
 
 export const IOSMobile = () => {
-  const [time, setTime] = useState<Date | null>(null);
   const [activeApp, setActiveApp] = useState<string | null>(null);
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
-
-  useEffect(() => {
-    setTime(new Date());
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (date: Date) =>
-    date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
   const handleOpenApp = (app: AppEntry) => {
     playSound('click');
@@ -129,24 +118,6 @@ export const IOSMobile = () => {
       {/* ── Dynamic Island ─────────────────────────────────────────────────── */}
       <DynamicIsland />
 
-      {/* ── Status Bar ─────────────────────────────────────────────────────── */}
-      <div className="relative z-[60] flex h-14 flex-shrink-0 items-center justify-between px-7 pt-safe pointer-events-none select-none">
-        <div className="w-16 text-[15px] font-semibold tracking-wide tabular-nums pointer-events-auto">
-          {time ? formatTime(time) : '--:--'}
-        </div>
-        <div
-          className="flex w-16 cursor-pointer items-center justify-end gap-[5px] transition-opacity hover:opacity-70 pointer-events-auto"
-          onClick={() => {
-            playSound('click');
-            setIsControlCenterOpen(!isControlCenterOpen);
-          }}
-        >
-          <Signal size={13} className="fill-white text-white" strokeWidth={0} />
-          <Wifi size={15} strokeWidth={1.5} />
-          <BatteryMedium size={18} className="fill-white" strokeWidth={1} />
-        </div>
-      </div>
-
       {/* ── Control Center ─────────────────────────────────────────────────── */}
       <div className="absolute right-0 top-0 z-[70]">
         <ControlCenter isOpen={isControlCenterOpen} />
@@ -164,7 +135,7 @@ export const IOSMobile = () => {
       </AnimatePresence>
 
       {/* ── Springboard App Grid ───────────────────────────────────────────── */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pb-2">
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
         <div className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
           {HOME_APPS.map((app) => (
             <div key={app.id} className="flex flex-col items-center gap-[10px]">
@@ -186,30 +157,34 @@ export const IOSMobile = () => {
         </div>
       </div>
 
-      {/* ── Page Indicator Dots ────────────────────────────────────────────── */}
-      <div className="relative z-10 flex items-center justify-center gap-[6px] pb-4">
-        <div className="h-[7px] w-[18px] rounded-full bg-white/85" />
-        <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
-        <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
-      </div>
-
-      {/* ── Dock (Glassmorphism) — z-[50] fica sempre acima do app sheet (z-40) */}
-      <div className="relative z-[50] flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
-        <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4">
-          {DOCK_APPS.map((app) => (
-            <motion.button
-              key={app.id}
-              whileTap={{ scale: 0.86 }}
-              transition={{ type: 'spring', stiffness: 520, damping: 28 }}
-              onClick={() => handleOpenApp(app)}
-              className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
-              <app.icon className="h-7 w-7 text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
-            </motion.button>
-          ))}
+      {/* ── Page Indicator Dots — hidden when app is open ─────────────────── */}
+      {!activeApp && (
+        <div className="relative z-10 flex items-center justify-center gap-[6px] pb-4">
+          <div className="h-[7px] w-[18px] rounded-full bg-white/85" />
+          <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
+          <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
         </div>
-      </div>
+      )}
+
+      {/* ── Dock — hidden when app is open ────────────────────────────────── */}
+      {!activeApp && (
+        <div className="relative z-[50] flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
+          <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4">
+            {DOCK_APPS.map((app) => (
+              <motion.button
+                key={app.id}
+                whileTap={{ scale: 0.86 }}
+                transition={{ type: 'spring', stiffness: 520, damping: 28 }}
+                onClick={() => handleOpenApp(app)}
+                className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
+                <app.icon className="h-7 w-7 text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Full-Screen App Sheet ──────────────────────────────────────────── */}
       <AnimatePresence>
@@ -219,14 +194,22 @@ export const IOSMobile = () => {
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: '100%', scale: 0.97, opacity: 0 }}
             transition={{ type: 'spring', damping: 27, stiffness: 310, mass: 0.85 }}
-            className="absolute inset-0 z-40 overflow-hidden"
+            className="absolute inset-0 z-40 flex flex-col overflow-hidden"
           >
             {/* App background */}
             <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(80,40,180,0.4),transparent)] pointer-events-none" />
 
-            {/* pb-[110px] garante que o conteúdo não fique sob o dock (84px + 18px padding + margem) */}
-            <div className="relative h-full w-full overflow-hidden pt-14 pb-[calc(env(safe-area-inset-bottom,0px)+110px)]">
+            {/* Swipe handle / close bar */}
+            <div
+              className="relative z-10 flex flex-col items-center pt-[env(safe-area-inset-top,12px)] pb-1 shrink-0 cursor-pointer"
+              onClick={handleCloseApp}
+            >
+              <div className="h-[5px] w-[36px] rounded-full bg-white/25 mt-2" />
+            </div>
+
+            {/* App content — fills remaining space */}
+            <div className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]">
               <AppRegistry appId={activeApp} />
             </div>
           </motion.div>
