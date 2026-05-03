@@ -12,25 +12,29 @@ export const useContextMenu = () => {
   useEffect(() => {
     // 1. Lógica para Desktop (Botão Direito)
     const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault(); // Impede o menu feio do Chrome de abrir
+      e.preventDefault();
       setState({ isOpen: true, x: e.clientX, y: e.clientY });
     };
 
-    // 2. Lógica para Fechar ao clicar fora
-    const handleClick = () => closeMenu();
+    // 2. Fechar ao clicar fora — ignora o click sintético que vem logo após o long-press
+    let justOpened = false;
+    const handleClick = () => {
+      if (justOpened) { justOpened = false; return; }
+      closeMenu();
+    };
 
-    // 3. Lógica para Mobile (Pressionar e Segurar por 500ms)
+    // 3. Mobile: long-press 500ms
     let timer: NodeJS.Timeout;
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         const touch = e.touches[0];
         timer = setTimeout(() => {
+          justOpened = true;
           setState({ isOpen: true, x: touch.clientX, y: touch.clientY });
         }, 500);
       }
     };
 
-    // Se o usuário arrastar o dedo ou soltar antes de 500ms, cancela a abertura
     const handleTouchCancel = () => clearTimeout(timer);
 
     // Registrando os ouvintes no documento inteiro

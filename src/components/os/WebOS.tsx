@@ -17,6 +17,10 @@ export const WebOS = () => {
 
   useEffect(() => {
     setMounted(true);
+    // Auto-unlock when ?unlock param is present (used by "Ver Portfólio" button)
+    if (new URLSearchParams(window.location.search).has('unlock')) {
+      setIsLocked(false);
+    }
   }, []);
 
   if (!mounted) {

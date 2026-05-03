@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Compass, Map as MapIcon, Image as ImageIcon,
@@ -36,7 +36,6 @@ const GitHubIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-/* ── WhatsApp icon (SVG fiel ao logo oficial 2024) ───────────────────────── */
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 32 32"
@@ -67,27 +66,96 @@ type AppEntry = {
   href?: string;
 };
 
-const HOME_APPS: AppEntry[] = [
-  { id: 'safari',   title: 'Portfólio', icon: Compass,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'maps',     title: 'Experiência', icon: MapIcon,      gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'photos',   title: 'Galeria de Projetos',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder',   title: 'Diplomas',  icon: DiplomasIcon,   gradient: 'from-amber-400 via-orange-400 to-orange-500' },
-  { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+const DEFAULT_HOME_APPS: AppEntry[] = [
+  { id: 'safari',   title: 'Portfólio',               icon: Compass,      gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+  { id: 'maps',     title: 'Experiência Profissional', icon: MapIcon,      gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'photos',   title: 'Galeria de Projetos',      icon: ImageIcon,    gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+  { id: 'finder',   title: 'Diplomas',                 icon: DiplomasIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
+  { id: 'skills',   title: 'Skills',                   icon: SkillsIcon,   gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
 ];
 
 const DOCK_APPS: AppEntry[] = [
   { id: 'messages',  title: 'Contato',  icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                          },
   { id: 'safari',    title: 'Safari',   icon: Compass,       gradient: 'from-blue-500 via-blue-400 to-cyan-400'                                              },
-  { id: 'skills',    title: 'Skills',   icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'                                          },
+  { id: 'skills',    title: 'Skills',   icon: SkillsIcon,    gradient: 'from-slate-500 via-slate-600 to-slate-700'                                          },
   { id: 'linkedin',  title: 'LinkedIn', icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/'   },
   { id: 'github',    title: 'GitHub',   icon: GitHubIcon,    gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                  },
 ];
 
 export const IOSMobile = () => {
+  const [homeApps, setHomeApps] = useState([...DEFAULT_HOME_APPS]);
   const [activeApp, setActiveApp] = useState<string | null>(null);
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  // Refs for drag-to-reorder
+  const iconRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const capturedRects = useRef<Record<string, DOMRect>>({});
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const enterEditMode = useCallback(() => {
+    playSound('click');
+    setEditMode(true);
+  }, []);
+
+  const cancelLongPress = useCallback(() => {
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+  }, []);
+
+  // Cancel long press on any app-related interaction
+  useEffect(() => {
+    if (activeApp) {
+      cancelLongPress();
+      setEditMode(false);
+    }
+  }, [activeApp, cancelLongPress]);
+
+  const captureRects = useCallback(() => {
+    for (const [id, el] of Object.entries(iconRefs.current)) {
+      if (el) capturedRects.current[id] = el.getBoundingClientRect();
+    }
+  }, []);
+
+  const handleDragEnd = useCallback((draggedId: string, offsetX: number, offsetY: number) => {
+    const draggedRect = capturedRects.current[draggedId];
+    if (!draggedRect) return;
+
+    const cx = draggedRect.left + draggedRect.width / 2 + offsetX;
+    const cy = draggedRect.top + draggedRect.height / 2 + offsetY;
+
+    let closestId: string | null = null;
+    let closestDist = Infinity;
+
+    for (const [id, rect] of Object.entries(capturedRects.current)) {
+      if (id === draggedId) continue;
+      const rcx = rect.left + rect.width / 2;
+      const rcy = rect.top + rect.height / 2;
+      const dist = Math.hypot(cx - rcx, cy - rcy);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestId = id;
+      }
+    }
+
+    if (closestId && closestDist < 90) {
+      setHomeApps((prev) => {
+        const next = [...prev];
+        const fromIdx = next.findIndex((a) => a.id === draggedId);
+        const toIdx = next.findIndex((a) => a.id === closestId);
+        if (fromIdx !== -1 && toIdx !== -1) {
+          [next[fromIdx], next[toIdx]] = [next[toIdx], next[fromIdx]];
+        }
+        return next;
+      });
+    }
+  }, []);
 
   const handleOpenApp = (app: AppEntry) => {
+    if (editMode) {
+      setEditMode(false);
+      return;
+    }
+    cancelLongPress();
     playSound('click');
     if (app.href) {
       window.open(app.href, '_blank', 'noopener,noreferrer');
@@ -104,18 +172,16 @@ export const IOSMobile = () => {
   return (
     <div className="relative flex flex-col h-full w-full overflow-hidden overscroll-none bg-black text-white">
 
-      {/* ── Springboard Wallpaper (iOS 26 deep system palette) ────────────── */}
+      {/* ── Springboard Wallpaper ────────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none select-none">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900" />
-        {/* Aurora depth layers */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_55%_at_50%_-8%,rgba(99,55,215,0.60),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_10%_70%,rgba(30,80,200,0.35),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_40%_at_90%_85%,rgba(15,100,90,0.30),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_75%_25%,rgba(160,50,200,0.22),transparent)]" />
       </div>
 
-
-      {/* ── Control Center ─────────────────────────────────────────────────── */}
+      {/* ── Control Center ───────────────────────────────────────────────── */}
       <div className="absolute right-0 top-0 z-[70]">
         <ControlCenter isOpen={isControlCenterOpen} />
       </div>
@@ -131,22 +197,76 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Springboard App Grid ───────────────────────────────────────────── */}
+      {/* ── Edit mode banner ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {editMode && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-[env(safe-area-inset-top,12px)] left-0 right-0 z-30 flex justify-center"
+          >
+            <div className="flex items-center gap-3 rounded-full bg-black/60 backdrop-blur-xl px-5 py-2 ring-1 ring-white/15">
+              <span className="text-xs text-white/70">Arraste para reorganizar</span>
+              <button
+                onClick={() => setEditMode(false)}
+                className="text-xs font-semibold text-blue-400 hover:text-blue-300"
+              >
+                Concluído
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Springboard App Grid ─────────────────────────────────────────── */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
         <div className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
-          {HOME_APPS.map((app) => (
+          {homeApps.map((app) => (
             <div key={app.id} className="flex flex-col items-center gap-[10px]">
-              <motion.button
-                whileTap={{ scale: 0.86 }}
-                transition={{ type: 'spring', stiffness: 520, damping: 28 }}
-                onClick={() => handleOpenApp(app)}
-                className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
+              <motion.div
+                ref={(el) => { iconRefs.current[app.id] = el; }}
+                layout
+                layoutId={`icon-${app.id}`}
+                animate={
+                  editMode
+                    ? {
+                        rotate: [0, -2, 2, -2, 2, 0],
+                        transition: { repeat: Infinity, repeatType: 'loop', duration: 0.45, ease: 'easeInOut' },
+                      }
+                    : { rotate: 0 }
+                }
+                drag={editMode}
+                dragMomentum={false}
+                dragElastic={0.12}
+                onDragStart={captureRects}
+                onDragEnd={(_, info) => handleDragEnd(app.id, info.offset.x, info.offset.y)}
+                whileTap={!editMode ? { scale: 0.86 } : undefined}
+                transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
+                className={editMode ? 'z-20 cursor-grab active:cursor-grabbing' : ''}
+                onTouchStart={() => {
+                  if (!editMode && !activeApp) {
+                    longPressTimer.current = setTimeout(enterEditMode, 600);
+                  }
+                }}
+                onTouchEnd={cancelLongPress}
+                onTouchMove={cancelLongPress}
+                onMouseDown={() => {
+                  if (!editMode && !activeApp) {
+                    longPressTimer.current = setTimeout(enterEditMode, 600);
+                  }
+                }}
+                onMouseUp={cancelLongPress}
               >
-                {/* Specular highlight */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
-                <app.icon className="h-[34px] w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
-              </motion.button>
-              <span className="text-[12px] font-medium text-white/90 tracking-[0.01em] drop-shadow-md select-none text-center leading-tight">
+                <button
+                  onClick={() => handleOpenApp(app)}
+                  className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
+                  <app.icon className="h-[34px] w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
+                </button>
+              </motion.div>
+              <span className="text-[11px] font-medium text-white/90 tracking-[0.01em] drop-shadow-md select-none text-center leading-tight max-w-[80px]">
                 {app.title}
               </span>
             </div>
@@ -154,8 +274,8 @@ export const IOSMobile = () => {
         </div>
       </div>
 
-      {/* ── Page Indicator Dots — hidden when app is open ─────────────────── */}
-      {!activeApp && (
+      {/* ── Page Indicator Dots ───────────────────────────────────────────── */}
+      {!activeApp && !editMode && (
         <div className="relative z-10 flex items-center justify-center gap-[6px] pb-4">
           <div className="h-[7px] w-[18px] rounded-full bg-white/85" />
           <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
@@ -163,8 +283,8 @@ export const IOSMobile = () => {
         </div>
       )}
 
-      {/* ── Dock — hidden when app is open ────────────────────────────────── */}
-      {!activeApp && (
+      {/* ── Dock ─────────────────────────────────────────────────────────── */}
+      {!activeApp && !editMode && (
         <div className="relative z-[50] flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
           <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4">
             {DOCK_APPS.map((app) => (
@@ -183,7 +303,7 @@ export const IOSMobile = () => {
         </div>
       )}
 
-      {/* ── Full-Screen App Sheet ──────────────────────────────────────────── */}
+      {/* ── Full-Screen App Sheet ─────────────────────────────────────────── */}
       <AnimatePresence>
         {activeApp && (
           <motion.div
@@ -210,7 +330,7 @@ export const IOSMobile = () => {
               <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
             </div>
 
-            {/* App content — fills remaining space, restores scroll */}
+            {/* App content */}
             <div
               className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]"
               style={{ touchAction: 'auto' }}

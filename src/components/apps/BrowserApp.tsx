@@ -262,7 +262,7 @@ export const BrowserApp = () => {
                 Iniciar Projeto
               </button>
               <button
-                onClick={() => window.open('/', '_blank')}
+                onClick={() => window.open('/?unlock=1', '_blank')}
                 className="rounded-lg bg-white/5 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/20 transition-all hover:bg-white/10"
               >
                 Ver Portfólio

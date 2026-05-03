@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Navigation, Compass, Stethoscope, Code2, Rocket, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, Navigation, Compass, Stethoscope, Code2, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Experience {
@@ -11,6 +11,7 @@ interface Experience {
   company: string;
   type: string;
   status: 'completed' | 'current';
+  category: 'work' | 'education';
   icon: React.ReactNode;
   color: string;
   location: { x: number; y: number };
@@ -26,6 +27,7 @@ const EXPERIENCES: Experience[] = [
     company: 'Conecta 360° · Remoto',
     type: 'CLT / Remoto',
     status: 'current',
+    category: 'work',
     icon: <Briefcase size={18} />,
     color: 'bg-violet-500',
     location: { x: 12, y: 22 },
@@ -39,6 +41,7 @@ const EXPERIENCES: Experience[] = [
     company: 'Freelance / Autônomo · Remoto',
     type: 'Autônomo',
     status: 'current',
+    category: 'work',
     icon: <Code2 size={18} />,
     color: 'bg-green-500',
     location: { x: 30, y: 38 },
@@ -52,9 +55,10 @@ const EXPERIENCES: Experience[] = [
     company: 'Secretaria da Educação Americana-SP · Presencial',
     type: 'Estágio',
     status: 'completed',
+    category: 'work',
     icon: <Building2 size={18} />,
     color: 'bg-teal-500',
-    location: { x: 50, y: 55 },
+    location: { x: 50, y: 30 },
     activities: 'Diagnóstico de incidentes em software para garantia da disponibilidade dos sistemas escolares, realizei manutenção preventiva de equipamentos e resolução ágil de chamados para suporte operacional administrativo.',
     results: 'Redução de indisponibilidade de sistemas por meio de atendimento ágil e diagnóstico assertivo. Melhoria na experiência dos usuários internos com suporte mais rápido e padronizado. Contribuição para maior estabilidade do ambiente tecnológico escolar.',
   },
@@ -65,9 +69,10 @@ const EXPERIENCES: Experience[] = [
     company: 'Faculdade Metropolitana · Pós-Graduação',
     type: 'Pós-Graduação',
     status: 'completed',
+    category: 'education',
     icon: <GraduationCap size={18} />,
     color: 'bg-blue-500',
-    location: { x: 70, y: 65 },
+    location: { x: 70, y: 60 },
     activities: 'Imersão em lógica, algoritmos e as bases da computação. Engenharia de Software, princípios SOLID, arquitetura de sistemas, metodologias ágeis e desenvolvimento orientado a qualidade.',
     results: 'Consolidação da base técnica necessária para atuar com excelência no ciclo completo de desenvolvimento — da análise de requisitos ao deploy em produção.',
   },
@@ -78,6 +83,7 @@ const EXPERIENCES: Experience[] = [
     company: 'UNIP · Bacharelado',
     type: 'Bacharelado',
     status: 'completed',
+    category: 'education',
     icon: <Stethoscope size={18} />,
     color: 'bg-indigo-500',
     location: { x: 88, y: 78 },
@@ -86,46 +92,81 @@ const EXPERIENCES: Experience[] = [
   },
 ];
 
+const WORK = EXPERIENCES.filter((e) => e.category === 'work');
+const EDUCATION = EXPERIENCES.filter((e) => e.category === 'education');
+
+const SidebarItem = ({
+  exp,
+  isSelected,
+  onClick,
+}: {
+  exp: Experience;
+  isSelected: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    className={`flex w-full items-start gap-3 rounded-xl p-3 transition-all text-left ${
+      isSelected ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
+    }`}
+  >
+    <div
+      className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+        isSelected ? exp.color + ' text-white' : 'bg-white/10 text-white/50'
+      }`}
+    >
+      {exp.icon}
+    </div>
+    <div className="flex flex-col min-w-0">
+      <span className="text-[11px] font-bold text-blue-400 truncate">{exp.period}</span>
+      <span className="text-sm font-semibold truncate leading-tight">{exp.role}</span>
+      <span className="text-[11px] text-white/40 truncate">{exp.company}</span>
+    </div>
+    {exp.status === 'current' && (
+      <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-400 animate-pulse mt-2" />
+    )}
+  </button>
+);
+
 export const MapsApp = () => {
   const [selected, setSelected] = useState<Experience>(EXPERIENCES[0]);
   const [expanded, setExpanded] = useState(false);
 
+  const handleSelect = (exp: Experience) => {
+    setSelected(exp);
+    setExpanded(false);
+  };
+
   return (
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
-      {/* ── Sidebar: lista de experiências ──────────────────────────────── */}
+      {/* ── Sidebar ─────────────────────────────────────────────────────── */}
       <div className="w-full max-h-[38vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
         <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={14} className="text-blue-500 flex-shrink-0" />
           <span className="text-sm text-white/40">Linha do Tempo · Experiência</span>
         </div>
 
-        <div className="space-y-2">
-          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-white/30 mb-3">
-            Experiência · {EXPERIENCES.length} marcos
+        {/* Experiência Profissional */}
+        <div className="space-y-1 mb-4">
+          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-blue-400/60 mb-2 flex items-center gap-1.5">
+            <Briefcase size={10} /> Experiência Profissional · {WORK.length}
           </h3>
-          {EXPERIENCES.map((exp) => (
-            <button
-              key={exp.id}
-              onClick={() => { setSelected(exp); setExpanded(false); }}
-              className={`flex w-full items-start gap-3 rounded-xl p-3 transition-all text-left ${
-                selected.id === exp.id
-                  ? 'bg-blue-600/20 ring-1 ring-blue-500/40'
-                  : 'hover:bg-white/5'
-              }`}
-            >
-              <div className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${selected.id === exp.id ? exp.color + ' text-white' : 'bg-white/10 text-white/50'}`}>
-                {exp.icon}
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-[11px] font-bold text-blue-400 truncate">{exp.period}</span>
-                <span className="text-sm font-semibold truncate leading-tight">{exp.role}</span>
-                <span className="text-[11px] text-white/40 truncate">{exp.company}</span>
-              </div>
-              {exp.status === 'current' && (
-                <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-400 animate-pulse mt-2" />
-              )}
-            </button>
+          {WORK.map((exp) => (
+            <SidebarItem key={exp.id} exp={exp} isSelected={selected.id === exp.id} onClick={() => handleSelect(exp)} />
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-white/8 my-3" />
+
+        {/* Formação Acadêmica */}
+        <div className="space-y-1">
+          <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-indigo-400/60 mb-2 flex items-center gap-1.5">
+            <GraduationCap size={10} /> Formação Acadêmica · {EDUCATION.length}
+          </h3>
+          {EDUCATION.map((exp) => (
+            <SidebarItem key={exp.id} exp={exp} isSelected={selected.id === exp.id} onClick={() => handleSelect(exp)} />
           ))}
         </div>
       </div>
@@ -139,12 +180,19 @@ export const MapsApp = () => {
           backgroundSize: '40px 40px'
         }} />
 
-        {/* Linha de conexão SVG */}
+        {/* Linha de conexão SVG — work path */}
         <svg className="absolute inset-0 h-full w-full pointer-events-none">
           <polyline
-            points={EXPERIENCES.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
+            points={WORK.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
             fill="none"
-            stroke="rgba(59,130,246,0.18)"
+            stroke="rgba(59,130,246,0.22)"
+            strokeWidth="2"
+            strokeDasharray="8 5"
+          />
+          <polyline
+            points={EDUCATION.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
+            fill="none"
+            stroke="rgba(99,102,241,0.22)"
             strokeWidth="2"
             strokeDasharray="8 5"
           />
@@ -159,7 +207,7 @@ export const MapsApp = () => {
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             className="absolute cursor-pointer"
             style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
-            onClick={() => { setSelected(exp); setExpanded(false); }}
+            onClick={() => handleSelect(exp)}
           >
             <div className="relative">
               <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''}`} />
@@ -192,6 +240,9 @@ export const MapsApp = () => {
                 {selected.status === 'current' && (
                   <span className="text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full px-2 py-0.5">ATUAL</span>
                 )}
+                <span className={`text-[10px] font-bold rounded-full px-2 py-0.5 ${selected.category === 'work' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'}`}>
+                  {selected.category === 'work' ? 'Profissional' : 'Acadêmico'}
+                </span>
               </div>
               <p className="text-xs text-white/50 mt-0.5">{selected.company}</p>
             </div>
