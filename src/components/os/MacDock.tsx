@@ -1,9 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Compass, Image as ImageIcon, Folder, TerminalSquare } from 'lucide-react';
+import { Compass, Image as ImageIcon, Folder } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
+
+const SkillsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M9.293 16.707a1 1 0 0 1 0-1.414L12.586 12 9.293 8.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"/>
+    <path d="M5 18a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2H5z"/>
+  </svg>
+);
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
@@ -36,7 +43,7 @@ type DockItem = {
 const DOCK_ITEMS: DockItem[] = [
   { id: 'finder',    title: 'Arquivos',  icon: Folder,        gradient: 'from-sky-400 to-blue-600'                   },
   { id: 'safari',    title: 'Portfólio', icon: Compass,       gradient: 'from-blue-400 to-cyan-500'                  },
-  { id: 'skills',    title: 'Skills',    icon: TerminalSquare, gradient: 'from-slate-500 to-slate-700'               },
+  { id: 'skills',    title: 'Skills',    icon: SkillsIcon,     gradient: 'from-slate-500 to-slate-700'               },
   { id: 'messages',  title: 'Contato',   icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
   { id: 'photos',    title: 'Galeria',   icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'                },
   { id: 'linkedin',  title: 'LinkedIn',  icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },

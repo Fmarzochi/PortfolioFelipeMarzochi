@@ -5,12 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   BatteryMedium, Wifi, Signal,
   Compass, Map as MapIcon, Image as ImageIcon,
-  Folder, TerminalSquare, Users,
+  Folder, Users,
 } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { ControlCenter } from './ControlCenter';
 import { playSound } from '../../utils/audioEngine';
 import { DynamicIsland } from './DynamicIsland';
+
+const SkillsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M9.293 16.707a1 1 0 0 1 0-1.414L12.586 12 9.293 8.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"/>
+    <path d="M5 18a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2H5z"/>
+  </svg>
+);
 
 const LinkedInIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -60,14 +67,14 @@ const HOME_APPS: AppEntry[] = [
   { id: 'maps',     title: 'Jornada',   icon: MapIcon,        gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
   { id: 'photos',   title: 'Galeria',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder',   title: 'Arquivos',  icon: Folder,         gradient: 'from-sky-500 via-blue-400 to-indigo-500'     },
-  { id: 'skills',   title: 'Skills',    icon: TerminalSquare, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+  { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
   { id: 'contacts', title: 'Equipe',    icon: Users,          gradient: 'from-orange-500 via-amber-400 to-yellow-500' },
 ];
 
 const DOCK_APPS: AppEntry[] = [
   { id: 'messages',  title: 'Contato',  icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                          },
   { id: 'safari',    title: 'Safari',   icon: Compass,       gradient: 'from-blue-500 via-blue-400 to-cyan-400'                                              },
-  { id: 'skills',    title: 'Skills',   icon: TerminalSquare, gradient: 'from-slate-500 via-slate-600 to-slate-700'                                          },
+  { id: 'skills',    title: 'Skills',   icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'                                          },
   { id: 'linkedin',  title: 'LinkedIn', icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/'   },
   { id: 'github',    title: 'GitHub',   icon: GitHubIcon,    gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                  },
 ];
