@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid } from 'lucide-react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface Project {
   id: string;
@@ -251,24 +252,24 @@ const ProjectDetail = ({ project, onClose }: { project: Project; onClose: () => 
     className="flex-1 flex flex-col overflow-hidden"
   >
     {/* Banner */}
-    <div className={`relative w-full h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
+    <div className={`relative w-full h-32 sm:h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
       <div className="absolute inset-0 opacity-40">{project.svg}</div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 px-5 pb-4">
-        <p className="text-xs text-white/60 mb-0.5">{project.tag}</p>
-        <h2 className="text-lg font-bold text-white">{project.title}</h2>
+      <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
+        <p className="text-[10px] text-white/60 mb-0.5 truncate">{project.tag}</p>
+        <h2 className="text-base sm:text-lg font-bold text-white leading-tight">{project.title}</h2>
       </div>
       <button
         onClick={onClose}
-        className="absolute top-3 right-4 text-[11px] text-white/60 hover:text-white bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full transition-colors"
+        className="absolute top-3 right-3 text-[11px] text-white/60 hover:text-white bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full transition-colors"
       >
-        ← Todas as Fotos
+        ← Voltar
       </button>
     </div>
 
     {/* Body */}
-    <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-xl bg-red-500/8 ring-1 ring-red-500/20 p-4 space-y-2">
           <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">Problema</span>
           <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
@@ -298,11 +299,17 @@ const ProjectDetail = ({ project, onClose }: { project: Project; onClose: () => 
 
 /* ── Main Component ───────────────────────────────────────────────────────── */
 export const GalleryApp = () => {
+  const isMobile = useIsMobile();
   const [view, setView] = useState<View>('all');
   const [detailId, setDetailId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [query, setQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
+
+  /* Close sidebar on mobile by default */
+  useEffect(() => {
+    if (isMobile) setSidebarOpen(false);
+  }, [isMobile]);
 
   const detailProject = detailId ? PROJECTS.find((p) => p.id === detailId) ?? null : null;
 
@@ -333,20 +340,35 @@ export const GalleryApp = () => {
     setView(v);
     setDetailId(null);
     setQuery('');
+    if (isMobile) setSidebarOpen(false);
   };
 
   return (
-    <div className="flex h-full w-full bg-[#111111] text-white overflow-hidden">
+    <div className="flex h-full w-full bg-[#111111] text-white overflow-hidden relative">
+
+      {/* ── Mobile backdrop ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {isMobile && sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-20 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* ── Left Sidebar ───────────────────────────────────────────────── */}
       <AnimatePresence initial={false}>
         {sidebarOpen && (
           <motion.aside
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: 240, opacity: 1 }}
-            exit={{ width: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: 'easeInOut' }}
-            className="shrink-0 flex flex-col h-full border-r border-white/8 bg-[#0e0e0e] overflow-hidden"
+            initial={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }}
+            animate={{ x: 0, width: isMobile ? 260 : 240, opacity: 1 }}
+            exit={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className={`flex flex-col h-full border-r border-white/8 bg-[#0e0e0e] overflow-hidden
+              ${isMobile ? 'absolute left-0 top-0 z-30 shrink-0' : 'shrink-0'}`}
           >
             <div className="flex-1 min-h-0 overflow-y-auto py-4 space-y-5 px-3">
 
@@ -426,25 +448,26 @@ export const GalleryApp = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
 
         {/* Top bar */}
-        <div className="h-11 shrink-0 flex items-center gap-3 px-4 border-b border-white/8 bg-[#0e0e0e]/80">
+        <div className="h-11 shrink-0 flex items-center gap-2 px-3 border-b border-white/8 bg-[#0e0e0e]/80">
           {/* Sidebar toggle */}
           <button
             onClick={() => setSidebarOpen((v) => !v)}
-            className={`p-1.5 rounded-md transition-colors shrink-0 ${sidebarOpen ? 'text-white/70 bg-white/10' : 'text-white/30 hover:text-white/55 hover:bg-white/5'}`}
-            title="Alternar painel"
+            className={`p-1.5 rounded-md transition-colors shrink-0 ${sidebarOpen && !isMobile ? 'text-white/70 bg-white/10' : 'text-white/30 hover:text-white/55 hover:bg-white/5'}`}
           >
             <PanelLeft size={15} />
           </button>
 
-          {/* Current view title */}
-          <span className="text-[13px] font-semibold text-white/75 tracking-wide truncate">
-            {query.trim() ? `Resultados para "${query.trim()}"` : viewLabel}
-          </span>
+          {/* Current view title — hidden on mobile when search active */}
+          {(!isMobile || !searchFocused) && (
+            <span className="text-[12px] sm:text-[13px] font-semibold text-white/75 tracking-wide truncate max-w-[120px] sm:max-w-none">
+              {query.trim() ? `"${query.trim()}"` : viewLabel}
+            </span>
+          )}
 
           <div className="flex-1" />
 
           {/* Search */}
-          <div className={`flex items-center gap-2 rounded-lg px-3 py-1.5 ring-1 transition-all shrink-0 ${searchFocused ? 'bg-white/10 ring-white/30' : 'bg-white/5 ring-white/10'}`}>
+          <div className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 ring-1 transition-all shrink-0 ${searchFocused ? 'bg-white/10 ring-white/30' : 'bg-white/5 ring-white/10'}`}>
             <Search size={12} className="text-white/40 shrink-0" />
             <input
               type="text"
@@ -453,7 +476,7 @@ export const GalleryApp = () => {
               onChange={(e) => { setQuery(e.target.value); setDetailId(null); }}
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className="bg-transparent text-[12px] text-white/80 placeholder-white/30 outline-none w-28 focus:w-40 transition-all duration-200"
+              className="bg-transparent text-[12px] text-white/80 placeholder-white/30 outline-none w-20 focus:w-32 sm:w-28 sm:focus:w-40 transition-all duration-200"
             />
             {query && (
               <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors">
@@ -466,7 +489,6 @@ export const GalleryApp = () => {
           <button
             onClick={() => window.open('https://www.linkedin.com/in/felipemarzochi/', '_blank')}
             className="flex items-center justify-center h-7 w-7 rounded-md bg-white/8 hover:bg-white/15 text-white/50 hover:text-white transition-colors ring-1 ring-white/10 shrink-0"
-            title="Ver mais no LinkedIn"
           >
             <Plus size={14} />
           </button>
@@ -496,7 +518,7 @@ export const GalleryApp = () => {
                     <p className="text-sm">Nenhum projeto encontrado</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3">
                     {visibleProjects.map((project) => (
                       <PhotoCard
                         key={project.id}
