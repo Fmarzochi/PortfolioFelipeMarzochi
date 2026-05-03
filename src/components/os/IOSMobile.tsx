@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   BatteryMedium, Wifi, Signal,
   Compass, Map as MapIcon, Image as ImageIcon,
-  Users,
 } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { ControlCenter } from './ControlCenter';
@@ -76,7 +75,6 @@ const HOME_APPS: AppEntry[] = [
   { id: 'photos',   title: 'Galeria',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder',   title: 'Diplomas',  icon: DiplomasIcon,   gradient: 'from-amber-400 via-orange-400 to-orange-500' },
   { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'contacts', title: 'Equipe',    icon: Users,          gradient: 'from-orange-500 via-amber-400 to-yellow-500' },
 ];
 
 const DOCK_APPS: AppEntry[] = [
