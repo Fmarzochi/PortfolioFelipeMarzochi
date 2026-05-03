@@ -210,21 +210,21 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Control Center / Done toggle (home screen only) ──────────────── */}
-      {!activeApp && (
+      {/* ── Control Center toggle (home screen only, not in edit mode) ──── */}
+      {!activeApp && !editMode && (
         <button
-          onClick={() => editMode ? setEditMode(false) : setIsControlCenterOpen(v => !v)}
-          className="absolute top-[env(safe-area-inset-top,12px)] right-4 z-30 flex items-center justify-center h-8 px-3 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20"
+          onClick={() => setIsControlCenterOpen(v => !v)}
+          className="absolute top-[env(safe-area-inset-top,12px)] right-4 z-20 flex items-center justify-center h-8 w-8 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20"
         >
-          {editMode
-            ? <span className="text-xs font-semibold text-blue-400">Concluído</span>
-            : <SlidersHorizontal size={14} className="text-white/70" />
-          }
+          <SlidersHorizontal size={14} className="text-white/70" />
         </button>
       )}
 
       {/* ── Springboard App Grid ─────────────────────────────────────────── */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
+      <div
+        className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2"
+        onClick={() => { if (editMode) setEditMode(false); }}
+      >
         <div ref={gridRef} className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
           {homeApps.map((app, idx) => (
             <motion.div
