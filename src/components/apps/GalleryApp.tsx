@@ -196,53 +196,71 @@ const PROJECTS: Project[] = [
 ];
 
 /* ── Sidebar section types ────────────────────────────────────────────────── */
-type View = 'all' | 'favorites' | string; // string = project albumKey
+type View = 'all' | 'favorites' | string;
 
-const FAVORITES = ['1', '4', '6']; // highlighted projects
+const INITIAL_FAVORITES = ['1', '4', '6'];
 
 /* ── Thumbnail card ───────────────────────────────────────────────────────── */
 const PhotoCard = ({
   project,
   isSelected,
+  isFav,
+  onToggleFav,
   onClick,
 }: {
   project: Project;
   isSelected: boolean;
+  isFav: boolean;
+  onToggleFav: (e: React.MouseEvent) => void;
   onClick: () => void;
 }) => (
-  <motion.button
+  <motion.div
     whileHover={{ scale: 1.02 }}
     whileTap={{ scale: 0.97 }}
-    onClick={onClick}
-    className={`group relative overflow-hidden rounded-xl aspect-video text-left ring-2 transition-all ${
+    className={`group relative overflow-hidden rounded-xl aspect-video ring-2 transition-all cursor-pointer ${
       isSelected ? 'ring-blue-500 shadow-lg shadow-blue-500/30' : 'ring-transparent hover:ring-white/20'
     }`}
+    onClick={onClick}
   >
-    {/* Gradient background */}
     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-    {/* SVG illustration — full opacity, acting as the "photo" */}
     <div className="absolute inset-0 opacity-40">{project.svg}</div>
-
-    {/* Hover overlay */}
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
 
-    {/* Bottom label */}
+    {/* Fav button — always visible on mobile, hover on desktop */}
+    <button
+      onClick={onToggleFav}
+      className={`absolute top-2 right-2 z-10 p-1.5 rounded-full transition-all
+        ${isFav
+          ? 'bg-black/30 opacity-100'
+          : 'bg-black/20 opacity-0 group-hover:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 opacity-100'
+        }`}
+      title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+    >
+      <Heart
+        size={13}
+        className={`transition-colors ${isFav ? 'text-red-400 fill-red-400' : 'text-white/70'}`}
+      />
+    </button>
+
     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent pt-8 px-3 pb-2.5">
       <p className="text-[11px] font-semibold text-white leading-tight truncate">{project.title}</p>
       <p className="text-[9px] text-white/55 mt-0.5 truncate">{project.tag}</p>
     </div>
-
-    {/* Fav heart */}
-    {FAVORITES.includes(project.id) && (
-      <div className="absolute top-2 right-2">
-        <Heart size={11} className="text-red-400 fill-red-400 drop-shadow" />
-      </div>
-    )}
-  </motion.button>
+  </motion.div>
 );
 
 /* ── Detail panel ─────────────────────────────────────────────────────────── */
-const ProjectDetail = ({ project, onClose }: { project: Project; onClose: () => void }) => (
+const ProjectDetail = ({
+  project,
+  isFav,
+  onToggleFav,
+  onClose,
+}: {
+  project: Project;
+  isFav: boolean;
+  onToggleFav: () => void;
+  onClose: () => void;
+}) => (
   <motion.div
     key={project.id}
     initial={{ opacity: 0, y: 10 }}
@@ -255,15 +273,31 @@ const ProjectDetail = ({ project, onClose }: { project: Project; onClose: () => 
     <div className={`relative w-full h-32 sm:h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
       <div className="absolute inset-0 opacity-40">{project.svg}</div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 px-4 pb-3">
+      <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 pr-20">
         <p className="text-[10px] text-white/60 mb-0.5 truncate">{project.tag}</p>
         <h2 className="text-base sm:text-lg font-bold text-white leading-tight">{project.title}</h2>
       </div>
+
+      {/* Back */}
       <button
         onClick={onClose}
-        className="absolute top-3 right-3 text-[11px] text-white/60 hover:text-white bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full transition-colors"
+        className="absolute top-3 left-3 text-[11px] text-white/60 hover:text-white bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full transition-colors"
       >
         ← Voltar
+      </button>
+
+      {/* Fav button on detail banner */}
+      <button
+        onClick={onToggleFav}
+        className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all backdrop-blur-sm
+          ${isFav
+            ? 'bg-red-500/30 text-red-300 ring-1 ring-red-400/40'
+            : 'bg-black/30 text-white/60 hover:text-white hover:bg-black/50'
+          }`}
+        title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+      >
+        <Heart size={12} className={isFav ? 'fill-red-400 text-red-400' : ''} />
+        {isFav ? 'Favoritado' : 'Favoritar'}
       </button>
     </div>
 
@@ -305,6 +339,16 @@ export const GalleryApp = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [query, setQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set(INITIAL_FAVORITES));
+
+  const toggleFav = (id: string) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   /* Close sidebar on mobile by default */
   useEffect(() => {
@@ -316,7 +360,7 @@ export const GalleryApp = () => {
   /* Which projects to show in the grid based on sidebar selection */
   const visibleProjects = useMemo(() => {
     let pool = PROJECTS;
-    if (view === 'favorites') pool = PROJECTS.filter((p) => FAVORITES.includes(p.id));
+    if (view === 'favorites') pool = PROJECTS.filter((p) => favorites.has(p.id));
     else if (view !== 'all') pool = PROJECTS.filter((p) => p.albumKey === view);
 
     const q = query.trim().toLowerCase();
@@ -388,7 +432,7 @@ export const GalleryApp = () => {
                     label="Favoritos"
                     active={view === 'favorites'}
                     onClick={() => handleViewChange('favorites')}
-                    count={FAVORITES.length}
+                    count={favorites.size}
                   />
                 </div>
 
@@ -407,7 +451,7 @@ export const GalleryApp = () => {
                         {/* Thumbnail */}
                         <div className={`relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${project.gradient}`}>
                           <div className="absolute inset-0 opacity-55">{project.svg}</div>
-                          {FAVORITES.includes(project.id) && (
+                          {favorites.has(project.id) && (
                             <div className="absolute top-0.5 right-0.5">
                               <Heart size={7} className="text-red-400 fill-red-400" />
                             </div>
@@ -501,6 +545,8 @@ export const GalleryApp = () => {
               <ProjectDetail
                 key={detailProject.id}
                 project={detailProject}
+                isFav={favorites.has(detailProject.id)}
+                onToggleFav={() => toggleFav(detailProject.id)}
                 onClose={() => setDetailId(null)}
               />
             ) : (
@@ -524,6 +570,8 @@ export const GalleryApp = () => {
                         key={project.id}
                         project={project}
                         isSelected={detailId === project.id}
+                        isFav={favorites.has(project.id)}
+                        onToggleFav={(e) => { e.stopPropagation(); toggleFav(project.id); }}
                         onClick={() => setDetailId(project.id)}
                       />
                     ))}
