@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Wifi, BatteryMedium, Search, SlidersHorizontal } from 'lucide-react';
 import { ControlCenter } from './ControlCenter';
+import { SpotlightSearch } from './SpotlightSearch';
 import { useWindowManager } from '../../store/useWindowManager';
 import signatureImg from '../../assets/images/signature.png';
 
@@ -21,7 +22,20 @@ const GitHubIcon = () => (
 export const TopBar = () => {
   const [time, setTime] = useState<Date | null>(null);
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
+  const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const { windows } = useWindowManager();
+
+  /* Global shortcut: Cmd+Space / Ctrl+Space */
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === ' ') {
+        e.preventDefault();
+        setIsSpotlightOpen((v) => !v);
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
 
@@ -90,7 +104,11 @@ export const TopBar = () => {
 
           <BatteryMedium size={14} className="cursor-pointer hover:text-white transition-colors" />
           <Wifi size={14} className="cursor-pointer hover:text-white transition-colors" />
-          <Search size={14} className="cursor-pointer hover:text-white transition-colors" />
+          <Search
+            size={14}
+            className={`cursor-pointer transition-colors ${isSpotlightOpen ? 'text-blue-400' : 'hover:text-white'}`}
+            onClick={() => setIsSpotlightOpen((v) => !v)}
+          />
 
           <SlidersHorizontal
             size={14}
@@ -107,6 +125,8 @@ export const TopBar = () => {
 
         <ControlCenter isOpen={isControlCenterOpen} />
       </div>
+
+      <SpotlightSearch isOpen={isSpotlightOpen} onClose={() => setIsSpotlightOpen(false)} />
     </div>
   );
 };
