@@ -56,9 +56,9 @@ export const TopBar = () => {
             draggable={false}
             className="h-5 w-auto pointer-events-none"
             style={{
-              filter: 'invert(1) brightness(5) contrast(2)',
+              filter: 'invert(1) brightness(12) contrast(3)',
               mixBlendMode: 'screen',
-              opacity: 0.85,
+              opacity: 1,
             }}
           />
         </div>
