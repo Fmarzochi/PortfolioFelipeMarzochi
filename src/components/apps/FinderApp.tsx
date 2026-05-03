@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Folder, FileText, Image as ImageIcon, Search, LayoutGrid, List, ChevronRight, Clock, Award, Briefcase, GraduationCap, X } from 'lucide-react';
+import { FileText, Search, LayoutGrid, List, Clock, Award, Briefcase, GraduationCap, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ---------------------------------------------------------------------------
@@ -28,6 +28,8 @@ interface CertFile {
   path: string;
   /** Se existe um "Verso" correspondente */
   versoPath?: string;
+  /** Ano de emissão / conclusão */
+  year?: string;
 }
 
 interface Category {
@@ -48,8 +50,8 @@ const CATEGORIES: Category[] = [
     folder: '12_Formacao_Academica',
     icon: 'graduation',
     files: [
-      { id: 'acad-1', name: 'Diploma — Bacharelado em Medicina Veterinária (UNIP)', path: '12_Formacao_Academica/Diploma Medicina Veterinaria.jpg' },
-      { id: 'acad-2', name: 'Comprovante de Matrícula — Análise e Desenvolvimento de Sistemas (Estácio)', path: '12_Formacao_Academica/Comprovante Matricula ADS.jpg' },
+      { id: 'acad-1', name: 'Diploma — Bacharelado em Medicina Veterinária (UNIP)', path: '12_Formacao_Academica/Diploma Medicina Veterinaria.jpg', year: '2013' },
+      { id: 'acad-2', name: 'Comprovante de Matrícula — Análise e Desenvolvimento de Sistemas (Estácio)', path: '12_Formacao_Academica/Comprovante Matricula ADS.jpg', year: '2024' },
     ],
   },
   {
@@ -58,7 +60,7 @@ const CATEGORIES: Category[] = [
     folder: '11_MBA',
     icon: 'graduation',
     files: [
-      { id: 'mba-1', name: 'MBA Engenharia de Software - Diploma', path: '11_MBA/MBA Engenharia de Software - Diploma.jpg', versoPath: '11_MBA/MBA Engenharia de Software - Diploma verso.jpg' },
+      { id: 'mba-1', name: 'MBA Engenharia de Software - Diploma', path: '11_MBA/MBA Engenharia de Software - Diploma.jpg', versoPath: '11_MBA/MBA Engenharia de Software - Diploma verso.jpg', year: '2023' },
     ],
   },
   {
@@ -67,9 +69,9 @@ const CATEGORIES: Category[] = [
     folder: '10_Formacoes_Completas',
     icon: 'award',
     files: [
-      { id: 'form-1', name: 'Formação Oracle ONE - Programa Completo', path: '10_Formacoes_Completas/Formacao Oracle ONE Programa Completo - Frente.jpg' },
-      { id: 'form-2', name: 'Certificado Maximus Tech', path: '10_Formacoes_Completas/Certificado Maximus - Frente.jpg', versoPath: '10_Formacoes_Completas/Certificado Maximus - Verso.jpg' },
-      { id: 'form-3', name: 'Udemy - Certificado Geral', path: '10_Formacoes_Completas/Udemy - Certificado.jpg' },
+      { id: 'form-1', name: 'Formação Oracle ONE - Programa Completo', path: '10_Formacoes_Completas/Formacao Oracle ONE Programa Completo - Frente.jpg', year: '2022' },
+      { id: 'form-2', name: 'Certificado Maximus Tech', path: '10_Formacoes_Completas/Certificado Maximus - Frente.jpg', versoPath: '10_Formacoes_Completas/Certificado Maximus - Verso.jpg', year: '2022' },
+      { id: 'form-3', name: 'Udemy - Certificado Geral', path: '10_Formacoes_Completas/Udemy - Certificado.jpg', year: '2025' },
     ],
   },
   {
@@ -348,6 +350,7 @@ export const FinderApp = () => {
             <div className="flex flex-col">
               <div className="flex items-center border-b border-white/10 pb-2 text-[10px] font-semibold uppercase text-white/40">
                 <div className="flex-1 px-4">Nome</div>
+                <div className="hidden md:block w-20 text-right pr-2">Ano</div>
                 <div className="hidden md:block w-28 text-right pr-4">Verso</div>
               </div>
               <div className="mt-1 flex flex-col gap-0.5">
@@ -360,6 +363,9 @@ export const FinderApp = () => {
                     <div className="flex flex-1 items-center gap-3 px-4">
                       <FileText size={16} className="text-red-400 fill-red-500/20 flex-shrink-0" />
                       <span className="truncate text-sm font-medium text-white/90">{file.name}</span>
+                    </div>
+                    <div className="hidden md:block w-20 text-right text-xs text-white/40 pr-2">
+                      {file.year ?? '—'}
                     </div>
                     <div className="hidden md:block w-28 text-right text-xs text-white/40 pr-4">
                       {file.versoPath ? '✓ Disponível' : '—'}
@@ -392,9 +398,16 @@ export const FinderApp = () => {
             >
               {/* Header do Modal */}
               <div className="mb-3 flex w-full items-center justify-between">
-                <h3 className="truncate text-xs md:text-sm font-semibold text-white/80 pr-4">
-                  {previewFile.name}
-                </h3>
+                <div className="flex flex-col gap-0.5 pr-4 min-w-0">
+                  <h3 className="truncate text-xs md:text-sm font-semibold text-white/80">
+                    {previewFile.name}
+                  </h3>
+                  {previewFile.year && (
+                    <span className="text-[10px] text-white/40 flex items-center gap-1">
+                      <Clock size={10} /> Emitido em {previewFile.year}
+                    </span>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   {previewFile.versoPath && (
                     <button

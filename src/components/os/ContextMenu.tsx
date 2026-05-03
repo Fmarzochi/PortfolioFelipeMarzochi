@@ -1,17 +1,23 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, Info, Mail, ExternalLink, Linkedin, ImageIcon } from 'lucide-react';
+import { RefreshCw, Info, Mail, ExternalLink, Linkedin, ImageIcon, X, AlertTriangle } from 'lucide-react';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useOSContext, WALLPAPERS } from '../../contexts/OSContext';
 import { useWindowManager } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useState, useEffect } from 'react';
 
 export const ContextMenu = () => {
   const { isOpen, x, y } = useContextMenu();
   const { cycleWallpaper, wallpaperIndex } = useOSContext();
   const { openApp } = useWindowManager();
   const isMobile = useIsMobile();
+  const [confirmReload, setConfirmReload] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) setConfirmReload(false);
+  }, [isOpen]);
 
   const openMobileOrDesktop = (appId: string, title: string) => {
     if (isMobile) {
@@ -55,11 +61,25 @@ export const ContextMenu = () => {
       action: cycleWallpaper,
     },
     { label: '---', isSeparator: true } as const,
-    {
-      label: 'Recarregar',
-      icon: <RefreshCw size={14} />,
-      action: () => window.location.reload(),
-    },
+    ...(confirmReload ? [
+      {
+        label: 'Confirmar recarga?',
+        icon: <AlertTriangle size={14} className="text-red-400" />,
+        action: () => window.location.reload(),
+        danger: true,
+      } as const,
+      {
+        label: 'Cancelar',
+        icon: <X size={14} />,
+        action: () => setConfirmReload(false),
+      } as const,
+    ] : [
+      {
+        label: 'Recarregar',
+        icon: <RefreshCw size={14} />,
+        action: () => setConfirmReload(true),
+      } as const,
+    ]),
   ];
 
   return (
@@ -82,9 +102,9 @@ export const ContextMenu = () => {
                 <button
                   key={index}
                   onClick={item.action}
-                  className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${'danger' in item && item.danger ? 'text-red-400 hover:bg-red-500/15 hover:text-red-300' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
                 >
-                  <span className="text-white/50">{item.icon}</span>
+                  <span className={'danger' in item && item.danger ? 'text-red-400' : 'text-white/50'}>{item.icon}</span>
                   {item.label}
                 </button>
               );

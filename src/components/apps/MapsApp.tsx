@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Navigation, Compass, Stethoscope, Code2, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -119,6 +119,7 @@ const SidebarItem = ({
   onClick: () => void;
 }) => (
   <button
+    data-id={exp.id}
     onClick={onClick}
     className={`flex w-full items-start gap-2.5 rounded-xl p-2.5 transition-all text-left ${
       isSelected ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
@@ -208,17 +209,22 @@ const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) =
 export const MapsApp = () => {
   const [selected, setSelected] = useState<Experience>(EXPERIENCES[0]);
   const [expanded, setExpanded] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (exp: Experience) => {
     setSelected(exp);
     setExpanded(false);
+    setTimeout(() => {
+      const el = sidebarRef.current?.querySelector<HTMLElement>(`[data-id="${exp.id}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
   };
 
   return (
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
       {/* ── Sidebar ─────────────────────────────────────────────────────── */}
-      <div className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
+      <div ref={sidebarRef} className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
         <div className="mb-3 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={13} className="text-blue-500 flex-shrink-0" />
           <span className="text-xs text-white/40">Linha do Tempo · Experiência</span>

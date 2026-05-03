@@ -173,7 +173,7 @@ export const MacDock = () => {
                   <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
                 </div>
 
-                <div className="absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 group-hover:block pointer-events-none">
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out">
                   {item.title}
                 </div>
 

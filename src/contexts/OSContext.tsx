@@ -29,6 +29,7 @@ interface OSContextValue {
   // Wallpaper
   wallpaperIndex: number;
   wallpaperStyle: string;      // full CSS gradient string, ready for backgroundImage
+  prevWallpaperStyle: string;  // previous wallpaper for crossfade
   cycleWallpaper: () => void;
 
   // Focus / Do Not Disturb
@@ -45,6 +46,7 @@ export const OSProvider = ({ children }: { children: ReactNode }) => {
   const [volume, setVolumeState] = useState(50);
   const [brightness, setBrightnessState] = useState(100);
   const [wallpaperIndex, setWallpaperIndex] = useState(0);
+  const [prevWallpaperIndex, setPrevWallpaperIndex] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
 
   // Sync volume to audioEngine module — no window hack needed
@@ -71,7 +73,10 @@ export const OSProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const cycleWallpaper = useCallback(() => {
-    setWallpaperIndex((prev) => (prev + 1) % WALLPAPERS.length);
+    setWallpaperIndex((prev) => {
+      setPrevWallpaperIndex(prev);
+      return (prev + 1) % WALLPAPERS.length;
+    });
   }, []);
 
   const toggleFocusMode = useCallback(() => {
@@ -85,6 +90,7 @@ export const OSProvider = ({ children }: { children: ReactNode }) => {
     setBrightness,
     wallpaperIndex,
     wallpaperStyle: WALLPAPERS[wallpaperIndex].gradient,
+    prevWallpaperStyle: WALLPAPERS[prevWallpaperIndex].gradient,
     cycleWallpaper,
     focusMode,
     toggleFocusMode,

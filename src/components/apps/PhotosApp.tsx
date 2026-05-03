@@ -95,10 +95,10 @@ export const PhotosApp = () => {
                   {photo.icon}
                 </div>
 
-                {/* Overlay de informações (Glassmorphism) */}
-                <div className="absolute bottom-0 left-0 right-0 translate-y-full bg-black/60 p-3 backdrop-blur-md transition-transform duration-300 ease-in-out group-hover:translate-y-0 border-t border-white/10">
-                  <p className="truncate text-sm font-semibold text-white shadow-black drop-shadow-md">{photo.title}</p>
-                  <p className="text-xs text-white/70">{photo.project}</p>
+                {/* Overlay de informações — sempre visível */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
+                  <p className="truncate text-sm font-semibold text-white drop-shadow-md">{photo.title}</p>
+                  <p className="text-xs text-white/65">{photo.project}</p>
                 </div>
               </div>
             ))}

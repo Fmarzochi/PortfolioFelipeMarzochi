@@ -25,13 +25,27 @@ export const useContextMenu = () => {
 
     // 3. Mobile: long-press 500ms
     let timer: NodeJS.Timeout;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const MOVE_THRESHOLD = 12; // px — cancel only if moved more than this
+
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
         timer = setTimeout(() => {
           justOpened = true;
           setState({ isOpen: true, x: touch.clientX, y: touch.clientY });
         }, 500);
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        const dx = Math.abs(e.touches[0].clientX - touchStartX);
+        const dy = Math.abs(e.touches[0].clientY - touchStartY);
+        if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) clearTimeout(timer);
       }
     };
 
@@ -41,16 +55,18 @@ export const useContextMenu = () => {
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('click', handleClick);
     document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchmove', handleTouchCancel);
+    document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('touchend', handleTouchCancel);
+    document.addEventListener('touchcancel', handleTouchCancel);
 
     // Limpeza da memória ao desmontar
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('click', handleClick);
       document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchmove', handleTouchCancel);
+      document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchCancel);
+      document.removeEventListener('touchcancel', handleTouchCancel);
     };
   }, [closeMenu]);
 

@@ -7,13 +7,18 @@ import { useOSContext } from '../../contexts/OSContext';
 
 export const Desktop = () => {
   const { windows } = useWindowManager();
-  const { wallpaperStyle } = useOSContext();
+  const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
 
   return (
-    <div
-      className="absolute inset-0 z-10 overflow-hidden transition-all duration-700"
-      style={{ backgroundImage: wallpaperStyle }}
-    >
+    <div className="absolute inset-0 z-10 overflow-hidden">
+      {/* Previous wallpaper — always underneath for crossfade */}
+      <div className="absolute inset-0" style={{ backgroundImage: prevWallpaperStyle }} />
+      {/* Current wallpaper — fades in when index changes */}
+      <div
+        key={wallpaperIndex}
+        className="absolute inset-0 animate-in fade-in duration-700"
+        style={{ backgroundImage: wallpaperStyle }}
+      />
       {/* Aurora depth overlays — layered on top of the wallpaper gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_55%_at_50%_0%,rgba(80,40,190,0.32),transparent)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_38%_at_0%_85%,rgba(20,75,170,0.22),transparent)] pointer-events-none" />

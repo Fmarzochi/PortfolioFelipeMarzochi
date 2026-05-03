@@ -125,7 +125,7 @@ const SwitcherCard = ({
 
 /* ── Main Component ───────────────────────────────────────────────────────── */
 export const IOSMobile = () => {
-  const { wallpaperStyle } = useOSContext();
+  const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
 
   const [homeApps, setHomeApps] = useState([...DEFAULT_HOME_APPS]);
   const [openApps, setOpenApps]   = useState<AppEntry[]>([]);
@@ -234,7 +234,17 @@ export const IOSMobile = () => {
 
       {/* ── Wallpaper (uses OSContext so cycleWallpaper works) ────────────── */}
       <div className="absolute inset-0 pointer-events-none select-none">
-        <div className="absolute inset-0" style={{ background: wallpaperStyle }} />
+        {/* Previous wallpaper — base layer for crossfade */}
+        <div className="absolute inset-0" style={{ background: prevWallpaperStyle }} />
+        {/* Current wallpaper — fades in on change */}
+        <motion.div
+          key={wallpaperIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, ease: 'easeInOut' }}
+          className="absolute inset-0"
+          style={{ background: wallpaperStyle }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_55%_at_50%_-8%,rgba(99,55,215,0.55),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_10%_70%,rgba(30,80,200,0.30),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_40%_at_90%_85%,rgba(15,100,90,0.25),transparent)]" />

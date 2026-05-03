@@ -34,6 +34,12 @@ const initialMessages: Message[] = [
 export const MessagesApp = () => {
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3500);
+  };
 
   // Dados reais de contato
   const WHATSAPP_NUMBER = '5519982341110';
@@ -44,6 +50,7 @@ export const MessagesApp = () => {
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
     window.open(url, '_blank');
     addMockMessage();
+    showToast('Mensagem enviada! Abrindo WhatsApp...');
   };
 
   const handleSendEmail = () => {
@@ -53,6 +60,7 @@ export const MessagesApp = () => {
     const url = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     window.location.href = url;
     addMockMessage();
+    showToast('Abrindo cliente de e-mail...');
   };
 
   const addMockMessage = () => {
@@ -97,6 +105,13 @@ export const MessagesApp = () => {
 
       {/* Área do Chat */}
       <div className="flex flex-1 flex-col bg-[#0a0a0a]/40 relative">
+        {/* Toast notification */}
+        {toast && (
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-green-600/90 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300">
+            <CheckCheck size={13} />
+            {toast}
+          </div>
+        )}
         {/* Header do Chat */}
         <div className="flex h-14 flex-shrink-0 items-center justify-between border-b border-white/10 bg-white/5 px-6 backdrop-blur-md">
           <div className="flex items-center gap-3">

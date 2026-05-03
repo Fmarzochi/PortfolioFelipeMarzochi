@@ -110,6 +110,19 @@ const buildGroupOutput = (tag: string): string => {
   return lines.join('\n');
 };
 
+const VALID_COMMANDS = ['help', 'skills', 'certs', 'certifications', 'frontend', 'front', 'backend', 'back', 'devops', 'database', 'db', 'arch', 'arquitetura', 'clear', '1', '2'];
+
+const findSimilarCommand = (cmd: string): string | null => {
+  if (cmd.length < 2) return null;
+  // Prefix match
+  const prefixMatch = VALID_COMMANDS.find(c => c.startsWith(cmd) || cmd.startsWith(c.substring(0, Math.min(4, c.length))));
+  if (prefixMatch && prefixMatch !== cmd) return prefixMatch;
+  // Contains match
+  const contains = VALID_COMMANDS.find(c => c.includes(cmd) || cmd.includes(c));
+  if (contains && contains !== cmd) return contains;
+  return null;
+};
+
 const HELP_TEXT = `
   Comandos disponíveis:
   ─────────────────────────────────
@@ -247,8 +260,14 @@ export const SkillsApp = () => {
       case 'clear':
         setCmdHistory([]);
         return;
-      default:
-        output = { text: `Comando não encontrado: "${raw}". Digite help para ver os comandos.`, type: 'error' };
+      default: {
+        const similar = findSimilarCommand(cmd);
+        const hint = similar
+          ? ` Você quis dizer "${similar}"? Digite help para a lista completa.`
+          : ' Digite help para ver os comandos disponíveis.';
+        output = { text: `Comando não encontrado: "${raw}".${hint}`, type: 'error' };
+        break;
+      }
     }
 
     setCmdHistory((prev) => [...prev, inputLine, ...(output ? [output] : [])]);
@@ -330,9 +349,12 @@ export const SkillsApp = () => {
               </button>
               <button
                 onClick={() => setActiveTab('certs')}
-                className={`transition-colors pb-1 border-b-2 ${activeTab === 'certs' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                className={`transition-colors pb-1 border-b-2 flex items-center gap-1.5 ${activeTab === 'certs' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
               >
-                [2] Certificações ({CERTIFICATIONS.length}+)
+                [2] Certificações
+                <span className="inline-flex items-center rounded-full bg-green-500/20 px-1.5 py-0.5 text-[9px] font-bold text-green-400 ring-1 ring-green-500/30">
+                  50+
+                </span>
               </button>
             </div>
 
@@ -364,8 +386,9 @@ export const SkillsApp = () => {
             {/* Certifications tab */}
             {activeTab === 'certs' && (
               <div className="space-y-2 animate-in fade-in duration-300">
-                <div className="text-[11px] text-gray-500 mb-3">
-                  {CERTIFICATIONS.length} certificações principais · ver pasta <span className="text-blue-400">~/arquivos</span> para diplomas completos
+                <div className="flex items-center gap-2 text-[11px] text-gray-500 mb-3 p-2 rounded-lg bg-white/[0.03] ring-1 ring-white/5">
+                  <span className="text-green-400 text-base">✓</span>
+                  <span>{CERTIFICATIONS.length} certificações principais listadas abaixo · <span className="text-blue-400 cursor-default">abra o app Diplomas</span> para ver todos os 50+ certificados escaneados</span>
                 </div>
                 {CERTIFICATIONS.map((cert, i) => (
                   <div key={i} className="flex gap-3 items-start text-xs md:text-sm border-l-2 border-blue-500/30 pl-3 py-1">

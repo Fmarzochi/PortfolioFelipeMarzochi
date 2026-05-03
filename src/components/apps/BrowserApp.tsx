@@ -1,6 +1,6 @@
 'use client';
 
-import { Brain, Target, Lightbulb, Users, CheckCircle2, Layers, Zap, Shield, Download } from 'lucide-react';
+import { Brain, Target, Lightbulb, Users, CheckCircle2, Layers, Zap, Shield, Download, ExternalLink } from 'lucide-react';
 import signatureImg from '../../assets/images/signature.png';
 
 /* ── Portfolio universal icon ──────────────────────────────────────────────── */
@@ -52,6 +52,8 @@ interface Project {
   solucao: string;
   resultado: string;
   stack: string[];
+  githubUrl?: string;
+  demoUrl?: string;
 }
 
 const DashboardSVG = () => (
@@ -186,6 +188,7 @@ const PROJECTS: Project[] = [
     solucao: 'Agente autônomo em Python que roda 3 vezes ao dia, raspa vagas do LinkedIn via BeautifulSoup, usa Gemini 1.5 para análise semântica cruzando a vaga com o currículo, organiza resultados via Google Sheets API e dispara alerta no WhatsApp quando o match supera 90%.',
     resultado: 'Processo de candidatura automatizado com scoring de compatibilidade por IA, zero tempo gasto em triagem manual e notificação imediata das melhores oportunidades via GitHub Actions.',
     stack: ['Python', 'Gemini API', 'Gmail API', 'Google Sheets', 'GitHub Actions'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
   {
     title: 'CalibraFlow — SaaS de Calibração',
@@ -204,6 +207,7 @@ const PROJECTS: Project[] = [
     solucao: 'Arquitetura híbrida com ETL em Java 21 usando protocolo COPY nativo do PostgreSQL para ingestão em segundos, API em Python FastAPI com processamento assíncrono e dashboard Vue.js com paginação server-side.',
     resultado: '2,1 milhões de registros ingeridos em segundos — contra horas com ORM convencional — com dashboard analítico em tempo real mostrando distribuição por UF e ranking de operadoras.',
     stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
   {
     title: 'Pipeline Transacional AWS',
@@ -213,6 +217,7 @@ const PROJECTS: Project[] = [
     solucao: 'API Node.js publicando transações no AWS SQS via SDK, função Lambda consumindo a fila e persistindo no DynamoDB, com frontend Next.js exibindo as transações em tempo real via rota GET.',
     resultado: 'Pipeline serverless completo com garantia de entrega via fila, desacoplamento total entre camadas e 100 transações processadas com sucesso em ambiente AWS.',
     stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
 ];
 
@@ -236,7 +241,7 @@ export const BrowserApp = () => {
                 alt="Felipe Marzochi"
                 draggable={false}
                 className="h-auto w-[260px] md:w-[320px] pointer-events-none"
-                style={{ filter: 'invert(1) brightness(5) contrast(2)', mixBlendMode: 'screen', opacity: 0.78 }}
+                style={{ filter: 'invert(1) brightness(6) contrast(1.8)', mixBlendMode: 'screen', opacity: 0.92 }}
               />
             </div>
             <p className="max-w-md text-base text-white/50 leading-relaxed">
@@ -364,6 +369,32 @@ export const BrowserApp = () => {
                         <span key={tag} className="rounded-md bg-white/8 px-2 py-0.5 text-[10px] text-white/50 ring-1 ring-white/6">{tag}</span>
                       ))}
                     </div>
+                    {(project.githubUrl || project.demoUrl) && (
+                      <div className="flex gap-2 mt-3 pt-3 border-t border-white/6">
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="flex items-center gap-1.5 rounded-lg bg-white/8 px-3 py-1.5 text-[11px] font-medium text-white/60 ring-1 ring-white/10 hover:bg-white/15 hover:text-white/90 transition-colors"
+                          >
+                            <ExternalLink size={11} /> Ver no GitHub
+                          </a>
+                        )}
+                        {project.demoUrl && (
+                          <a
+                            href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors"
+                          >
+                            <ExternalLink size={11} /> Ver Demo
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
@@ -15,11 +15,17 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   const [time, setTime] = useState<Date | null>(null);
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const authRef = useRef(false);
 
   useEffect(() => {
     setTime(new Date());
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
   }, []);
 
   const formatTime = (date: Date) =>
@@ -32,6 +38,8 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
   const handleLogin = (e?: React.FormEvent) => {
     e?.preventDefault();
+    if (authRef.current) return;
+    authRef.current = true;
     setIsAuthenticating(true);
     playSound('click');
     setTimeout(() => {
@@ -39,6 +47,13 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
       onUnlock();
     }, 800);
   };
+
+  useEffect(() => {
+    const handler = () => handleLogin();
+    document.addEventListener('keydown', handler, { once: true });
+    return () => document.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="relative flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
@@ -153,8 +168,8 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             >
               <Fingerprint size={40} className="text-white/55 group-hover:text-white/80 transition-colors" strokeWidth={1.2} />
             </motion.div>
-            <span className="text-[11px] md:text-xs font-medium text-white/40 group-hover:text-white/60 transition-colors">
-              Toque para entrar
+            <span className="text-[11px] md:text-xs font-medium text-white/40 group-hover:text-white/60 transition-colors text-center px-2">
+              {isTouchDevice ? 'Toque para entrar' : 'Clique ou pressione qualquer tecla'}
             </span>
           </div>
         </motion.div>
