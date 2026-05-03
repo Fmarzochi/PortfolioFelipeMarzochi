@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Shield, Zap, ChevronLeft, ChevronRight, RotateCw, Home, Download, Brain, Target, Lightbulb, Users, CheckCircle2, Layers } from 'lucide-react';
+import { Globe, Shield, Zap, Download, Brain, Target, Lightbulb, Users, CheckCircle2, Layers } from 'lucide-react';
 import signatureImg from '../../assets/images/signature.png';
 
 const PROFILE_TRAITS = [
@@ -22,21 +22,6 @@ const WORK_STYLE = [
 export const BrowserApp = () => {
   return (
     <div className="flex h-full w-full flex-col bg-[#050505] text-white">
-      {/* Browser Toolbar */}
-      <div className="flex h-12 items-center gap-4 border-b border-white/5 bg-white/5 px-4 backdrop-blur-md">
-        <div className="flex gap-3 text-white/40">
-          <ChevronLeft size={18} className="cursor-not-allowed" />
-          <ChevronRight size={18} className="cursor-not-allowed" />
-          <RotateCw size={16} className="cursor-pointer transition-colors hover:text-white/80" />
-          <Home size={16} className="ml-2 cursor-pointer transition-colors hover:text-white/80" />
-        </div>
-        <div className="flex h-7 flex-1 items-center justify-center rounded-md bg-black/40 px-3 text-[13px] text-white/60 shadow-inner ring-1 ring-white/10">
-          <Globe size={12} className="mr-2 opacity-50" />
-          <span className="tracking-wide">https://felipe.marzochi.dev</span>
-        </div>
-        <div className="w-[88px]" />
-      </div>
-
       {/* Web Content */}
       <div className="flex-1 overflow-y-auto pb-10">
 

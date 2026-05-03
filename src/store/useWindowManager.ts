@@ -35,7 +35,7 @@ export const useWindowManager = create<WindowManagerStore>()(
             return {
               windows: state.windows.map((w) =>
                 w.id === id
-                  ? { ...w, isOpen: true, isMinimized: false, zIndex: highestZIndex + 1 }
+                  ? { ...w, title, isOpen: true, isMinimized: false, zIndex: highestZIndex + 1 }
                   : w
               ),
             };
