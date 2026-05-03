@@ -31,14 +31,14 @@ export const AppWindow = ({ windowState, children }: AppWindowProps) => {
         x: isFullScreen ? 0 : x,
         y: isFullScreen ? 0 : y,
         width: isFullScreen ? '100vw' : 850,
-        height: isFullScreen ? 'calc(100vh - 28px - 72px)' : 550,
+        height: isFullScreen ? '100vh' : 550,
       }}
       transition={{ type: 'spring', damping: 26, stiffness: 290 }}
       onPointerDown={() => focusApp(id)}
       style={{ zIndex }}
       className={`absolute flex flex-col overflow-hidden liquid-glass-window
         max-md:!fixed max-md:!inset-0 max-md:!w-screen max-md:!h-[100dvh] max-md:![transform:none] max-md:!rounded-none max-md:!top-0 max-md:!left-0
-        ${isFullScreen ? 'top-7 left-0 !rounded-none' : 'rounded-[14px]'}
+        ${isFullScreen ? 'top-0 left-0 !rounded-none' : 'rounded-[14px]'}
       `}
     >
       {/* Specular highlight at the top edge of the window */}

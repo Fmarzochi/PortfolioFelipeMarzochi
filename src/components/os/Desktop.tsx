@@ -11,7 +11,7 @@ export const Desktop = () => {
 
   return (
     <div
-      className="absolute inset-0 z-10 overflow-hidden pt-7 pb-[80px] transition-all duration-700"
+      className="absolute inset-0 z-10 overflow-hidden transition-all duration-700"
       style={{ backgroundImage: wallpaperStyle }}
     >
       {/* Aurora depth overlays — layered on top of the wallpaper gradient */}

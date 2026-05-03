@@ -35,16 +35,18 @@ type DockItem = {
 };
 
 const DOCK_ITEMS: DockItem[] = [
-  { id: 'finder',   title: 'Arquivos',  icon: Folder,        gradient: 'from-sky-400 to-blue-600'                   },
-  { id: 'safari',   title: 'Portfólio', icon: Compass,       gradient: 'from-blue-400 to-cyan-500'                  },
-  { id: 'skills',   title: 'Skills',    icon: TerminalSquare, gradient: 'from-slate-500 to-slate-700'               },
-  { id: 'messages', title: 'Contato',   icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
-  { id: 'photos',   title: 'Galeria',   icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'                },
-  { id: 'settings', title: 'Ajustes',   icon: Settings,      gradient: 'from-gray-400 to-gray-600'                  },
+  { id: 'finder',   title: 'Arquivos',  icon: Folder,         gradient: 'from-sky-400 to-blue-600'                   },
+  { id: 'safari',   title: 'Portfólio', icon: Compass,        gradient: 'from-blue-400 to-cyan-500'                  },
+  { id: 'skills',   title: 'Skills',    icon: TerminalSquare, gradient: 'from-slate-500 to-slate-700'                },
+  { id: 'messages', title: 'Contato',   icon: WhatsAppIcon,   gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
+  { id: 'photos',   title: 'Galeria',   icon: ImageIcon,      gradient: 'from-pink-400 to-violet-600'                },
+  { id: 'settings', title: 'Ajustes',   icon: Settings,       gradient: 'from-gray-400 to-gray-600'                  },
 ];
 
 export const MacDock = () => {
   const { openApp, closeApp, windows } = useWindowManager();
+
+  const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
 
   const isRunning = (id: string) =>
     windows.some((w) => w.id === id && w.isOpen && !w.isMinimized);
@@ -59,44 +61,52 @@ export const MacDock = () => {
   };
 
   return (
-    <div className="absolute bottom-4 left-1/2 z-50 -translate-x-1/2">
-      <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
+    /* Wrapper: always occupies bottom strip as hover trigger.
+       When fullscreen, dock slides down out of view, re-appears on hover. */
+    <div className="group/dock absolute bottom-0 left-0 right-0 z-[200] flex justify-center items-end h-[100px]">
+      <div
+        className={`transition-transform duration-300 ease-in-out pb-4
+          ${anyFullScreen ? 'translate-y-full group-hover/dock:translate-y-0' : 'translate-y-0'}
+        `}
+      >
+        <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
 
-        {/* Specular line at the very top edge of the dock */}
-        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" />
+          {/* Specular line at the very top edge of the dock */}
+          <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" />
 
-        {DOCK_ITEMS.map((item) => (
-          <motion.div
-            key={item.id}
-            whileHover={{ scale: 1.38, y: -16 }}
-            whileTap={{ scale: 0.94 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-            onClick={() => handleAppClick(item.id, item.title)}
-            className="group relative flex flex-col items-center cursor-pointer"
-          >
-            {/* App icon with gradient fill */}
-            <div
-              className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}
+          {DOCK_ITEMS.map((item) => (
+            <motion.div
+              key={item.id}
+              whileHover={{ scale: 1.38, y: -16 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 18 }}
+              onClick={() => handleAppClick(item.id, item.title)}
+              className="group relative flex flex-col items-center cursor-pointer"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" />
-              <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
-            </div>
+              {/* App icon with gradient fill */}
+              <div
+                className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" />
+                <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
+              </div>
 
-            {/* Tooltip */}
-            <div className="absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 group-hover:block pointer-events-none">
-              {item.title}
-            </div>
+              {/* Tooltip */}
+              <div className="absolute -top-10 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 group-hover:block pointer-events-none">
+                {item.title}
+              </div>
 
-            {/* Running indicator dot */}
-            <div
-              className={`mt-1.5 h-[5px] w-[5px] rounded-full transition-all duration-300 ${
-                isRunning(item.id)
-                  ? 'bg-white/80 shadow-[0_0_4px_rgba(255,255,255,0.6)]'
-                  : 'bg-transparent'
-              }`}
-            />
-          </motion.div>
-        ))}
+              {/* Running indicator dot */}
+              <div
+                className={`mt-1.5 h-[5px] w-[5px] rounded-full transition-all duration-300 ${
+                  isRunning(item.id)
+                    ? 'bg-white/80 shadow-[0_0_4px_rgba(255,255,255,0.6)]'
+                    : 'bg-transparent'
+                }`}
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
