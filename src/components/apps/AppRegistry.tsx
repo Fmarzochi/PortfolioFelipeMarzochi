@@ -27,7 +27,7 @@ export const AppRegistry = ({ appId }: AppRegistryProps) => {
     case 'contacts':
       return <ContactsApp />;
     case 'photos':
-      return <PhotosApp />;
+      return <GalleryApp />;
     case 'gallery':
       return <GalleryApp />;
     case 'maps':

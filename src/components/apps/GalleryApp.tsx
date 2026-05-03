@@ -343,12 +343,12 @@ export const GalleryApp = () => {
         {sidebarOpen && (
           <motion.aside
             initial={{ width: 0, opacity: 0 }}
-            animate={{ width: 230, opacity: 1 }}
+            animate={{ width: 240, opacity: 1 }}
             exit={{ width: 0, opacity: 0 }}
             transition={{ duration: 0.22, ease: 'easeInOut' }}
-            className="shrink-0 flex flex-col border-r border-white/8 bg-[#0e0e0e] overflow-hidden"
+            className="shrink-0 flex flex-col h-full border-r border-white/8 bg-[#0e0e0e] overflow-hidden"
           >
-            <div className="flex-1 overflow-y-auto py-4 space-y-5 px-3">
+            <div className="flex-1 min-h-0 overflow-y-auto py-4 space-y-5 px-3">
 
               {/* BIBLIOTECA */}
               <div>
