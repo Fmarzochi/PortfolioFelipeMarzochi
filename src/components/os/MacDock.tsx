@@ -1,14 +1,22 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Compass, Image as ImageIcon, Folder } from 'lucide-react';
+import { Compass, Image as ImageIcon } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
 
-const SkillsIcon = ({ className }: { className?: string }) => (
+const DiplomasIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M9.293 16.707a1 1 0 0 1 0-1.414L12.586 12 9.293 8.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"/>
-    <path d="M5 18a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2H5z"/>
+    <path d="M12 1L3 5v6c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V5L12 1zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/>
+    <path d="M10.5 13.5l-2-2-1 1 3 3 5-5-1-1z"/>
+  </svg>
+);
+
+const SkillsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <polyline points="16 18 22 12 16 6"/>
+    <polyline points="8 6 2 12 8 18"/>
+    <line x1="12" y1="2" x2="10" y2="22"/>
   </svg>
 );
 
@@ -41,7 +49,7 @@ type DockItem = {
 };
 
 const DOCK_ITEMS: DockItem[] = [
-  { id: 'finder',    title: 'Arquivos',  icon: Folder,        gradient: 'from-sky-400 to-blue-600'                   },
+  { id: 'finder',    title: 'Diplomas',  icon: DiplomasIcon,  gradient: 'from-amber-400 to-orange-500'               },
   { id: 'safari',    title: 'Portfólio', icon: Compass,       gradient: 'from-blue-400 to-cyan-500'                  },
   { id: 'skills',    title: 'Skills',    icon: SkillsIcon,     gradient: 'from-slate-500 to-slate-700'               },
   { id: 'messages',  title: 'Contato',   icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },

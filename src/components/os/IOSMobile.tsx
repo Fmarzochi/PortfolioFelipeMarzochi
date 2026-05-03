@@ -5,17 +5,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   BatteryMedium, Wifi, Signal,
   Compass, Map as MapIcon, Image as ImageIcon,
-  Folder, Users,
+  Users,
 } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { ControlCenter } from './ControlCenter';
 import { playSound } from '../../utils/audioEngine';
 import { DynamicIsland } from './DynamicIsland';
 
-const SkillsIcon = ({ className }: { className?: string }) => (
+const DiplomasIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M9.293 16.707a1 1 0 0 1 0-1.414L12.586 12 9.293 8.707a1 1 0 1 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0z"/>
-    <path d="M5 18a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2H5z"/>
+    <path d="M12 1L3 5v6c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V5L12 1zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/>
+    <path d="M10.5 13.5l-2-2-1 1 3 3 5-5-1-1z"/>
+  </svg>
+);
+
+const SkillsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <polyline points="16 18 22 12 16 6"/>
+    <polyline points="8 6 2 12 8 18"/>
+    <line x1="12" y1="2" x2="10" y2="22"/>
   </svg>
 );
 
@@ -66,7 +74,7 @@ const HOME_APPS: AppEntry[] = [
   { id: 'safari',   title: 'Portfólio', icon: Compass,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
   { id: 'maps',     title: 'Jornada',   icon: MapIcon,        gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
   { id: 'photos',   title: 'Galeria',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder',   title: 'Arquivos',  icon: Folder,         gradient: 'from-sky-500 via-blue-400 to-indigo-500'     },
+  { id: 'finder',   title: 'Diplomas',  icon: DiplomasIcon,   gradient: 'from-amber-400 via-orange-400 to-orange-500' },
   { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
   { id: 'contacts', title: 'Equipe',    icon: Users,          gradient: 'from-orange-500 via-amber-400 to-yellow-500' },
 ];
