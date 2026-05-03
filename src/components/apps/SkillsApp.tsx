@@ -179,7 +179,7 @@ export const SkillsApp = () => {
               <div><span className="text-blue-400 font-semibold w-28 inline-block">Idiomas:</span>Português (nativo) · Inglês (intermediário)</div>
               <div className="pt-1 border-t border-white/5">
                 <span className="text-blue-400 font-semibold w-28 inline-block">Formação:</span>
-                <span className="text-gray-300">ADS Estácio (em andamento) · MBA Eng. Software</span>
+                <span className="text-gray-300">Análise e Desenvolvimento de Sistemas · MBA Eng. Software</span>
               </div>
               <div><span className="text-blue-400 font-semibold w-28 inline-block">Certificados:</span><span className="text-green-400 font-bold">50+</span> verificados</div>
               {/* Download CV */}

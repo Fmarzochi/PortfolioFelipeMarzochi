@@ -9,6 +9,8 @@ export interface WindowState {
   isFullScreen: boolean;
   x: number;
   y: number;
+  width: number;
+  height: number;
   zIndex: number;
 }
 
@@ -20,6 +22,8 @@ interface WindowManagerStore {
   toggleFullScreen: (id: string) => void;
   focusApp: (id: string) => void;
   updatePosition: (id: string, x: number, y: number) => void;
+  updateSize: (id: string, width: number, height: number) => void;
+  updatePositionAndSize: (id: string, x: number, y: number, width: number, height: number) => void;
 }
 
 export const useWindowManager = create<WindowManagerStore>()(
@@ -50,8 +54,10 @@ export const useWindowManager = create<WindowManagerStore>()(
                 isOpen: true,
                 isMinimized: false,
                 isFullScreen: false,
-                x: 100,
-                y: 100,
+                x: 80,
+                y: 60,
+                width: 860,
+                height: 560,
                 zIndex: highestZIndex + 1,
               },
             ],
@@ -88,6 +94,18 @@ export const useWindowManager = create<WindowManagerStore>()(
         set((state) => ({
           windows: state.windows.map((w) =>
             w.id === id ? { ...w, x, y } : w
+          ),
+        })),
+      updateSize: (id, width, height) =>
+        set((state) => ({
+          windows: state.windows.map((w) =>
+            w.id === id ? { ...w, width, height } : w
+          ),
+        })),
+      updatePositionAndSize: (id, x, y, width, height) =>
+        set((state) => ({
+          windows: state.windows.map((w) =>
+            w.id === id ? { ...w, x, y, width, height } : w
           ),
         })),
     }),
