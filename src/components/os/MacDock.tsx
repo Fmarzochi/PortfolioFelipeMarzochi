@@ -2,7 +2,18 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, Image as ImageIcon } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
+
+/* Portfolio universal icon — briefcase + </> */
+const PortfolioIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="7" width="20" height="14" rx="2" />
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+    <path d="M9 13.5l-2 1.5 2 1.5" />
+    <path d="M15 13.5l2 1.5-2 1.5" />
+    <line x1="13" y1="12" x2="11" y2="17" />
+  </svg>
+);
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
 
@@ -51,7 +62,7 @@ type DockItem = {
 
 const DOCK_ITEMS: DockItem[] = [
   { id: 'finder',   title: 'Diplomas',          icon: DiplomasIcon, gradient: 'from-amber-400 to-orange-500'               },
-  { id: 'safari',   title: 'Portfólio',         icon: Compass,      gradient: 'from-blue-400 to-cyan-500'                  },
+  { id: 'safari',   title: 'Portfólio',         icon: PortfolioIcon, gradient: 'from-blue-500 to-cyan-500'                 },
   { id: 'skills',   title: 'Skills',            icon: SkillsIcon,   gradient: 'from-slate-500 to-slate-700'                },
   { id: 'messages', title: 'Contato',           icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
   { id: 'photos',   title: 'Galeria de Projetos', icon: ImageIcon,  gradient: 'from-pink-400 to-violet-600'                },
