@@ -88,6 +88,16 @@ export const IOSMobile = () => {
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
+  // Escuta o evento disparado pelo ContextMenu no mobile
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { appId } = (e as CustomEvent<{ appId: string }>).detail;
+      setActiveApp(appId);
+    };
+    document.addEventListener('ios-open-app', handler);
+    return () => document.removeEventListener('ios-open-app', handler);
+  }, []);
+
   // Refs for drag-to-reorder
   const iconRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const capturedRects = useRef<Record<string, DOMRect>>({});
@@ -223,53 +233,52 @@ export const IOSMobile = () => {
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
         <div className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
           {homeApps.map((app) => (
-            <div key={app.id} className="flex flex-col items-center gap-[10px]">
-              <motion.div
-                ref={(el) => { iconRefs.current[app.id] = el; }}
-                layout
-                layoutId={`icon-${app.id}`}
-                animate={
-                  editMode
-                    ? {
-                        rotate: [0, -2, 2, -2, 2, 0],
-                        transition: { repeat: Infinity, repeatType: 'loop', duration: 0.45, ease: 'easeInOut' },
-                      }
-                    : { rotate: 0 }
+            <motion.div
+              key={app.id}
+              ref={(el) => { iconRefs.current[app.id] = el; }}
+              layout
+              layoutId={`icon-${app.id}`}
+              animate={
+                editMode
+                  ? {
+                      rotate: [0, -2, 2, -2, 2, 0],
+                      transition: { repeat: Infinity, repeatType: 'loop', duration: 0.45, ease: 'easeInOut' },
+                    }
+                  : { rotate: 0 }
+              }
+              drag={editMode}
+              dragMomentum={false}
+              dragElastic={0.12}
+              onDragStart={captureRects}
+              onDragEnd={(_, info) => handleDragEnd(app.id, info.offset.x, info.offset.y)}
+              whileTap={!editMode ? { scale: 0.86 } : undefined}
+              transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
+              className={`flex flex-col items-center gap-[10px] ${editMode ? 'z-20 cursor-grab active:cursor-grabbing' : ''}`}
+              onTouchStart={() => {
+                if (!editMode && !activeApp) {
+                  longPressTimer.current = setTimeout(enterEditMode, 600);
                 }
-                drag={editMode}
-                dragMomentum={false}
-                dragElastic={0.12}
-                onDragStart={captureRects}
-                onDragEnd={(_, info) => handleDragEnd(app.id, info.offset.x, info.offset.y)}
-                whileTap={!editMode ? { scale: 0.86 } : undefined}
-                transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
-                className={editMode ? 'z-20 cursor-grab active:cursor-grabbing' : ''}
-                onTouchStart={() => {
-                  if (!editMode && !activeApp) {
-                    longPressTimer.current = setTimeout(enterEditMode, 600);
-                  }
-                }}
-                onTouchEnd={cancelLongPress}
-                onTouchMove={cancelLongPress}
-                onMouseDown={() => {
-                  if (!editMode && !activeApp) {
-                    longPressTimer.current = setTimeout(enterEditMode, 600);
-                  }
-                }}
-                onMouseUp={cancelLongPress}
+              }}
+              onTouchEnd={cancelLongPress}
+              onTouchMove={cancelLongPress}
+              onMouseDown={() => {
+                if (!editMode && !activeApp) {
+                  longPressTimer.current = setTimeout(enterEditMode, 600);
+                }
+              }}
+              onMouseUp={cancelLongPress}
+            >
+              <button
+                onClick={() => handleOpenApp(app)}
+                className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
               >
-                <button
-                  onClick={() => handleOpenApp(app)}
-                  className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
-                  <app.icon className="h-[34px] w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
-                </button>
-              </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
+                <app.icon className="h-[34px] w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} />
+              </button>
               <span className="text-[11px] font-medium text-white/90 tracking-[0.01em] drop-shadow-md select-none text-center leading-tight max-w-[80px]">
                 {app.title}
               </span>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

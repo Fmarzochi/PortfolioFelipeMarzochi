@@ -5,11 +5,21 @@ import { RefreshCw, Info, Mail, ExternalLink, Linkedin, ImageIcon } from 'lucide
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useOSContext, WALLPAPERS } from '../../contexts/OSContext';
 import { useWindowManager } from '../../store/useWindowManager';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export const ContextMenu = () => {
   const { isOpen, x, y } = useContextMenu();
   const { cycleWallpaper, wallpaperIndex } = useOSContext();
   const { openApp } = useWindowManager();
+  const isMobile = useIsMobile();
+
+  const openMobileOrDesktop = (appId: string, title: string) => {
+    if (isMobile) {
+      document.dispatchEvent(new CustomEvent('ios-open-app', { detail: { appId } }));
+    } else {
+      openApp(appId, title);
+    }
+  };
 
   const nextWallpaperLabel = WALLPAPERS[(wallpaperIndex + 1) % WALLPAPERS.length].label;
 
@@ -21,7 +31,7 @@ export const ContextMenu = () => {
     {
       label: 'Sobre Felipe Marzochi',
       icon: <Info size={14} />,
-      action: () => openApp('safari', 'Portfólio'),
+      action: () => openMobileOrDesktop('safari', 'Portfólio'),
     },
     {
       label: 'GitHub',
@@ -36,7 +46,7 @@ export const ContextMenu = () => {
     {
       label: 'Contato',
       icon: <Mail size={14} />,
-      action: () => openApp('messages', 'Contato'),
+      action: () => openMobileOrDesktop('messages', 'Contato'),
     },
     { label: '---', isSeparator: true } as const,
     {

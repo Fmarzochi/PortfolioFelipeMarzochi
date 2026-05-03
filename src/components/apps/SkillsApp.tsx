@@ -243,9 +243,9 @@ export const SkillsApp = () => {
     : SKILL_GROUPS;
 
   return (
-    <div className="h-full w-full bg-[#0c0c0c] font-mono text-sm text-gray-300 overflow-y-auto p-4 md:p-6 select-text flex flex-col">
+    <div className="h-full w-full bg-[#0c0c0c] font-mono text-sm text-gray-300 select-text flex flex-col">
 
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6">
         {/* Boot log */}
         <div className="mb-5 space-y-[3px] text-[11px] md:text-xs text-gray-500">
           {bootLog.map((log, i) => (
@@ -383,9 +383,9 @@ export const SkillsApp = () => {
         )}
       </div>
 
-      {/* ── Terminal prompt input (always visible after boot) ── */}
+      {/* ── Terminal prompt input (sticky at bottom) ── */}
       {showPrompt && (
-        <div className="flex-shrink-0 border-t border-white/8 pt-3 mt-4">
+        <div className="flex-shrink-0 border-t border-white/8 pt-3 px-4 md:px-6 pb-3 bg-[#0c0c0c]">
           <form onSubmit={handleSubmit} className="flex items-center gap-1 flex-wrap">
             <span className="text-green-500 font-bold text-xs">visitante@felipe-marzochi</span>
             <span className="text-white text-xs">:</span>

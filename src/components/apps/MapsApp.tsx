@@ -106,24 +106,24 @@ const SidebarItem = ({
 }) => (
   <button
     onClick={onClick}
-    className={`flex w-full items-start gap-3 rounded-xl p-3 transition-all text-left ${
+    className={`flex w-full items-start gap-2.5 rounded-xl p-2.5 transition-all text-left ${
       isSelected ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
     }`}
   >
     <div
-      className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+      className={`mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full ${
         isSelected ? exp.color + ' text-white' : 'bg-white/10 text-white/50'
       }`}
     >
       {exp.icon}
     </div>
-    <div className="flex flex-col min-w-0">
-      <span className="text-[11px] font-bold text-blue-400 truncate">{exp.period}</span>
-      <span className="text-sm font-semibold truncate leading-tight">{exp.role}</span>
-      <span className="text-[11px] text-white/40 truncate">{exp.company}</span>
+    <div className="flex flex-col min-w-0 flex-1">
+      <span className="text-[10px] font-bold text-blue-400 truncate">{exp.period}</span>
+      <span className="text-xs font-semibold truncate leading-tight">{exp.role}</span>
+      <span className="text-[10px] text-white/40 truncate">{exp.company}</span>
     </div>
     {exp.status === 'current' && (
-      <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-400 animate-pulse mt-2" />
+      <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-400 animate-pulse mt-1.5" />
     )}
   </button>
 );
@@ -141,7 +141,7 @@ export const MapsApp = () => {
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
       {/* ── Sidebar ─────────────────────────────────────────────────────── */}
-      <div className="w-full max-h-[38vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-4 backdrop-blur-md overflow-y-auto">
+      <div className="w-full max-h-[48vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
         <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={14} className="text-blue-500 flex-shrink-0" />
           <span className="text-sm text-white/40">Linha do Tempo · Experiência</span>
