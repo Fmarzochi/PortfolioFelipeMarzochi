@@ -8,7 +8,6 @@ import {
 import { AppRegistry } from '../apps/AppRegistry';
 import { ControlCenter } from './ControlCenter';
 import { playSound } from '../../utils/audioEngine';
-import { DynamicIsland } from './DynamicIsland';
 
 const DiplomasIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -115,8 +114,6 @@ export const IOSMobile = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_75%_25%,rgba(160,50,200,0.22),transparent)]" />
       </div>
 
-      {/* ── Dynamic Island ─────────────────────────────────────────────────── */}
-      <DynamicIsland />
 
       {/* ── Control Center ─────────────────────────────────────────────────── */}
       <div className="absolute right-0 top-0 z-[70]">
