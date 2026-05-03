@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Grid, List, X } from 'lucide-react';
+import { ChevronRight, PanelLeft, Search, Plus, X } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -117,7 +117,7 @@ const CloudPipelineSVG = () => (
   </svg>
 );
 
-/* ── Projects data ────────────────────────────────────────────────────────── */
+/* ── Data ─────────────────────────────────────────────────────────────────── */
 const PROJECTS: Project[] = [
   {
     id: '1',
@@ -187,152 +187,239 @@ const PROJECTS: Project[] = [
   },
 ];
 
-/* ── Component ────────────────────────────────────────────────────────────── */
+/* ── Main Component ───────────────────────────────────────────────────────── */
 export const GalleryApp = () => {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [query, setQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
 
-  const selectedProject = PROJECTS.find((p) => p.id === selected);
+  const selected = PROJECTS.find((p) => p.id === selectedId) ?? null;
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return PROJECTS;
+    return PROJECTS.filter(
+      (p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.tag.toLowerCase().includes(q) ||
+        p.stack.some((s) => s.toLowerCase().includes(q)),
+    );
+  }, [query]);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#161616] text-white">
-      {/* Toolbar */}
-      <div className="flex h-12 shrink-0 items-center justify-between border-b border-white/10 px-4">
-        <span className="text-sm font-semibold tracking-wide text-white/70">
-          Portfólio — {PROJECTS.length} projetos
-        </span>
-        <div className="flex items-center gap-1 rounded-lg bg-white/10 p-1">
-          <button
-            onClick={() => setLayout('grid')}
-            className={`rounded-md p-1.5 transition-colors ${layout === 'grid' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'}`}
-          >
-            <Grid size={14} />
-          </button>
-          <button
-            onClick={() => setLayout('list')}
-            className={`rounded-md p-1.5 transition-colors ${layout === 'list' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'}`}
-          >
-            <List size={14} />
-          </button>
-        </div>
-      </div>
+    <div className="flex h-full w-full bg-[#111111] text-white overflow-hidden">
 
-      {/* Content */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Grid / list */}
-        <div className="flex-1 overflow-y-auto p-4">
-          {layout === 'grid' ? (
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-              {PROJECTS.map((project) => (
-                <motion.div
-                  key={project.id}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelected(project.id === selected ? null : project.id)}
-                  className={`group relative aspect-video cursor-pointer overflow-hidden rounded-xl ring-2 transition-all ${
-                    selected === project.id
-                      ? 'ring-blue-500 shadow-lg shadow-blue-500/20'
-                      : 'ring-white/10 hover:ring-white/30'
-                  }`}
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`} />
-                  <div className="absolute inset-0">{project.svg}</div>
-
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 bg-black/30">
-                    <span className="text-white text-xs font-semibold px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm">Ver caso</span>
-                  </div>
-
-                  {/* Label */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-3 py-2 backdrop-blur-sm">
-                    <p className="truncate text-xs font-semibold text-white">{project.title}</p>
-                    <p className="text-[10px] text-white/50 truncate">{project.tag}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-1">
-              {PROJECTS.map((project) => (
-                <motion.div
-                  key={project.id}
-                  whileTap={{ scale: 0.99 }}
-                  onClick={() => setSelected(project.id === selected ? null : project.id)}
-                  className={`flex cursor-pointer items-center gap-4 rounded-xl px-3 py-2.5 transition-colors ${
-                    selected === project.id
-                      ? 'bg-blue-500/20 ring-1 ring-blue-500/40'
-                      : 'hover:bg-white/5'
-                  }`}
-                >
-                  <div className={`relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${project.gradient}`}>
-                    <div className="absolute inset-0">{project.svg}</div>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-white">{project.title}</p>
-                    <p className="text-xs text-white/40 truncate">{project.tag}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
+      {/* ── Left Sidebar ─────────────────────────────────────────────────── */}
+      <AnimatePresence initial={false}>
+      {sidebarOpen && (
+      <motion.aside
+        initial={{ width: 0, opacity: 0 }}
+        animate={{ width: 208, opacity: 1 }}
+        exit={{ width: 0, opacity: 0 }}
+        transition={{ duration: 0.22, ease: 'easeInOut' }}
+        className="shrink-0 flex flex-col border-r border-white/8 bg-black/20 overflow-hidden"
+      >
+        {/* Sidebar header */}
+        <div className="px-4 pt-4 pb-3 border-b border-white/8">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">Projetos</p>
         </div>
 
-        {/* Detail panel */}
-        <AnimatePresence>
-          {selectedProject && (
-            <motion.div
-              key={selectedProject.id}
-              initial={{ x: 40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 40, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-64 shrink-0 border-l border-white/10 bg-black/30 overflow-y-auto backdrop-blur-xl"
-            >
-              {/* Thumbnail */}
-              <div className={`relative h-28 w-full bg-gradient-to-br ${selectedProject.gradient} overflow-hidden`}>
-                <div className="absolute inset-0">{selectedProject.svg}</div>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="absolute top-2 right-2 rounded-full bg-black/40 p-1 text-white/70 hover:text-white transition-colors"
-                >
-                  <X size={12} />
-                </button>
-              </div>
+        {/* Project list */}
+        <nav className="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
+          {PROJECTS.map((project) => {
+            const isActive = selectedId === project.id;
+            return (
+              <button
+                key={project.id}
+                onClick={() => setSelectedId(isActive ? null : project.id)}
+                className={`w-full flex items-center gap-3 rounded-lg px-2 py-2 text-left transition-colors group ${
+                  isActive
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/55 hover:bg-white/5 hover:text-white/80'
+                }`}
+              >
+                {/* Mini thumbnail */}
+                <div className={`relative h-8 w-12 shrink-0 overflow-hidden rounded-md bg-gradient-to-br ${project.gradient}`}>
+                  <div className="absolute inset-0 scale-150">{project.svg}</div>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[11px] font-semibold leading-tight">{project.title}</p>
+                  <p className={`text-[9px] truncate mt-0.5 ${isActive ? 'text-white/40' : 'text-white/25'}`}>{project.tag.split(' · ')[0]}</p>
+                </div>
+                {isActive && <ChevronRight size={10} className="shrink-0 text-white/40" />}
+              </button>
+            );
+          })}
+        </nav>
 
-              {/* Info */}
-              <div className="p-4 space-y-4">
-                <div>
-                  <h3 className="text-sm font-semibold leading-snug text-white">{selectedProject.title}</h3>
-                  <p className="mt-1 text-[11px] text-white/40">{selectedProject.tag}</p>
+        {/* Footer count */}
+        <div className="px-4 py-3 border-t border-white/8">
+          <p className="text-[10px] text-white/20">
+            {query.trim() ? `${filtered.length} de ${PROJECTS.length} projetos` : `${PROJECTS.length} projetos`}
+          </p>
+        </div>
+      </motion.aside>
+      )}
+      </AnimatePresence>
+
+      {/* ── Main Area ────────────────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+
+        {/* Top bar */}
+        <div className="h-11 shrink-0 flex items-center gap-3 px-4 border-b border-white/8 bg-black/10">
+          {/* Sidebar toggle */}
+          <button
+            onClick={() => setSidebarOpen((v) => !v)}
+            className={`p-1.5 rounded-md transition-colors ${sidebarOpen ? 'text-white/70 bg-white/10' : 'text-white/35 hover:text-white/60 hover:bg-white/5'}`}
+            title="Alternar painel"
+          >
+            <PanelLeft size={15} />
+          </button>
+
+          {/* Title */}
+          <h1 className="text-sm font-semibold text-white/70 tracking-wide flex-shrink-0">
+            {query.trim() ? `Resultados para "${query.trim()}"` : 'Todas as Fotos'}
+          </h1>
+
+          <div className="flex-1" />
+
+          {/* Search */}
+          <div className={`flex items-center gap-2 rounded-lg px-3 py-1.5 ring-1 transition-all ${searchFocused ? 'bg-white/10 ring-white/30' : 'bg-white/5 ring-white/10'}`}>
+            <Search size={12} className="text-white/40 shrink-0" />
+            <input
+              type="text"
+              placeholder="Buscar fotos..."
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setSelectedId(null); }}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              className="bg-transparent text-[12px] text-white/80 placeholder-white/30 outline-none w-32 focus:w-44 transition-all duration-200"
+            />
+            {query && (
+              <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors">
+                <X size={11} />
+              </button>
+            )}
+          </div>
+
+          {/* Add button */}
+          <button
+            onClick={() => window.open('https://www.linkedin.com/in/felipemarzochi/', '_blank')}
+            className="flex items-center justify-center h-7 w-7 rounded-md bg-white/8 hover:bg-white/15 text-white/50 hover:text-white transition-colors ring-1 ring-white/10"
+            title="Ver mais projetos no LinkedIn"
+          >
+            <Plus size={14} />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            {selected ? (
+              /* ── Detail view ─────────────────────────────────────────── */
+              <motion.div
+                key={selected.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                className="h-full flex flex-col"
+              >
+                {/* Hero banner */}
+                <div className={`relative w-full h-44 shrink-0 bg-gradient-to-br ${selected.gradient} overflow-hidden`}>
+                  <div className="absolute inset-0 scale-110">{selected.svg}</div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 px-6 pb-4">
+                    <h2 className="text-xl font-bold text-white drop-shadow">{selected.title}</h2>
+                    <p className="text-xs text-white/70 mt-1">{selected.tag}</p>
+                  </div>
+                  <button
+                    onClick={() => setSelectedId(null)}
+                    className="absolute top-3 right-4 text-[11px] text-white/60 hover:text-white transition-colors bg-black/30 px-2.5 py-1 rounded-full"
+                  >
+                    ← Voltar
+                  </button>
                 </div>
 
-                <div className="space-y-3 text-[11px] leading-relaxed">
-                  <div>
-                    <span className="block font-bold text-red-400 uppercase tracking-wider mb-1">Problema</span>
-                    <p className="text-white/60">{selectedProject.dor}</p>
+                {/* Case study body */}
+                <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+                  {/* Three columns: Problema / Solução / Resultado */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="rounded-xl bg-red-500/8 ring-1 ring-red-500/20 p-4 space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">Problema</span>
+                      <p className="text-xs text-white/65 leading-relaxed">{selected.dor}</p>
+                    </div>
+                    <div className="rounded-xl bg-blue-500/8 ring-1 ring-blue-500/20 p-4 space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">Solução</span>
+                      <p className="text-xs text-white/65 leading-relaxed">{selected.solucao}</p>
+                    </div>
+                    <div className="rounded-xl bg-green-500/8 ring-1 ring-green-500/20 p-4 space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-green-400">Resultado</span>
+                      <p className="text-xs text-white/65 leading-relaxed">{selected.resultado}</p>
+                    </div>
                   </div>
+
+                  {/* Stack */}
                   <div>
-                    <span className="block font-bold text-blue-400 uppercase tracking-wider mb-1">Solução</span>
-                    <p className="text-white/60">{selectedProject.solucao}</p>
-                  </div>
-                  <div>
-                    <span className="block font-bold text-green-400 uppercase tracking-wider mb-1">Resultado</span>
-                    <p className="text-white/60">{selectedProject.resultado}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2">Stack utilizada</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selected.stack.map((s) => (
+                        <span key={s} className="rounded-full bg-white/8 ring-1 ring-white/12 px-3 py-1 text-[11px] text-white/60">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
+              </motion.div>
+            ) : (
+              /* ── Grid view ───────────────────────────────────────────── */
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18 }}
+                className="p-5"
+              >
+                {filtered.length === 0 && (
+                  <div className="flex flex-col items-center justify-center py-20 text-white/25 gap-2">
+                    <Search size={28} strokeWidth={1} />
+                    <p className="text-sm">Nenhum projeto encontrado para &quot;{query}&quot;</p>
+                  </div>
+                )}
+                <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                  {filtered.map((project) => (
+                    <motion.button
+                      key={project.id}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setSelectedId(project.id)}
+                      className="group relative aspect-video overflow-hidden rounded-2xl ring-1 ring-white/10 hover:ring-white/25 transition-all text-left"
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-85`} />
+                      <div className="absolute inset-0">{project.svg}</div>
 
-                {/* Stack pills */}
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedProject.stack.map((s) => (
-                    <span key={s} className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/60">
-                      {s}
-                    </span>
+                      {/* Hover cta */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/25">
+                        <span className="text-white text-[11px] font-semibold px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-sm ring-1 ring-white/20">
+                          Ver caso
+                        </span>
+                      </div>
+
+                      {/* Label */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pt-6 pb-3">
+                        <p className="text-xs font-semibold text-white leading-tight">{project.title}</p>
+                        <p className="text-[10px] text-white/50 mt-0.5 truncate">{project.tag}</p>
+                      </div>
+                    </motion.button>
                   ))}
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
