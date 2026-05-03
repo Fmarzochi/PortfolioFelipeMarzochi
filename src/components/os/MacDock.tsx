@@ -53,7 +53,7 @@ const DOCK_ITEMS: DockItem[] = [
   { id: 'safari',    title: 'Portfólio', icon: Compass,       gradient: 'from-blue-400 to-cyan-500'                  },
   { id: 'skills',    title: 'Skills',    icon: SkillsIcon,     gradient: 'from-slate-500 to-slate-700'               },
   { id: 'messages',  title: 'Contato',   icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
-  { id: 'photos',    title: 'Galeria',   icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'                },
+  { id: 'photos',    title: 'Galeria de Projetos',   icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'                },
   { id: 'linkedin',  title: 'LinkedIn',  icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
   { id: 'github',    title: 'GitHub',    icon: GitHubIcon,    gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
 ];

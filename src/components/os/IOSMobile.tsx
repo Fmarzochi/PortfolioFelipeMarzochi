@@ -72,7 +72,7 @@ type AppEntry = {
 const HOME_APPS: AppEntry[] = [
   { id: 'safari',   title: 'Portfólio', icon: Compass,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
   { id: 'maps',     title: 'Jornada',   icon: MapIcon,        gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'photos',   title: 'Galeria',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+  { id: 'photos',   title: 'Galeria de Projetos',   icon: ImageIcon,      gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder',   title: 'Diplomas',  icon: DiplomasIcon,   gradient: 'from-amber-400 via-orange-400 to-orange-500' },
   { id: 'skills',   title: 'Skills',    icon: SkillsIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
 ];
