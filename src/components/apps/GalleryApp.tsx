@@ -369,12 +369,9 @@ export const GalleryApp = () => {
                     count={FAVORITES.length}
                   />
                 </div>
-              </div>
 
-              {/* PROJETOS (ÁLBUNS) */}
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/25 px-2 mb-2">Projetos (Álbuns)</p>
-                <div className="space-y-1">
+                {/* All projects with thumbnails inside BIBLIOTECA */}
+                <div className="space-y-1 mt-3">
                   {PROJECTS.map((project) => {
                     const isActive = view === project.albumKey;
                     return (
@@ -385,16 +382,15 @@ export const GalleryApp = () => {
                           isActive ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
                         }`}
                       >
-                        {/* Thumbnail — the "foto" */}
+                        {/* Thumbnail */}
                         <div className={`relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${project.gradient}`}>
-                          <div className="absolute inset-0 opacity-50">{project.svg}</div>
+                          <div className="absolute inset-0 opacity-55">{project.svg}</div>
                           {FAVORITES.includes(project.id) && (
                             <div className="absolute top-0.5 right-0.5">
                               <Heart size={7} className="text-red-400 fill-red-400" />
                             </div>
                           )}
                         </div>
-                        {/* Title */}
                         <div className="min-w-0 flex-1">
                           <p className={`text-[11px] font-semibold leading-tight line-clamp-2 ${isActive ? 'text-blue-300' : 'text-white/65'}`}>
                             {project.title}
@@ -403,6 +399,22 @@ export const GalleryApp = () => {
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* PROJETOS (ÁLBUNS) */}
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/25 px-2 mb-2">Projetos (Álbuns)</p>
+                <div className="space-y-0.5">
+                  {PROJECTS.map((project) => (
+                    <SidebarItem
+                      key={project.id}
+                      icon={<LayoutGrid size={13} />}
+                      label={project.title}
+                      active={view === project.albumKey}
+                      onClick={() => handleViewChange(project.albumKey)}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
