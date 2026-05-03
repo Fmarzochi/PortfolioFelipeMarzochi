@@ -210,35 +210,16 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Edit mode banner ─────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {editMode && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-[env(safe-area-inset-top,12px)] left-0 right-0 z-30 flex justify-center"
-          >
-            <div className="flex items-center gap-3 rounded-full bg-black/60 backdrop-blur-xl px-5 py-2 ring-1 ring-white/15">
-              <span className="text-xs text-white/70">Arraste para reorganizar</span>
-              <button
-                onClick={() => setEditMode(false)}
-                className="text-xs font-semibold text-blue-400 hover:text-blue-300"
-              >
-                Concluído
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Control Center toggle (home screen only) ─────────────────────── */}
+      {/* ── Control Center / Done toggle (home screen only) ──────────────── */}
       {!activeApp && (
         <button
-          onClick={() => setIsControlCenterOpen(v => !v)}
-          className="absolute top-[env(safe-area-inset-top,12px)] right-4 z-20 flex items-center justify-center h-8 w-8 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20"
+          onClick={() => editMode ? setEditMode(false) : setIsControlCenterOpen(v => !v)}
+          className="absolute top-[env(safe-area-inset-top,12px)] right-4 z-30 flex items-center justify-center h-8 px-3 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20"
         >
-          <SlidersHorizontal size={14} className="text-white/70" />
+          {editMode
+            ? <span className="text-xs font-semibold text-blue-400">Concluído</span>
+            : <SlidersHorizontal size={14} className="text-white/70" />
+          }
         </button>
       )}
 

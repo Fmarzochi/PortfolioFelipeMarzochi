@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Navigation, Compass, Stethoscope, Code2, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Navigation, Compass, Stethoscope, Code2, GraduationCap, Briefcase, Building2, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Experience {
@@ -63,6 +63,20 @@ const EXPERIENCES: Experience[] = [
     results: 'Redução de indisponibilidade de sistemas por meio de atendimento ágil e diagnóstico assertivo. Melhoria na experiência dos usuários internos com suporte mais rápido e padronizado. Contribuição para maior estabilidade do ambiente tecnológico escolar.',
   },
   {
+    id: '0',
+    period: '2023 – Atual',
+    role: 'Análise e Desenvolvimento de Sistemas',
+    company: 'Cursando · Tecnólogo',
+    type: 'Tecnólogo',
+    status: 'current',
+    category: 'education',
+    icon: <GraduationCap size={18} />,
+    color: 'bg-sky-500',
+    location: { x: 58, y: 50 },
+    activities: 'Formação tecnológica focada em desenvolvimento de sistemas de informação, programação orientada a objetos, banco de dados, redes de computadores e engenharia de software, com ênfase em aplicação prática e mercado de trabalho.',
+    results: 'Consolidação da base técnica formal em computação, complementando a experiência prática no desenvolvimento de software e reforçando fundamentos de sistemas de informação.',
+  },
+  {
     id: '2',
     period: 'Fev/2022 – Fev/2023',
     role: 'MBA em Engenharia de Software',
@@ -72,7 +86,7 @@ const EXPERIENCES: Experience[] = [
     category: 'education',
     icon: <GraduationCap size={18} />,
     color: 'bg-blue-500',
-    location: { x: 70, y: 60 },
+    location: { x: 74, y: 65 },
     activities: 'Imersão em lógica, algoritmos e as bases da computação. Engenharia de Software, princípios SOLID, arquitetura de sistemas, metodologias ágeis e desenvolvimento orientado a qualidade.',
     results: 'Consolidação da base técnica necessária para atuar com excelência no ciclo completo de desenvolvimento — da análise de requisitos ao deploy em produção.',
   },
@@ -86,7 +100,7 @@ const EXPERIENCES: Experience[] = [
     category: 'education',
     icon: <Stethoscope size={18} />,
     color: 'bg-indigo-500',
-    location: { x: 88, y: 78 },
+    location: { x: 88, y: 80 },
     activities: 'Graduação e atuação clínica. Desenvolvimento de raciocínio analítico, diagnóstico e tomada de decisão sob pressão — habilidades que moldaram minha abordagem sistemática para resolução de problemas em software.',
     results: 'Formação multidisciplinar que contribuiu diretamente para minha capacidade analítica, foco em resultados e orientação à qualidade no desenvolvimento de software.',
   },
@@ -128,6 +142,72 @@ const SidebarItem = ({
   </button>
 );
 
+interface DetailCardProps {
+  selected: Experience;
+  expanded: boolean;
+  onToggleExpanded: () => void;
+}
+
+const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) => (
+  <>
+    {/* Header */}
+    <div className="flex items-start gap-3 p-4 md:p-5">
+      <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${selected.color} text-white shadow-lg`}>
+        {selected.icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h2 className="text-base font-bold tracking-tight leading-tight">{selected.role}</h2>
+          {selected.status === 'current' && (
+            <span className="text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full px-2 py-0.5">ATUAL</span>
+          )}
+          <span className={`text-[10px] font-bold rounded-full px-2 py-0.5 ${selected.category === 'work' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'}`}>
+            {selected.category === 'work' ? 'Profissional' : 'Acadêmico'}
+          </span>
+        </div>
+        <p className="text-xs text-white/50 mt-0.5">{selected.company}</p>
+      </div>
+      <button
+        onClick={onToggleExpanded}
+        className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors mt-1"
+      >
+        {expanded ? <><ChevronUp size={14} />Menos</> : <><ChevronDown size={14} />Detalhes</>}
+      </button>
+    </div>
+
+    {/* Expanded detail */}
+    <AnimatePresence>
+      {expanded && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="overflow-hidden"
+        >
+          <div className="border-t border-white/10 px-4 pb-4 md:px-5 md:pb-5 pt-3 space-y-3 max-h-[35vh] overflow-y-auto">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
+              <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.activities}</p>
+            </div>
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-green-400 mb-1.5">Resultados</p>
+              <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.results}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* Preview condensado */}
+    {!expanded && (
+      <p className="px-4 pb-4 md:px-5 md:pb-4 text-xs text-white/45 leading-relaxed line-clamp-2">
+        {selected.activities}
+      </p>
+    )}
+  </>
+);
+
 export const MapsApp = () => {
   const [selected, setSelected] = useState<Experience>(EXPERIENCES[0]);
   const [expanded, setExpanded] = useState(false);
@@ -141,7 +221,7 @@ export const MapsApp = () => {
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
       {/* ── Sidebar ─────────────────────────────────────────────────────── */}
-      <div className="w-full max-h-[48vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
+      <div className="w-full max-h-[42vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
         <div className="mb-4 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={14} className="text-blue-500 flex-shrink-0" />
           <span className="text-sm text-white/40">Linha do Tempo · Experiência</span>
@@ -171,125 +251,84 @@ export const MapsApp = () => {
         </div>
       </div>
 
-      {/* ── Mapa ────────────────────────────────────────────────────────── */}
-      <div className="relative flex-1 overflow-hidden bg-[#0a0a0a]">
+      {/* ── Mapa + Card ─────────────────────────────────────────────────── */}
+      <div className="flex flex-col flex-1 min-h-0">
 
-        {/* Grid */}
-        <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
-          backgroundImage: 'linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+        {/* Map visuals */}
+        <div className="relative flex-1 min-h-[120px] overflow-hidden bg-[#0a0a0a]">
 
-        {/* Linha de conexão SVG — work path */}
-        <svg className="absolute inset-0 h-full w-full pointer-events-none">
-          <polyline
-            points={WORK.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
-            fill="none"
-            stroke="rgba(59,130,246,0.22)"
-            strokeWidth="2"
-            strokeDasharray="8 5"
-          />
-          <polyline
-            points={EDUCATION.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
-            fill="none"
-            stroke="rgba(99,102,241,0.22)"
-            strokeWidth="2"
-            strokeDasharray="8 5"
-          />
-        </svg>
+          {/* Grid */}
+          <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
+            backgroundImage: 'linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }} />
 
-        {/* Pins */}
-        {EXPERIENCES.map((exp) => (
+          {/* Linha de conexão SVG — work path */}
+          <svg className="absolute inset-0 h-full w-full pointer-events-none">
+            <polyline
+              points={WORK.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
+              fill="none"
+              stroke="rgba(59,130,246,0.22)"
+              strokeWidth="2"
+              strokeDasharray="8 5"
+            />
+            <polyline
+              points={EDUCATION.map(e => `${e.location.x}%,${e.location.y}%`).join(' ')}
+              fill="none"
+              stroke="rgba(99,102,241,0.22)"
+              strokeWidth="2"
+              strokeDasharray="8 5"
+            />
+          </svg>
+
+          {/* Pins */}
+          {EXPERIENCES.map((exp) => (
+            <motion.div
+              key={exp.id}
+              initial={false}
+              animate={{ scale: selected.id === exp.id ? 1.25 : 1 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              className="absolute cursor-pointer"
+              style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
+              onClick={() => handleSelect(exp)}
+            >
+              <div className="relative">
+                <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''}`} />
+                {selected.id === exp.id && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2.5 py-1 text-[10px] font-bold text-black shadow-xl"
+                  >
+                    {exp.role.split(' (')[0]}
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Desktop card — absolute overlay inside map */}
           <motion.div
-            key={exp.id}
-            initial={false}
-            animate={{ scale: selected.id === exp.id ? 1.25 : 1 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-            className="absolute cursor-pointer"
-            style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
-            onClick={() => handleSelect(exp)}
+            layout
+            className="hidden md:block absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
           >
-            <div className="relative">
-              <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''}`} />
-              {selected.id === exp.id && (
-                <motion.div
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-2.5 py-1 text-[10px] font-bold text-black shadow-xl"
-                >
-                  {exp.role.split(' (')[0]}
-                </motion.div>
-              )}
-            </div>
+            <DetailCard selected={selected} expanded={expanded} onToggleExpanded={() => setExpanded(!expanded)} />
           </motion.div>
-        ))}
 
-        {/* Card de detalhe */}
+          {/* Compass deco */}
+          <div className="absolute right-5 top-5 text-white/10 pointer-events-none">
+            <Compass size={64} strokeWidth={1} />
+          </div>
+        </div>
+
+        {/* Mobile card — in normal flow below the map, never clipped */}
         <motion.div
           layout
-          className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
+          className="md:hidden flex-shrink-0 mx-3 mb-3 mt-3 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
         >
-          {/* Header */}
-          <div className="flex items-start gap-3 p-4 md:p-5">
-            <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${selected.color} text-white shadow-lg`}>
-              {selected.icon}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-base font-bold tracking-tight leading-tight">{selected.role}</h2>
-                {selected.status === 'current' && (
-                  <span className="text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full px-2 py-0.5">ATUAL</span>
-                )}
-                <span className={`text-[10px] font-bold rounded-full px-2 py-0.5 ${selected.category === 'work' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'}`}>
-                  {selected.category === 'work' ? 'Profissional' : 'Acadêmico'}
-                </span>
-              </div>
-              <p className="text-xs text-white/50 mt-0.5">{selected.company}</p>
-            </div>
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors mt-1"
-            >
-              {expanded ? <><ChevronUp size={14} />Menos</> : <><ChevronDown size={14} />Detalhes</>}
-            </button>
-          </div>
-
-          {/* Expanded detail */}
-          <AnimatePresence>
-            {expanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="overflow-hidden"
-              >
-                <div className="border-t border-white/10 px-4 pb-4 md:px-5 md:pb-5 pt-3 space-y-3 max-h-[35vh] overflow-y-auto">
-                  <div>
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
-                    <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.activities}</p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-green-400 mb-1.5">Resultados</p>
-                    <p className="text-xs md:text-sm text-white/70 leading-relaxed">{selected.results}</p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Preview condensado */}
-          {!expanded && (
-            <p className="px-4 pb-4 md:px-5 md:pb-4 text-xs text-white/45 leading-relaxed line-clamp-2">
-              {selected.activities}
-            </p>
-          )}
+          <DetailCard selected={selected} expanded={expanded} onToggleExpanded={() => setExpanded(!expanded)} />
         </motion.div>
 
-        {/* Compass deco */}
-        <div className="absolute right-5 top-5 text-white/10 pointer-events-none">
-          <Compass size={64} strokeWidth={1} />
-        </div>
       </div>
     </div>
   );
