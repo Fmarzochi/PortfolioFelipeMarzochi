@@ -88,6 +88,28 @@ const CERTIFICATIONS = [
   { name: 'Bancos de Dados SQL e NoSQL', inst: 'Udemy', year: '2022' },
 ];
 
+const SKILL_DESCRIPTIONS: Record<string, string> = {
+  'FRONT': 'Especialidade principal: interfaces modernas com React.js, TypeScript e Next.js. Foco em componentização, performance e acessibilidade.',
+  'BACK ': 'Transição ativa para backend: Node.js, Java com Spring Boot, APIs REST robustas com autenticação JWT e tratamento estruturado de erros.',
+  'DATA ': 'Modelagem relacional com PostgreSQL, queries complexas, índices e otimização. Experiência com MongoDB para aplicações de alta escala.',
+  'DEVOP': 'Git/GitHub como ferramenta central, Docker para containerização, CI/CD automatizado e deploy em AWS CloudFront e serviços cloud.',
+  'ARCH ': 'Aplicação de SOLID e Clean Code do back ao front. Arquitetura em camadas, SaaS multi-tenant, design patterns e metodologias ágeis.',
+};
+
+const buildGroupOutput = (tag: string): string => {
+  const group = SKILL_GROUPS.find(g => g.tag === tag);
+  if (!group) return '';
+  const separator = '──────────────────────────────';
+  const lines = [
+    `→ ${group.label}`,
+    separator,
+    ...group.skills.map(sk => `  ${sk.level}% ${sk.name}`),
+    separator,
+    SKILL_DESCRIPTIONS[tag] ?? '',
+  ];
+  return lines.join('\n');
+};
+
 const HELP_TEXT = `
   Comandos disponíveis:
   ─────────────────────────────────
@@ -197,30 +219,30 @@ export const SkillsApp = () => {
       case 'front':
         navigate('skills');
         setActiveGroup('FRONT');
-        output = { text: '→ Filtrando: Front-End', type: 'output' };
+        output = { text: buildGroupOutput('FRONT'), type: 'output' };
         break;
       case 'backend':
       case 'back':
         navigate('skills');
         setActiveGroup('BACK ');
-        output = { text: '→ Filtrando: Back-End', type: 'output' };
+        output = { text: buildGroupOutput('BACK '), type: 'output' };
         break;
       case 'devops':
         navigate('skills');
         setActiveGroup('DEVOP');
-        output = { text: '→ Filtrando: DevOps & Cloud', type: 'output' };
+        output = { text: buildGroupOutput('DEVOP'), type: 'output' };
         break;
       case 'database':
       case 'db':
         navigate('skills');
         setActiveGroup('DATA ');
-        output = { text: '→ Filtrando: Banco de Dados', type: 'output' };
+        output = { text: buildGroupOutput('DATA '), type: 'output' };
         break;
       case 'arch':
       case 'arquitetura':
         navigate('skills');
         setActiveGroup('ARCH ');
-        output = { text: '→ Filtrando: Arquitetura & Metodologia', type: 'output' };
+        output = { text: buildGroupOutput('ARCH '), type: 'output' };
         break;
       case 'clear':
         setCmdHistory([]);

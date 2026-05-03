@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion';
 import {
-  Compass, Map as MapIcon, Image as ImageIcon,
+  Compass, Map as MapIcon, Image as ImageIcon, SlidersHorizontal,
 } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { ControlCenter } from './ControlCenter';
@@ -67,11 +67,11 @@ type AppEntry = {
 };
 
 const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'safari',   title: 'Portfólio',               icon: Compass,      gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
   { id: 'maps',     title: 'Experiência Profissional', icon: MapIcon,      gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'skills',   title: 'Skills',                   icon: SkillsIcon,   gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+  { id: 'safari',   title: 'Portfólio',               icon: Compass,      gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
   { id: 'photos',   title: 'Galeria de Projetos',      icon: ImageIcon,    gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder',   title: 'Diplomas',                 icon: DiplomasIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
-  { id: 'skills',   title: 'Skills',                   icon: SkillsIcon,   gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
 ];
 
 const DOCK_APPS: AppEntry[] = [
@@ -87,6 +87,11 @@ export const IOSMobile = () => {
   const [activeApp, setActiveApp] = useState<string | null>(null);
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [previewTargetIdx, setPreviewTargetIdx] = useState<number | null>(null);
+
+  // App sheet drag controls — drag only starts from the handle
+  const appDragControls = useDragControls();
 
   // Escuta o evento disparado pelo ContextMenu no mobile
   useEffect(() => {
@@ -101,6 +106,7 @@ export const IOSMobile = () => {
   // Refs for drag-to-reorder
   const iconRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const capturedRects = useRef<Record<string, DOMRect>>({});
+  const gridRef = useRef<HTMLDivElement | null>(null);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const enterEditMode = useCallback(() => {
@@ -126,39 +132,36 @@ export const IOSMobile = () => {
     }
   }, []);
 
-  const handleDragEnd = useCallback((draggedId: string, offsetX: number, offsetY: number) => {
-    const draggedRect = capturedRects.current[draggedId];
-    if (!draggedRect) return;
+  const getTargetIdx = useCallback((draggedId: string, info: PanInfo): number => {
+    const rect = capturedRects.current[draggedId];
+    if (!rect || !gridRef.current) return -1;
+    const cx = rect.left + rect.width / 2 + info.offset.x;
+    const cy = rect.top + rect.height / 2 + info.offset.y;
+    const grid = gridRef.current.getBoundingClientRect();
+    const cols = 3;
+    const col = Math.max(0, Math.min(cols - 1, Math.floor((cx - grid.left) / (grid.width / cols))));
+    const numRows = Math.ceil(DEFAULT_HOME_APPS.length / cols);
+    const row = Math.max(0, Math.min(numRows - 1, Math.floor((cy - grid.top) / (grid.height / numRows))));
+    return row * cols + col;
+  }, []);
 
-    const cx = draggedRect.left + draggedRect.width / 2 + offsetX;
-    const cy = draggedRect.top + draggedRect.height / 2 + offsetY;
+  const handleDragEnd = useCallback((draggedId: string, info: PanInfo) => {
+    const targetIdx = previewTargetIdx !== null ? previewTargetIdx : getTargetIdx(draggedId, info);
 
-    let closestId: string | null = null;
-    let closestDist = Infinity;
-
-    for (const [id, rect] of Object.entries(capturedRects.current)) {
-      if (id === draggedId) continue;
-      const rcx = rect.left + rect.width / 2;
-      const rcy = rect.top + rect.height / 2;
-      const dist = Math.hypot(cx - rcx, cy - rcy);
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestId = id;
-      }
-    }
-
-    if (closestId && closestDist < 90) {
+    if (targetIdx >= 0) {
       setHomeApps((prev) => {
         const next = [...prev];
         const fromIdx = next.findIndex((a) => a.id === draggedId);
-        const toIdx = next.findIndex((a) => a.id === closestId);
-        if (fromIdx !== -1 && toIdx !== -1) {
-          [next[fromIdx], next[toIdx]] = [next[toIdx], next[fromIdx]];
-        }
+        if (fromIdx === -1 || fromIdx === targetIdx) return prev;
+        const [item] = next.splice(fromIdx, 1);
+        next.splice(targetIdx, 0, item);
         return next;
       });
     }
-  }, []);
+
+    setDraggingId(null);
+    setPreviewTargetIdx(null);
+  }, [previewTargetIdx, getTargetIdx]);
 
   const handleOpenApp = (app: AppEntry) => {
     if (editMode) {
@@ -229,10 +232,20 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
+      {/* ── Control Center toggle (home screen only) ─────────────────────── */}
+      {!activeApp && (
+        <button
+          onClick={() => setIsControlCenterOpen(v => !v)}
+          className="absolute top-[env(safe-area-inset-top,12px)] right-4 z-20 flex items-center justify-center h-8 w-8 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20"
+        >
+          <SlidersHorizontal size={14} className="text-white/70" />
+        </button>
+      )}
+
       {/* ── Springboard App Grid ─────────────────────────────────────────── */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
-        <div className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
-          {homeApps.map((app) => (
+        <div ref={gridRef} className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
+          {homeApps.map((app, idx) => (
             <motion.div
               key={app.id}
               ref={(el) => { iconRefs.current[app.id] = el; }}
@@ -242,18 +255,31 @@ export const IOSMobile = () => {
                 editMode
                   ? {
                       rotate: [0, -2, 2, -2, 2, 0],
-                      transition: { repeat: Infinity, repeatType: 'loop', duration: 0.45, ease: 'easeInOut' },
+                      scale: draggingId === app.id ? 1.15 : draggingId ? 0.75 : 1,
+                      opacity: draggingId && draggingId !== app.id ? 0.75 : 1,
+                      transition: {
+                        rotate: { repeat: Infinity, repeatType: 'loop', duration: 0.45, ease: 'easeInOut' },
+                        scale: { type: 'spring', stiffness: 400, damping: 25 },
+                        opacity: { duration: 0.15 },
+                      },
                     }
-                  : { rotate: 0 }
+                  : { rotate: 0, scale: 1, opacity: 1 }
               }
               drag={editMode}
               dragMomentum={false}
               dragElastic={0.12}
-              onDragStart={captureRects}
-              onDragEnd={(_, info) => handleDragEnd(app.id, info.offset.x, info.offset.y)}
+              onDragStart={() => {
+                captureRects();
+                setDraggingId(app.id);
+              }}
+              onDrag={(_, info) => {
+                const idx2 = getTargetIdx(app.id, info);
+                setPreviewTargetIdx(idx2 >= 0 ? idx2 : null);
+              }}
+              onDragEnd={(_, info) => handleDragEnd(app.id, info)}
               whileTap={!editMode ? { scale: 0.86 } : undefined}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
-              className={`flex flex-col items-center gap-[10px] ${editMode ? 'z-20 cursor-grab active:cursor-grabbing' : ''}`}
+              className={`relative flex flex-col items-center gap-[10px] ${editMode ? 'z-20 cursor-grab active:cursor-grabbing' : ''}`}
               onTouchStart={() => {
                 if (!editMode && !activeApp) {
                   longPressTimer.current = setTimeout(enterEditMode, 600);
@@ -268,6 +294,10 @@ export const IOSMobile = () => {
               }}
               onMouseUp={cancelLongPress}
             >
+              {/* Pulsing target ring when dragging over this slot */}
+              {editMode && draggingId && previewTargetIdx === idx && draggingId !== app.id && (
+                <div className="absolute inset-[-6px] rounded-2xl ring-2 ring-blue-400/80 animate-pulse pointer-events-none z-10" />
+              )}
               <button
                 onClick={() => handleOpenApp(app)}
                 className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
@@ -302,6 +332,8 @@ export const IOSMobile = () => {
                 whileTap={{ scale: 0.86 }}
                 transition={{ type: 'spring', stiffness: 520, damping: 28 }}
                 onClick={() => handleOpenApp(app)}
+                onContextMenu={e => e.preventDefault()}
+                onTouchStart={e => e.stopPropagation()}
                 className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
@@ -316,34 +348,36 @@ export const IOSMobile = () => {
       <AnimatePresence>
         {activeApp && (
           <motion.div
+            drag="y"
+            dragControls={appDragControls}
+            dragListener={false}
+            dragConstraints={{ top: 0 }}
+            dragElastic={{ top: 0, bottom: 0.28 }}
+            dragMomentum={false}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 60 || info.velocity.y > 380) handleCloseApp();
+            }}
             initial={{ y: '100%', scale: 0.97, opacity: 0.6 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: '100%', scale: 0.97, opacity: 0 }}
             transition={{ type: 'spring', damping: 27, stiffness: 310, mass: 0.85 }}
-            drag="y"
-            dragConstraints={{ top: 0 }}
-            dragElastic={{ top: 0, bottom: 0.25 }}
-            dragMomentum={false}
-            onDragEnd={(_, info) => {
-              if (info.offset.y > 60 || info.velocity.y > 400) handleCloseApp();
-            }}
             className="absolute inset-0 z-40 flex flex-col overflow-hidden"
-            style={{ touchAction: 'none' }}
           >
             {/* App background */}
             <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(80,40,180,0.4),transparent)] pointer-events-none" />
 
-            {/* Swipe handle */}
-            <div className="relative z-10 flex flex-col items-center pt-[env(safe-area-inset-top,12px)] pb-2 shrink-0">
+            {/* Handle — starts drag via dragControls */}
+            <div
+              className="relative z-10 flex flex-col items-center shrink-0 cursor-grab pt-[env(safe-area-inset-top,12px)] pb-3"
+              onPointerDown={(e) => appDragControls.start(e)}
+              style={{ touchAction: 'none' }}
+            >
               <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
             </div>
 
-            {/* App content */}
-            <div
-              className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]"
-              style={{ touchAction: 'auto' }}
-            >
+            {/* App content — scrolls normally */}
+            <div className="relative flex-1 min-h-0 overflow-hidden pb-[env(safe-area-inset-bottom,0px)]">
               <AppRegistry appId={activeApp} />
             </div>
           </motion.div>

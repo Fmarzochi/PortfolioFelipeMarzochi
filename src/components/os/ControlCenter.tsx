@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wifi, Bluetooth, Airplay, Moon, Sun, Volume2 } from 'lucide-react';
 import { useState } from 'react';
-import { useOSContext } from '../../contexts/OSContext';
+import { useOSContext, WALLPAPERS } from '../../contexts/OSContext';
 
 interface ControlCenterProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
   const [airdrop, setAirdrop] = useState(true);
 
   // Global OS state — no more window.osGlobalVolume hack
-  const { volume, setVolume, brightness, setBrightness, focusMode, toggleFocusMode } = useOSContext();
+  const { volume, setVolume, brightness, setBrightness, focusMode, toggleFocusMode, cycleWallpaper, wallpaperIndex } = useOSContext();
 
   // ---------------------------------------------------------------------------
   // Pointer-drag engine for sliders (works with mouse AND touch)
@@ -127,6 +127,17 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
                 />
               </div>
             </div>
+          </div>
+
+          {/* Wallpaper picker */}
+          <div className="mt-3 rounded-xl bg-white/10 p-3 ring-1 ring-white/10 flex items-center justify-between">
+            <span className="text-xs font-medium">Fundo: {WALLPAPERS[wallpaperIndex].label}</span>
+            <button
+              onClick={cycleWallpaper}
+              className="rounded-lg bg-white/15 px-3 py-1.5 text-[11px] font-semibold text-white/80 hover:bg-white/25 transition-colors"
+            >
+              Mudar → {WALLPAPERS[(wallpaperIndex + 1) % WALLPAPERS.length].label}
+            </button>
           </div>
         </motion.div>
       )}
