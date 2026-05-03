@@ -41,7 +41,7 @@ export const TopBar = () => {
     }).replace(/,/g, '');
 
   return (
-    <div className="group/topbar absolute top-0 left-0 right-0 z-[200] h-7">
+    <div className={`group/topbar absolute top-0 left-0 right-0 z-[200] transition-[height] duration-300 ${anyFullScreen ? 'h-1' : 'h-7'}`}>
       <div
         className={`relative z-50 flex h-7 w-full items-center justify-between px-3 text-[13px] font-medium text-white/88 liquid-glass-menubar select-none
           transition-transform duration-300 ease-in-out
