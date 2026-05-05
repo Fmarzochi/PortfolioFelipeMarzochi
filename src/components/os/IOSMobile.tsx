@@ -5,10 +5,9 @@ import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion
 import { X } from 'lucide-react';
 
 /* ── Heroicons Solid — busca de SVG oficial heroicons.com ─────────────────── */
-const BriefcaseIcon = ({ className }: { className?: string }) => (
+const ClockIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" clipRule="evenodd" d="M7.5 5.25C7.5 3.593 8.843 2.25 10.5 2.25h3c1.657 0 3 1.343 3 3v.455a31.141 31.141 0 0 1 4.774.789c1.454.217 2.476 1.482 2.476 2.916v3.032c0 1.211-.734 2.352-1.936 2.752A31.478 31.478 0 0 1 12 15.75a31.478 31.478 0 0 1-9.814-1.556C1.984 13.844 1.25 12.703 1.25 11.492V8.46c0-1.434 1.022-2.699 2.476-2.916A31.141 31.141 0 0 1 7.5 4.705V5.25Zm7.5 0v.091A33.138 33.138 0 0 0 12 5.25a33.138 33.138 0 0 0-3-.091V5.25A1.5 1.5 0 0 1 10.5 3.75h3A1.5 1.5 0 0 1 15 5.25Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
-    <path d="M3 18.4V15.6a.75.75 0 0 1 .25.057A33 33 0 0 0 12 17.25a33 33 0 0 0 8.75-1.593.75.75 0 0 1 .25-.057V18.4c0 1.452-1.047 2.727-2.523 2.923A40.614 40.614 0 0 1 12 21.75c-2.196 0-4.356-.155-6.477-.427C4.047 21.127 3 19.852 3 18.4Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" />
   </svg>
 );
 
@@ -18,9 +17,9 @@ const CommandLineIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const Squares2x2Icon = ({ className }: { className?: string }) => (
+const UserIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" clipRule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" />
   </svg>
 );
 
@@ -72,9 +71,9 @@ type AppEntry = {
 };
 
 const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'maps',   title: 'Experiência', icon: BriefcaseIcon,   gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'maps',   title: 'Experiência', icon: ClockIcon,       gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
   { id: 'skills', title: 'Skills',      icon: CommandLineIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'safari', title: 'Portfólio',   icon: Squares2x2Icon,  gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+  { id: 'safari', title: 'Portfólio',   icon: UserIcon,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
   { id: 'photos', title: 'Galeria',     icon: PhotoIcon,       gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
   { id: 'finder', title: 'Diplomas',    icon: AcademicCapIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
 ];
