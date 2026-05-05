@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon } from 'lucide-react';
+import { Image as ImageIcon, Map as MapIcon } from 'lucide-react';
 
 /* Portfolio universal icon — briefcase + </> */
 const PortfolioIcon = ({ className }: { className?: string }) => (
@@ -61,13 +61,14 @@ type DockItem = {
 };
 
 const DOCK_ITEMS: DockItem[] = [
-  { id: 'finder',   title: 'Diplomas',          icon: DiplomasIcon, gradient: 'from-amber-400 to-orange-500'               },
-  { id: 'safari',   title: 'Portfólio',         icon: PortfolioIcon, gradient: 'from-blue-500 to-cyan-500'                 },
-  { id: 'skills',   title: 'Skills',            icon: SkillsIcon,   gradient: 'from-slate-500 to-slate-700'                },
-  { id: 'messages', title: 'Contato',           icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
-  { id: 'photos',   title: 'Galeria de Projetos', icon: ImageIcon,  gradient: 'from-pink-400 to-violet-600'                },
-  { id: 'linkedin', title: 'LinkedIn',          icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
-  { id: 'github',   title: 'GitHub',            icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
+  { id: 'safari',   title: 'Portfólio',           icon: PortfolioIcon, gradient: 'from-blue-500 to-cyan-500'                 },
+  { id: 'maps',     title: 'Experiência',          icon: MapIcon,       gradient: 'from-emerald-500 to-teal-600'              },
+  { id: 'skills',   title: 'Skills',              icon: SkillsIcon,    gradient: 'from-slate-500 to-slate-700'               },
+  { id: 'photos',   title: 'Galeria de Projetos',  icon: ImageIcon,     gradient: 'from-pink-400 to-violet-600'               },
+  { id: 'finder',   title: 'Diplomas',            icon: DiplomasIcon,  gradient: 'from-amber-400 to-orange-500'              },
+  { id: 'messages', title: 'Contato',             icon: WhatsAppIcon,  gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'},
+  { id: 'linkedin', title: 'LinkedIn',            icon: LinkedInIcon,  gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
+  { id: 'github',   title: 'GitHub',              icon: GitHubIcon,    gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
 ];
 
 type DockMenu = { item: DockItem; x: number; y: number } | null;
