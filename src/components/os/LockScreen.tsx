@@ -75,6 +75,8 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_52%_48%_at_12%_68%,rgba(25,95,200,0.42),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_42%_at_88%_82%,rgba(0,138,108,0.38),transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_38%_32%_at_72%_28%,rgba(175,55,195,0.28),transparent)]" />
+        {/* Vignette */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%)' }} />
       </div>
 
       {/* ── Content ──────────────────────────────────────────────────────── */}
@@ -86,7 +88,13 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', damping: 20 }}
-            className="text-[56px] md:text-[86px] font-bold tracking-tighter text-white/92 drop-shadow-2xl tabular-nums"
+            className="text-[56px] md:text-[86px] tracking-tighter tabular-nums"
+            style={{
+              fontWeight: 250,
+              color: 'rgba(255,255,255,0.95)',
+              textShadow: '0 2px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3)',
+              letterSpacing: '-0.03em',
+            }}
           >
             {time ? formatTime(time) : '--:--'}
           </motion.h1>
@@ -94,7 +102,8 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-sm md:text-xl font-medium tracking-wide text-white/55 capitalize"
+            className="text-sm md:text-xl tracking-wide capitalize"
+            style={{ fontWeight: 300, color: 'rgba(255,255,255,0.65)', textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}
           >
             {time ? formatDate(time) : 'Carregando...'}
           </motion.p>

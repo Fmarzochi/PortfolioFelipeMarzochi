@@ -129,13 +129,13 @@ export const MacDock = () => {
               top: Math.max(dockMenu.y - 120, 8),
               left: Math.min(Math.max(dockMenu.x - 80, 8), window.innerWidth - 168),
             }}
-            className="fixed z-[9999] w-40 overflow-hidden rounded-xl border border-white/10 bg-black/75 shadow-2xl backdrop-blur-2xl"
+            className="fixed z-[9999] w-40 overflow-hidden rounded-xl liquid-glass-context-menu"
           >
             <div className="py-1">
               <div className="px-3 py-2 text-[11px] font-bold text-white/40 uppercase tracking-wider truncate">
                 {dockMenu.item.title}
               </div>
-              <div className="h-px bg-white/10" />
+              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => {
                   if (isRunning(dockMenu.item.id)) {
@@ -145,14 +145,18 @@ export const MacDock = () => {
                   }
                   closeDockMenu();
                 }}
-                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
                 {isRunning(dockMenu.item.id) ? 'Fechar' : 'Abrir'}
               </button>
-              <div className="h-px bg-white/10" />
+              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => window.location.reload()}
-                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
                 Recarregar
               </button>
@@ -187,7 +191,7 @@ export const MacDock = () => {
                   <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
                 </div>
 
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[10px] bg-black/72 px-3 py-1 text-xs font-medium text-white/95 shadow-xl backdrop-blur-2xl ring-1 ring-white/12 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out">
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[10px] px-3 py-1 text-xs font-medium text-white/95 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out liquid-glass-context-menu">
                   {item.title}
                 </div>
 

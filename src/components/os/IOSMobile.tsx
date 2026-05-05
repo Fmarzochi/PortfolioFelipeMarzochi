@@ -335,7 +335,8 @@ export const IOSMobile = () => {
         <div className="relative z-10 flex justify-center pb-2">
           <button
             onClick={() => setShowSwitcher(true)}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md ring-1 ring-white/20 text-xs text-white/70 hover:bg-white/15 transition-colors"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs text-white/70 transition-colors"
+              style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
           >
             <span>{openApps.length} app{openApps.length > 1 ? 's' : ''} aberto{openApps.length > 1 ? 's' : ''}</span>
           </button>
@@ -344,7 +345,7 @@ export const IOSMobile = () => {
 
       {isHomeVisible && (
         <div className="relative z-50 flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
-          <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4" data-no-contextmenu="true">
+          <div className="liquid-glass-ios-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4" data-no-contextmenu="true">
             {DOCK_APPS.map(app => (
               <motion.button
                 key={app.id}
@@ -439,7 +440,8 @@ export const IOSMobile = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 z-50 flex flex-col backdrop-blur-2xl bg-black/55"
+            className="absolute inset-0 z-50 flex flex-col"
+            style={{ backdropFilter: 'blur(40px) saturate(160%)', WebkitBackdropFilter: 'blur(40px) saturate(160%)', background: 'rgba(10,10,16,0.6)' }}
           >
             <div className="pt-[env(safe-area-inset-top,24px)] pb-3 flex justify-center">
               <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">Apps Recentes</p>
@@ -478,24 +480,28 @@ export const IOSMobile = () => {
               top: Math.min(dockMenu.y - 110, (typeof window !== 'undefined' ? window.innerHeight : 800) - 130),
               left: Math.min(Math.max(dockMenu.x - 80, 8), (typeof window !== 'undefined' ? window.innerWidth : 400) - 168),
             }}
-            className="fixed z-[9999] w-40 overflow-hidden rounded-xl border border-white/10 bg-black/75 shadow-2xl backdrop-blur-2xl"
+            className="fixed z-[9999] w-40 overflow-hidden rounded-xl liquid-glass-context-menu"
             onClick={e => e.stopPropagation()}
           >
             <div className="py-1">
               <div className="px-3 py-2 text-[11px] font-bold text-white/40 uppercase tracking-wider truncate">
                 {dockMenu.app.title}
               </div>
-              <div className="h-px bg-white/10" />
+              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => openApp(dockMenu.app)}
-                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
                 Abrir
               </button>
-              <div className="h-px bg-white/10" />
+              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => window.location.reload()}
-                className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
                 Recarregar
               </button>

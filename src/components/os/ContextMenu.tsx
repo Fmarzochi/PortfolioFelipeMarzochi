@@ -91,18 +91,21 @@ export const ContextMenu = () => {
           exit={{ opacity: 0, scale: 0.95, y: -4 }}
           transition={{ duration: 0.12, ease: 'easeOut' }}
           style={{ top: safeY, left: safeX }}
-          className="fixed z-[9999] min-w-[220px] overflow-hidden rounded-xl border border-white/10 bg-black/60 shadow-2xl backdrop-blur-2xl"
+          className="fixed z-[9999] min-w-[220px] overflow-hidden rounded-xl liquid-glass-context-menu"
         >
           <div className="py-1">
             {menuItems.map((item, index) => {
               if ('isSeparator' in item && item.isSeparator) {
-                return <div key={index} className="my-1 h-px bg-white/10" />;
+                return <div key={index} className="my-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />;
               }
               return (
                 <button
                   key={index}
                   onClick={item.action}
-                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ${'danger' in item && item.danger ? 'text-red-400 hover:bg-red-500/15 hover:text-red-300' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  className={`flex w-full items-center gap-2.5 px-3 py-[7px] text-left text-[13px] transition-colors ${'danger' in item && item.danger ? 'text-red-400 hover:bg-red-500/15 hover:text-red-300' : 'text-white/85 hover:text-white'}`}
+                  style={!('danger' in item && item.danger) ? { ['--tw-hover-bg' as string]: 'rgba(255,255,255,0.12)' } : undefined}
+                  onMouseEnter={e => { if (!('danger' in item && item.danger)) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                 >
                   <span className={'danger' in item && item.danger ? 'text-red-400' : 'text-white/50'}>{item.icon}</span>
                   {item.label}

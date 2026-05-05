@@ -44,7 +44,7 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="absolute right-2 top-8 z-50 w-72 rounded-2xl bg-black/40 p-3 text-white shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl"
+          className="absolute right-2 top-8 z-50 w-72 rounded-2xl p-3 text-white liquid-glass"
         >
           {/* Focus / Do Not Disturb */}
           <div
@@ -65,16 +65,17 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
           </div>
 
           {/* Sliders: Brilho e Volume */}
-          <div className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 shadow-inner ring-1 ring-white/10">
+          <div className="flex flex-col gap-4 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}>
             <div className="flex items-center gap-3">
               <Sun size={14} className="shrink-0 text-white/50" />
               <div
-                className="relative h-6 flex-1 cursor-ew-resize touch-none overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10"
+                className="relative h-[22px] flex-1 cursor-ew-resize touch-none overflow-hidden rounded-full"
+                style={{ background: 'rgba(0,0,0,0.35)', border: '0.5px solid rgba(255,255,255,0.08)' }}
                 onPointerDown={(e) => handleSliderDrag(e, setBrightness)}
               >
                 <div
-                  className="h-full bg-white/90 transition-all duration-75 ease-out"
-                  style={{ width: `${brightness}%` }}
+                  className="h-full transition-all duration-75 ease-out"
+                  style={{ width: `${brightness}%`, background: 'rgba(255,255,255,0.88)' }}
                 />
               </div>
             </div>
@@ -82,23 +83,27 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
             <div className="flex items-center gap-3">
               <Volume2 size={14} className="shrink-0 text-white/50" />
               <div
-                className="relative h-6 flex-1 cursor-ew-resize touch-none overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10"
+                className="relative h-[22px] flex-1 cursor-ew-resize touch-none overflow-hidden rounded-full"
+                style={{ background: 'rgba(0,0,0,0.35)', border: '0.5px solid rgba(255,255,255,0.08)' }}
                 onPointerDown={(e) => handleSliderDrag(e, setVolume)}
               >
                 <div
-                  className="h-full bg-white/90 transition-all duration-75 ease-out"
-                  style={{ width: `${volume}%` }}
+                  className="h-full transition-all duration-75 ease-out"
+                  style={{ width: `${volume}%`, background: 'rgba(255,255,255,0.88)' }}
                 />
               </div>
             </div>
           </div>
 
           {/* Wallpaper picker */}
-          <div className="mt-3 rounded-xl bg-white/10 p-3 ring-1 ring-white/10 flex items-center justify-between">
+          <div className="mt-3 rounded-xl p-3 flex items-center justify-between" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)' }}>
             <span className="text-xs font-medium">Fundo: {WALLPAPERS[wallpaperIndex].label}</span>
             <button
               onClick={cycleWallpaper}
-              className="rounded-lg bg-white/15 px-3 py-1.5 text-[11px] font-semibold text-white/80 hover:bg-white/25 transition-colors"
+              className="rounded-lg px-3 py-1.5 text-[11px] font-semibold text-white/80 transition-colors"
+              style={{ background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.15)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.2)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
             >
               Mudar
             </button>

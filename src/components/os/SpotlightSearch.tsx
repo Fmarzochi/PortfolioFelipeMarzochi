@@ -211,10 +211,10 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
             className="fixed z-[600] left-1/2 top-[18%] -translate-x-1/2 w-full max-w-[600px] px-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="rounded-2xl overflow-hidden shadow-2xl shadow-black/60 ring-1 ring-white/10 bg-[#1c1c1e]/90 backdrop-blur-2xl">
+            <div className="rounded-2xl overflow-hidden liquid-glass-spotlight">
 
               {/* Search input */}
-              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/8">
+              <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
                 <Search size={18} className="text-white/40 shrink-0" />
                 <input
                   ref={inputRef}
@@ -258,10 +258,10 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                           <button
                             key={result.id}
                             onClick={result.action}
-                            onMouseEnter={() => setActiveIdx(flatIdx)}
-                            className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                              isActive ? 'bg-blue-600/25' : 'hover:bg-white/5'
-                            }`}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors"
+                            style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }}
+                            onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
+                            onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                           >
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>
                               {result.icon}
@@ -279,7 +279,7 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                 })}
 
                 {results.length > 0 && (
-                  <div className="px-4 py-2.5 border-t border-white/5 mt-1">
+                  <div className="px-4 py-2.5 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     <p className="text-[10px] text-white/20 text-center">
                       ↑↓ navegar · Enter abrir · Esc fechar
                     </p>

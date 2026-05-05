@@ -125,9 +125,16 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
       )}
 
       <div
-        className={`relative flex h-11 w-full flex-shrink-0 items-center justify-between px-4 bg-white/[0.04] border-b border-white/[0.07] select-none
+        className={`relative flex h-11 w-full flex-shrink-0 items-center justify-between px-4 select-none
           ${!isFullScreen && !isMobile ? 'cursor-move' : ''}
         `}
+        style={{
+          background: 'rgba(40,40,42,0.85)',
+          backdropFilter: 'blur(40px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(150%)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          boxShadow: 'inset 0 -1px 0 rgba(0,0,0,0.2)',
+        }}
         onMouseDown={onTitleMouseDown}
         onDoubleClick={() => toggleFullScreen(id)}
       >
