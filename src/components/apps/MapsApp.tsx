@@ -184,7 +184,7 @@ const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) =
           transition={{ duration: 0.22 }}
           className="overflow-hidden"
         >
-          <div className="border-t border-white/10 px-4 pb-4 pt-3 space-y-3 max-h-[30vh] overflow-y-auto">
+          <div className="border-t border-white/10 px-4 pb-4 pt-3 space-y-3">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
               <p className="text-xs text-white/70 leading-relaxed">{selected.activities}</p>
@@ -251,11 +251,11 @@ export const MapsApp = () => {
         </div>
       </div>
 
-      {/* ── Mapa + Card (sempre em fluxo normal) ────────────────────────── */}
-      <div className="flex flex-col flex-1 min-h-0">
+      {/* ── Mapa + Card ─────────────────────────────────────────────────── */}
+      <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
 
-        {/* Mapa visual — sem overflow-hidden para não clipar nada */}
-        <div className="relative flex-1 min-h-[80px] bg-[#0a0a0a]">
+        {/* Mapa visual — altura fixa no mobile, flex-1 no desktop */}
+        <div className="relative h-[100px] md:flex-1 flex-shrink-0 bg-[#0a0a0a]">
 
           {/* Grid */}
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
@@ -335,17 +335,19 @@ export const MapsApp = () => {
           </div>
         </div>
 
-        {/* Card de detalhe — SEMPRE em fluxo normal, nunca clipado */}
-        <motion.div
-          layout
-          className="flex-shrink-0 mx-3 mb-3 mt-2 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
-        >
-          <DetailCard
-            selected={selected}
-            expanded={expanded}
-            onToggleExpanded={() => setExpanded(!expanded)}
-          />
-        </motion.div>
+        {/* Card de detalhe — área scrollável no mobile */}
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <motion.div
+            layout
+            className="mx-3 mb-3 mt-2 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
+          >
+            <DetailCard
+              selected={selected}
+              expanded={expanded}
+              onToggleExpanded={() => setExpanded(!expanded)}
+            />
+          </motion.div>
+        </div>
 
       </div>
     </div>

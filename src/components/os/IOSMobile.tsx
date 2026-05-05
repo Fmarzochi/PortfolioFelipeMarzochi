@@ -5,21 +5,24 @@ import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion
 import { X } from 'lucide-react';
 
 /* ── Heroicons Solid — busca de SVG oficial heroicons.com ─────────────────── */
-const ClockIcon = ({ className }: { className?: string }) => (
+/* GlobeAltIcon — heroicons solid 24 — representa portfolio/site web */
+const GlobeAltIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" clipRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" />
+    <path d="M21.721 12.752a9.711 9.711 0 0 0-.945-5.003 12.754 12.754 0 0 1-4.339 2.708 18.991 18.991 0 0 1-.214 4.772 17.165 17.165 0 0 0 5.498-2.477ZM14.634 15.55a17.324 17.324 0 0 0 .332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 0 0 .332 4.647 17.385 17.385 0 0 0 5.268 0ZM9.772 17.119a18.963 18.963 0 0 0 4.456 0A17.182 17.182 0 0 1 12 21.724a17.18 17.18 0 0 1-2.228-4.605ZM7.777 15.23a18.87 18.87 0 0 1-.214-4.774 12.753 12.753 0 0 1-4.34-2.708 9.711 9.711 0 0 0-.944 5.004 17.165 17.165 0 0 0 5.498 2.478ZM21.356 14.752a9.765 9.765 0 0 1-7.478 6.817 18.64 18.64 0 0 0 1.988-4.718 18.627 18.627 0 0 0 5.49-2.098ZM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 0 0 1.988 4.718 9.765 9.765 0 0 1-7.478-6.816ZM13.878 2.43a9.755 9.755 0 0 1 6.788 7.212 18.753 18.753 0 0 0-5.395-2.498 18.757 18.757 0 0 0-1.393-4.714ZM10.122 2.43a18.757 18.757 0 0 0-1.393 4.713 18.753 18.753 0 0 0-5.394 2.499 9.755 9.755 0 0 1 6.787-7.212Z" />
+  </svg>
+);
+
+/* BuildingOffice2Icon — heroicons solid 24 — representa carreira/empresas */
+const BuildingOfficeIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M3 9a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9Zm3 1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2H6Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1ZM6 14a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2H6Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Z" />
+    <path d="M3 6a3 3 0 0 1 3-3h6v3H3Zm9-3h3a3 3 0 0 1 3 3H12V3Z" />
   </svg>
 );
 
 const CommandLineIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
     <path fillRule="evenodd" clipRule="evenodd" d="M2.25 6A3.75 3.75 0 0 1 6 2.25h12A3.75 3.75 0 0 1 21.75 6v12A3.75 3.75 0 0 1 18 21.75H6A3.75 3.75 0 0 1 2.25 18V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
-  </svg>
-);
-
-const UserIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path fillRule="evenodd" clipRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" />
   </svg>
 );
 
@@ -71,11 +74,11 @@ type AppEntry = {
 };
 
 const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'maps',   title: 'Experiência', icon: ClockIcon,       gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'skills', title: 'Skills',      icon: CommandLineIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'safari', title: 'Portfólio',   icon: UserIcon,        gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'photos', title: 'Galeria',     icon: PhotoIcon,       gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder', title: 'Diplomas',    icon: AcademicCapIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
+  { id: 'maps',   title: 'Experiência', icon: BuildingOfficeIcon, gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'skills', title: 'Skills',      icon: CommandLineIcon,    gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+  { id: 'safari', title: 'Portfólio',   icon: GlobeAltIcon,       gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+  { id: 'photos', title: 'Galeria',     icon: PhotoIcon,          gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+  { id: 'finder', title: 'Diplomas',    icon: AcademicCapIcon,    gradient: 'from-amber-400 via-orange-400 to-orange-500' },
 ];
 
 const DOCK_APPS: AppEntry[] = [
