@@ -73,7 +73,7 @@ const DOCK_ITEMS: DockItem[] = [
 type DockMenu = { item: DockItem; x: number; y: number } | null;
 
 export const MacDock = () => {
-  const { openApp, closeApp, windows } = useWindowManager();
+  const { openApp, closeApp, focusApp, windows } = useWindowManager();
   const [dockMenu, setDockMenu] = useState<DockMenu>(null);
 
   const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
@@ -88,7 +88,7 @@ export const MacDock = () => {
       return;
     }
     if (isRunning(item.id)) {
-      closeApp(item.id);
+      focusApp(item.id);
     } else {
       openApp(item.id, item.title);
     }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Fingerprint } from 'lucide-react';
+import { ArrowRight, Fingerprint, Volume2, VolumeX } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import profileImg from '../../assets/images/profile.jpg';
 import signatureImg from '../../assets/images/signature.png';
@@ -16,6 +16,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const authRef = useRef(false);
 
   useEffect(() => {
@@ -41,9 +42,9 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
     if (authRef.current) return;
     authRef.current = true;
     setIsAuthenticating(true);
-    playSound('click');
+    if (!isMuted) playSound('click');
     setTimeout(() => {
-      playSound('boot');
+      if (!isMuted) playSound('boot');
       onUnlock();
     }, 800);
   };
@@ -57,6 +58,15 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
   return (
     <div className="relative flex h-[100dvh] w-screen flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
+
+      {/* ── Mute toggle ──────────────────────────────────────────────────── */}
+      <button
+        onClick={() => setIsMuted(v => !v)}
+        className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/8 ring-1 ring-white/15 hover:bg-white/15 transition-all"
+        title={isMuted ? 'Ativar som' : 'Silenciar'}
+      >
+        {isMuted ? <VolumeX size={14} className="text-white/50" /> : <Volume2 size={14} className="text-white/50" />}
+      </button>
 
       {/* ── Aurora Wallpaper ─────────────────────────────────────────────── */}
       <div className="absolute inset-0">
@@ -87,6 +97,14 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             className="text-sm md:text-xl font-medium tracking-wide text-white/55 capitalize"
           >
             {time ? formatDate(time) : 'Carregando...'}
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 }}
+            className="mt-2 text-[11px] md:text-xs text-white/28 tracking-wide text-center px-8"
+          >
+            Um portfólio diferente — explore como um sistema operacional
           </motion.p>
         </div>
 

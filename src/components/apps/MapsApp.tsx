@@ -301,6 +301,23 @@ export const MapsApp = () => {
             </motion.div>
           ))}
 
+          {/* Legenda */}
+          <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5 pointer-events-none">
+            <p className="text-[9px] font-bold uppercase tracking-widest text-white/25 mb-0.5">Trajetória</p>
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-violet-500 flex-shrink-0" />
+              <span className="text-[10px] text-white/35">Profissional</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-sky-500 flex-shrink-0" />
+              <span className="text-[10px] text-white/35">Acadêmico</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse flex-shrink-0" />
+              <span className="text-[10px] text-white/35">Em andamento</span>
+            </div>
+          </div>
+
           {/* Compass */}
           <div className="absolute right-4 top-4 text-white/10 pointer-events-none">
             <Compass size={56} strokeWidth={1} />

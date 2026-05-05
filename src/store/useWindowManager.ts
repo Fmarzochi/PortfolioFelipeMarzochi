@@ -45,6 +45,8 @@ export const useWindowManager = create<WindowManagerStore>()(
             };
           }
 
+          const openVisible = state.windows.filter(w => w.isOpen && !w.isMinimized).length;
+          const step = openVisible % 8;
           return {
             windows: [
               ...state.windows,
@@ -54,8 +56,8 @@ export const useWindowManager = create<WindowManagerStore>()(
                 isOpen: true,
                 isMinimized: false,
                 isFullScreen: false,
-                x: 80,
-                y: 60,
+                x: 80 + step * 30,
+                y: 60 + step * 25,
                 width: 860,
                 height: 560,
                 zIndex: highestZIndex + 1,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { User, Mail, Briefcase, MessageCircle, Video, Heart } from 'lucide-react';
+import { Mail, Briefcase, MessageCircle, Heart } from 'lucide-react';
 
 interface Contact {
   id: string;
@@ -81,21 +81,25 @@ export const ContactsApp = () => {
           <h2 className="mb-1 text-xl md:text-2xl font-bold tracking-tight text-white">{selectedContact.name}</h2>
           <p className="mb-4 md:mb-6 text-sm font-medium text-white/50">{selectedContact.role}</p>
 
-          {/* Action Buttons */}
-          <div className="mb-6 md:mb-8 flex gap-2 md:gap-4">
-            <button className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20">
-              <MessageCircle size={18} className="text-blue-400" />
-              <span className="text-xs text-white/70">Mensagem</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20">
-              <Video size={18} className="text-blue-400" />
-              <span className="text-xs text-white/70">FaceTime</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20">
-              <Mail size={18} className="text-blue-400" />
-              <span className="text-xs text-white/70">E-mail</span>
-            </button>
-          </div>
+          {/* Action Buttons — apenas para contatos com info */}
+          {selectedContact.email && (
+            <div className="mb-6 md:mb-8 flex gap-2 md:gap-4">
+              <button
+                onClick={() => window.open('https://wa.me/5519982341110?text=Olá Felipe!', '_blank', 'noopener,noreferrer')}
+                className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+              >
+                <MessageCircle size={18} className="text-blue-400" />
+                <span className="text-xs text-white/70">WhatsApp</span>
+              </button>
+              <button
+                onClick={() => window.open(`mailto:${selectedContact.email}?subject=Contato via Portfólio`, '_blank')}
+                className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+              >
+                <Mail size={18} className="text-blue-400" />
+                <span className="text-xs text-white/70">E-mail</span>
+              </button>
+            </div>
+          )}
 
           {/* Detalhes Info Card */}
           <div className="w-full rounded-xl bg-white/5 p-4 ring-1 ring-white/10">

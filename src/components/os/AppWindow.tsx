@@ -22,8 +22,11 @@ const CURSORS: Record<ResizeEdge, string> = {
 };
 
 export const AppWindow = ({ windowState, children }: AppWindowProps) => {
-  const { closeApp, minimizeApp, toggleFullScreen, focusApp, updatePosition, updatePositionAndSize } = useWindowManager();
+  const { closeApp, minimizeApp, toggleFullScreen, focusApp, updatePosition, updatePositionAndSize, windows } = useWindowManager();
   const { id, title, isMinimized, isFullScreen, x, y, width, height, zIndex } = windowState;
+
+  const maxZIndex = Math.max(0, ...windows.filter(w => w.isOpen && !w.isMinimized).map(w => w.zIndex));
+  const isActive = zIndex === maxZIndex;
   const isMobile = useIsMobile();
   const isDraggingTitle = useRef(false);
   const dragStart = useRef({ mouseX: 0, mouseY: 0, winX: 0, winY: 0 });
@@ -138,21 +141,21 @@ export const AppWindow = ({ windowState, children }: AppWindowProps) => {
           <button
             onClick={(e) => { e.stopPropagation(); closeApp(id); }}
             onMouseDown={(e) => e.stopPropagation()}
-            className="group flex h-[13px] w-[13px] items-center justify-center rounded-full bg-[#FF5F57] ring-1 ring-black/20 hover:bg-[#e04e47] shadow-[0_1px_3px_rgba(255,95,87,0.5)]"
+            className={`group flex h-[13px] w-[13px] items-center justify-center rounded-full ring-1 ring-black/20 transition-colors ${isActive ? 'bg-[#FF5F57] hover:bg-[#e04e47] shadow-[0_1px_3px_rgba(255,95,87,0.5)]' : 'bg-[#6B6B6B]'}`}
           >
             <X size={8} className="opacity-0 group-hover:opacity-100 text-[#4d0000]" strokeWidth={2.5} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); minimizeApp(id); }}
             onMouseDown={(e) => e.stopPropagation()}
-            className="group flex h-[13px] w-[13px] items-center justify-center rounded-full bg-[#FEBC2E] ring-1 ring-black/20 hover:bg-[#e0a426] shadow-[0_1px_3px_rgba(254,188,46,0.5)]"
+            className={`group flex h-[13px] w-[13px] items-center justify-center rounded-full ring-1 ring-black/20 transition-colors ${isActive ? 'bg-[#FEBC2E] hover:bg-[#e0a426] shadow-[0_1px_3px_rgba(254,188,46,0.5)]' : 'bg-[#6B6B6B]'}`}
           >
             <Minus size={8} className="opacity-0 group-hover:opacity-100 text-[#4d3500]" strokeWidth={2.5} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); toggleFullScreen(id); }}
             onMouseDown={(e) => e.stopPropagation()}
-            className="group flex h-[13px] w-[13px] items-center justify-center rounded-full bg-[#28C840] ring-1 ring-black/20 hover:bg-[#22a835] shadow-[0_1px_3px_rgba(40,200,64,0.5)]"
+            className={`group flex h-[13px] w-[13px] items-center justify-center rounded-full ring-1 ring-black/20 transition-colors ${isActive ? 'bg-[#28C840] hover:bg-[#22a835] shadow-[0_1px_3px_rgba(40,200,64,0.5)]' : 'bg-[#6B6B6B]'}`}
           >
             <Maximize2 size={7} className="opacity-0 group-hover:opacity-100 text-[#004d00]" strokeWidth={2.5} />
           </button>

@@ -134,6 +134,8 @@ export const IOSMobile = () => {
 
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [previewTargetIdx, setPreviewTargetIdx] = useState<number | null>(null);
+  const [pressingId, setPressingId] = useState<string | null>(null);
+  const iconPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // dock mini-menu
   const [dockMenu, setDockMenu] = useState<{ app: AppEntry; x: number; y: number } | null>(null);
@@ -264,7 +266,7 @@ export const IOSMobile = () => {
               dragMomentum={false}
               dragElastic={0.08}
               style={{ zIndex: draggingId === app.id ? 50 : 1, position: 'relative', touchAction: 'none' }}
-              animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
+              animate={{ scale: draggingId === app.id ? 1.13 : pressingId === app.id ? 0.9 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
               className="flex flex-col items-center gap-[10px]"
               onDragStart={() => { captureRects(); setDraggingId(app.id); }}
@@ -286,6 +288,18 @@ export const IOSMobile = () => {
                 e.preventDefault();
                 (e.nativeEvent as Event).stopImmediatePropagation();
               }}
+              onTouchStart={() => {
+                iconPressTimer.current = setTimeout(() => setPressingId(null), 500);
+                setPressingId(app.id);
+              }}
+              onTouchEnd={() => {
+                if (iconPressTimer.current) clearTimeout(iconPressTimer.current);
+                setPressingId(null);
+              }}
+              onTouchMove={() => {
+                if (iconPressTimer.current) clearTimeout(iconPressTimer.current);
+                setPressingId(null);
+              }}
             >
               <div className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}>
                 <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" />
@@ -303,8 +317,6 @@ export const IOSMobile = () => {
       {isHomeVisible && (
         <div className="relative z-10 flex items-center justify-center gap-[6px] pb-2">
           <div className="h-[7px] w-[18px] rounded-full bg-white/85" />
-          <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
-          <div className="h-[7px] w-[7px] rounded-full bg-white/28" />
         </div>
       )}
 
