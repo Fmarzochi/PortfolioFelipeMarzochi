@@ -310,22 +310,22 @@ const ProjectDetail = ({
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full bg-white/8 ring-1 ring-white/15 text-[11px] text-white/60 hover:text-white hover:bg-white/14 transition-all"
+          className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full text-[11px] text-white/60 hover:text-white transition-all" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
         >
           <Github size={13} />
           Ver no GitHub
         </a>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="rounded-xl bg-red-500/8 ring-1 ring-red-500/20 p-4 space-y-2">
+        <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">Problema</span>
           <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
         </div>
-        <div className="rounded-xl bg-blue-500/8 ring-1 ring-blue-500/20 p-4 space-y-2">
+        <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">Solução</span>
           <p className="text-xs text-white/65 leading-relaxed">{project.solucao}</p>
         </div>
-        <div className="rounded-xl bg-green-500/8 ring-1 ring-green-500/20 p-4 space-y-2">
+        <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <span className="text-[10px] font-bold uppercase tracking-widest text-green-400">Resultado</span>
           <p className="text-xs text-white/65 leading-relaxed">{project.resultado}</p>
         </div>
@@ -334,7 +334,7 @@ const ProjectDetail = ({
         <p className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-2">Stack utilizada</p>
         <div className="flex flex-wrap gap-2">
           {project.stack.map((s) => (
-            <span key={s} className="rounded-full bg-white/8 ring-1 ring-white/12 px-3 py-1 text-[11px] text-white/60">
+            <span key={s} className="rounded-full px-3 py-1 text-[11px] text-white/60" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               {s}
             </span>
           ))}
@@ -400,7 +400,7 @@ export const GalleryApp = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-[#111111] text-white overflow-hidden relative">
+    <div className="flex h-full w-full text-white overflow-hidden relative" style={{ background: 'rgba(10,10,12,0.92)' }}>
 
       <AnimatePresence>
         {isMobile && sidebarOpen && (
@@ -421,8 +421,9 @@ export const GalleryApp = () => {
             animate={{ x: 0, width: isMobile ? 260 : 240, opacity: 1 }}
             exit={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className={`flex flex-col h-full border-r border-white/8 bg-[#0e0e0e] overflow-hidden
+            className={`flex flex-col h-full overflow-hidden
               ${isMobile ? 'absolute left-0 top-0 z-30 shrink-0' : 'shrink-0'}`}
+            style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)' }}
           >
             <div className="flex-1 min-h-0 overflow-y-auto py-4 space-y-5 px-3">
 
@@ -455,8 +456,9 @@ export const GalleryApp = () => {
                         key={project.id}
                         onClick={() => handleViewChange(project.albumKey)}
                         className={`w-full flex items-center gap-3 rounded-xl p-2 text-left transition-colors ${
-                          isActive ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
+                          isActive ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : ''
                         }`}
+                        style={!isActive ? { } : {}}
                       >
                         {/* Thumbnail */}
                         <div className={`relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${project.gradient}`}>
@@ -501,7 +503,7 @@ export const GalleryApp = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
 
         {/* Top bar */}
-        <div className="h-11 shrink-0 flex items-center gap-2 px-3 border-b border-white/8 bg-[#0e0e0e]/80">
+        <div className="h-11 shrink-0 flex items-center gap-2 px-3" style={{ background: 'rgba(28,28,30,0.82)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           {/* Sidebar toggle */}
           <button
             onClick={() => setSidebarOpen((v) => !v)}
@@ -520,7 +522,7 @@ export const GalleryApp = () => {
           <div className="flex-1" />
 
           {/* Search */}
-          <div className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 ring-1 transition-all shrink-0 ${searchFocused ? 'bg-white/10 ring-white/30' : 'bg-white/5 ring-white/10'}`}>
+          <div className="flex items-center gap-2 rounded-[10px] px-2.5 py-1.5 transition-all shrink-0" style={{ background: searchFocused ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.08)', border: searchFocused ? '1px solid rgba(10,132,255,0.6)' : '1px solid rgba(255,255,255,0.12)' }}>
             <Search size={12} className="text-white/40 shrink-0" />
             <input
               type="text"
@@ -541,7 +543,7 @@ export const GalleryApp = () => {
           {/* Add = opens LinkedIn */}
           <button
             onClick={() => window.open('https://www.linkedin.com/in/felipemarzochi/', '_blank')}
-            className="flex items-center justify-center h-7 w-7 rounded-md bg-white/8 hover:bg-white/15 text-white/50 hover:text-white transition-colors ring-1 ring-white/10 shrink-0"
+            className="flex items-center justify-center h-7 w-7 rounded-[8px] text-white/50 hover:text-white transition-colors shrink-0" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
           >
             <Plus size={14} />
           </button>

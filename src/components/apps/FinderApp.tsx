@@ -247,9 +247,9 @@ export const FinderApp = () => {
   const totalCerts = CATEGORIES.reduce((sum, cat) => sum + cat.files.length, 0);
 
   return (
-    <div className="flex flex-col md:flex-row h-full w-full bg-[#1e1e1e]/80 text-white/90 backdrop-blur-3xl">
+    <div className="flex flex-col md:flex-row h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
       {/* Sidebar */}
-      <div className="w-full max-h-[35vh] md:max-h-none md:w-[220px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
+      <div className="w-full max-h-[35vh] md:max-h-none md:w-[220px] flex-shrink-0 pt-4 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">
           Certificados ({totalCerts})
         </div>
@@ -281,7 +281,7 @@ export const FinderApp = () => {
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Toolbar */}
-        <div className="flex h-12 items-center justify-between border-b border-white/10 bg-white/5 px-4">
+        <div className="flex h-12 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-3">
             <h2 className="text-sm font-semibold tracking-wide">{activeData.label}</h2>
             <span className="text-[10px] text-white/40">
@@ -290,7 +290,7 @@ export const FinderApp = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex rounded-md bg-black/40 ring-1 ring-white/10">
+            <div className="flex rounded-md" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 transition-colors ${viewMode === 'grid' ? 'bg-white/20' : 'hover:bg-white/10'} rounded-l-md`}
@@ -304,7 +304,7 @@ export const FinderApp = () => {
                 <List size={14} />
               </button>
             </div>
-            <div className="flex items-center rounded-md bg-black/40 px-2 py-1 ring-1 ring-white/10 focus-within:ring-blue-500">
+            <div className="flex items-center rounded-[10px] px-2 py-1 focus-within:outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <Search size={14} className="text-white/40" />
               <input
                 type="text"
@@ -332,7 +332,7 @@ export const FinderApp = () => {
                   className="group flex cursor-pointer flex-col items-center gap-1.5 rounded-lg p-2 transition-colors hover:bg-white/10"
                 >
                   {/* Thumbnail */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-white/5 ring-1 ring-white/10">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[10px]" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <img
                       src={`/certificados/${file.path}`}
                       alt={file.name}
@@ -348,7 +348,7 @@ export const FinderApp = () => {
             </div>
           ) : (
             <div className="flex flex-col">
-              <div className="flex items-center border-b border-white/10 pb-2 text-[10px] font-semibold uppercase text-white/40">
+              <div className="flex items-center pb-2 text-[10px] font-semibold uppercase text-white/40" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                 <div className="flex-1 px-4">Nome</div>
                 <div className="hidden md:block w-20 text-right pr-2">Ano</div>
                 <div className="hidden md:block w-28 text-right pr-4">Verso</div>
@@ -385,7 +385,7 @@ export const FinderApp = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+            className="absolute inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(12px)' }}
             onClick={() => setPreviewFile(null)}
           >
             <motion.div
@@ -393,7 +393,7 @@ export const FinderApp = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative flex max-h-[90%] max-w-[95%] md:max-w-[80%] flex-col items-center rounded-2xl bg-[#1a1a1a] p-3 md:p-4 ring-1 ring-white/20 shadow-2xl"
+              className="relative flex max-h-[90%] max-w-[95%] md:max-w-[80%] flex-col items-center rounded-2xl p-3 md:p-4" style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header do Modal */}
@@ -412,18 +412,19 @@ export const FinderApp = () => {
                   {previewFile.versoPath && (
                     <button
                       onClick={() => setShowVerso(!showVerso)}
-                      className={`rounded-md px-3 py-1 text-[11px] font-semibold transition-colors ring-1 ${
+                      className={`rounded-[8px] px-3 py-1 text-[11px] font-semibold transition-colors ${
                         showVerso
-                          ? 'bg-blue-500 text-white ring-blue-400'
-                          : 'bg-white/10 text-white/60 ring-white/10 hover:bg-white/20'
+                          ? 'bg-blue-500 text-white'
+                          : 'text-white/60 hover:text-white/80'
                       }`}
+                      style={!showVerso ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' } : {}}
                     >
                       {showVerso ? 'Frente' : 'Verso'}
                     </button>
                   )}
                   <button
                     onClick={() => setPreviewFile(null)}
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/60 transition-colors hover:bg-white/20 hover:text-white"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                   >
                     <X size={14} />
                   </button>

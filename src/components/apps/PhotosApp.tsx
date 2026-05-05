@@ -30,9 +30,9 @@ export const PhotosApp = () => {
     : mockPhotos.filter(p => p.project === activeFilter);
 
   return (
-    <div className="flex h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
+    <div className="flex h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
       {/* Sidebar de Álbuns */}
-      <div className="w-[200px] flex-shrink-0 border-r border-white/10 bg-black/20 pt-4">
+      <div className="w-[200px] flex-shrink-0 pt-4" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">
           Biblioteca
         </div>
@@ -67,9 +67,9 @@ export const PhotosApp = () => {
       </div>
 
       {/* Área Principal - Grid de Fotos */}
-      <div className="flex flex-1 flex-col overflow-hidden bg-black/40">
+      <div className="flex flex-1 flex-col overflow-hidden" style={{ background: 'transparent' }}>
         {/* Toolbar da Galeria */}
-        <div className="flex h-14 items-center justify-between border-b border-white/10 px-4 backdrop-blur-md">
+        <div className="flex h-14 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-4">
             <Sidebar size={18} className="text-white/60 cursor-pointer hover:text-white" />
             <h2 className="text-sm font-semibold tracking-wide">
@@ -77,7 +77,7 @@ export const PhotosApp = () => {
             </h2>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center rounded-md bg-white/10 px-2 py-1 ring-1 ring-white/10 focus-within:ring-blue-500">
+            <div className="flex items-center rounded-[10px] px-2 py-1" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <Search size={14} className="text-white/40" />
               <input type="text" placeholder="Buscar fotos..." className="ml-2 w-32 bg-transparent text-sm outline-none placeholder:text-white/30" />
             </div>
@@ -89,7 +89,7 @@ export const PhotosApp = () => {
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {filteredPhotos.map((photo) => (
-              <div key={photo.id} className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl shadow-lg ring-1 ring-white/10 transition-transform hover:scale-[1.02] hover:z-10 hover:shadow-2xl">
+              <div key={photo.id} className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl transition-transform hover:scale-[1.02] hover:z-10 hover:shadow-2xl" style={{ border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                 {/* Background simulando a imagem */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${photo.gradient} opacity-80 transition-opacity group-hover:opacity-100 flex items-center justify-center`}>
                   {photo.icon}

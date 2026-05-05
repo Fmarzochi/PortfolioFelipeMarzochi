@@ -51,8 +51,8 @@ const ACTIONS = [
 ];
 
 export const ContactsApp = () => (
-  <div className="flex h-full w-full items-center justify-center bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl overflow-y-auto p-4">
-    <div className="w-full max-w-sm flex flex-col items-center rounded-3xl bg-black/30 p-6 ring-1 ring-white/10 shadow-2xl backdrop-blur-xl">
+  <div className="flex h-full w-full items-center justify-center text-white/90 overflow-y-auto p-4" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
+    <div className="w-full max-w-sm flex flex-col items-center rounded-3xl p-6 shadow-2xl" style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}>
 
       {/* Avatar */}
       <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-violet-600 shadow-2xl ring-4 ring-white/10">
@@ -68,7 +68,7 @@ export const ContactsApp = () => (
           <button
             key={label}
             onClick={onClick}
-            className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 ring-1 transition-colors ${color}`}
+            className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 ring-1 transition-colors border border-white/10 ${color}`}
           >
             <Icon />
             <span className="text-[10px] font-semibold">{label}</span>
@@ -77,7 +77,7 @@ export const ContactsApp = () => (
       </div>
 
       {/* Info card */}
-      <div className="mt-5 w-full rounded-2xl bg-white/5 ring-1 ring-white/8 divide-y divide-white/5">
+      <div className="mt-5 w-full rounded-2xl divide-y divide-white/8" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
         {INFO_ITEMS.map(({ label, value, isEmail }) => (
           <div key={label} className="flex items-start gap-3 px-4 py-3">
             <span className="w-24 flex-shrink-0 text-[11px] text-white/35 uppercase tracking-wide pt-px">{label}</span>

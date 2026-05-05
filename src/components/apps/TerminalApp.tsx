@@ -195,7 +195,7 @@ export const TerminalApp = () => {
 
   return (
     <div
-      className="h-full w-full overflow-y-auto bg-black/90 p-4 font-mono text-[14px] text-gray-200"
+      className="h-full w-full overflow-y-auto p-4 font-mono text-[14px] text-gray-200" style={{ background: 'rgba(10,10,12,0.92)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       onClick={handleTerminalClick}
     >
       <div className="flex flex-col gap-2">

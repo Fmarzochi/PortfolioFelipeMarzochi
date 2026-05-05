@@ -184,7 +184,7 @@ const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) =
           transition={{ duration: 0.22 }}
           className="overflow-hidden"
         >
-          <div className="border-t border-white/10 px-4 pb-4 pt-3 space-y-3">
+          <div className="px-4 pb-4 pt-3 space-y-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wider text-blue-400 mb-1.5">Atividades</p>
               <p className="text-xs text-white/70 leading-relaxed">{selected.activities}</p>
@@ -221,10 +221,10 @@ export const MapsApp = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
+    <div className="flex flex-col md:flex-row h-full w-full text-white" style={{ background: 'rgba(10,10,12,0.92)' }}>
 
-      <div ref={sidebarRef} className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
-        <div className="mb-3 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
+      <div ref={sidebarRef} className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 p-3 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="mb-3 flex items-center gap-2 rounded-xl p-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <Navigation size={13} className="text-blue-500 flex-shrink-0" />
           <span className="text-xs text-white/40">Linha do Tempo · Experiência</span>
         </div>
@@ -238,7 +238,7 @@ export const MapsApp = () => {
           ))}
         </div>
 
-        <div className="h-px bg-white/8 my-2" />
+        <div className="h-px my-2" style={{ background: 'rgba(255,255,255,0.08)' }} />
 
         <div className="space-y-1">
           <h3 className="px-2 text-[10px] font-bold uppercase tracking-wider text-indigo-400/60 mb-1.5 flex items-center gap-1.5">
@@ -253,7 +253,7 @@ export const MapsApp = () => {
       <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
 
         {/* Mapa visual — altura fixa no mobile, flex-1 no desktop */}
-        <div className="relative h-[100px] md:flex-1 flex-shrink-0 bg-[#0a0a0a]">
+        <div className="relative h-[100px] md:flex-1 flex-shrink-0" style={{ background: 'rgba(10,10,12,0.92)' }}>
 
           {/* Grid */}
           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{
@@ -337,7 +337,7 @@ export const MapsApp = () => {
         <div className="flex-1 min-h-0 overflow-y-auto">
           <motion.div
             layout
-            className="mx-3 mb-3 mt-2 rounded-2xl border border-white/10 bg-black/70 shadow-2xl backdrop-blur-xl overflow-hidden"
+            className="mx-3 mb-3 mt-2 rounded-2xl overflow-hidden" style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}
           >
             <DetailCard
               selected={selected}

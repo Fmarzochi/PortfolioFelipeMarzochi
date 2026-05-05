@@ -241,7 +241,7 @@ export const BrowserApp = () => {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(90,40,200,0.18),transparent)] pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center">
-            <div className="mb-5 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur-xl shadow-2xl">
+            <div className="mb-5 rounded-2xl p-4 ring-1 ring-white/10 shadow-2xl" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(40px) saturate(180%)' }}>
               <PortfolioIcon size={42} className="text-blue-500" />
             </div>
             <div className="mb-4 flex items-center justify-center">
@@ -255,7 +255,7 @@ export const BrowserApp = () => {
             </div>
             <div className="flex flex-wrap justify-center gap-2 mb-3">
               {['Full Stack Developer', 'Java · Spring Boot', 'React · TypeScript · Next.js', 'PostgreSQL · Docker · AWS'].map((tag) => (
-                <span key={tag} className="px-3 py-1 rounded-full bg-white/8 ring-1 ring-white/12 text-[11px] text-white/60 font-medium">
+                <span key={tag} className="px-3 py-1 rounded-full text-[11px] text-white/60 font-medium" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
                   {tag}
                 </span>
               ))}
@@ -266,14 +266,14 @@ export const BrowserApp = () => {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button
                 onClick={openGallery}
-                className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)]"
+                className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] rounded-[8px]"
               >
                 Ver Portfólio
               </button>
               <a
                 href="/cv/CV_FELIPE_MARZOCHI.pdf"
                 download="CV_Felipe_Marzochi.pdf"
-                className="flex items-center gap-2 rounded-lg bg-white/10 px-6 py-2.5 text-sm font-semibold text-white ring-1 ring-white/20 transition-all hover:bg-white/20 hover:ring-white/40"
+                className="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:ring-white/40" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
               >
                 <Download size={14} />
                 Download CV
@@ -285,7 +285,7 @@ export const BrowserApp = () => {
         <div className="mx-auto max-w-3xl px-6 py-8 space-y-8">
 
           {/* Sobre mim — narrative */}
-          <div className="rounded-2xl bg-white/[0.04] ring-1 ring-white/8 p-6 space-y-3">
+          <div className="rounded-2xl p-6 space-y-3" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-4">
               <Layers size={16} className="text-blue-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400">Perfil Profissional</h2>
@@ -302,14 +302,14 @@ export const BrowserApp = () => {
           </div>
 
           {/* DNA Profissional */}
-          <div className="rounded-2xl bg-white/[0.04] ring-1 ring-white/8 p-6">
+          <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Brain size={16} className="text-violet-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-violet-400">DNA Profissional</h2>
             </div>
             <div className="space-y-3">
               {PROFILE_TRAITS.map((trait) => (
-                <div key={trait.label} className="flex gap-3 items-start rounded-xl bg-white/[0.03] ring-1 ring-white/6 p-3">
+                <div key={trait.label} className="flex gap-3 items-start rounded-[10px] p-3" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                   <trait.icon size={15} className={`${trait.color} flex-shrink-0 mt-0.5`} />
                   <div>
                     <p className="text-xs font-semibold text-white/85 mb-0.5">{trait.label}</p>
@@ -321,7 +321,7 @@ export const BrowserApp = () => {
           </div>
 
           {/* Como trabalho */}
-          <div className="rounded-2xl bg-white/[0.04] ring-1 ring-white/8 p-6">
+          <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Target size={16} className="text-green-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-green-400">Como Trabalho</h2>
@@ -352,7 +352,7 @@ export const BrowserApp = () => {
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {PROJECTS.map((project) => (
-                <div key={project.title} className="flex flex-col rounded-2xl bg-white/[0.04] ring-1 ring-white/8 overflow-hidden">
+                <div key={project.title} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                   <div className={`relative h-32 bg-gradient-to-br ${project.gradientClass} overflow-hidden flex-shrink-0`}>
                     <div className="absolute inset-0">{project.svgIllustration}</div>
                     <div className="absolute inset-0 bg-black/10" />
@@ -373,18 +373,18 @@ export const BrowserApp = () => {
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
                       {project.stack.map((tag) => (
-                        <span key={tag} className="rounded-md bg-white/8 px-2 py-0.5 text-[10px] text-white/50 ring-1 ring-white/6">{tag}</span>
+                        <span key={tag} className="rounded-md px-2 py-0.5 text-[10px] text-white/50" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)' }}>{tag}</span>
                       ))}
                     </div>
                     {(project.githubUrl || project.demoUrl) && (
-                      <div className="flex gap-2 mt-3 pt-3 border-t border-white/6">
+                      <div className="flex gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                         {project.githubUrl && (
                           <a
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={e => e.stopPropagation()}
-                            className="flex items-center gap-1.5 rounded-lg bg-white/8 px-3 py-1.5 text-[11px] font-medium text-white/60 ring-1 ring-white/10 hover:bg-white/15 hover:text-white/90 transition-colors"
+                            className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                           >
                             <ExternalLink size={11} /> Ver no GitHub
                           </a>

@@ -281,7 +281,7 @@ export const SkillsApp = () => {
     : SKILL_GROUPS;
 
   return (
-    <div className="h-full w-full bg-[#0c0c0c] font-mono text-sm text-gray-300 select-text flex flex-col">
+    <div className="h-full w-full font-mono text-sm text-gray-300 select-text flex flex-col" style={{ background: 'rgba(10,10,12,0.92)', backdropFilter: 'blur(40px)' }}>
 
       <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6">
         {/* Boot log */}
@@ -303,7 +303,7 @@ export const SkillsApp = () => {
             </div>
 
             {/* Header neofetch-style */}
-            <div className="flex flex-col sm:flex-row gap-5 sm:gap-10 border border-white/5 rounded-lg p-4 bg-white/[0.02]">
+            <div className="flex flex-col sm:flex-row gap-5 sm:gap-10 rounded-lg p-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="text-blue-500 font-bold leading-none hidden sm:block text-[11px]">
                 <pre>{`
  ███████╗███╗   ███╗
@@ -319,7 +319,7 @@ export const SkillsApp = () => {
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Foco atual:</span>Especialista Front-End (React · TS · Next.js) evoluindo para Java/Spring Boot</div>
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Localização:</span>Americana, SP</div>
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Idiomas:</span>Português (nativo) · Inglês (intermediário)</div>
-                <div className="pt-1 border-t border-white/5">
+                <div className="pt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                   <span className="text-blue-400 font-semibold w-28 inline-block">Formação:</span>
                   <span className="text-gray-300">Análise e Desenvolvimento de Sistemas · MBA Eng. Software</span>
                 </div>
@@ -337,7 +337,7 @@ export const SkillsApp = () => {
             </div>
 
             {/* Tab selector */}
-            <div className="flex gap-4 text-xs border-b border-white/10 pb-2">
+            <div className="flex gap-4 text-xs pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
               <button
                 onClick={() => { setActiveTab('skills'); setActiveGroup(null); }}
                 className={`transition-colors pb-1 border-b-2 ${activeTab === 'skills' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
@@ -383,7 +383,7 @@ export const SkillsApp = () => {
             {/* Certifications tab */}
             {activeTab === 'certs' && (
               <div className="space-y-2 animate-in fade-in duration-300">
-                <div className="flex items-center gap-2 text-[11px] text-gray-500 mb-3 p-2 rounded-lg bg-white/[0.03] ring-1 ring-white/5">
+                <div className="flex items-center gap-2 text-[11px] text-gray-500 mb-3 p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <span className="text-green-400 text-base">✓</span>
                   <span>{CERTIFICATIONS.length} certificações principais listadas abaixo · <span className="text-blue-400 cursor-default">abra o app Diplomas</span> para ver todos os 50+ certificados escaneados</span>
                 </div>
@@ -404,7 +404,7 @@ export const SkillsApp = () => {
 
             {/* Terminal command history */}
             {cmdHistory.length > 0 && (
-              <div className="space-y-1 border-t border-white/8 pt-4 text-xs">
+              <div className="space-y-1 pt-4 text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                 {cmdHistory.map((line, i) => (
                   <div
                     key={i}
@@ -426,7 +426,7 @@ export const SkillsApp = () => {
       </div>
 
       {showPrompt && (
-        <div className="flex-shrink-0 border-t border-white/8 pt-3 px-4 md:px-6 pb-[max(16px,env(safe-area-inset-bottom,16px))] bg-[#0c0c0c]">
+        <div className="flex-shrink-0 pt-3 px-4 md:px-6 pb-[max(16px,env(safe-area-inset-bottom,16px))]" style={{ background: 'rgba(10,10,12,0.92)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <form onSubmit={handleSubmit} className="flex items-center gap-1 flex-wrap">
             <span className="text-green-500 font-bold text-xs">visitante@felipe-marzochi</span>
             <span className="text-white text-xs">:</span>
