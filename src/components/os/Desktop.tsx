@@ -1,13 +1,27 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useWindowManager } from '../../store/useWindowManager';
 import { AppWindow } from './AppWindow';
 import { AppRegistry } from '../apps/AppRegistry';
 import { useOSContext } from '../../contexts/OSContext';
 
 export const Desktop = () => {
-  const { windows } = useWindowManager();
+  const { windows, openApp } = useWindowManager();
   const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
+
+  /* Auto-open BrowserApp on first access per session */
+  useEffect(() => {
+    const alreadyOpened = sessionStorage.getItem('welcome-opened');
+    if (!alreadyOpened) {
+      const hasOpenWindows = windows.some((w) => w.isOpen && !w.isMinimized);
+      if (!hasOpenWindows) {
+        openApp('safari', 'Portfólio');
+      }
+      sessionStorage.setItem('welcome-opened', '1');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="absolute inset-0 z-10 overflow-hidden">

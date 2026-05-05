@@ -73,8 +73,6 @@ const DEFAULT_HOME_APPS: AppEntry[] = [
 
 const DOCK_APPS: AppEntry[] = [
   { id: 'messages', title: 'Contato',  icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                        },
-  { id: 'safari',   title: 'Safari',   icon: PortfolioIcon, gradient: 'from-blue-500 via-blue-400 to-cyan-400'                                            },
-  { id: 'skills',   title: 'Skills',   icon: SkillsIcon,   gradient: 'from-slate-500 via-slate-600 to-slate-700'                                        },
   { id: 'linkedin', title: 'LinkedIn', icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
   { id: 'github',   title: 'GitHub',   icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
 ];
@@ -134,6 +132,7 @@ export const IOSMobile = () => {
 
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [previewTargetIdx, setPreviewTargetIdx] = useState<number | null>(null);
+  const [showDragHint, setShowDragHint] = useState(false);
 
   // dock mini-menu
   const [dockMenu, setDockMenu] = useState<{ app: AppEntry; x: number; y: number } | null>(null);
@@ -156,6 +155,18 @@ export const IOSMobile = () => {
     return () => document.removeEventListener('ios-open-app', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /* Show swipe-down hint once per session on first app open */
+  useEffect(() => {
+    if (!activeAppId) return;
+    const hintShown = sessionStorage.getItem('app-drag-hint-shown');
+    if (!hintShown) {
+      setShowDragHint(true);
+      sessionStorage.setItem('app-drag-hint-shown', '1');
+      const t = setTimeout(() => setShowDragHint(false), 2800);
+      return () => clearTimeout(t);
+    }
+  }, [activeAppId]);
 
   /* ── App management ─────────────────────────────────────────────────────── */
   const openApp = useCallback((app: AppEntry) => {
@@ -389,6 +400,19 @@ export const IOSMobile = () => {
               style={{ touchAction: 'none' }}
             >
               <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
+              <AnimatePresence>
+                {showDragHint && (
+                  <motion.span
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-1.5 text-[10px] text-white/35 pointer-events-none"
+                  >
+                    ↓ arraste para fechar
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* App content */}

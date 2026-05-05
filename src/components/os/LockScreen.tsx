@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Fingerprint, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, ChevronUp, Fingerprint, Volume2, VolumeX } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import profileImg from '../../assets/images/profile.jpg';
 import signatureImg from '../../assets/images/signature.png';
@@ -192,6 +192,24 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           </div>
         </motion.div>
       </div>
+
+      {/* ── Swipe-up hint (mobile only) ──────────────────────────────────── */}
+      {isTouchDevice && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-1 pointer-events-none"
+        >
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+          >
+            <ChevronUp size={20} className="text-white/35" />
+          </motion.div>
+          <span className="text-[11px] text-white/30 tracking-wide">Deslize para cima</span>
+        </motion.div>
+      )}
     </div>
   );
 };

@@ -257,8 +257,15 @@ export const BrowserApp = () => {
                 style={{ filter: 'invert(1) brightness(6) contrast(1.8)', mixBlendMode: 'screen', opacity: 0.92 }}
               />
             </div>
-            <p className="max-w-md text-base text-white/50 leading-relaxed">
-              Desenvolvimento de alta performance. Arquiteturas robustas, Clean Code e interfaces focadas na experiência do usuário.
+            <div className="flex flex-wrap justify-center gap-2 mb-3">
+              {['Full Stack Developer', 'Java · Spring Boot', 'React · TypeScript · Next.js', 'PostgreSQL · Docker · AWS'].map((tag) => (
+                <span key={tag} className="px-3 py-1 rounded-full bg-white/8 ring-1 ring-white/12 text-[11px] text-white/60 font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p className="max-w-md text-sm text-white/40 leading-relaxed">
+              Arquiteturas robustas, Clean Code e interfaces focadas na experiência do usuário.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button

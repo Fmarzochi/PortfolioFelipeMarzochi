@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid } from 'lucide-react';
+import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid, Github } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface Project {
@@ -16,6 +16,7 @@ interface Project {
   resultado: string;
   stack: string[];
   svg: React.ReactNode;
+  github?: string;
 }
 
 /* ── SVG Illustrations ────────────────────────────────────────────────────── */
@@ -132,6 +133,7 @@ const PROJECTS: Project[] = [
     resultado: 'Orçamentos gerados em segundos, visibilidade total das OS em tempo real e redução de falhas operacionais com dados sempre atualizados.',
     stack: ['Java', 'React.js', 'PostgreSQL', 'REST API'],
     svg: <DashboardSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
   {
     id: '2',
@@ -144,6 +146,7 @@ const PROJECTS: Project[] = [
     resultado: 'Presença digital profissional entregue, experiência mobile premium com navegação por dedão, fluxo de captação simplificado e taxa de conversão otimizada.',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
     svg: <MobilePawSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
   {
     id: '3',
@@ -156,6 +159,7 @@ const PROJECTS: Project[] = [
     resultado: 'Processo de candidatura automatizado com scoring de compatibilidade por IA, zero tempo gasto em triagem manual e notificação imediata das melhores oportunidades via GitHub Actions.',
     stack: ['Python', 'Gemini API', 'Gmail API', 'Google Sheets', 'GitHub Actions'],
     svg: <NetworkGraphSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
   {
     id: '4',
@@ -168,6 +172,7 @@ const PROJECTS: Project[] = [
     resultado: 'Conformidade ISO 9001 e ISO 10012 garantida com rastreabilidade 100% auditável, zero erro humano no controle de vencimentos, evidências de calibração sempre disponíveis para auditorias externas e dados de cada empresa completamente isolados em arquitetura multi-tenant.',
     stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
     svg: <GaugeSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
   {
     id: '5',
@@ -180,6 +185,7 @@ const PROJECTS: Project[] = [
     resultado: '2,1 milhões de registros ingeridos em segundos — contra horas com ORM convencional — com dashboard analítico em tempo real mostrando distribuição por UF e ranking de operadoras.',
     stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
     svg: <BarChartLineSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
   {
     id: '6',
@@ -192,6 +198,7 @@ const PROJECTS: Project[] = [
     resultado: 'Pipeline serverless completo com garantia de entrega via fila, desacoplamento total entre camadas e 100 transações processadas com sucesso em ambiente AWS.',
     stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
     svg: <CloudPipelineSVG />,
+    github: 'https://github.com/Fmarzochi',
   },
 ];
 
@@ -303,6 +310,17 @@ const ProjectDetail = ({
 
     {/* Body */}
     <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      {project.github && (
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full bg-white/8 ring-1 ring-white/15 text-[11px] text-white/60 hover:text-white hover:bg-white/14 transition-all"
+        >
+          <Github size={13} />
+          Ver no GitHub
+        </a>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-xl bg-red-500/8 ring-1 ring-red-500/20 p-4 space-y-2">
           <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">Problema</span>
