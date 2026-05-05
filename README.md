@@ -97,6 +97,7 @@ src/
 - **Múltiplas janelas** abertas simultaneamente com gerenciamento de z-index
 - **Persistência de estado** — posição e tamanho das janelas salvas no `localStorage`
 - **Layout adaptativo** — iOS no mobile, macOS no desktop (sem media queries manuais)
+- **Glassmorphism nativo Apple** — todas as superfícies do sistema e dos apps com vidro fosco fiel ao iOS/macOS
 
 ---
 
