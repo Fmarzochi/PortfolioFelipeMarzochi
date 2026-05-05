@@ -52,7 +52,7 @@ src/
 │       ├── IOSMobile.tsx       # Layout completo iOS
 │       ├── LockScreen.tsx      # Tela de bloqueio
 │       ├── MacDock.tsx         # Dock com magnificação (macOS)
-│       ├── SpotlightSearch.tsx # Busca global (⌘ + Space)
+│       ├── SpotlightSearch.tsx # Busca global (Win + Espaço / ⌘ + Espaço)
 │       ├── TopBar.tsx          # Barra de menu superior (macOS)
 │       └── WebOS.tsx           # Orquestrador principal do sistema
 ├── contexts/
@@ -90,8 +90,9 @@ src/
 - **Dock com magnificação** ao passar o mouse (macOS)
 - **Dynamic Island** no topo da tela (mobile)
 - **Central de controle** com ajuste de volume, brilho e troca de wallpaper
-- **Spotlight Search** (⌘ + Space) com busca entre os apps
+- **Spotlight Search** (Win + Espaço / ⌘ + Espaço) com busca entre os apps
 - **Menu de contexto** por clique direito (desktop) e long-press (mobile)
+- **Ícones móveis no estilo iOS** — drag livre com snap de retorno à posição original
 - **Crossfade de wallpaper** animado ao trocar o plano de fundo
 - **Múltiplas janelas** abertas simultaneamente com gerenciamento de z-index
 - **Persistência de estado** — posição e tamanho das janelas salvas no `localStorage`
