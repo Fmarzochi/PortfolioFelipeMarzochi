@@ -2,37 +2,12 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion';
-import { X, Map as MapIcon, Image as ImageIcon } from 'lucide-react';
+import { X, Briefcase, Code2, Globe, Images, GraduationCap } from 'lucide-react';
 
-/* Portfolio universal icon — briefcase + </> */
-const PortfolioIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect x="2" y="7" width="20" height="14" rx="2" />
-    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-    <path d="M9 13.5l-2 1.5 2 1.5" />
-    <path d="M15 13.5l2 1.5-2 1.5" />
-    <line x1="13" y1="12" x2="11" y2="17" />
-  </svg>
-);
 import { AppRegistry } from '../apps/AppRegistry';
 import { playSound } from '../../utils/audioEngine';
 import { useOSContext } from '../../contexts/OSContext';
 
-/* ── SVG Icons ────────────────────────────────────────────────────────────── */
-const DiplomasIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12 1L3 5v6c0 5.25 3.75 10.15 9 11.35C17.25 21.15 21 16.25 21 11V5L12 1zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/>
-    <path d="M10.5 13.5l-2-2-1 1 3 3 5-5-1-1z"/>
-  </svg>
-);
-
-const SkillsIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <polyline points="16 18 22 12 16 6"/>
-    <polyline points="8 6 2 12 8 18"/>
-    <line x1="12" y1="2" x2="10" y2="22"/>
-  </svg>
-);
 
 const LinkedInIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -64,11 +39,11 @@ type AppEntry = {
 };
 
 const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'maps',   title: 'Experiência Profissional', icon: MapIcon,      gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'skills', title: 'Skills',                   icon: SkillsIcon,   gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'safari', title: 'Portfólio',               icon: PortfolioIcon, gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'photos', title: 'Galeria de Projetos',      icon: ImageIcon,    gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder', title: 'Diplomas',                 icon: DiplomasIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
+  { id: 'maps',   title: 'Experiência', icon: Briefcase,     gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'skills', title: 'Skills',      icon: Code2,         gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+  { id: 'safari', title: 'Portfólio',   icon: Globe,         gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+  { id: 'photos', title: 'Galeria',     icon: Images,        gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+  { id: 'finder', title: 'Diplomas',    icon: GraduationCap, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
 ];
 
 const DOCK_APPS: AppEntry[] = [
@@ -294,11 +269,11 @@ export const IOSMobile = () => {
               }}
               onDragEnd={(_: unknown, info: PanInfo) => {
                 if (!isHomeVisible) return;
-                const moved = Math.abs(info.offset.x) + Math.abs(info.offset.y) > 12;
-                if (moved) {
-                  setHomeApps([...displayApps]);
-                } else {
+                const dist = Math.abs(info.offset.x) + Math.abs(info.offset.y);
+                if (dist < 8) {
                   openApp(app);
+                } else {
+                  setHomeApps([...displayApps]);
                 }
                 setDraggingId(null);
                 setPreviewTargetIdx(null);

@@ -8,7 +8,7 @@ import { useOSContext } from '../../contexts/OSContext';
 
 export const Desktop = () => {
   const { windows, openApp } = useWindowManager();
-  const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
+  const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle, focusMode } = useOSContext();
 
   /* Auto-open BrowserApp on first access per session */
   useEffect(() => {
@@ -37,6 +37,11 @@ export const Desktop = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_55%_at_50%_0%,rgba(80,40,190,0.32),transparent)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_38%_at_0%_85%,rgba(20,75,170,0.22),transparent)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_100%_80%,rgba(0,110,90,0.18),transparent)] pointer-events-none" />
+      {/* Focus mode overlay */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${focusMode ? 'opacity-100' : 'opacity-0'}`}
+        style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(1px)' }}
+      />
 
       {(() => {
         const maxZIndex = Math.max(0, ...windows.filter(w => w.isOpen && !w.isMinimized).map(w => w.zIndex));

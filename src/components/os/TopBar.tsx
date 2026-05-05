@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, Moon } from 'lucide-react';
+import { useOSContext } from '../../contexts/OSContext';
 import { ControlCenter } from './ControlCenter';
 import { SpotlightSearch } from './SpotlightSearch';
 import { useWindowManager } from '../../store/useWindowManager';
@@ -24,6 +25,7 @@ export const TopBar = () => {
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const { windows } = useWindowManager();
+  const { focusMode } = useOSContext();
 
   /* Global shortcut: Cmd+Space / Ctrl+Space */
   useEffect(() => {
@@ -99,6 +101,12 @@ export const TopBar = () => {
           >
             <GitHubIcon />
           </a>
+
+          {focusMode && (
+            <span title="Foco ativado">
+              <Moon size={13} className="fill-indigo-400 text-indigo-400" />
+            </span>
+          )}
 
           <div className="h-3 w-px bg-white/20" />
 

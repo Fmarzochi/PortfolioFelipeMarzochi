@@ -1,8 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wifi, Bluetooth, Airplay, Moon, Sun, Volume2 } from 'lucide-react';
-import { useState } from 'react';
+import { Moon, Sun, Volume2 } from 'lucide-react';
 import { useOSContext, WALLPAPERS } from '../../contexts/OSContext';
 
 interface ControlCenterProps {
@@ -10,17 +9,8 @@ interface ControlCenterProps {
 }
 
 export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
-  // Local-only UI toggles (connectivity indicators, no global side-effects)
-  const [wifi, setWifi] = useState(true);
-  const [bluetooth, setBluetooth] = useState(true);
-  const [airdrop, setAirdrop] = useState(true);
-
-  // Global OS state — no more window.osGlobalVolume hack
   const { volume, setVolume, brightness, setBrightness, focusMode, toggleFocusMode, cycleWallpaper, wallpaperIndex } = useOSContext();
 
-  // ---------------------------------------------------------------------------
-  // Pointer-drag engine for sliders (works with mouse AND touch)
-  // ---------------------------------------------------------------------------
   const handleSliderDrag = (
     e: React.PointerEvent<HTMLDivElement>,
     setter: (v: number) => void
@@ -54,53 +44,28 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="absolute right-2 top-8 z-50 w-80 rounded-2xl bg-black/40 p-3 text-white shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl"
+          className="absolute right-2 top-8 z-50 w-72 rounded-2xl bg-black/40 p-3 text-white shadow-2xl ring-1 ring-white/20 backdrop-blur-3xl"
         >
-          {/* Grid Superior: Conexões e Foco */}
-          <div className="mb-3 grid grid-cols-2 gap-3">
-            {/* Connectivity panel */}
-            <div className="flex flex-col gap-3 rounded-xl bg-white/10 p-3 shadow-inner ring-1 ring-white/10">
-              <div className="flex cursor-pointer items-center gap-2" onClick={() => setWifi(!wifi)}>
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${wifi ? 'bg-blue-500' : 'bg-white/20'}`}>
-                  <Wifi size={14} className={wifi ? 'text-white' : 'text-white/50'} />
-                </div>
-                <span className="text-xs font-medium tracking-wide">Wi-Fi</span>
-              </div>
-
-              <div className="flex cursor-pointer items-center gap-2" onClick={() => setBluetooth(!bluetooth)}>
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${bluetooth ? 'bg-blue-500' : 'bg-white/20'}`}>
-                  <Bluetooth size={14} className={bluetooth ? 'text-white' : 'text-white/50'} />
-                </div>
-                <span className="text-xs font-medium tracking-wide">Bluetooth</span>
-              </div>
-
-              <div className="flex cursor-pointer items-center gap-2" onClick={() => setAirdrop(!airdrop)}>
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full transition-colors ${airdrop ? 'bg-blue-500' : 'bg-white/20'}`}>
-                  <Airplay size={14} className={airdrop ? 'text-white' : 'text-white/50'} />
-                </div>
-                <span className="text-xs font-medium tracking-wide">AirDrop</span>
-              </div>
+          {/* Focus / Do Not Disturb */}
+          <div
+            onClick={toggleFocusMode}
+            className={`mb-3 flex cursor-pointer items-center gap-3 rounded-xl p-3 shadow-inner transition-all duration-300 ${
+              focusMode
+                ? 'bg-indigo-500 ring-1 ring-indigo-400'
+                : 'bg-white/10 ring-1 ring-white/10 hover:bg-white/15'
+            }`}
+          >
+            <div className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors ${focusMode ? 'bg-white/20' : 'bg-indigo-500/20'}`}>
+              <Moon size={18} className={focusMode ? 'fill-white text-white' : 'text-indigo-400'} />
             </div>
-
-            {/* Focus / Do Not Disturb */}
-            <div
-              onClick={toggleFocusMode}
-              className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl p-3 shadow-inner transition-all duration-300 ${
-                focusMode
-                  ? 'bg-indigo-500 text-white ring-1 ring-indigo-400'
-                  : 'bg-white/10 text-white/80 ring-1 ring-white/10 hover:bg-white/15'
-              }`}
-            >
-              <div className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${focusMode ? 'bg-white/20' : 'bg-indigo-500/20 text-indigo-400'}`}>
-                <Moon size={18} className={focusMode ? 'fill-white text-white' : ''} />
-              </div>
-              <span className="text-xs font-medium">{focusMode ? 'Foco Ativado' : 'Foco'}</span>
+            <div>
+              <p className="text-sm font-semibold">{focusMode ? 'Foco Ativado' : 'Foco'}</p>
+              <p className="text-[11px] text-white/50">{focusMode ? 'Desktop escurecido' : 'Silenciar distrações'}</p>
             </div>
           </div>
 
           {/* Sliders: Brilho e Volume */}
           <div className="flex flex-col gap-4 rounded-xl bg-white/10 p-4 shadow-inner ring-1 ring-white/10">
-            {/* Brightness */}
             <div className="flex items-center gap-3">
               <Sun size={14} className="shrink-0 text-white/50" />
               <div
@@ -114,7 +79,6 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
               </div>
             </div>
 
-            {/* Volume */}
             <div className="flex items-center gap-3">
               <Volume2 size={14} className="shrink-0 text-white/50" />
               <div
@@ -136,7 +100,7 @@ export const ControlCenter = ({ isOpen }: ControlCenterProps) => {
               onClick={cycleWallpaper}
               className="rounded-lg bg-white/15 px-3 py-1.5 text-[11px] font-semibold text-white/80 hover:bg-white/25 transition-colors"
             >
-              Mudar → {WALLPAPERS[(wallpaperIndex + 1) % WALLPAPERS.length].label}
+              Mudar
             </button>
           </div>
         </motion.div>
