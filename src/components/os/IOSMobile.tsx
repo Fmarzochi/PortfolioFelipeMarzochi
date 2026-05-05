@@ -366,11 +366,11 @@ export const IOSMobile = () => {
                 onClick={() => { cancelDockPress(); openApp(app); }}
                 onContextMenu={e => {
                   e.preventDefault();
-                  e.stopPropagation();
+                  e.nativeEvent.stopImmediatePropagation();
                   setDockMenu({ app, x: e.clientX, y: e.clientY });
                 }}
                 onTouchStart={e => {
-                  e.stopPropagation();
+                  e.nativeEvent.stopImmediatePropagation();
                   startDockPress(app, e.touches[0].clientX, e.touches[0].clientY);
                 }}
                 onTouchEnd={cancelDockPress}

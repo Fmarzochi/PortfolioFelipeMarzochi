@@ -14,9 +14,25 @@ export const useContextMenu = () => {
   }, []);
 
   useEffect(() => {
-    // 1. Desktop: right-click
+    // Helper: retorna true se o target for elemento interativo
+    const isInteractive = (target: EventTarget | null): boolean => {
+      let el = target as HTMLElement | null;
+      while (el) {
+        if (
+          el.dataset.noContextmenu === 'true' ||
+          el.tagName === 'BUTTON' ||
+          el.tagName === 'A'
+        ) return true;
+        el = el.parentElement;
+      }
+      return false;
+    };
+
+    // 1. Desktop: right-click (e mobile: contextmenu simulado pelo long-press)
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
+      // Não abre em elemento interativo (dock, ícones)
+      if (isInteractive(e.target)) return;
       setState({ isOpen: true, x: e.clientX, y: e.clientY });
     };
 
@@ -42,15 +58,7 @@ export const useContextMenu = () => {
       }
 
       // Skip if touch target is a button, link, or any interactive element
-      let el = e.target as HTMLElement | null;
-      while (el) {
-        if (
-          el.dataset.noContextmenu === 'true' ||
-          el.tagName === 'BUTTON' ||
-          el.tagName === 'A'
-        ) return;
-        el = el.parentElement;
-      }
+      if (isInteractive(e.target)) return;
 
       if (e.touches.length !== 1) return;
       const touch = e.touches[0];
