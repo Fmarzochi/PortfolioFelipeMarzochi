@@ -286,13 +286,15 @@ export const IOSMobile = () => {
               ref={el => { iconRefs.current[app.id] = el; }}
               layout={draggingId !== app.id}
               layoutId={`icon-${app.id}`}
-              drag={true}
+              drag={isHomeVisible}
               dragMomentum={false}
-              dragElastic={0.08}
+              dragElastic={0.10}
+              dragSnapToOrigin={true}
               style={{ zIndex: draggingId === app.id ? 50 : 1, position: 'relative', touchAction: 'none' }}
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
               className="flex flex-col items-center gap-[10px]"
+              data-no-contextmenu="true"
               onClick={() => {
                 if (!isHomeVisible || iconDragged.current) return;
                 openApp(app);
@@ -355,7 +357,7 @@ export const IOSMobile = () => {
       {/* ── Dock ─────────────────────────────────────────────────────────── */}
       {isHomeVisible && (
         <div className="relative z-50 flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
-          <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4">
+          <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4" data-no-contextmenu="true">
             {DOCK_APPS.map(app => (
               <motion.button
                 key={app.id}
