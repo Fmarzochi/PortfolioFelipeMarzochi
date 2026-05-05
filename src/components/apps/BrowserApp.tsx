@@ -29,21 +29,18 @@ const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: st
 );
 
 const PROFILE_TRAITS = [
-  { label: 'Organização & Qualidade',    value: 94, color: 'bg-blue-500',   icon: CheckCircle2 },
-  { label: 'Orientação a Resultados',    value: 87, color: 'bg-violet-500', icon: Target       },
-  { label: 'Proatividade',              value: 87, color: 'bg-cyan-500',   icon: Lightbulb    },
-  { label: 'Raciocínio Analítico',      value: 85, color: 'bg-green-500',  icon: Brain        },
-  { label: 'Colaboração em Equipe',     value: 85, color: 'bg-pink-500',   icon: Users        },
+  { label: 'Organização & Qualidade',  icon: CheckCircle2, color: 'text-blue-400',   evidence: 'Entregas sem retrabalho — features revisadas antes de ir ao ar; MBA em Eng. de Software aplicado no dia a dia'           },
+  { label: 'Orientação a Resultados',  icon: Target,       color: 'text-violet-400', evidence: '2,1M de registros ingeridos em segundos (vs. horas com ORM); ERP eliminou 100% do orçamento manual do cliente'            },
+  { label: 'Proatividade',             icon: Lightbulb,    color: 'text-cyan-400',   evidence: 'Criou agente autônomo em Python para triagem de vagas via IA — zero tempo manual em listagens irrelevantes'                },
+  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Formação em Medicina Veterinária treinou o diagnóstico antes da ação — mesma mentalidade aplicada ao software'             },
+  { label: 'Colaboração em Equipe',    icon: Users,        color: 'text-pink-400',   evidence: 'Code review, pair programming e documentação compartilhada em equipes multidisciplinares (CLT + freelance)'               },
 ];
 
 const WORK_STYLE = [
-  { label: 'Componentização reutilizável',       desc: 'React.js, Hooks, Context API e design system com padrão de reuso desde o primeiro componente'                         },
-  { label: 'Arquitetura orientada a qualidade',  desc: 'SOLID, Clean Code e design patterns aplicados do backend Java ao frontend React'                                       },
-  { label: 'Entrega full cycle',                 desc: 'Do levantamento de requisitos ao deploy em AWS CloudFront, com CI/CD e code review no caminho'                         },
-  { label: 'Integração sem atrito',              desc: 'APIs REST, webhooks e autenticação JWT implementados com tratamento estruturado de erros'                               },
-  { label: 'Evolução contínua de stack',         desc: 'Base sólida em React/TypeScript/Next.js migrando para backend Java · Spring Boot · PostgreSQL'                         },
-  { label: 'Performance Extrema',               desc: 'Sistemas construídos para velocidade máxima — otimização implacável sobre infraestruturas escaláveis com CI/CD e AWS CloudFront', icon: Zap },
-  { label: 'Arquitetura Sólida',                desc: 'Fundações erguidas sob SOLID, Clean Code e design patterns, garantindo manutenção segura tanto no backend Java quanto no frontend React', icon: Shield },
+  { label: 'Entrega full cycle',                desc: 'Do levantamento de requisitos ao deploy em AWS CloudFront — com CI/CD, code review e documentação no caminho'              },
+  { label: 'Arquitetura sólida',               desc: 'SOLID e Clean Code aplicados do backend Java ao frontend React; zero gambiarra, manutenção segura garantida',  icon: Shield },
+  { label: 'Performance como requisito',        desc: '2,1M de registros ingeridos em segundos via protocolo COPY nativo — performance não é otimização, é design',   icon: Zap    },
+  { label: 'Integração sem atrito',             desc: 'APIs REST, webhooks e autenticação JWT com tratamento estruturado de erros e contratos bem definidos'                       },
 ];
 
 interface Project {
@@ -312,25 +309,17 @@ export const BrowserApp = () => {
               <Brain size={16} className="text-violet-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-violet-400">DNA Profissional</h2>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {PROFILE_TRAITS.map((trait) => (
-                <div key={trait.label}>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <trait.icon size={13} className="text-white/40" />
-                      <span className="text-xs text-white/75 font-medium">{trait.label}</span>
-                    </div>
-                    <span className="text-xs font-bold text-white/50 tabular-nums">{trait.value}%</span>
-                  </div>
-                  <div className="h-1.5 w-full rounded-full bg-white/8 overflow-hidden">
-                    <div className={`h-full rounded-full ${trait.color} opacity-80`} style={{ width: `${trait.value}%` }} />
+                <div key={trait.label} className="flex gap-3 items-start rounded-xl bg-white/[0.03] ring-1 ring-white/6 p-3">
+                  <trait.icon size={15} className={`${trait.color} flex-shrink-0 mt-0.5`} />
+                  <div>
+                    <p className="text-xs font-semibold text-white/85 mb-0.5">{trait.label}</p>
+                    <p className="text-[11px] text-white/45 leading-relaxed">{trait.evidence}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <p className="mt-5 text-[11px] text-white/30 leading-relaxed italic">
-              Perfil investigativo-analítico com alta orientação a processos de qualidade, autonomia e resultado de negócio.
-            </p>
           </div>
 
           {/* Como trabalho */}

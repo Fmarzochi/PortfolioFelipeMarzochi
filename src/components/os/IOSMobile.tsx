@@ -118,6 +118,8 @@ export const IOSMobile = () => {
   const iconRefs  = useRef<Record<string, HTMLDivElement | null>>({});
   const capturedRects = useRef<Record<string, DOMRect>>({});
   const gridRef   = useRef<HTMLDivElement | null>(null);
+  const tapStart  = useRef<{ appId: string; x: number; y: number; t: number } | null>(null);
+  const iconDragged = useRef(false);
 
   /* ios-open-app event (ContextMenu → mobile) */
   useEffect(() => {
@@ -257,8 +259,23 @@ export const IOSMobile = () => {
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
               className="flex flex-col items-center gap-[10px]"
+              onPointerDown={(e) => {
+                if (!isHomeVisible) return;
+                iconDragged.current = false;
+                tapStart.current = { appId: app.id, x: e.clientX, y: e.clientY, t: Date.now() };
+              }}
+              onPointerUp={(e) => {
+                if (!isHomeVisible || iconDragged.current || !tapStart.current) return;
+                if (tapStart.current.appId !== app.id) return;
+                const dist = Math.abs(e.clientX - tapStart.current.x) + Math.abs(e.clientY - tapStart.current.y);
+                const dur  = Date.now() - tapStart.current.t;
+                tapStart.current = null;
+                if (dist < 12 && dur < 400) openApp(app);
+              }}
               onDragStart={() => {
                 if (!isHomeVisible) return;
+                iconDragged.current = true;
+                tapStart.current = null;
                 captureRects();
                 setDraggingId(app.id);
               }}
@@ -269,14 +286,11 @@ export const IOSMobile = () => {
               }}
               onDragEnd={(_: unknown, info: PanInfo) => {
                 if (!isHomeVisible) return;
-                const dist = Math.abs(info.offset.x) + Math.abs(info.offset.y);
-                if (dist < 8) {
-                  openApp(app);
-                } else {
-                  setHomeApps([...displayApps]);
-                }
+                const moved = Math.abs(info.offset.x) + Math.abs(info.offset.y) > 8;
+                if (moved) setHomeApps([...displayApps]);
                 setDraggingId(null);
                 setPreviewTargetIdx(null);
+                iconDragged.current = false;
               }}
               onContextMenu={e => {
                 e.preventDefault();

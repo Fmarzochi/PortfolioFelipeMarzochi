@@ -4,7 +4,6 @@ import { TerminalApp } from './TerminalApp';
 import { BrowserApp } from './BrowserApp';
 import { FinderApp } from './FinderApp';
 import { ContactsApp } from './ContactsApp';
-import { PhotosApp } from './PhotosApp';
 import { GalleryApp } from './GalleryApp';
 import { MapsApp } from './MapsApp';
 import { MessagesApp } from './MessagesApp';

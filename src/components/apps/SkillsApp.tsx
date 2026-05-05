@@ -191,7 +191,7 @@ export const SkillsApp = () => {
         clearInterval(interval);
         setTimeout(() => setShowPrompt(true), 400);
       }
-    }, 280);
+    }, 80);
     return () => clearInterval(interval);
   }, []);
 

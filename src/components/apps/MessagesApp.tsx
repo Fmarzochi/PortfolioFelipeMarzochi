@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Phone, Video, Info, CheckCheck, Mail, MessageSquare } from 'lucide-react';
+import { Send, CheckCheck, Mail, MessageSquare } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -120,10 +120,15 @@ export const MessagesApp = () => {
               <span className="text-[10px] text-blue-400">Online</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-white/60">
-            <Phone size={18} className="cursor-not-allowed hover:text-white" />
-            <Video size={18} className="cursor-not-allowed hover:text-white" />
-            <Info size={18} className="cursor-not-allowed hover:text-white" />
+          <div className="flex items-center gap-2">
+            <a
+              href="https://www.linkedin.com/in/felipemarzochi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-white/8 px-3 py-1 text-[11px] font-semibold text-white/60 hover:bg-white/15 hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
           </div>
         </div>
 
@@ -159,7 +164,7 @@ export const MessagesApp = () => {
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleSendWhatsApp();
+                  if (e.key === 'Enter' && messageText.trim()) handleSendWhatsApp();
                 }}
                 placeholder="Digite sua mensagem para o Felipe..."
                 className="flex-1 bg-transparent px-4 py-2.5 text-sm text-white outline-none placeholder:text-white/30"

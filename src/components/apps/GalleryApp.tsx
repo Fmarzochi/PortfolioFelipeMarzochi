@@ -205,7 +205,7 @@ const PROJECTS: Project[] = [
 /* ── Sidebar section types ────────────────────────────────────────────────── */
 type View = 'all' | 'favorites' | string;
 
-const INITIAL_FAVORITES = ['1', '4', '6'];
+const INITIAL_FAVORITES: string[] = [];
 
 /* ── Thumbnail card ───────────────────────────────────────────────────────── */
 const PhotoCard = ({

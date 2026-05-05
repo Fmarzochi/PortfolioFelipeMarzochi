@@ -29,8 +29,8 @@ export const WebOS = () => {
     setIsLocked(false);
     const seen = sessionStorage.getItem('welcome-seen');
     if (!seen) {
-      setShowWelcome(true);
       sessionStorage.setItem('welcome-seen', '1');
+      setTimeout(() => setShowWelcome(true), 900);
     }
   };
 

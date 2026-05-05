@@ -1,127 +1,94 @@
 'use client';
 
-import { useState } from 'react';
-import { Mail, Briefcase, MessageCircle, Heart } from 'lucide-react';
+import { Mail, MessageCircle, Linkedin, Github, Globe } from 'lucide-react';
 
-interface Contact {
-  id: string;
-  name: string;
-  role: string;
-  email?: string;
-  group: 'Me' | 'Família' | 'Equipe Principal';
-  avatarColor: string;
-}
+const LinkedInIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+  </svg>
+);
 
-const contacts: Contact[] = [
-  { id: '1', name: 'Felipe Marzochi', role: 'Founder & Software Engineer', email: 'fmarzochi@gmail.com', group: 'Me', avatarColor: 'bg-blue-600' },
-  { id: '2', name: 'Matheus', role: 'Filho', group: 'Família', avatarColor: 'bg-red-500' },
-  { id: '3', name: 'Matheus Fuentes', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-green-500' },
-  { id: '4', name: 'Igor Mendes', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-purple-500' },
-  { id: '5', name: 'Kimberly', role: 'Desenvolvedora', group: 'Equipe Principal', avatarColor: 'bg-pink-500' },
-  { id: '6', name: 'Vitor Hugo', role: 'Desenvolvedor', group: 'Equipe Principal', avatarColor: 'bg-yellow-600' },
+const GitHubIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+  </svg>
+);
+
+const INFO_ITEMS = [
+  { label: 'Cargo',       value: 'Desenvolvedor de Software · Full Stack'     },
+  { label: 'Empresa',     value: 'Conecta 360° · Freelance / Autônomo'        },
+  { label: 'Localização', value: 'Americana, SP · Remoto'                     },
+  { label: 'Formação',    value: 'ADS · MBA em Engenharia de Software'        },
+  { label: 'Stack',       value: 'React · TypeScript · Java · Spring Boot'    },
+  { label: 'E-mail',      value: 'fmarzochi@gmail.com', isEmail: true         },
 ];
 
-export const ContactsApp = () => {
-  const [selectedId, setSelectedId] = useState<string>('1');
+const ACTIONS = [
+  {
+    label: 'WhatsApp',
+    Icon: MessageCircle,
+    color: 'bg-[#25D366]/15 text-[#25D366] hover:bg-[#25D366]/25 ring-[#25D366]/20',
+    onClick: () => window.open('https://wa.me/5519982341110?text=Olá Felipe, vi seu portfólio!', '_blank', 'noopener,noreferrer'),
+  },
+  {
+    label: 'E-mail',
+    Icon: Mail,
+    color: 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 ring-blue-500/20',
+    onClick: () => window.open('mailto:fmarzochi@gmail.com?subject=Contato via Portfólio', '_blank'),
+  },
+  {
+    label: 'LinkedIn',
+    Icon: LinkedInIcon,
+    color: 'bg-[#0A66C2]/15 text-[#0A66C2] hover:bg-[#0A66C2]/25 ring-[#0A66C2]/20',
+    onClick: () => window.open('https://www.linkedin.com/in/felipemarzochi/', '_blank', 'noopener,noreferrer'),
+  },
+  {
+    label: 'GitHub',
+    Icon: GitHubIcon,
+    color: 'bg-white/8 text-white/70 hover:bg-white/15 ring-white/10',
+    onClick: () => window.open('https://github.com/Fmarzochi', '_blank', 'noopener,noreferrer'),
+  },
+];
 
-  const selectedContact = contacts.find(c => c.id === selectedId) || contacts[0];
+export const ContactsApp = () => (
+  <div className="flex h-full w-full items-center justify-center bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl overflow-y-auto p-4">
+    <div className="w-full max-w-sm flex flex-col items-center rounded-3xl bg-black/30 p-6 ring-1 ring-white/10 shadow-2xl backdrop-blur-xl">
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-  };
-
-  const renderContactList = (groupName: string) => {
-    const groupContacts = contacts.filter(c => c.group === groupName);
-    if (groupContacts.length === 0) return null;
-
-    return (
-      <div className="mb-4">
-        <h3 className="mb-1 px-4 text-[11px] font-bold uppercase tracking-wider text-white/40">
-          {groupName}
-        </h3>
-        <div className="flex flex-col px-2">
-          {groupContacts.map(contact => (
-            <button
-              key={contact.id}
-              onClick={() => setSelectedId(contact.id)}
-              className={`flex items-center gap-3 rounded-md px-2 py-1.5 transition-colors ${
-                selectedId === contact.id ? 'bg-blue-500/90 text-white' : 'text-white/80 hover:bg-white/10'
-              }`}
-            >
-              <div className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-medium text-white ${contact.avatarColor}`}>
-                {getInitials(contact.name)}
-              </div>
-              <span className="truncate text-sm font-medium">{contact.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-col md:flex-row h-full w-full bg-[#1e1e1e]/90 text-white/90 backdrop-blur-3xl">
-      {/* Sidebar de Lista de Contatos */}
-      <div className="w-full max-h-[38vh] md:max-h-none md:w-[240px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/20 pt-4 overflow-y-auto">
-        {renderContactList('Me')}
-        {renderContactList('Família')}
-        {renderContactList('Equipe Principal')}
+      {/* Avatar */}
+      <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-violet-600 shadow-2xl ring-4 ring-white/10">
+        <span className="text-4xl font-bold text-white">FM</span>
       </div>
 
-      {/* Área Principal - Detalhes do Contato */}
-      <div className="flex flex-1 flex-col items-center justify-center bg-white/5 p-4 md:p-8 overflow-y-auto">
-        <div className="flex w-full max-w-md flex-col items-center rounded-2xl bg-black/20 p-4 md:p-8 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
-          {/* Avatar Grande */}
-          <div className={`mb-4 md:mb-6 flex h-16 w-16 md:h-24 md:w-24 items-center justify-center rounded-full shadow-lg ${selectedContact.avatarColor}`}>
-            <span className="text-2xl md:text-4xl font-bold text-white shadow-black/20 drop-shadow-md">
-              {getInitials(selectedContact.name)}
-            </span>
-          </div>
+      <h2 className="text-xl font-bold tracking-tight text-white">Felipe Marzochi</h2>
+      <p className="mt-1 text-sm text-white/45 text-center">Desenvolvedor de Software · Full Stack</p>
 
-          <h2 className="mb-1 text-xl md:text-2xl font-bold tracking-tight text-white">{selectedContact.name}</h2>
-          <p className="mb-4 md:mb-6 text-sm font-medium text-white/50">{selectedContact.role}</p>
+      {/* Action buttons */}
+      <div className="mt-6 grid grid-cols-4 gap-2 w-full">
+        {ACTIONS.map(({ label, Icon, color, onClick }) => (
+          <button
+            key={label}
+            onClick={onClick}
+            className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 ring-1 transition-colors ${color}`}
+          >
+            <Icon />
+            <span className="text-[10px] font-semibold">{label}</span>
+          </button>
+        ))}
+      </div>
 
-          {/* Action Buttons — apenas para contatos com info */}
-          {selectedContact.email && (
-            <div className="mb-6 md:mb-8 flex gap-2 md:gap-4">
-              <button
-                onClick={() => window.open('https://wa.me/5519982341110?text=Olá Felipe!', '_blank', 'noopener,noreferrer')}
-                className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
-              >
-                <MessageCircle size={18} className="text-blue-400" />
-                <span className="text-xs text-white/70">WhatsApp</span>
-              </button>
-              <button
-                onClick={() => window.open(`mailto:${selectedContact.email}?subject=Contato via Portfólio`, '_blank')}
-                className="flex flex-col items-center gap-1 rounded-lg bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
-              >
-                <Mail size={18} className="text-blue-400" />
-                <span className="text-xs text-white/70">E-mail</span>
-              </button>
-            </div>
-          )}
-
-          {/* Detalhes Info Card */}
-          <div className="w-full rounded-xl bg-white/5 p-4 ring-1 ring-white/10">
-            {selectedContact.email && (
-              <div className="mb-3 flex items-center gap-3 border-b border-white/5 pb-3">
-                <Mail size={16} className="text-white/40" />
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase text-white/40">E-mail</span>
-                  <span className="text-sm text-blue-400">{selectedContact.email}</span>
-                </div>
-              </div>
+      {/* Info card */}
+      <div className="mt-5 w-full rounded-2xl bg-white/5 ring-1 ring-white/8 divide-y divide-white/5">
+        {INFO_ITEMS.map(({ label, value, isEmail }) => (
+          <div key={label} className="flex items-start gap-3 px-4 py-3">
+            <span className="w-24 flex-shrink-0 text-[11px] text-white/35 uppercase tracking-wide pt-px">{label}</span>
+            {isEmail ? (
+              <a href={`mailto:${value}`} className="text-sm text-blue-400 hover:text-blue-300 transition-colors break-all">{value}</a>
+            ) : (
+              <span className="text-sm text-white/70 leading-snug">{value}</span>
             )}
-            <div className="flex items-center gap-3">
-              {selectedContact.group === 'Família' ? <Heart size={16} className="text-white/40" /> : <Briefcase size={16} className="text-white/40" />}
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase text-white/40">Grupo / Organização</span>
-                <span className="text-sm">{selectedContact.group}</span>
-              </div>
-            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
-  );
-};
+  </div>
+);

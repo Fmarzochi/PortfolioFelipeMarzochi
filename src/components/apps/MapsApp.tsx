@@ -275,19 +275,30 @@ export const MapsApp = () => {
             />
           </svg>
 
+          {/* Hint clicavel */}
+          <div className="absolute bottom-3 right-4 text-[10px] text-white/20 pointer-events-none select-none">
+            Clique nos pontos para ver detalhes
+          </div>
+
           {/* Pins */}
           {EXPERIENCES.map((exp) => (
             <motion.div
               key={exp.id}
               initial={false}
-              animate={{ scale: selected.id === exp.id ? 1.25 : 1 }}
+              animate={{ scale: selected.id === exp.id ? 1.35 : 1 }}
+              whileHover={{ scale: selected.id === exp.id ? 1.4 : 1.2 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              className="absolute cursor-pointer"
+              className="absolute cursor-pointer group"
               style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
               onClick={() => handleSelect(exp)}
             >
               <div className="relative">
-                <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''}`} />
+                <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''} group-hover:ring-8 transition-all`} />
+                {selected.id !== exp.id && (
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-0.5 text-[10px] text-white/80 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                    {exp.role.split(' (')[0].split(' em ')[0]}
+                  </div>
+                )}
                 {selected.id === exp.id && (
                   <motion.div
                     initial={{ opacity: 0, y: 4 }}

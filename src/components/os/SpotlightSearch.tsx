@@ -48,11 +48,23 @@ const SKILLS = [
 ];
 
 const CERTS = [
-  { title: 'Java Completo — Spring Boot, JPA, Hibernate',            subtitle: 'Udemy · 2026', app: 'skills' },
-  { title: 'JavaScript Completo — TypeScript, Node.js, MongoDB',     subtitle: 'Udemy · 2025', app: 'skills' },
-  { title: 'Oracle Next Education (ONE) — Full Stack',               subtitle: 'Oracle / Alura · 2022', app: 'skills' },
-  { title: 'Bancos de Dados SQL e NoSQL',                            subtitle: 'Udemy · 2022', app: 'skills' },
-  { title: 'Web Front-end Fundamentos',                              subtitle: 'Udemy · 2025', app: 'skills' },
+  { title: 'Java Completo — Spring Boot, JPA, Hibernate',            subtitle: 'Udemy · 2026',            app: 'finder' },
+  { title: 'JavaScript Completo — TypeScript, Node.js, MongoDB',     subtitle: 'Udemy · 2025',            app: 'finder' },
+  { title: 'Oracle Next Education (ONE) — Full Stack',               subtitle: 'Oracle / Alura · 2022',   app: 'finder' },
+  { title: 'Bancos de Dados SQL e NoSQL',                            subtitle: 'Udemy · 2022',            app: 'finder' },
+  { title: 'Web Front-end Fundamentos',                              subtitle: 'Udemy · 2025',            app: 'finder' },
+  { title: 'Python para Data Science e Machine Learning',            subtitle: 'Udemy · 2024',            app: 'finder' },
+  { title: 'Docker — Fundamentos e Prática',                         subtitle: 'Udemy · 2024',            app: 'finder' },
+  { title: 'AWS Cloud Practitioner',                                 subtitle: 'AWS · 2024',              app: 'finder' },
+  { title: 'React.js — Formação Completa',                           subtitle: 'Alura ONE · 2022',        app: 'finder' },
+  { title: 'MBA em Engenharia de Software',                          subtitle: 'Anhanguera · 2024',       app: 'finder' },
+  { title: 'Análise e Desenvolvimento de Sistemas',                  subtitle: 'Anhanguera · 2023',       app: 'finder' },
+  { title: 'Oracle Cloud Infrastructure Foundations',                subtitle: 'Oracle · 2022',           app: 'finder' },
+  { title: 'PostgreSQL — SQL Avançado',                              subtitle: 'Udemy · 2023',            app: 'finder' },
+  { title: 'Scrum Fundamentals Certified',                           subtitle: 'SCRUMstudy · 2023',       app: 'finder' },
+  { title: 'Formação Business Agility ONE',                          subtitle: 'Alura ONE · 2022',        app: 'finder' },
+  { title: 'HTML5 e CSS3 — Completo',                                subtitle: 'Udemy · 2022',            app: 'finder' },
+  { title: 'Git e GitHub — Controle de Versão',                      subtitle: 'Udemy · 2022',            app: 'finder' },
 ];
 
 /* ── Component ────────────────────────────────────────────────────────────── */
