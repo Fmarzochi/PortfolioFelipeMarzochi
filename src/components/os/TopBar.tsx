@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Wifi, BatteryMedium, Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { ControlCenter } from './ControlCenter';
 import { SpotlightSearch } from './SpotlightSearch';
 import { useWindowManager } from '../../store/useWindowManager';
@@ -23,8 +23,6 @@ export const TopBar = () => {
   const [time, setTime] = useState<Date | null>(null);
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
-  const [showBatteryPopover, setShowBatteryPopover] = useState(false);
-  const [showWifiPopover, setShowWifiPopover] = useState(false);
   const { windows } = useWindowManager();
 
   /* Global shortcut: Cmd+Space / Ctrl+Space */
@@ -104,43 +102,11 @@ export const TopBar = () => {
 
           <div className="h-3 w-px bg-white/20" />
 
-          <div className="relative">
-            <BatteryMedium
-              size={14}
-              className="cursor-pointer hover:text-white transition-colors"
-              onClick={() => { setShowBatteryPopover(v => !v); setShowWifiPopover(false); setIsControlCenterOpen(false); }}
-            />
-            {showBatteryPopover && (
-              <div className="absolute top-6 right-0 z-[300] w-44 rounded-xl border border-white/10 bg-black/80 px-3 py-2.5 shadow-2xl backdrop-blur-2xl text-xs text-white/80 space-y-1">
-                <p className="font-semibold text-white/90">Bateria</p>
-                <p className="text-white/50">100% · Carregando</p>
-                <div className="mt-1.5 h-1.5 w-full rounded-full bg-white/10">
-                  <div className="h-1.5 w-full rounded-full bg-green-400" />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="relative">
-            <Wifi
-              size={14}
-              className="cursor-pointer hover:text-white transition-colors"
-              onClick={() => { setShowWifiPopover(v => !v); setShowBatteryPopover(false); setIsControlCenterOpen(false); }}
-            />
-            {showWifiPopover && (
-              <div className="absolute top-6 right-0 z-[300] w-44 rounded-xl border border-white/10 bg-black/80 px-3 py-2.5 shadow-2xl backdrop-blur-2xl text-xs text-white/80 space-y-1">
-                <p className="font-semibold text-white/90">Wi-Fi</p>
-                <p className="text-white/50">Conectado</p>
-                <p className="text-white/40 text-[10px]">Portfolio-Network</p>
-              </div>
-            )}
-          </div>
-
           <span title="Spotlight (⌘ Espaço)">
             <Search
               size={14}
               className={`cursor-pointer transition-colors ${isSpotlightOpen ? 'text-blue-400' : 'hover:text-white'}`}
-              onClick={() => { setIsSpotlightOpen((v) => !v); setShowBatteryPopover(false); setShowWifiPopover(false); }}
+              onClick={() => setIsSpotlightOpen((v) => !v)}
             />
           </span>
 

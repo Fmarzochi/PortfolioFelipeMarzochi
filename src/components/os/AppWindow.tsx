@@ -9,6 +9,7 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 interface AppWindowProps {
   windowState: WindowState;
   children: React.ReactNode;
+  isActive: boolean;
 }
 
 type ResizeEdge = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
@@ -21,12 +22,9 @@ const CURSORS: Record<ResizeEdge, string> = {
   s: 'ns-resize', sw: 'nesw-resize', w: 'ew-resize', nw: 'nwse-resize',
 };
 
-export const AppWindow = ({ windowState, children }: AppWindowProps) => {
-  const { closeApp, minimizeApp, toggleFullScreen, focusApp, updatePosition, updatePositionAndSize, windows } = useWindowManager();
+export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) => {
+  const { closeApp, minimizeApp, toggleFullScreen, focusApp, updatePosition, updatePositionAndSize } = useWindowManager();
   const { id, title, isMinimized, isFullScreen, x, y, width, height, zIndex } = windowState;
-
-  const maxZIndex = Math.max(0, ...windows.filter(w => w.isOpen && !w.isMinimized).map(w => w.zIndex));
-  const isActive = zIndex === maxZIndex;
   const isMobile = useIsMobile();
   const isDraggingTitle = useRef(false);
   const dragStart = useRef({ mouseX: 0, mouseY: 0, winX: 0, winY: 0 });

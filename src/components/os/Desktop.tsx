@@ -24,14 +24,17 @@ export const Desktop = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_38%_at_0%_85%,rgba(20,75,170,0.22),transparent)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_100%_80%,rgba(0,110,90,0.18),transparent)] pointer-events-none" />
 
-      {windows.map((windowState) => {
-        if (!windowState.isOpen) return null;
-        return (
-          <AppWindow key={windowState.id} windowState={windowState}>
-            <AppRegistry appId={windowState.id} />
-          </AppWindow>
-        );
-      })}
+      {(() => {
+        const maxZIndex = Math.max(0, ...windows.filter(w => w.isOpen && !w.isMinimized).map(w => w.zIndex));
+        return windows.map((windowState) => {
+          if (!windowState.isOpen) return null;
+          return (
+            <AppWindow key={windowState.id} windowState={windowState} isActive={windowState.zIndex === maxZIndex}>
+              <AppRegistry appId={windowState.id} />
+            </AppWindow>
+          );
+        });
+      })()}
     </div>
   );
 };

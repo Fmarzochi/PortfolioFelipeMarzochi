@@ -130,7 +130,14 @@ export const MacDock = () => {
               </div>
               <div className="h-px bg-white/10" />
               <button
-                onClick={() => { handleClick(dockMenu.item); closeDockMenu(); }}
+                onClick={() => {
+                  if (isRunning(dockMenu.item.id)) {
+                    closeApp(dockMenu.item.id);
+                  } else {
+                    openApp(dockMenu.item.id, dockMenu.item.title);
+                  }
+                  closeDockMenu();
+                }}
                 className="flex w-full items-center px-3 py-2.5 text-left text-sm text-white/85 hover:bg-white/10 transition-colors"
               >
                 {isRunning(dockMenu.item.id) ? 'Fechar' : 'Abrir'}
