@@ -319,7 +319,7 @@ export const SkillsApp = () => {
               <div className="space-y-1.5 text-xs md:text-sm flex-1">
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Nome:</span>Felipe Marzochi</div>
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Perfil:</span>Desenvolvedor Full Stack</div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Foco atual:</span>Backend Java · Spring Boot</div>
+                <div><span className="text-blue-400 font-semibold w-28 inline-block">Foco atual:</span>Especialista Front-End (React · TS · Next.js) evoluindo para Java/Spring Boot</div>
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Localização:</span>Americana, SP</div>
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Idiomas:</span>Português (nativo) · Inglês (intermediário)</div>
                 <div className="pt-1 border-t border-white/5">
@@ -430,7 +430,7 @@ export const SkillsApp = () => {
 
       {/* ── Terminal prompt input (sticky at bottom) ── */}
       {showPrompt && (
-        <div className="flex-shrink-0 border-t border-white/8 pt-3 px-4 md:px-6 pb-3 bg-[#0c0c0c]">
+        <div className="flex-shrink-0 border-t border-white/8 pt-3 px-4 md:px-6 pb-[max(16px,env(safe-area-inset-bottom,16px))] bg-[#0c0c0c]">
           <form onSubmit={handleSubmit} className="flex items-center gap-1 flex-wrap">
             <span className="text-green-500 font-bold text-xs">visitante@felipe-marzochi</span>
             <span className="text-white text-xs">:</span>

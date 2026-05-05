@@ -10,7 +10,7 @@ interface WelcomeOverlayProps {
 
 const DESKTOP_TIPS = [
   { icon: MousePointer2, label: 'Clique nos ícones do dock para abrir os apps' },
-  { icon: Search,        label: 'Cmd + Espaço abre o Spotlight' },
+  { icon: Search,        label: 'Ctrl + K (Win/Linux) ou Cmd + Espaço (Mac) abre o Spotlight' },
   { icon: Move,          label: 'Arraste as janelas pelo título' },
   { icon: MousePointer2, label: 'Botão direito abre menu de contexto' },
 ];

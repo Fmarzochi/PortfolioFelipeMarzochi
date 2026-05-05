@@ -293,7 +293,7 @@ export const BrowserApp = () => {
               <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400">Perfil Profissional</h2>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
-              Desenvolvedor Full Stack com foco atual em backend Java, especializado em React.js, TypeScript e Next.js no front-end, e em transição ativa para Java com Spring Boot, JPA e Hibernate no back-end. Trabalho com PostgreSQL, MongoDB e MySQL como bancos de dados, e com Docker, CI/CD e AWS CloudFront na infraestrutura.
+              Especialista Front-End com domínio sólido em React.js, TypeScript e Next.js — base construída ao longo de anos de projetos reais. No back-end, evoluiu de Node.js/Express para Java com Spring Boot, JPA e Hibernate, aprofundando arquitetura de APIs REST robustas. Trabalha com PostgreSQL, MongoDB e MySQL como bancos de dados, e utiliza Docker, CI/CD e AWS CloudFront na infraestrutura.
             </p>
             <p className="text-sm text-white/60 leading-relaxed">
               Formado em Análise e Desenvolvimento de Sistemas, com MBA em Engenharia de Software. Aplico SOLID, Clean Code e arquitetura em camadas em todo o ciclo de desenvolvimento — do levantamento de requisitos ao deploy — dentro de metodologias ágeis como Scrum e Kanban.

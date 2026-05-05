@@ -2,7 +2,40 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion';
-import { X, Briefcase, Code2, Globe, Images, GraduationCap } from 'lucide-react';
+import { X } from 'lucide-react';
+
+/* ── Heroicons Solid — busca de SVG oficial heroicons.com ─────────────────── */
+const BriefcaseIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M7.5 5.25C7.5 3.593 8.843 2.25 10.5 2.25h3c1.657 0 3 1.343 3 3v.455a31.141 31.141 0 0 1 4.774.789c1.454.217 2.476 1.482 2.476 2.916v3.032c0 1.211-.734 2.352-1.936 2.752A31.478 31.478 0 0 1 12 15.75a31.478 31.478 0 0 1-9.814-1.556C1.984 13.844 1.25 12.703 1.25 11.492V8.46c0-1.434 1.022-2.699 2.476-2.916A31.141 31.141 0 0 1 7.5 4.705V5.25Zm7.5 0v.091A33.138 33.138 0 0 0 12 5.25a33.138 33.138 0 0 0-3-.091V5.25A1.5 1.5 0 0 1 10.5 3.75h3A1.5 1.5 0 0 1 15 5.25Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+    <path d="M3 18.4V15.6a.75.75 0 0 1 .25.057A33 33 0 0 0 12 17.25a33 33 0 0 0 8.75-1.593.75.75 0 0 1 .25-.057V18.4c0 1.452-1.047 2.727-2.523 2.923A40.614 40.614 0 0 1 12 21.75c-2.196 0-4.356-.155-6.477-.427C4.047 21.127 3 19.852 3 18.4Z" />
+  </svg>
+);
+
+const CommandLineIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M2.25 6A3.75 3.75 0 0 1 6 2.25h12A3.75 3.75 0 0 1 21.75 6v12A3.75 3.75 0 0 1 18 21.75H6A3.75 3.75 0 0 1 2.25 18V6Zm3.97.97a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 0 1-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 0 1 0-1.06Zm4.28 4.28a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
+  </svg>
+);
+
+const Squares2x2Icon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" />
+  </svg>
+);
+
+const PhotoIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path fillRule="evenodd" clipRule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06L9.81 10.06a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" />
+  </svg>
+);
+
+const AcademicCapIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
+    <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.71 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.46-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 0 1 6 13.18v1.27a1.5 1.5 0 0 1-.14 2.508c-.09.38-.222.753-.397 1.107l.562.281c.51.256 1.012.515 1.512.778a36.708 36.708 0 0 0 .316-.977 1.5 1.5 0 0 1-.144-2.516V13.18a48.397 48.397 0 0 1 2.306-.822v1.255a1.5 1.5 0 0 0 .04 2.515l-.305.153c.088.372.22.73.394 1.072l-.394-.197a48.214 48.214 0 0 0-2.05-1.003.75.75 0 0 1-.461-.71c-.036-1.441-.122-2.87-.256-4.285A48.45 48.45 0 0 0 6 13.18v1.27Z" />
+  </svg>
+);
 
 import { AppRegistry } from '../apps/AppRegistry';
 import { playSound } from '../../utils/audioEngine';
@@ -39,11 +72,11 @@ type AppEntry = {
 };
 
 const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'maps',   title: 'Experiência', icon: Briefcase,     gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'skills', title: 'Skills',      icon: Code2,         gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'safari', title: 'Portfólio',   icon: Globe,         gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'photos', title: 'Galeria',     icon: Images,        gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder', title: 'Diplomas',    icon: GraduationCap, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
+  { id: 'maps',   title: 'Experiência', icon: BriefcaseIcon,   gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+  { id: 'skills', title: 'Skills',      icon: CommandLineIcon, gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+  { id: 'safari', title: 'Portfólio',   icon: Squares2x2Icon,  gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+  { id: 'photos', title: 'Galeria',     icon: PhotoIcon,       gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+  { id: 'finder', title: 'Diplomas',    icon: AcademicCapIcon, gradient: 'from-amber-400 via-orange-400 to-orange-500' },
 ];
 
 const DOCK_APPS: AppEntry[] = [
@@ -118,7 +151,6 @@ export const IOSMobile = () => {
   const iconRefs  = useRef<Record<string, HTMLDivElement | null>>({});
   const capturedRects = useRef<Record<string, DOMRect>>({});
   const gridRef   = useRef<HTMLDivElement | null>(null);
-  const tapStart  = useRef<{ appId: string; x: number; y: number; t: number } | null>(null);
   const iconDragged = useRef(false);
 
   /* ios-open-app event (ContextMenu → mobile) */
@@ -259,23 +291,13 @@ export const IOSMobile = () => {
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
               className="flex flex-col items-center gap-[10px]"
-              onPointerDown={(e) => {
-                if (!isHomeVisible) return;
-                iconDragged.current = false;
-                tapStart.current = { appId: app.id, x: e.clientX, y: e.clientY, t: Date.now() };
-              }}
-              onPointerUp={(e) => {
-                if (!isHomeVisible || iconDragged.current || !tapStart.current) return;
-                if (tapStart.current.appId !== app.id) return;
-                const dist = Math.abs(e.clientX - tapStart.current.x) + Math.abs(e.clientY - tapStart.current.y);
-                const dur  = Date.now() - tapStart.current.t;
-                tapStart.current = null;
-                if (dist < 12 && dur < 400) openApp(app);
+              onClick={() => {
+                if (!isHomeVisible || iconDragged.current) return;
+                openApp(app);
               }}
               onDragStart={() => {
                 if (!isHomeVisible) return;
                 iconDragged.current = true;
-                tapStart.current = null;
                 captureRects();
                 setDraggingId(app.id);
               }}
@@ -290,7 +312,7 @@ export const IOSMobile = () => {
                 if (moved) setHomeApps([...displayApps]);
                 setDraggingId(null);
                 setPreviewTargetIdx(null);
-                iconDragged.current = false;
+                setTimeout(() => { iconDragged.current = false; }, 50);
               }}
               onContextMenu={e => {
                 e.preventDefault();
