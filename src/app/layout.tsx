@@ -1,27 +1,70 @@
+/* Desenvolvido por Felipe Marzochi */
+
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-// Utilizando Inter como fallback de alta performance para a San Francisco da Apple
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Portfólio | Felipe Marzochi',
-  description: 'Portfólio de Engenharia de Software e Desenvolvimento Full-Stack',
+  title: 'Felipe Marzochi | Desenvolvedor Full Stack',
+  description: 'Portfólio de Felipe Marzochi — Desenvolvedor Full Stack especializado em React, Next.js, TypeScript, Java e Spring Boot. Americana, SP.',
+  keywords: [
+    'Felipe Marzochi',
+    'Desenvolvedor Full Stack',
+    'Engenheiro de Software',
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Java',
+    'Spring Boot',
+    'Node.js',
+    'Tailwind CSS',
+    'Framer Motion',
+    'Zustand',
+    'Americana SP',
+    'São Paulo',
+    'Brasil',
+    'Portfólio',
+    'Frontend Developer',
+    'Backend Developer',
+    'Software Engineer',
+    'fmarzochi',
+  ],
+  authors: [{ name: 'Felipe Marzochi', url: 'https://github.com/Fmarzochi' }],
+  creator: 'Felipe Marzochi',
+  publisher: 'Felipe Marzochi',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    title: 'Felipe Marzochi | Desenvolvedor Full Stack',
+    description: 'Portfólio interativo de Felipe Marzochi — Web OS no browser com React, Next.js, TypeScript, Java e Spring Boot.',
+    siteName: 'Portfólio Felipe Marzochi',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Felipe Marzochi | Desenvolvedor Full Stack',
+    description: 'Portfólio interativo de Felipe Marzochi — Web OS no browser com React, Next.js e Java.',
+    creator: '@fmarzochi',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Portfólio | Felipe Marzochi',
+    title: 'Felipe Marzochi',
   },
 };
 
-// Impede o pinch-to-zoom do Safari e garante escala 1:1 em todos os dispositivos
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  viewportFit: 'cover', // Expande o viewport para incluir safe areas
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({

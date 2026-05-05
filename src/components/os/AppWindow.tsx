@@ -29,7 +29,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
   const isDraggingTitle = useRef(false);
   const dragStart = useRef({ mouseX: 0, mouseY: 0, winX: 0, winY: 0 });
 
-  /* ── Title bar drag ─────────────────────────────────────────────────── */
   const onTitleMouseDown = useCallback((e: React.MouseEvent) => {
     if (isFullScreen || isMobile || e.button !== 0) return;
     e.preventDefault();
@@ -53,7 +52,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     document.addEventListener('mouseup', onUp);
   }, [id, isFullScreen, isMobile, x, y, focusApp, updatePosition]);
 
-  /* ── Resize ─────────────────────────────────────────────────────────── */
   const startResize = useCallback((e: React.MouseEvent, edge: ResizeEdge) => {
     if (isFullScreen || isMobile || e.button !== 0) return;
     e.preventDefault();
@@ -113,7 +111,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/32 to-transparent pointer-events-none z-10" />
       )}
 
-      {/* ── Resize handles ────────────────────────────────────────────────── */}
       {!isFullScreen && !isMobile && (
         <>
           <div className="absolute inset-x-3 top-0 h-[5px] cursor-ns-resize z-30"    onMouseDown={(e) => startResize(e, 'n')} />
@@ -127,7 +124,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         </>
       )}
 
-      {/* ── Title Bar ─────────────────────────────────────────────────────── */}
       <div
         className={`relative flex h-11 w-full flex-shrink-0 items-center justify-between px-4 bg-white/[0.04] border-b border-white/[0.07] select-none
           ${!isFullScreen && !isMobile ? 'cursor-move' : ''}
@@ -166,7 +162,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         <div className="w-[58px]" />
       </div>
 
-      {/* ── Content ───────────────────────────────────────────────────────── */}
       <div
         className="relative flex-1 overflow-hidden"
         onMouseDown={(e) => e.stopPropagation()}

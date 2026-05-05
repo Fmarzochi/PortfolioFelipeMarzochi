@@ -223,7 +223,6 @@ export const MapsApp = () => {
   return (
     <div className="flex flex-col md:flex-row h-full w-full bg-[#121212] text-white">
 
-      {/* ── Sidebar ─────────────────────────────────────────────────────── */}
       <div ref={sidebarRef} className="w-full max-h-[40vh] md:max-h-none md:w-[280px] flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 bg-black/40 p-3 backdrop-blur-md overflow-y-auto">
         <div className="mb-3 flex items-center gap-2 rounded-xl bg-white/5 p-2 ring-1 ring-white/10">
           <Navigation size={13} className="text-blue-500 flex-shrink-0" />
@@ -251,7 +250,6 @@ export const MapsApp = () => {
         </div>
       </div>
 
-      {/* ── Mapa + Card ─────────────────────────────────────────────────── */}
       <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
 
         {/* Mapa visual — altura fixa no mobile, flex-1 no desktop */}

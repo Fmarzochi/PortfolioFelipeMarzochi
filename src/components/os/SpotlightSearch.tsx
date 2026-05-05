@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Compass, Image, BookOpen, Code2, MessageSquare, MapPin, ChevronRight } from 'lucide-react';
 import { useWindowManager } from '../../store/useWindowManager';
 
-/* ── Searchable index ─────────────────────────────────────────────────────── */
 interface SearchResult {
   id: string;
   category: string;
@@ -67,7 +66,6 @@ const CERTS = [
   { title: 'Git e GitHub — Controle de Versão',                      subtitle: 'Udemy · 2022',            app: 'finder' },
 ];
 
-/* ── Component ────────────────────────────────────────────────────────────── */
 interface Props {
   isOpen: boolean;
   onClose: () => void;

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-/* ── Dados extraídos do currículo ─────────────────────────────────────────── */
 const BOOT_LOGS = [
   '[  OK  ] Inicializando perfil de desenvolvedor...',
   '[  OK  ] Front-end: React.js, TypeScript, Next.js, Tailwind CSS...',
@@ -137,7 +136,6 @@ const HELP_TEXT = `
   clear         → Limpar histórico do terminal
   ─────────────────────────────────`.trim();
 
-/* ── Barra de progresso em ASCII ─────────────────────────────────────────── */
 const BAR_WIDTH = 16;
 const SkillBar = ({ name, level, color }: { name: string; level: number; color: string }) => {
   const [animated, setAnimated] = useState(0);
@@ -168,7 +166,6 @@ const SkillBar = ({ name, level, color }: { name: string; level: number; color: 
   );
 };
 
-/* ── Componente principal ─────────────────────────────────────────────────── */
 export const SkillsApp = () => {
   const [bootLog, setBootLog] = useState<string[]>([]);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -428,7 +425,6 @@ export const SkillsApp = () => {
         )}
       </div>
 
-      {/* ── Terminal prompt input (sticky at bottom) ── */}
       {showPrompt && (
         <div className="flex-shrink-0 border-t border-white/8 pt-3 px-4 md:px-6 pb-[max(16px,env(safe-area-inset-bottom,16px))] bg-[#0c0c0c]">
           <form onSubmit={handleSubmit} className="flex items-center gap-1 flex-wrap">

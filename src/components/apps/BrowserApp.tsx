@@ -5,7 +5,6 @@ import signatureImg from '../../assets/images/signature.png';
 import { useWindowManager } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
-/* ── Portfolio universal icon ──────────────────────────────────────────────── */
 const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: string }) => (
   <svg
     viewBox="0 0 24 24"
@@ -283,7 +282,6 @@ export const BrowserApp = () => {
           </div>
         </div>
 
-        {/* ── Perfil Profissional ───────────────────────────────────────────── */}
         <div className="mx-auto max-w-3xl px-6 py-8 space-y-8">
 
           {/* Sobre mim — narrative */}

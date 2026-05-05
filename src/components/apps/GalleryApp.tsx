@@ -19,7 +19,6 @@ interface Project {
   github?: string;
 }
 
-/* ── SVG Illustrations ────────────────────────────────────────────────────── */
 const DashboardSVG = () => (
   <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
     <line x1="20" y1="10" x2="20" y2="90" stroke="white" strokeWidth="0.5" />
@@ -120,7 +119,6 @@ const CloudPipelineSVG = () => (
   </svg>
 );
 
-/* ── Data ─────────────────────────────────────────────────────────────────── */
 const PROJECTS: Project[] = [
   {
     id: '1',
@@ -202,12 +200,10 @@ const PROJECTS: Project[] = [
   },
 ];
 
-/* ── Sidebar section types ────────────────────────────────────────────────── */
 type View = 'all' | 'favorites' | string;
 
 const INITIAL_FAVORITES: string[] = [];
 
-/* ── Thumbnail card ───────────────────────────────────────────────────────── */
 const PhotoCard = ({
   project,
   isSelected,
@@ -256,7 +252,6 @@ const PhotoCard = ({
   </motion.div>
 );
 
-/* ── Detail panel ─────────────────────────────────────────────────────────── */
 const ProjectDetail = ({
   project,
   isFav,
@@ -349,7 +344,6 @@ const ProjectDetail = ({
   </motion.div>
 );
 
-/* ── Main Component ───────────────────────────────────────────────────────── */
 export const GalleryApp = () => {
   const isMobile = useIsMobile();
   const [view, setView] = useState<View>('all');
@@ -408,7 +402,6 @@ export const GalleryApp = () => {
   return (
     <div className="flex h-full w-full bg-[#111111] text-white overflow-hidden relative">
 
-      {/* ── Mobile backdrop ─────────────────────────────────────────────── */}
       <AnimatePresence>
         {isMobile && sidebarOpen && (
           <motion.div
@@ -421,7 +414,6 @@ export const GalleryApp = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Left Sidebar ───────────────────────────────────────────────── */}
       <AnimatePresence initial={false}>
         {sidebarOpen && (
           <motion.aside
@@ -506,7 +498,6 @@ export const GalleryApp = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Main Area ──────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
 
         {/* Top bar */}
@@ -604,7 +595,6 @@ export const GalleryApp = () => {
   );
 };
 
-/* ── Sidebar Item ─────────────────────────────────────────────────────────── */
 const SidebarItem = ({
   icon,
   label,

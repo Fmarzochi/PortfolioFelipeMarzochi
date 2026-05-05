@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useDragControls, PanInfo } from 'framer-motion';
 import { X } from 'lucide-react';
 
-/* ── Heroicons Solid — busca de SVG oficial heroicons.com ─────────────────── */
 /* GlobeAltIcon — heroicons solid 24 — representa portfolio/site web */
 const GlobeAltIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -12,7 +11,6 @@ const GlobeAltIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-/* BuildingOffice2Icon — heroicons solid 24 — representa carreira/empresas */
 const BuildingOfficeIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
     <path fillRule="evenodd" clipRule="evenodd" d="M3 9a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V9Zm3 1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2H6Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1ZM6 14a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2H6Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Zm5 0a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2h-1Z" />
@@ -63,7 +61,6 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-/* ── App data ─────────────────────────────────────────────────────────────── */
 type AppEntry = {
   id: string;
   title: string;
@@ -89,7 +86,6 @@ const DOCK_APPS: AppEntry[] = [
 
 const ALL_APPS = [...DEFAULT_HOME_APPS, ...DOCK_APPS];
 
-/* ── App Switcher Card ────────────────────────────────────────────────────── */
 const SwitcherCard = ({
   app,
   isActive,
@@ -131,7 +127,6 @@ const SwitcherCard = ({
   </motion.div>
 );
 
-/* ── Main Component ───────────────────────────────────────────────────────── */
 export const IOSMobile = () => {
   const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
 
@@ -179,7 +174,6 @@ export const IOSMobile = () => {
     }
   }, [activeAppId]);
 
-  /* ── App management ─────────────────────────────────────────────────────── */
   const openApp = useCallback((app: AppEntry) => {
     if (app.href) { window.open(app.href, '_blank', 'noopener,noreferrer'); return; }
     playSound('click');
@@ -209,7 +203,6 @@ export const IOSMobile = () => {
     setActiveAppId(prev => prev === appId ? null : prev);
   }, []);
 
-  /* ── Drag-to-reorder ────────────────────────────────────────────────────── */
   const captureRects = useCallback(() => {
     for (const [id, el] of Object.entries(iconRefs.current)) {
       if (el) capturedRects.current[id] = el.getBoundingClientRect();
@@ -240,7 +233,6 @@ export const IOSMobile = () => {
     return next;
   }, [homeApps, draggingId, previewTargetIdx]);
 
-  /* ── Dock long-press helpers ─────────────────────────────────────────────── */
   const startDockPress = (app: AppEntry, x: number, y: number) => {
     dockPressTimer.current = setTimeout(() => {
       setDockMenu({ app, x, y });
@@ -258,7 +250,6 @@ export const IOSMobile = () => {
       onClick={() => setDockMenu(null)}
     >
 
-      {/* ── Wallpaper (uses OSContext so cycleWallpaper works) ────────────── */}
       <div className="absolute inset-0 pointer-events-none select-none">
         {/* Previous wallpaper — base layer for crossfade */}
         <div className="absolute inset-0" style={{ background: prevWallpaperStyle }} />
@@ -277,7 +268,6 @@ export const IOSMobile = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_75%_25%,rgba(160,50,200,0.18),transparent)]" />
       </div>
 
-      {/* ── Springboard App Grid ─────────────────────────────────────────── */}
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
         <div ref={gridRef} className="grid grid-cols-3 gap-x-5 gap-y-9 px-4">
           {displayApps.map((app) => (
@@ -335,14 +325,12 @@ export const IOSMobile = () => {
         </div>
       </div>
 
-      {/* ── Page Indicator Dots ───────────────────────────────────────────── */}
       {isHomeVisible && (
         <div className="relative z-10 flex items-center justify-center gap-[6px] pb-2">
           <div className="h-[7px] w-[18px] rounded-full bg-white/85" />
         </div>
       )}
 
-      {/* ── Open Apps Button (shows switcher) ────────────────────────────── */}
       {isHomeVisible && openApps.length > 0 && (
         <div className="relative z-10 flex justify-center pb-2">
           <button
@@ -354,7 +342,6 @@ export const IOSMobile = () => {
         </div>
       )}
 
-      {/* ── Dock ─────────────────────────────────────────────────────────── */}
       {isHomeVisible && (
         <div className="relative z-50 flex-shrink-0 px-5 pb-[calc(env(safe-area-inset-bottom,0px)+18px)]">
           <div className="liquid-glass-dock relative flex h-[84px] items-center justify-around rounded-[30px] px-4" data-no-contextmenu="true">
@@ -385,7 +372,6 @@ export const IOSMobile = () => {
         </div>
       )}
 
-      {/* ── Full-Screen App Sheet ─────────────────────────────────────────── */}
       <AnimatePresence>
         {activeAppId && (
           <motion.div
@@ -446,7 +432,6 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* ── App Switcher ─────────────────────────────────────────────────── */}
       <AnimatePresence>
         {showSwitcher && (
           <motion.div
@@ -482,7 +467,6 @@ export const IOSMobile = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Dock Mini Menu ───────────────────────────────────────────────── */}
       <AnimatePresence>
         {dockMenu && (
           <motion.div
