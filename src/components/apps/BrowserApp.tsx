@@ -193,12 +193,12 @@ const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/Fmarzochi',
   },
   {
-    title: 'CalibraFlow — SaaS de Calibração',
+    title: 'CalibraFlow — SaaS de Gestão de ISO',
     gradientClass: 'from-amber-500 to-orange-600',
     svgIllustration: <GaugeSVG />,
-    dor: 'Empresas industriais gerenciavam calibração de instrumentos em planilhas, perdendo rastreabilidade, falhando em auditorias ISO e operando com instrumentos vencidos sem perceber.',
-    solucao: 'Plataforma SaaS multi-tenant com isolamento total via Hibernate Filters e AOP, máquina de estados imutável com registro de IP e CPF em cada alteração, robô Spring Scheduling que bloqueia instrumentos vencidos à meia-noite e upload isolado de certificados PDF por empresa.',
-    resultado: 'Conformidade ISO garantida com rastreabilidade 100% auditável, eliminação de erro humano no controle de vencimentos e dados de empresas completamente isolados em arquitetura multi-tenant.',
+    dor: 'Empresas com sistemas de gestão da qualidade (ISO 9001 / ISO 10012) controlavam o ciclo de vida de instrumentos de medição em planilhas, perdendo rastreabilidade metrológica, acumulando não-conformidades e operando com instrumentos fora da validade de calibração sem qualquer alerta.',
+    solucao: 'Plataforma SaaS multi-tenant para gestão completa do ciclo de calibração conforme ISO 10012, com rastreabilidade metrológica imutável (registro de IP e CPF em cada evento de estado), bloqueio automático de instrumentos vencidos via Spring Scheduling e upload isolado de certificados de calibração PDF por empresa via Hibernate Filters e AOP.',
+    resultado: 'Conformidade ISO 9001 e ISO 10012 garantida com rastreabilidade 100% auditável, zero erro humano no controle de vencimentos, evidências de calibração sempre disponíveis para auditorias externas e dados de cada empresa completamente isolados em arquitetura multi-tenant.',
     stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
   },
   {

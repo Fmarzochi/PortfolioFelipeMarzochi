@@ -29,7 +29,7 @@ const PROJECTS = [
   { title: 'ERP para Gestão de Negócios',        subtitle: 'Java · React.js · PostgreSQL · REST API',              app: 'photos', accent: 'text-blue-400'   },
   { title: 'Laboratório Unilab',                 subtitle: 'Next.js · Tailwind CSS · Framer Motion',               app: 'photos', accent: 'text-teal-400'   },
   { title: "Felipe's Dream Agent",               subtitle: 'Python · Gemini API · GitHub Actions',                 app: 'photos', accent: 'text-violet-400' },
-  { title: 'CalibraFlow — SaaS de Calibração',   subtitle: 'Java 21 · Spring Boot · Docker · React',               app: 'photos', accent: 'text-amber-400'  },
+  { title: 'CalibraFlow — SaaS de Gestão de ISO',   subtitle: 'Java 21 · Spring Boot · Docker · React',               app: 'photos', accent: 'text-amber-400'  },
   { title: 'Dashboard ANS — Engenharia de Dados',subtitle: 'Java 21 · FastAPI · Vue.js · PostgreSQL',              app: 'photos', accent: 'text-sky-400'    },
   { title: 'Pipeline Transacional AWS',          subtitle: 'Node.js · AWS SQS · Lambda · DynamoDB',               app: 'photos', accent: 'text-yellow-400' },
 ];
