@@ -58,7 +58,7 @@ const CERTS = [
   { title: 'AWS Cloud Practitioner',                                 subtitle: 'AWS · 2024',              app: 'finder' },
   { title: 'React.js — Formação Completa',                           subtitle: 'Alura ONE · 2022',        app: 'finder' },
   { title: 'MBA em Engenharia de Software',                          subtitle: 'Fac. Metropolitana · 2023', app: 'finder' },
-  { title: 'Tecnólogo em Análise e Desenvolvimento de Sistemas',     subtitle: 'Estácio · em andamento',    app: 'finder' },
+  { title: 'Bacharelado em Análise e Desenvolvimento de Sistemas',   subtitle: 'Estácio · 2026',            app: 'finder' },
   { title: 'Oracle Cloud Infrastructure Foundations',                subtitle: 'Oracle · 2022',           app: 'finder' },
   { title: 'PostgreSQL — SQL Avançado',                              subtitle: 'Udemy · 2023',            app: 'finder' },
   { title: 'Scrum Fundamentals Certified',                           subtitle: 'SCRUMstudy · 2023',       app: 'finder' },

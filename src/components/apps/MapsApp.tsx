@@ -65,9 +65,9 @@ const EXPERIENCES: Experience[] = [
   {
     id: '0',
     period: 'Set/2024 – Set/2026',
-    role: 'Tecnólogo em Análise e Desenvolvimento de Sistemas',
-    company: 'Estácio · Tecnólogo · Em andamento',
-    type: 'Tecnólogo',
+    role: 'Bacharelado em Análise e Desenvolvimento de Sistemas',
+    company: 'Estácio · Bacharelado · 2026',
+    type: 'Bacharelado',
     status: 'current',
     category: 'education',
     icon: <GraduationCap size={18} />,
