@@ -2,6 +2,8 @@
 
 import { Brain, Target, Lightbulb, Users, CheckCircle2, Layers, Zap, Shield, Download, ExternalLink } from 'lucide-react';
 import signatureImg from '../../assets/images/signature.png';
+import { useWindowManager } from '../../store/useWindowManager';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 /* ── Portfolio universal icon ──────────────────────────────────────────────── */
 const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: string }) => (
@@ -222,6 +224,17 @@ const PROJECTS: Project[] = [
 ];
 
 export const BrowserApp = () => {
+  const { openApp } = useWindowManager();
+  const isMobile = useIsMobile();
+
+  const openGallery = () => {
+    if (isMobile) {
+      document.dispatchEvent(new CustomEvent('ios-open-app', { detail: { appId: 'photos' } }));
+    } else {
+      openApp('photos', 'Galeria de Projetos');
+    }
+  };
+
   return (
     <div className="flex h-full w-full flex-col bg-[#050505] text-white">
       <div className="flex-1 overflow-y-auto pb-10">
@@ -249,7 +262,7 @@ export const BrowserApp = () => {
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button
-                onClick={() => window.open('/?unlock=1', '_blank')}
+                onClick={openGallery}
                 className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)]"
               >
                 Ver Portfólio

@@ -368,9 +368,9 @@ export const IOSMobile = () => {
               if (info.offset.y > 60 || info.velocity.y > 380) goHome();
             }}
             initial={{ y: '100%', scale: 0.97, opacity: 0.6 }}
-            animate={{ y: 0, scale: 1, opacity: 1 }}
-            exit={{ y: '100%', scale: 0.97, opacity: 0 }}
-            transition={{ type: 'spring', damping: 27, stiffness: 310, mass: 0.85 }}
+            animate={{ y: 0, scale: 1, opacity: 1, transition: { type: 'spring', damping: 27, stiffness: 310, mass: 0.85 } }}
+            exit={{ y: '100%', opacity: 0, transition: { duration: 0.18, ease: 'easeIn' } }}
+            style={{ pointerEvents: activeAppId ? 'auto' : 'none' }}
             className="absolute inset-0 z-40 flex flex-col overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" />
