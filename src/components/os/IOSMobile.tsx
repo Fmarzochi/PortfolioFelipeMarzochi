@@ -264,19 +264,25 @@ export const IOSMobile = () => {
               ref={el => { iconRefs.current[app.id] = el; }}
               layout={draggingId !== app.id}
               layoutId={`icon-${app.id}`}
-              drag={isHomeVisible ? true : false}
+              drag={true}
               dragMomentum={false}
               dragElastic={0.08}
               style={{ zIndex: draggingId === app.id ? 50 : 1, position: 'relative', touchAction: 'none' }}
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
               className="flex flex-col items-center gap-[10px]"
-              onDragStart={() => { captureRects(); setDraggingId(app.id); }}
+              onDragStart={() => {
+                if (!isHomeVisible) return;
+                captureRects();
+                setDraggingId(app.id);
+              }}
               onDrag={(_: unknown, info: PanInfo) => {
+                if (!isHomeVisible) return;
                 const t = getTargetIdx(app.id, info);
                 setPreviewTargetIdx(t >= 0 ? t : null);
               }}
               onDragEnd={(_: unknown, info: PanInfo) => {
+                if (!isHomeVisible) return;
                 const moved = Math.abs(info.offset.x) + Math.abs(info.offset.y) > 12;
                 if (moved) {
                   setHomeApps([...displayApps]);
