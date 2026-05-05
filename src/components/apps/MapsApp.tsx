@@ -38,7 +38,7 @@ const EXPERIENCES: Experience[] = [
     id: '4',
     period: 'Jan/2022 – Atual',
     role: 'Desenvolvedor de Software (Front-end)',
-    company: 'Freelance / Autônomo · Remoto',
+    company: 'Autônomo · Remoto',
     type: 'Autônomo',
     status: 'current',
     category: 'work',
