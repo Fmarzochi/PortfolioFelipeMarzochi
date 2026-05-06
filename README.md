@@ -8,6 +8,7 @@
 [![React](https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![A11y](https://img.shields.io/badge/Acessibilidade-WCAG_2.1-blue?style=for-the-badge&logo=accessibility)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion_11-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![Zustand](https://img.shields.io/badge/Zustand_4-433E38?style=for-the-badge&logo=react&logoColor=white)](https://zustand-demo.pmnd.rs/)
 [![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)](https://lucide.dev/)
@@ -34,13 +35,13 @@ src/
 ├── components/
 │   ├── apps/               # Cada aplicativo do sistema isolado em seu componente
 │   │   ├── AppRegistry.tsx     # Roteador central de apps
-│   │   ├── BrowserApp.tsx      # Portfólio de projetos (estilo Safari)
+│   │   ├── BrowserApp.tsx      # Portfólio de projetos
 │   │   ├── ContactsApp.tsx     # Informações de contato
-│   │   ├── FinderApp.tsx       # Certificados e conquistas (estilo Finder)
-│   │   ├── GalleryApp.tsx      # Galeria de imagens
+│   │   ├── FinderApp.tsx       # Certificados e conquistas
+│   │   ├── GalleryApp.tsx      # Galeria de projetos detalhada
 │   │   ├── MapsApp.tsx         # Localização e experiência profissional
 │   │   ├── MessagesApp.tsx     # Contato via WhatsApp e e-mail
-│   │   ├── PhotosApp.tsx       # Projetos em destaque
+│   │   ├── PhotosApp.tsx       # Galeria de Projetos
 │   │   ├── SkillsApp.tsx       # Terminal interativo de habilidades
 │   │   └── TerminalApp.tsx     # Terminal do sistema
 │   └── os/                 # Infraestrutura do sistema operacional
@@ -72,12 +73,12 @@ src/
 
 | App | Equivalente | Conteúdo |
 |-----|-------------|----------|
-| **Browser** | Safari | Projetos com links para o GitHub |
+| **Browser** | Safari | Portfólio de projetos com links para o GitHub |
 | **Finder** | Finder | Certificados organizados por categoria |
 | **Skills** | Terminal | Terminal interativo com minhas habilidades técnicas |
 | **Maps** | Maps | Localização e trajetória profissional |
 | **Messages** | iMessage | Contato direto via WhatsApp ou e-mail |
-| **Photos** | Photos | Projetos em destaque com overlay de título |
+| **Photos** | Photos | Galeria de Projetos com métricas de impacto |
 | **Contacts** | Contacts | Informações profissionais completas |
 | **Terminal** | Terminal | Terminal do sistema operacional |
 
@@ -85,6 +86,10 @@ src/
 
 ## Funcionalidades do Sistema
 
+- **Acessibilidade completa (A11y)** — Infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
+- **Navegação nativa por teclado** — Gerenciamento de foco e atalhos globais para operação inclusiva do sistema
+- **UX Mobile Blindada** — Prevenção de gestos nativos de sistema (pull-to-refresh) e remoção de artefatos visuais do navegador (tap-highlight)
+- **Áreas de toque otimizadas (Hit Targets)** — Botões e controles com área mínima de 44px, garantindo precisão em dispositivos móveis
 - **Tela de bloqueio** com desbloqueio por teclado (desktop) ou toque (mobile)
 - **Janelas arrastáveis e redimensionáveis** com física de molas via Framer Motion
 - **Dock com magnificação** ao passar o mouse (macOS)
@@ -112,7 +117,7 @@ src/
 | [Framer Motion](https://www.framer.com/motion/) | 11 | Animações, física de molas, drag & drop |
 | [Zustand](https://zustand-demo.pmnd.rs/) | 4 | Estado global do OS e gerenciador de janelas |
 | [Lucide React](https://lucide.dev/) | 0.360 | Ícones do sistema |
-| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | — | Composição de classes CSS |
+| [Acessibilidade](https://www.w3.org/WAI/standards-guidelines/wcag/) | WCAG 2.1 | Padrões semânticos ARIA e navegação inclusiva |
 
 ---
 
