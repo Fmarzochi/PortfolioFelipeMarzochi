@@ -12,14 +12,15 @@ interface PhotoMock {
 }
 
 const mockPhotos: PhotoMock[] = [
-  { id: '1', title: 'Dashboard Principal', project: 'Unilab', gradient: 'from-blue-600 to-cyan-400', icon: <Activity size={32} className="text-white/50" /> },
-  { id: '2', title: 'Agendamento de Exames', project: 'Unilab', gradient: 'from-cyan-500 to-blue-500', icon: <Calendar size={32} className="text-white/50" /> },
-  { id: '3', title: 'Gestão Financeira ERP', project: 'DuAutomações PRO', gradient: 'from-orange-500 to-amber-500', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
-  { id: '4', title: 'Controle de Serviços', project: 'DuAutomações PRO', gradient: 'from-amber-400 to-orange-600', icon: <MonitorPlay size={32} className="text-white/50" /> },
-  { id: '5', title: 'Certificados de Calibração', project: 'CalibrFlow', gradient: 'from-emerald-500 to-teal-400', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
-  { id: '6', title: 'Landing Page Oficial', project: 'Portfólio Pessoal', gradient: 'from-blue-900 to-blue-600', icon: <Briefcase size={32} className="text-white/50" /> },
-  { id: '7', title: 'Sistema de Doadores', project: 'Unilab', gradient: 'from-blue-400 to-indigo-500', icon: <Heart size={32} className="text-white/50" /> },
-  { id: '8', title: 'Fluxo ISO', project: 'CalibrFlow', gradient: 'from-teal-500 to-emerald-600', icon: <Activity size={32} className="text-white/50" /> },
+  { id: '1', title: 'Interface Principal', project: 'Laboratório Unilab', gradient: 'from-blue-600 to-cyan-400', icon: <Activity size={32} className="text-white/50" /> },
+  { id: '2', title: 'Agendamento e Triagem', project: 'Laboratório Unilab', gradient: 'from-cyan-500 to-blue-500', icon: <Calendar size={32} className="text-white/50" /> },
+  { id: '3', title: 'Ecossistema ERP', project: 'DuAutomação Residencial', gradient: 'from-orange-500 to-amber-500', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
+  { id: '4', title: 'Gestão de Ordens de Serviço', project: 'DuAutomação Residencial', gradient: 'from-amber-400 to-orange-600', icon: <MonitorPlay size={32} className="text-white/50" /> },
+  { id: '5', title: 'Rastreabilidade Metrológica', project: 'CalibraFlow: SaaS de Gestão de ISO', gradient: 'from-emerald-500 to-teal-400', icon: <FileSpreadsheet size={32} className="text-white/50" /> },
+  { id: '6', title: 'Engenharia do Portfólio', project: 'Engenharia de Software', gradient: 'from-blue-900 to-blue-600', icon: <Briefcase size={32} className="text-white/50" /> },
+  { id: '7', title: 'Fluxo de Captação', project: 'Laboratório Unilab', gradient: 'from-blue-400 to-indigo-500', icon: <Heart size={32} className="text-white/50" /> },
+  { id: '8', title: 'Conformidade Industrial', project: 'CalibraFlow: SaaS de Gestão de ISO', gradient: 'from-teal-500 to-emerald-600', icon: <Activity size={32} className="text-white/50" /> },
+  { id: '9', title: 'Inteligência Preditiva', project: 'Career Scout AI', gradient: 'from-violet-600 to-purple-500', icon: <Activity size={32} className="text-white/50" /> },
 ];
 
 export const PhotosApp = () => {
@@ -51,7 +52,7 @@ export const PhotosApp = () => {
           Projetos (Álbuns)
         </div>
         <nav className="flex flex-col gap-1 px-2">
-          {['Unilab', 'DuAutomações PRO', 'CalibrFlow', 'Portfólio Pessoal'].map(project => (
+          {['DuAutomação Residencial', 'Laboratório Unilab', 'CalibraFlow: SaaS de Gestão de ISO', 'Career Scout AI', 'Big Data ANS: Processamento em Escala'].map(project => (
             <button
               key={project}
               onClick={() => setActiveFilter(project)}

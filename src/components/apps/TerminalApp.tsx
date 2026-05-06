@@ -118,7 +118,7 @@ export const TerminalApp = () => {
               ['Laboratório Unilab',                   'Next.js · Tailwind CSS · Framer Motion'],
               ["Career Scout AI",                      'Python · Gemini API · GitHub Actions'],
               ['CalibraFlow: SaaS de Gestão de ISO',  'Java 21 · Spring Boot · Docker'],
-              ['Dashboard ANS: Engenharia de Dados',  'Java · FastAPI · Vue.js · PostgreSQL'],
+              ['Big Data ANS: Processamento em Escala', 'Java · FastAPI · Vue.js · PostgreSQL'],
               ['Pipeline Transacional AWS',            'Node.js · SQS · Lambda · DynamoDB'],
             ].map(([name, stack]) => (
               <p key={name}><span className="text-green-400">▸</span> <span className="text-white/80">{name}</span> <span className="text-gray-500">· {stack}</span></p>
