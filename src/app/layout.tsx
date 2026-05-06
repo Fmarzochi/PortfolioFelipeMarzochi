@@ -2,6 +2,7 @@
 
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { VLibrasWidget } from '../components/common/VLibrasWidget';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -83,6 +84,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} overflow-hidden bg-black text-white selection:bg-blue-500/30`}>
         {children}
+        <VLibrasWidget />
       </body>
     </html>
   );

@@ -88,7 +88,7 @@ const PhotoCard = ({
     onClick={onClick}
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-    <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" />
+    <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
     <button
       onClick={onToggleFav}
