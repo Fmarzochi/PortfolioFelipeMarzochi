@@ -289,12 +289,22 @@ export const BrowserApp = () => {
             <p className="text-xs text-white/65 mb-6">Problemas reais. Soluções sob medida. Resultados mensuráveis.</p>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              {PROJECTS.map((project, idx) => {
-                const SVGS = [<DashboardSVG key="1" />, <MobilePawSVG key="2" />, <NetworkGraphSVG key="3" />, <GaugeSVG key="4" />, <BarChartLineSVG key="5" />, <CloudPipelineSVG key="6" />];
+              {PROJECTS.map((project) => {
+                const getIllustration = (id: string) => {
+                  switch(id) {
+                    case '1': return <DashboardSVG />;
+                    case '2': return <MobilePawSVG />;
+                    case '3': return <NetworkGraphSVG />;
+                    case '4': return <GaugeSVG />;
+                    case '5': return <BarChartLineSVG />;
+                    case '6': return <CloudPipelineSVG />;
+                    default: return null;
+                  }
+                };
                 return (
-                  <div key={project.title} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                  <div key={project.id} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                     <div className={`relative h-32 bg-gradient-to-br ${project.gradient} overflow-hidden flex-shrink-0`}>
-                      <div className="absolute inset-0">{SVGS[idx]}</div>
+                      <div className="absolute inset-0">{getIllustration(project.id)}</div>
                       <div className="absolute inset-0 bg-black/10" />
                     </div>
                     <div className="flex flex-col flex-1 p-4 gap-3">
