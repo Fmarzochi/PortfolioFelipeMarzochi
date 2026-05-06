@@ -82,6 +82,7 @@ type DockMenu = { item: DockItem; x: number; y: number } | null;
 export const MacDock = () => {
   const { openApp, closeApp, focusApp, windows } = useWindowManager();
   const [dockMenu, setDockMenu] = useState<DockMenu>(null);
+  const [dockHovered, setDockHovered] = useState(false);
 
   const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
 
@@ -165,12 +166,21 @@ export const MacDock = () => {
         )}
       </AnimatePresence>
 
-      {/* Dock */}
-      <div className="group/dock absolute bottom-0 left-0 right-0 z-[200] flex justify-center items-end h-[100px]">
+      {/* Dock — container externo pointer-events-none para não bloquear conteúdo de apps */}
+      <div className="absolute bottom-0 left-0 right-0 z-[200] flex justify-center items-end h-[100px] pointer-events-none">
+
+        {/* Hot zone: tira fina no rodapé que re-exibe o dock em modo fullscreen */}
+        {anyFullScreen && (
+          <div
+            className="absolute bottom-0 left-0 right-0 h-3 pointer-events-auto"
+            onMouseEnter={() => setDockHovered(true)}
+          />
+        )}
+
         <div
-          className={`transition-transform duration-300 ease-in-out pb-4
-            ${anyFullScreen ? 'translate-y-full group-hover/dock:translate-y-0' : 'translate-y-0'}
-          `}
+          className="transition-transform duration-300 ease-in-out pb-4 pointer-events-auto"
+          style={{ transform: anyFullScreen && !dockHovered ? 'translateY(100%)' : 'translateY(0)' }}
+          onMouseLeave={() => anyFullScreen && setDockHovered(false)}
         >
           <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
 
