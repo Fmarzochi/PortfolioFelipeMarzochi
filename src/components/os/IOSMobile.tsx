@@ -6,16 +6,17 @@ import { X } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { playSound } from '../../utils/audioEngine';
 import { useOSContext } from '../../contexts/OSContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { FocusTrap } from '../common/FocusTrap';
-import { 
-  GlobeAltIcon, 
-  BuildingOfficeIcon, 
-  CommandLineIcon, 
-  PhotoIcon, 
-  AcademicCapIcon, 
-  LinkedInIcon, 
-  GitHubIcon, 
-  WhatsAppIcon 
+import {
+  GlobeAltIcon,
+  BuildingOfficeIcon,
+  CommandLineIcon,
+  PhotoIcon,
+  AcademicCapIcon,
+  LinkedInIcon,
+  GitHubIcon,
+  WhatsAppIcon
 } from '../common/IconRegistry';
 
 type AppEntry = {
@@ -27,32 +28,19 @@ type AppEntry = {
   href?: string;
 };
 
-const DEFAULT_HOME_APPS: AppEntry[] = [
-  { id: 'maps',   title: 'Experiência', icon: BuildingOfficeIcon, gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
-  { id: 'skills', title: 'Skills',      icon: CommandLineIcon,    gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
-  { id: 'safari', title: 'Portfólio',   icon: GlobeAltIcon,       gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
-  { id: 'photos', title: 'Galeria de Projetos', icon: PhotoIcon,  gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
-  { id: 'finder', title: 'Diplomas',    icon: AcademicCapIcon,    gradient: 'from-amber-400 via-orange-400 to-orange-500' },
-];
-
-const DOCK_APPS: AppEntry[] = [
-  { id: 'messages', title: 'Contato',  icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                        },
-  { id: 'linkedin', title: 'LinkedIn', icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
-  { id: 'github',   title: 'GitHub',   icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
-];
-
-const ALL_APPS = [...DEFAULT_HOME_APPS, ...DOCK_APPS];
 
 const SwitcherCard = ({
   app,
   isActive,
   onTap,
   onClose,
+  closeLabel,
 }: {
   app: AppEntry;
   isActive: boolean;
   onTap: () => void;
   onClose: () => void;
+  closeLabel: string;
 }) => (
   <motion.div
     className={`relative flex-shrink-0 w-[148px] h-[240px] rounded-2xl overflow-hidden cursor-pointer ${isActive ? 'ring-2 ring-blue-500/70' : 'ring-1 ring-white/15'}`}
@@ -85,15 +73,41 @@ const SwitcherCard = ({
       </div>
     </button>
     <div className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none">
-      <span className="text-[10px] text-white/60" aria-hidden="true">↑ fechar</span>
+      <span className="text-[10px] text-white/60" aria-hidden="true">↑ {closeLabel}</span>
     </div>
   </motion.div>
 );
 
 export const IOSMobile = () => {
   const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
+  const { t, lang } = useLanguage();
 
-  const [homeApps, setHomeApps] = useState([...DEFAULT_HOME_APPS]);
+  const skillsLabel = lang === 'es' ? 'Habilidades' : 'Skills';
+
+  const DEFAULT_HOME_APPS: AppEntry[] = useMemo(() => [
+    { id: 'maps',   title: t.apps.maps,   icon: BuildingOfficeIcon, gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
+    { id: 'skills', title: skillsLabel,   icon: CommandLineIcon,    gradient: 'from-slate-500 via-slate-600 to-slate-700'   },
+    { id: 'safari', title: t.apps.safari, icon: GlobeAltIcon,       gradient: 'from-blue-500 via-blue-400 to-cyan-400'      },
+    { id: 'photos', title: t.apps.photos, icon: PhotoIcon,          gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
+    { id: 'finder', title: t.apps.finder, icon: AcademicCapIcon,    gradient: 'from-amber-400 via-orange-400 to-orange-500' },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [lang]);
+
+  const DOCK_APPS: AppEntry[] = useMemo(() => [
+    { id: 'messages', title: t.apps.messages, icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                        },
+    { id: 'linkedin', title: 'LinkedIn',       icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
+    { id: 'github',   title: 'GitHub',         icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [lang]);
+
+  const ALL_APPS = useMemo(() => [...DEFAULT_HOME_APPS, ...DOCK_APPS], [DEFAULT_HOME_APPS, DOCK_APPS]);
+
+  const [homeApps, setHomeApps] = useState<AppEntry[]>([]);
+
+  useEffect(() => {
+    setHomeApps([...DEFAULT_HOME_APPS]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
   const [openApps, setOpenApps]   = useState<AppEntry[]>([]);
   const [activeAppId, setActiveAppId] = useState<string | null>(null);
   const [showSwitcher, setShowSwitcher] = useState(false);
@@ -302,12 +316,12 @@ export const IOSMobile = () => {
         <div className="relative z-10 flex justify-center pb-2">
           <button
             onClick={() => setShowSwitcher(true)}
-            aria-label={`Mostrar alternador de aplicativos. ${openApps.length} aberto${openApps.length > 1 ? 's' : ''}`}
+            aria-label={`Mostrar alternador de aplicativos. ${openApps.length} ${openApps.length > 1 ? t.ios.appsOpenPlural : t.ios.appsOpenSingular}`}
             aria-live="polite"
             className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs text-white/70 transition-colors"
               style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
           >
-            <span>{openApps.length} app{openApps.length > 1 ? 's' : ''} aberto{openApps.length > 1 ? 's' : ''}</span>
+            <span>{openApps.length} {openApps.length > 1 ? t.ios.appsOpenPlural : t.ios.appsOpenSingular}</span>
           </button>
         </div>
       )}
@@ -389,7 +403,7 @@ export const IOSMobile = () => {
                       transition={{ duration: 0.3 }}
                       className="mt-1.5 text-[10px] text-white/60 pointer-events-none"
                     >
-                      ↓ arraste para fechar
+                      {t.ios.dragToClose}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -425,7 +439,7 @@ export const IOSMobile = () => {
           >
             <FocusTrap isActive={showSwitcher} onEscape={() => setShowSwitcher(false)}>
               <div className="pt-[env(safe-area-inset-top,24px)] pb-3 flex justify-center">
-                <p className="text-xs font-semibold text-white/60 uppercase tracking-widest">Apps Recentes</p>
+                <p className="text-xs font-semibold text-white/60 uppercase tracking-widest">{t.ios.recentApps}</p>
               </div>
 
               <div className="flex-1 flex items-center px-6 gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
@@ -436,6 +450,7 @@ export const IOSMobile = () => {
                       isActive={app.id === activeAppId}
                       onTap={() => { setActiveAppId(app.id); setShowSwitcher(false); }}
                       onClose={() => closeApp(app.id)}
+                      closeLabel={t.ios.close}
                     />
                   </div>
                 ))}
@@ -482,7 +497,7 @@ export const IOSMobile = () => {
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                   role="menuitem"
                 >
-                  Abrir
+                  {t.menu.open}
                 </button>
                 <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
                 <button
@@ -492,7 +507,7 @@ export const IOSMobile = () => {
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                   role="menuitem"
                 >
-                  Recarregar
+                  {t.menu.reload}
                 </button>
               </div>
             </FocusTrap>

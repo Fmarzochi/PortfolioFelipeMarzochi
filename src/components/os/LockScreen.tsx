@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowRight, ChevronUp, Fingerprint, Volume2, VolumeX } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
+import { useLanguage } from '../../contexts/LanguageContext';
 import profileImg from '../../assets/images/profile.jpg';
 import signatureImg from '../../assets/images/signature.png';
 
@@ -13,6 +14,7 @@ interface LockScreenProps {
 }
 
 export const LockScreen = ({ onUnlock }: LockScreenProps) => {
+  const { t } = useLanguage();
   const [time, setTime] = useState<Date | null>(null);
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -86,7 +88,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
       <button
         onClick={() => setIsMuted(v => !v)}
         className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/8 ring-1 ring-white/15 hover:bg-white/15 transition-all"
-        title={isMuted ? 'Ativar som' : 'Silenciar'}
+        title={isMuted ? t.lock.muteOn : t.lock.muteOff}
       >
         {isMuted ? <VolumeX size={14} className="text-white/50" /> : <Volume2 size={14} className="text-white/50" />}
       </button>
@@ -136,7 +138,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             transition={{ delay: 0.35 }}
             className="mt-2 text-[11px] md:text-xs text-white/28 tracking-wide text-center px-8"
           >
-            Um portfólio diferente · explore como um sistema operacional
+            {t.lock.subtitle}
           </motion.p>
         </div>
 
@@ -188,11 +190,11 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
           {/* Password Input */}
           <form onSubmit={handleLogin} className="relative flex w-[min(85vw,220px)] md:w-[min(90vw,256px)] items-center">
-            <label htmlFor="lock-password" lang="pt-br" className="sr-only">Senha de acesso</label>
+            <label htmlFor="lock-password" className="sr-only">{t.lock.passwordLabel}</label>
             <input
               id="lock-password"
               type="password"
-              placeholder="Digite a senha..."
+              placeholder={t.lock.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isAuthenticating}
@@ -204,7 +206,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               <button
                 type="submit"
                 className="absolute right-2 flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10"
-                aria-label="Entrar"
+                aria-label={t.lock.enter}
               >
                 <ArrowRight size={16} className="text-white/60 hover:text-white" />
               </button>
@@ -214,7 +216,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           <button
             className="mt-6 md:mt-8 flex flex-col items-center gap-3 cursor-pointer group"
             onClick={() => handleLogin()}
-            aria-label="Desbloquear sistema"
+            aria-label={t.lock.unlockSystem}
           >
             <motion.div
               whileTap={{ scale: 0.88 }}
@@ -225,7 +227,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               <Fingerprint size={40} className="text-white/55 group-hover:text-white/80 transition-colors" strokeWidth={1.2} aria-hidden="true" />
             </motion.div>
             <span className="text-[11px] md:text-xs font-medium text-white/40 group-hover:text-white/60 transition-colors text-center px-2">
-              {isTouchDevice ? 'Toque para entrar' : 'Clique ou pressione qualquer tecla'}
+              {isTouchDevice ? t.lock.touchToEnter : t.lock.clickToEnter}
             </span>
           </button>
         </motion.div>
@@ -245,7 +247,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           >
             <ChevronUp size={20} className="text-white/35" />
           </motion.div>
-          <span className="text-[11px] text-white/65 tracking-wide">Deslize para cima</span>
+          <span className="text-[11px] text-white/65 tracking-wide">{t.lock.swipeUp}</span>
         </motion.div>
       )}
 
@@ -256,7 +258,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
         transition={{ delay: 1.0 }}
         className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full px-3 py-1.5 pointer-events-none"
         style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)' }}
-        aria-label="Site 100% acessível com suporte a Libras"
+        aria-label={t.lock.accessibilityBadge}
         role="note"
       >
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="14" height="14" aria-hidden="true">
@@ -264,7 +266,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           <path d="M9 8.5C9 8.5 7 9.5 6.5 12L5 17H7L8.5 13L11 14V19H13V13.5L10.5 12L11.5 9.5H14.5L16 12H18L16 8.5C16 8.5 14.5 7 12 7C10.5 7 9 8.5 9 8.5Z" fill="rgba(255,255,255,0.7)" />
         </svg>
         <span className="text-[10px] font-medium tracking-wide" style={{ color: 'rgba(255,255,255,0.55)' }}>
-          100% Acessível · Libras
+          {t.lock.accessibilityBadge}
         </span>
         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="13" height="13" aria-hidden="true">
           <path d="M10 3C10 3 7 5 4.5 7.5C3 9 3 11 4 12.5C5.5 14.5 8 14 9.5 13C9.5 13 9 15 8.5 16.5C8 18 9 18.5 9.5 17.5C10 16.5 11 14 11 14C11 14 11.5 15.5 12 16.5C12.5 17.5 13.5 17 13 15.5C12.7 14.5 12.5 13 12.5 13C13.5 13.8 15.5 14 16.5 12.5C17.5 11 17 9 15.5 7.5C13 5 10 3 10 3Z" fill="rgba(100,180,255,0.75)" />

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid, Github } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { PROJECTS, Project } from '../../constants/projects';
 
 const DashboardSVG = () => (
@@ -72,12 +73,18 @@ const PhotoCard = ({
   isFav,
   onToggleFav,
   onClick,
+  displayTitle,
+  addToFavLabel,
+  removeFromFavLabel,
 }: {
   project: Project;
   isSelected: boolean;
   isFav: boolean;
   onToggleFav: (e: React.MouseEvent) => void;
   onClick: () => void;
+  displayTitle: string;
+  addToFavLabel: string;
+  removeFromFavLabel: string;
 }) => (
   <motion.div
     whileHover={{ scale: 1.02 }}
@@ -88,17 +95,17 @@ const PhotoCard = ({
     onClick={onClick}
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-    <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
+    <Image src={project.image} alt={displayTitle} fill className="object-cover" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
     <button
       onClick={onToggleFav}
       className={`absolute top-2 right-2 z-10 p-1.5 rounded-full transition-all ${isFav ? 'bg-black/30 opacity-100' : 'bg-black/20 opacity-0 group-hover:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 opacity-100'}`}
-      title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+      title={isFav ? removeFromFavLabel : addToFavLabel}
     >
       <Heart size={13} className={`transition-colors ${isFav ? 'text-red-400 fill-red-400' : 'text-white/70'}`} />
     </button>
     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent pt-8 px-3 pb-2.5">
-      <p className="text-[11px] font-semibold text-white leading-tight truncate">{project.title}</p>
+      <p className="text-[11px] font-semibold text-white leading-tight truncate">{displayTitle}</p>
       <p className="text-[9px] text-white/70 mt-0.5 truncate">{project.tag}</p>
     </div>
   </motion.div>
@@ -109,11 +116,32 @@ const ProjectDetail = ({
   isFav,
   onToggleFav,
   onClose,
+  displayTitle,
+  displayDor,
+  displaySolucao,
+  displayResultado,
+  labels,
 }: {
   project: Project;
   isFav: boolean;
   onToggleFav: () => void;
   onClose: () => void;
+  displayTitle: string;
+  displayDor: string;
+  displaySolucao: string;
+  displayResultado: string;
+  labels: {
+    back: string;
+    removeFromFav: string;
+    addToFav: string;
+    favorited: string;
+    favorite: string;
+    viewOnGithub: string;
+    problem: string;
+    solution: string;
+    result: string;
+    stackUsed: string;
+  };
 }) => (
   <motion.div
     key={project.id}
@@ -124,43 +152,43 @@ const ProjectDetail = ({
     className="flex-1 flex flex-col overflow-hidden"
   >
     <div className={`relative w-full h-32 sm:h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
-      <Image src={project.image} alt={project.title} fill className="object-cover" sizes="100vw" />
+      <Image src={project.image} alt={displayTitle} fill className="object-cover" sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 pr-20">
         <p className="text-[10px] text-white/60 mb-0.5 truncate">{project.tag}</p>
-        <h2 className="text-base sm:text-lg font-bold text-white leading-tight">{project.title}</h2>
+        <h2 className="text-base sm:text-lg font-bold text-white leading-tight">{displayTitle}</h2>
       </div>
       <button onClick={onClose} className="absolute top-3 left-3 text-[11px] text-white/60 hover:text-white bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full transition-colors">
-        ← Voltar
+        {labels.back}
       </button>
-      <button onClick={onToggleFav} className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all backdrop-blur-sm ${isFav ? 'bg-red-500/30 text-red-300 ring-1 ring-red-400/40' : 'bg-black/30 text-white/60 hover:text-white hover:bg-black/50'}`} title={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}>
+      <button onClick={onToggleFav} className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all backdrop-blur-sm ${isFav ? 'bg-red-500/30 text-red-300 ring-1 ring-red-400/40' : 'bg-black/30 text-white/60 hover:text-white hover:bg-black/50'}`} title={isFav ? labels.removeFromFav : labels.addToFav}>
         <Heart size={12} className={isFav ? 'fill-red-400 text-red-400' : ''} />
-        {isFav ? 'Favoritado' : 'Favoritar'}
+        {isFav ? labels.favorited : labels.favorite}
       </button>
     </div>
     <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
       {project.github && (
         <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full text-[11px] text-white/60 hover:text-white transition-all" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
           <Github size={13} />
-          Ver no GitHub
+          {labels.viewOnGithub}
         </a>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">Problema</span>
-          <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">{labels.problem}</span>
+          <p className="text-xs text-white/65 leading-relaxed">{displayDor}</p>
         </div>
         <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">Solução</span>
-          <p className="text-xs text-white/65 leading-relaxed">{project.solucao}</p>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">{labels.solution}</span>
+          <p className="text-xs text-white/65 leading-relaxed">{displaySolucao}</p>
         </div>
         <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-green-400">Resultado</span>
-          <p className="text-xs text-white/65 leading-relaxed">{project.resultado}</p>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-green-400">{labels.result}</span>
+          <p className="text-xs text-white/65 leading-relaxed">{displayResultado}</p>
         </div>
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-2">Stack utilizada</p>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-2">{labels.stackUsed}</p>
         <div className="flex flex-wrap gap-2">
           {project.stack.map((s) => (
             <span key={s} className="rounded-full px-3 py-1 text-[11px] text-white/60" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
@@ -207,6 +235,7 @@ const SidebarItem = ({
 
 export const GalleryApp = () => {
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
   const [view, setView] = useState<View>('all');
   const [detailId, setDetailId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -244,12 +273,32 @@ export const GalleryApp = () => {
     );
   }, [view, query, favorites]);
 
+  const getProjectDisplay = (project: Project) => ({
+    title: t.projects[project.id]?.title ?? project.title,
+    dor: t.projects[project.id]?.dor ?? project.dor,
+    solucao: t.projects[project.id]?.solucao ?? project.solucao,
+    resultado: t.projects[project.id]?.resultado ?? project.resultado,
+  });
+
+  const galleryLabels = {
+    back: t.gallery.back,
+    removeFromFav: t.gallery.removeFromFav,
+    addToFav: t.gallery.addToFav,
+    favorited: t.gallery.favorited,
+    favorite: t.gallery.favorite,
+    viewOnGithub: t.gallery.viewOnGithub,
+    problem: t.gallery.problem,
+    solution: t.gallery.solution,
+    result: t.gallery.result,
+    stackUsed: t.gallery.stackUsed,
+  };
+
   const viewLabel =
     view === 'all'
-      ? 'Todas as Fotos'
+      ? t.gallery.allPhotos
       : view === 'favorites'
-      ? 'Favoritos'
-      : PROJECTS.find((p) => p.albumKey === view)?.title ?? 'Todas as Fotos';
+      ? t.gallery.favorites
+      : (PROJECTS.find((p) => p.albumKey === view) ? t.projects[PROJECTS.find((p) => p.albumKey === view)!.id]?.title ?? PROJECTS.find((p) => p.albumKey === view)!.title : t.gallery.allPhotos);
 
   const handleViewChange = (v: View) => {
     setView(v);
@@ -271,10 +320,10 @@ export const GalleryApp = () => {
           <motion.aside initial={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }} animate={{ x: 0, width: isMobile ? 260 : 240, opacity: 1 }} exit={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }} transition={{ duration: 0.25, ease: 'easeInOut' }} className={`flex flex-col h-full overflow-hidden ${isMobile ? 'absolute left-0 top-0 z-30 shrink-0' : 'shrink-0'}`} style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="flex-1 min-h-0 overflow-y-auto py-4 space-y-5 px-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">Biblioteca</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">{t.gallery.library}</p>
                 <div className="space-y-0.5">
-                  <SidebarItem icon={<ImageIcon size={14} />} label="Todas as Fotos" active={view === 'all'} onClick={() => handleViewChange('all')} count={PROJECTS.length} />
-                  <SidebarItem icon={<Heart size={14} />} label="Favoritos" active={view === 'favorites'} onClick={() => handleViewChange('favorites')} count={favorites.size} />
+                  <SidebarItem icon={<ImageIcon size={14} />} label={t.gallery.allPhotos} active={view === 'all'} onClick={() => handleViewChange('all')} count={PROJECTS.length} />
+                  <SidebarItem icon={<Heart size={14} />} label={t.gallery.favorites} active={view === 'favorites'} onClick={() => handleViewChange('favorites')} count={favorites.size} />
                 </div>
                 <div className="space-y-1 mt-3">
                   {PROJECTS.map((project) => {
@@ -286,7 +335,7 @@ export const GalleryApp = () => {
                           {favorites.has(project.id) && <div className="absolute top-0.5 right-0.5"><Heart size={7} className="text-red-400 fill-red-400" /></div>}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className={`text-[11px] font-semibold leading-tight line-clamp-2 ${isActive ? 'text-blue-300' : 'text-white/65'}`}>{project.title}</p>
+                          <p className={`text-[11px] font-semibold leading-tight line-clamp-2 ${isActive ? 'text-blue-300' : 'text-white/65'}`}>{t.projects[project.id]?.title ?? project.title}</p>
                         </div>
                       </button>
                     );
@@ -294,10 +343,10 @@ export const GalleryApp = () => {
                 </div>
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">Projetos (Álbuns)</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">{t.gallery.albums}</p>
                 <div className="space-y-0.5">
                   {PROJECTS.map((project) => (
-                    <SidebarItem key={project.id} icon={<LayoutGrid size={13} />} label={project.title} active={view === project.albumKey} onClick={() => handleViewChange(project.albumKey)} />
+                    <SidebarItem key={project.id} icon={<LayoutGrid size={13} />} label={t.projects[project.id]?.title ?? project.title} active={view === project.albumKey} onClick={() => handleViewChange(project.albumKey)} />
                   ))}
                 </div>
               </div>
@@ -315,7 +364,7 @@ export const GalleryApp = () => {
           <div className="flex-1" />
           <div className="flex items-center gap-2 rounded-[10px] px-2.5 py-1.5 transition-all shrink-0" style={{ background: searchFocused ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.08)', border: searchFocused ? '1px solid rgba(10,132,255,0.6)' : '1px solid rgba(255,255,255,0.12)' }}>
             <Search size={12} className="text-white/40 shrink-0" />
-            <input type="text" placeholder="Buscar fotos..." value={query} onChange={(e) => { setQuery(e.target.value); setDetailId(null); }} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} className="bg-transparent text-[12px] text-white/80 placeholder-white/30 outline-none w-20 focus:w-32 sm:w-28 sm:focus:w-40 transition-all duration-200" />
+            <input type="text" placeholder={t.gallery.searchPlaceholder} value={query} onChange={(e) => { setQuery(e.target.value); setDetailId(null); }} onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} className="bg-transparent text-[12px] text-white/80 placeholder-white/30 outline-none w-20 focus:w-32 sm:w-28 sm:focus:w-40 transition-all duration-200" />
             {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors"><X size={11} /></button>}
           </div>
           <button onClick={() => window.open('https://www.linkedin.com/in/felipemarzochi/', '_blank')} className="flex items-center justify-center h-7 w-7 rounded-[8px] text-white/50 hover:text-white transition-colors shrink-0" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
@@ -326,18 +375,44 @@ export const GalleryApp = () => {
         <div className="flex-1 overflow-hidden flex flex-col">
           <AnimatePresence mode="wait">
             {detailProject ? (
-              <ProjectDetail key={detailProject.id} project={detailProject} isFav={favorites.has(detailProject.id)} onToggleFav={() => toggleFav(detailProject.id)} onClose={() => setDetailId(null)} />
+              (() => {
+                const dp = getProjectDisplay(detailProject);
+                return (
+                  <ProjectDetail
+                    key={detailProject.id}
+                    project={detailProject}
+                    isFav={favorites.has(detailProject.id)}
+                    onToggleFav={() => toggleFav(detailProject.id)}
+                    onClose={() => setDetailId(null)}
+                    displayTitle={dp.title}
+                    displayDor={dp.dor}
+                    displaySolucao={dp.solucao}
+                    displayResultado={dp.resultado}
+                    labels={galleryLabels}
+                  />
+                );
+              })()
             ) : (
               <motion.div key={`grid-${view}-${query}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex-1 overflow-y-auto p-4">
                 {visibleProjects.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-white/20 gap-3">
                     <Search size={32} strokeWidth={1} />
-                    <p className="text-sm">Nenhum projeto encontrado</p>
+                    <p className="text-sm">{t.gallery.noResults}</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3">
                     {visibleProjects.map((project) => (
-                      <PhotoCard key={project.id} project={project} isSelected={detailId === project.id} isFav={favorites.has(project.id)} onToggleFav={(e) => { e.stopPropagation(); toggleFav(project.id); }} onClick={() => setDetailId(project.id)} />
+                      <PhotoCard
+                        key={project.id}
+                        project={project}
+                        isSelected={detailId === project.id}
+                        isFav={favorites.has(project.id)}
+                        onToggleFav={(e) => { e.stopPropagation(); toggleFav(project.id); }}
+                        onClick={() => setDetailId(project.id)}
+                        displayTitle={t.projects[project.id]?.title ?? project.title}
+                        addToFavLabel={t.gallery.addToFav}
+                        removeFromFavLabel={t.gallery.removeFromFav}
+                      />
                     ))}
                   </div>
                 )}

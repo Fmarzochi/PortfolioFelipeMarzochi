@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FileText, Search, LayoutGrid, List, Clock, Award, Briefcase, GraduationCap, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FocusTrap } from '../common/FocusTrap';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 type CategoryKey =
   | 'formacao_academica'
@@ -217,6 +218,7 @@ const SIDEBAR_ICONS: Record<Category['icon'], typeof Award> = {
 };
 
 export const FinderApp = () => {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<CategoryKey>('formacao_academica');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
@@ -234,7 +236,7 @@ export const FinderApp = () => {
     <div className="flex flex-col md:flex-row h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
       <div className="w-full max-h-[40dvh] md:max-h-none md:w-[220px] flex-shrink-0 pt-4 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/60">
-          Certificados ({totalCerts})
+          {t.finder.certificates} ({totalCerts})
         </div>
         <nav className="flex flex-col gap-0.5 px-2 pb-4">
           {CATEGORIES.map((cat) => {
@@ -260,7 +262,7 @@ export const FinderApp = () => {
         <div className="flex h-12 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-3">
             <h2 className="text-sm font-semibold tracking-wide">{activeData.label}</h2>
-            <span className="text-[10px] text-white/60">{filteredFiles.length} certificados</span>
+            <span className="text-[10px] text-white/60">{filteredFiles.length} {t.finder.items}</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -270,14 +272,14 @@ export const FinderApp = () => {
             </div>
             <div className="flex items-center rounded-[10px] px-2 py-1 focus-within:outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <Search size={14} className="text-white/60" />
-              <input type="text" placeholder="Buscar" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ml-2 w-20 md:w-28 bg-transparent text-sm outline-none placeholder:text-white/60" aria-label="Buscar certificados" />
+              <input type="text" placeholder={t.finder.searchPlaceholder} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ml-2 w-20 md:w-28 bg-transparent text-sm outline-none placeholder:text-white/60" aria-label={t.finder.searchAriaLabel} />
             </div>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-2 md:p-4">
           {filteredFiles.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-sm text-white/60">Nenhum certificado encontrado</div>
+            <div className="flex h-full items-center justify-center text-sm text-white/60">{t.finder.noneFound}</div>
           ) : viewMode === 'grid' ? (
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {filteredFiles.map((file) => (
@@ -351,7 +353,7 @@ export const FinderApp = () => {
                     {previewFile.versoPath && (
                       <button onClick={() => setShowVerso(!showVerso)} className={`rounded-[8px] px-3 py-1 text-[11px] font-semibold transition-colors ${showVerso ? 'bg-blue-500 text-white' : 'text-white/60 hover:text-white/80'}`} style={!showVerso ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' } : {}}>{showVerso ? 'Frente' : 'Verso'}</button>
                     )}
-                    <button onClick={() => setPreviewFile(null)} aria-label="Fechar visualização" className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}><X size={14} /></button>
+                    <button onClick={() => setPreviewFile(null)} aria-label={t.finder.closePreview} className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}><X size={14} /></button>
                   </div>
                 </div>
                 <div className="flex-1 overflow-auto relative w-full h-full min-h-[300px]">

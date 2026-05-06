@@ -4,15 +4,16 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../../utils/audioEngine';
 import { useWindowManager } from '../../store/useWindowManager';
-import { 
-  GlobeAltIcon, 
-  BuildingOfficeIcon, 
-  CommandLineIcon, 
-  PhotoIcon, 
-  AcademicCapIcon, 
-  LinkedInIcon, 
-  GitHubIcon, 
-  WhatsAppIcon 
+import { useLanguage } from '../../contexts/LanguageContext';
+import {
+  GlobeAltIcon,
+  BuildingOfficeIcon,
+  CommandLineIcon,
+  PhotoIcon,
+  AcademicCapIcon,
+  LinkedInIcon,
+  GitHubIcon,
+  WhatsAppIcon
 } from '../common/IconRegistry';
 
 type DockItem = {
@@ -24,23 +25,26 @@ type DockItem = {
   href?: string;
 };
 
-const DOCK_ITEMS: DockItem[] = [
-  { id: 'safari',   title: 'Portfólio',           icon: GlobeAltIcon,      gradient: 'from-blue-500 to-cyan-500'                 },
-  { id: 'maps',     title: 'Experiência',          icon: BuildingOfficeIcon,gradient: 'from-emerald-500 to-teal-600'              },
-  { id: 'skills',   title: 'Skills',              icon: CommandLineIcon,   gradient: 'from-slate-500 to-slate-700'               },
-  { id: 'photos',   title: 'Galeria de Projetos',  icon: PhotoIcon,         gradient: 'from-pink-400 to-violet-600'               },
-  { id: 'finder',   title: 'Diplomas',            icon: AcademicCapIcon,   gradient: 'from-amber-400 to-orange-500'              },
-  { id: 'messages', title: 'Contato',             icon: WhatsAppIcon,      gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'},
-  { id: 'linkedin', title: 'LinkedIn',            icon: LinkedInIcon,      gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
-  { id: 'github',   title: 'GitHub',              icon: GitHubIcon,        gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
-];
-
 type DockMenu = { item: DockItem; x: number; y: number } | null;
 
 export const MacDock = () => {
   const { openApp, closeApp, focusApp, windows } = useWindowManager();
+  const { t, lang } = useLanguage();
   const [dockMenu, setDockMenu] = useState<DockMenu>(null);
   const [dockHovered, setDockHovered] = useState(false);
+
+  const skillsLabel = lang === 'es' ? 'Habilidades' : 'Skills';
+
+  const DOCK_ITEMS: DockItem[] = [
+    { id: 'safari',   title: t.apps.safari,   icon: GlobeAltIcon,       gradient: 'from-blue-500 to-cyan-500'                  },
+    { id: 'maps',     title: t.apps.maps,     icon: BuildingOfficeIcon,  gradient: 'from-emerald-500 to-teal-600'               },
+    { id: 'skills',   title: skillsLabel,     icon: CommandLineIcon,     gradient: 'from-slate-500 to-slate-700'                },
+    { id: 'photos',   title: t.apps.photos,   icon: PhotoIcon,           gradient: 'from-pink-400 to-violet-600'                },
+    { id: 'finder',   title: t.apps.finder,   icon: AcademicCapIcon,     gradient: 'from-amber-400 to-orange-500'               },
+    { id: 'messages', title: t.apps.messages, icon: WhatsAppIcon,        gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]' },
+    { id: 'linkedin', title: 'LinkedIn',       icon: LinkedInIcon,        gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
+    { id: 'github',   title: 'GitHub',         icon: GitHubIcon,          gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
+  ];
 
   const anyFullScreen = windows.some((w) => w.isOpen && !w.isMinimized && w.isFullScreen);
 
@@ -106,7 +110,7 @@ export const MacDock = () => {
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
-                {isRunning(dockMenu.item.id) ? 'Fechar' : 'Abrir'}
+                {isRunning(dockMenu.item.id) ? t.menu.close : t.menu.open}
               </button>
               <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
@@ -115,7 +119,7 @@ export const MacDock = () => {
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
-                Recarregar
+                {t.menu.reload}
               </button>
             </div>
           </motion.div>

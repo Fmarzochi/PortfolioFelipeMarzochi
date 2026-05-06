@@ -5,6 +5,7 @@ import Image from 'next/image';
 import signatureImg from '../../assets/images/signature.png';
 import { useWindowManager } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { PROJECTS, Project } from '../../constants/projects';
 
 const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: string }) => (
@@ -27,20 +28,9 @@ const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: st
   </svg>
 );
 
-const PROFILE_TRAITS = [
-  { label: 'Excelência Técnica',  icon: CheckCircle2, color: 'text-blue-400',   evidence: 'MBA em Engenharia de Software aplicado em arquiteturas resilientes e entregas de alta qualidade sem retrabalho'           },
-  { label: 'Escalabilidade Real',  icon: Target,       color: 'text-violet-400', evidence: 'Ingestão de 2,1 milhões de registros em segundos através de otimização nativa de banco de dados'            },
-  { label: 'Eficiência Operacional', icon: Lightbulb,    color: 'text-cyan-400',   evidence: 'Desenvolvimento do sistema DuAutomação que eliminou processos manuais e elevou a lucratividade do cliente'                },
-  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Engenharia aplicada com rigor analítico focado no diagnóstico preciso de problemas complexos'             },
-  { label: 'Colaboração em Equipe',    icon: Users,        color: 'text-pink-400',   evidence: 'Code review, pair programming e documentação compartilhada em equipes multidisciplinares CLT e freelance'               },
-];
-
-const WORK_STYLE = [
-  { label: 'Engenharia End to End',             desc: 'Visão completa do ciclo de vida do software: do levantamento estratégico de requisitos ao deploy automatizado em nuvem'              },
-  { label: 'Código Sustentável',               desc: 'Aplicação rigorosa de SOLID e Clean Code garantindo sistemas de fácil manutenção e evolução segura',  icon: Shield },
-  { label: 'Design de Alta Performance',        desc: 'Arquiteturas projetadas para alto volume de dados onde a performance é tratada como requisito fundamental de design',   icon: Zap    },
-  { label: 'Integração sem atrito',             desc: 'APIs REST, webhooks e autenticação JWT com tratamento estruturado de erros e contratos bem definidos'                       },
-];
+const TRAIT_ICONS = [CheckCircle2, Target, Lightbulb, Brain, Users];
+const TRAIT_COLORS = ['text-blue-400', 'text-violet-400', 'text-cyan-400', 'text-green-400', 'text-pink-400'];
+const WORK_STYLE_ICONS = [CheckCircle2, Shield, Zap, CheckCircle2];
 
 interface ProjectItem {
   title: string;
@@ -162,12 +152,24 @@ const CloudPipelineSVG = () => (
 export const BrowserApp = () => {
   const { openApp } = useWindowManager();
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
+
+  const PROFILE_TRAITS = t.browser.traits.map((trait, i) => ({
+    ...trait,
+    icon: TRAIT_ICONS[i] ?? CheckCircle2,
+    color: TRAIT_COLORS[i] ?? 'text-white-400',
+  }));
+
+  const WORK_STYLE = t.browser.workStyle.map((item, i) => ({
+    ...item,
+    icon: WORK_STYLE_ICONS[i] ?? CheckCircle2,
+  }));
 
   const openGallery = () => {
     if (isMobile) {
       document.dispatchEvent(new CustomEvent('ios-open-app', { detail: { appId: 'photos' } }));
     } else {
-      openApp('photos', 'Galeria de Projetos');
+      openApp('photos', t.apps.photos);
     }
   };
 
@@ -201,7 +203,7 @@ export const BrowserApp = () => {
               ))}
             </div>
             <p className="max-w-md text-sm text-white/70 leading-relaxed">
-              Arquiteturas escaláveis, Clean Code e interfaces focadas na experiência do usuário.
+              {t.browser.heroSubtitle}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button
@@ -209,7 +211,7 @@ export const BrowserApp = () => {
                 className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] rounded-[8px]"
                 aria-label="Ver galeria de projetos completa"
               >
-                Ver Portfólio
+                {t.browser.viewPortfolio}
               </button>
               <a
                 href="/cv/CV_FELIPE_MARZOCHI.pdf"
@@ -218,7 +220,7 @@ export const BrowserApp = () => {
                 aria-label="Fazer download do currículo em PDF"
               >
                 <Download size={14} aria-hidden="true" />
-                Download CV
+                {t.browser.downloadCV}
               </a>
             </div>
           </div>
@@ -229,23 +231,17 @@ export const BrowserApp = () => {
           <div className="rounded-2xl p-6 space-y-3" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-4">
               <Layers size={16} className="text-blue-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400">Perfil Profissional</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400">{t.browser.profileTitle}</h2>
             </div>
-            <p className="text-sm text-white/70 leading-relaxed">
-              Engenheiro de Software com foco em arquiteturas front end escaláveis utilizando React.js e Next.js. No ecossistema back end, projeto sistemas de alto desempenho com Java Spring Boot, garantindo a integridade dos dados com PostgreSQL e MongoDB. Minha infraestrutura é fundamentada em Docker e CI/CD com distribuição via AWS CloudFront.
-            </p>
-            <p className="text-sm text-white/60 leading-relaxed">
-              Especialista com MBA em Engenharia de Software e sólida base em Análise de Sistemas. Aplico os princípios SOLID e Clean Code para construir soluções sustentáveis, atuando desde o desenho técnico inicial até a entrega contínua em produção sob metodologias ágeis.
-            </p>
-            <p className="text-sm text-white/60 leading-relaxed">
-              Minha trajetória profissional é pautada pelo rigor analítico focado no diagnóstico preciso de problemas complexos, estruturando soluções validadas que sustentam o crescimento do negócio.
-            </p>
+            <p className="text-sm text-white/70 leading-relaxed">{t.browser.bio1}</p>
+            <p className="text-sm text-white/60 leading-relaxed">{t.browser.bio2}</p>
+            <p className="text-sm text-white/60 leading-relaxed">{t.browser.bio3}</p>
           </div>
 
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Brain size={16} className="text-violet-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-violet-400">DNA Profissional</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-violet-400">{t.browser.dnaTitle}</h2>
             </div>
             <div className="space-y-3">
               {PROFILE_TRAITS.map((trait) => (
@@ -263,7 +259,7 @@ export const BrowserApp = () => {
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Target size={16} className="text-green-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-green-400">Como Trabalho</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-green-400">{t.browser.workStyleTitle}</h2>
             </div>
             <div className="space-y-3">
               {WORK_STYLE.map((item) => {
@@ -284,9 +280,9 @@ export const BrowserApp = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Layers size={16} className="text-orange-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-orange-400">Projetos Entregues</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-orange-400">{t.browser.projectsTitle}</h2>
             </div>
-            <p className="text-xs text-white/65 mb-6">Problemas reais. Soluções sob medida. Resultados mensuráveis.</p>
+            <p className="text-xs text-white/65 mb-6">{t.browser.projectsSubtitle}</p>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {PROJECTS.map((project) => {
@@ -308,18 +304,18 @@ export const BrowserApp = () => {
                       <div className="absolute inset-0 bg-black/20" />
                     </div>
                     <div className="flex flex-col flex-1 p-4 gap-3">
-                      <h3 className="text-base font-bold text-white/90 leading-snug">{project.title}</h3>
+                      <h3 className="text-base font-bold text-white/90 leading-snug">{t.projects[project.id]?.title ?? project.title}</h3>
                       <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-red-400/80 block mb-1">Problema</span>
-                        <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-red-400/80 block mb-1">{t.browser.problem}</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{t.projects[project.id]?.dor ?? project.dor}</p>
                       </div>
                       <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-blue-400/80 block mb-1">Solução</span>
-                        <p className="text-xs text-white/65 leading-relaxed">{project.solucao}</p>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-blue-400/80 block mb-1">{t.browser.solution}</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{t.projects[project.id]?.solucao ?? project.solucao}</p>
                       </div>
                       <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-green-400/80 block mb-1">Resultado</span>
-                        <p className="text-xs text-white/65 leading-relaxed">{project.resultado}</p>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-green-400/80 block mb-1">{t.browser.result}</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{t.projects[project.id]?.resultado ?? project.resultado}</p>
                       </div>
                       <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
                         {project.stack.map((tag) => (
@@ -336,7 +332,7 @@ export const BrowserApp = () => {
                               onClick={e => e.stopPropagation()}
                               className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                             >
-                              <ExternalLink size={11} /> Ver no GitHub
+                              <ExternalLink size={11} /> {t.browser.viewOnGithub}
                             </a>
                           )}
                           {project.demoUrl && (
@@ -347,7 +343,7 @@ export const BrowserApp = () => {
                               onClick={e => e.stopPropagation()}
                               className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors"
                             >
-                              <ExternalLink size={11} /> Ver Demo
+                              <ExternalLink size={11} /> {t.browser.viewDemo}
                             </a>
                           )}
                         </div>
