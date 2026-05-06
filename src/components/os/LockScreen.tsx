@@ -248,6 +248,28 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           <span className="text-[11px] text-white/65 tracking-wide">Deslize para cima</span>
         </motion.div>
       )}
+
+      {/* ── Badge de Acessibilidade ───────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0 }}
+        className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full px-3 py-1.5 pointer-events-none"
+        style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)' }}
+        aria-label="Site 100% acessível com suporte a Libras"
+        role="note"
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="14" height="14" aria-hidden="true">
+          <circle cx="12" cy="4" r="1.8" fill="rgba(255,255,255,0.7)" />
+          <path d="M9 8.5C9 8.5 7 9.5 6.5 12L5 17H7L8.5 13L11 14V19H13V13.5L10.5 12L11.5 9.5H14.5L16 12H18L16 8.5C16 8.5 14.5 7 12 7C10.5 7 9 8.5 9 8.5Z" fill="rgba(255,255,255,0.7)" />
+        </svg>
+        <span className="text-[10px] font-medium tracking-wide" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          100% Acessível · Libras
+        </span>
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="13" height="13" aria-hidden="true">
+          <path d="M10 3C10 3 7 5 4.5 7.5C3 9 3 11 4 12.5C5.5 14.5 8 14 9.5 13C9.5 13 9 15 8.5 16.5C8 18 9 18.5 9.5 17.5C10 16.5 11 14 11 14C11 14 11.5 15.5 12 16.5C12.5 17.5 13.5 17 13 15.5C12.7 14.5 12.5 13 12.5 13C13.5 13.8 15.5 14 16.5 12.5C17.5 11 17 9 15.5 7.5C13 5 10 3 10 3Z" fill="rgba(100,180,255,0.75)" />
+        </svg>
+      </motion.div>
     </div>
   );
 };
