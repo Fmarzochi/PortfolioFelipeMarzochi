@@ -5,6 +5,7 @@ import { BrowserApp } from './BrowserApp';
 import { FinderApp } from './FinderApp';
 import { ContactsApp } from './ContactsApp';
 import { GalleryApp } from './GalleryApp';
+import { MapsApp } from './MapsApp';
 import { MessagesApp } from './MessagesApp';
 import { SkillsApp } from './SkillsApp';
 import { AppErrorBoundary } from '../common/AppErrorBoundary';
@@ -30,10 +31,11 @@ export const AppRegistry = ({ appId }: AppRegistryProps) => {
       case 'gallery':
         return <GalleryApp />;
       case 'maps':
-        return <BrowserApp />;
+        return <MapsApp />;
       case 'messages':
         return <MessagesApp />;
       default:
+
         return (
           <div className="flex h-full w-full flex-col items-center justify-center bg-white/5 p-8 text-center backdrop-blur-sm">
             <h2 className="text-xl font-medium text-white/80">Em Desenvolvimento</h2>
