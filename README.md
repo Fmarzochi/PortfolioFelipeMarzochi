@@ -9,6 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![A11y](https://img.shields.io/badge/Acessibilidade-WCAG_2.1-blue?style=for-the-badge&logo=accessibility)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![VLibras](https://img.shields.io/badge/VLibras-MCTIC%2FUFPB-009688?style=for-the-badge&logo=accessibility&logoColor=white)](https://vlibras.gov.br/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion_11-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![Zustand](https://img.shields.io/badge/Zustand_4-433E38?style=for-the-badge&logo=react&logoColor=white)](https://zustand-demo.pmnd.rs/)
 [![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)](https://lucide.dev/)
@@ -115,8 +116,11 @@ src/
 ## Funcionalidades do Sistema
 
 - **Acessibilidade completa (A11y)** — Infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
+- **VLibras (MCTIC/UFPB)** — Plugin oficial do governo brasileiro para tradução do conteúdo em Língua Brasileira de Sinais (Libras), disponível em toda a aplicação via widget flutuante
+- **Badge de inclusão na tela de bloqueio** — Indicador visual "100% Acessível · Libras" exibido ao usuário desde o primeiro contato com o sistema
 - **Navegação nativa por teclado** — Gerenciamento de foco e atalhos globais para operação inclusiva do sistema
-- **Otimização de Performance (Next/Image)** — Carregamento inteligente e conversão automática de ativos para WebP, garantindo performance extrema
+- **Fotos reais nos cards de projetos** — Cada card do portfólio (Browser e Gallery) exibe a foto real do projeto com gradiente como fallback e overlay para preservar legibilidade
+- **Otimização de Performance (Next/Image)** — Carregamento inteligente e conversão automática de ativos para WebP, com atributo `sizes` calibrado por breakpoint para cada grade responsiva
 - **Normalização de zIndex** — Gerenciamento determinístico de camadas para janelas, prevenindo conflitos de profundidade no estado persistido
 - **UX Mobile Blindada** — Prevenção de gestos nativos de sistema (pull-to-refresh) e remoção de artefatos visuais do navegador (tap-highlight)
 - **Ergonomia de Desktop** — Janelas com travas de segurança (clamping) e áreas de redimensionamento otimizadas para precisão
@@ -149,6 +153,7 @@ src/
 | [Zustand](https://zustand-demo.pmnd.rs/) | 4 | Estado global do OS e gerenciador de janelas |
 | [Lucide React](https://lucide.dev/) | 0.360 | Ícones do sistema |
 | [Acessibilidade](https://www.w3.org/WAI/standards-guidelines/wcag/) | WCAG 2.1 | Padrões semânticos ARIA e navegação inclusiva |
+| [VLibras](https://vlibras.gov.br/) | MCTIC/UFPB | Tradução automática do conteúdo para Libras via widget oficial do governo brasileiro |
 
 ---
 
