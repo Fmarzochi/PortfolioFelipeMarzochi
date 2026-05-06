@@ -61,6 +61,10 @@ export const metadata: Metadata = {
     statusBarStyle: 'black-translucent',
     title: 'Felipe Marzochi',
   },
+  icons: {
+    icon: '/logo.svg',
+    apple: '/logo.svg',
+  },
   manifest: '/manifest.json',
 };
 
