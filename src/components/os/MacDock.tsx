@@ -84,7 +84,7 @@ export const MacDock = () => {
             transition={{ duration: 0.12 }}
             style={{
               top: Math.max(dockMenu.y - 120, 8),
-              left: Math.min(Math.max(dockMenu.x - 80, 8), window.innerWidth - 168),
+              left: Math.min(Math.max(dockMenu.x - 80, 8), (typeof window !== 'undefined' ? window.innerWidth : 800) - 168),
             }}
             className="fixed z-[9999] w-40 overflow-hidden rounded-xl liquid-glass-context-menu"
           >
@@ -144,23 +144,15 @@ export const MacDock = () => {
             <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" aria-hidden="true" />
 
             {DOCK_ITEMS.map((item) => (
-              <motion.div
+              <motion.button
                 key={item.id}
                 whileHover={{ scale: 1.38, y: -16 }}
                 whileTap={{ scale: 0.94 }}
                 transition={{ type: 'spring', stiffness: 380, damping: 18 }}
                 onClick={() => { closeDockMenu(); handleClick(item); }}
                 onContextMenu={e => handleContextMenu(e, item)}
-                className="group relative flex flex-col items-center cursor-pointer"
-                role="button"
+                className="group relative flex flex-col items-center cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-xl"
                 aria-label={`Abrir aplicativo ${item.title}`}
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleClick(item);
-                  }
-                }}
               >
                 <div className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}>
                   <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" aria-hidden="true" />
@@ -182,7 +174,7 @@ export const MacDock = () => {
                   }`}
                   aria-hidden="true"
                 />
-              </motion.div>
+              </motion.button>
             ))}
           </nav>
         </div>

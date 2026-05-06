@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Compass, Image as LucideImage, BookOpen, Code2, MessageSquare, MapPin, ChevronRight } from 'lucide-react';
 import { useWindowManager } from '../../store/useWindowManager';
+import { FocusTrap } from '../common/FocusTrap';
 
 interface SearchResult {
   id: string;
@@ -70,22 +71,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { openApp } = useWindowManager();
 
-  useEffect(() => {
-    if (isOpen) {
-      setQuery('');
-      setActiveIdx(0);
-      setTimeout(() => inputRef.current?.focus(), 60);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [onClose]);
-
   const results = useMemo((): SearchResult[] => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
@@ -123,14 +108,22 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
   }, [query, openApp, onClose]);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (!isOpen) return;
+    if (isOpen) {
+      setQuery('');
+      setActiveIdx(0);
+      setTimeout(() => inputRef.current?.focus(), 60);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIdx((i) => Math.min(i + 1, results.length - 1)); }
       if (e.key === 'ArrowUp')   { e.preventDefault(); setActiveIdx((i) => Math.max(i - 1, 0)); }
       if (e.key === 'Enter' && results[activeIdx]) { results[activeIdx].action(); }
     };
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, results, activeIdx]);
 
   useEffect(() => { setActiveIdx(0); }, [query]);
@@ -152,34 +145,36 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
         <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="fixed inset-0 z-[500] bg-black/40 backdrop-blur-sm" onClick={onClose} />
           <motion.div initial={{ opacity: 0, scale: 0.95, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ duration: 0.18, ease: 'easeOut' }} className="fixed z-[600] left-1/2 top-[18%] -translate-x-1/2 w-full max-w-[600px] px-4" onClick={(e) => e.stopPropagation()}>
-            <div className="rounded-2xl overflow-hidden liquid-glass-spotlight">
-              <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
-                <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
-                <input ref={inputRef} type="text" placeholder="Buscar projetos, skills, apps..." value={query} onChange={(e) => setQuery(e.target.value)} className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" role="combobox" aria-autocomplete="list" aria-expanded={isOpen && results.length > 0} aria-haspopup="listbox" aria-controls="spotlight-results" aria-label="Campo de busca global" />
-                {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label="Limpar busca"><X size={15} /></button>}
+            <FocusTrap isActive={isOpen} onEscape={onClose}>
+              <div className="rounded-2xl overflow-hidden liquid-glass-spotlight">
+                <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
+                  <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
+                  <input ref={inputRef} type="text" placeholder="Buscar projetos, skills, apps..." value={query} onChange={(e) => setQuery(e.target.value)} className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" role="combobox" aria-autocomplete="list" aria-expanded={isOpen && results.length > 0} aria-haspopup="listbox" aria-controls="spotlight-results" aria-label="Campo de busca global" aria-activedescendant={results[activeIdx] ? results[activeIdx].id : undefined} />
+                  {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label="Limpar busca"><X size={15} /></button>}
+                </div>
+                <div className="max-h-[400px] overflow-y-auto" id="spotlight-results" role="listbox" aria-label="Resultados da busca">
+                  {query.trim() === '' && <div className="px-4 py-8 text-center text-sm text-white/25">Digite para buscar projetos, skills, apps ou certificações</div>}
+                  {query.trim() !== '' && results.length === 0 && <div className="px-4 py-8 text-center text-sm text-white/25">Nenhum resultado para &quot;{query}&quot;</div>}
+                  {[...grouped.entries()].map(([category, items]) => (
+                    <div key={category}>
+                      <div className="px-4 pt-3 pb-1"><p className="text-[10px] font-bold uppercase tracking-widest text-white/25">{category}</p></div>
+                      {items.map((result) => {
+                        const flatIdx = flatResults.indexOf(result);
+                        const isActive = flatIdx === activeIdx;
+                        return (
+                          <button key={result.id} onClick={result.action} className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors" style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }} onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}>
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>{result.icon}</div>
+                            <div className="min-w-0 flex-1"><p className="text-[13px] font-medium text-white/90 truncate">{result.title}</p><p className="text-[11px] text-white/65 truncate">{result.subtitle}</p></div>
+                            {isActive && <ChevronRight size={14} className="text-white/30 shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))}
+                  {results.length > 0 && <div className="px-4 py-2.5 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}><p className="text-[10px] text-white/20 text-center">↑↓ navegar · Enter abrir · Esc fechar</p></div>}
+                </div>
               </div>
-              <div className="max-h-[400px] overflow-y-auto" id="spotlight-results" role="listbox" aria-label="Resultados da busca">
-                {query.trim() === '' && <div className="px-4 py-8 text-center text-sm text-white/25">Digite para buscar projetos, skills, apps ou certificações</div>}
-                {query.trim() !== '' && results.length === 0 && <div className="px-4 py-8 text-center text-sm text-white/25">Nenhum resultado para &quot;{query}&quot;</div>}
-                {[...grouped.entries()].map(([category, items]) => (
-                  <div key={category}>
-                    <div className="px-4 pt-3 pb-1"><p className="text-[10px] font-bold uppercase tracking-widest text-white/25">{category}</p></div>
-                    {items.map((result) => {
-                      const flatIdx = flatResults.indexOf(result);
-                      const isActive = flatIdx === activeIdx;
-                      return (
-                        <button key={result.id} onClick={result.action} className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors" style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }} onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}>
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>{result.icon}</div>
-                          <div className="min-w-0 flex-1"><p className="text-[13px] font-medium text-white/90 truncate">{result.title}</p><p className="text-[11px] text-white/35 truncate">{result.subtitle}</p></div>
-                          {isActive && <ChevronRight size={14} className="text-white/30 shrink-0" />}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ))}
-                {results.length > 0 && <div className="px-4 py-2.5 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}><p className="text-[10px] text-white/20 text-center">↑↓ navegar · Enter abrir · Esc fechar</p></div>}
-              </div>
-            </div>
+            </FocusTrap>
           </motion.div>
         </>
       )}

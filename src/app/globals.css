@@ -131,4 +131,18 @@
   .pt-safe {
     padding-top: max(env(safe-area-inset-top, 0px), 8px);
   }
+
+  /* Low Performance Mode - Reduced effects for better FPS */
+  .low-perf .liquid-glass,
+  .low-perf .liquid-glass-dock,
+  .low-perf .liquid-glass-menubar,
+  .low-perf .liquid-glass-window,
+  .low-perf .liquid-glass-context-menu,
+  .low-perf .liquid-glass-spotlight,
+  .low-perf .liquid-glass-ios-dock,
+  .low-perf .glass-panel {
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    background: rgba(20, 20, 22, 0.94);
+  }
 }

@@ -40,7 +40,7 @@ export const WebOS = () => {
 
   return (
     <OSProvider>
-      <div className="fixed inset-0 h-[100dvh] w-screen overflow-hidden overscroll-none bg-black text-white selection:bg-blue-500/30 select-none">
+      <div className="fixed inset-0 h-[100dvh] w-screen overflow-hidden overscroll-none bg-black text-white selection:bg-blue-500/30">
         {isLocked ? (
           <div className="absolute inset-0 z-[100] bg-black">
             <LockScreen onUnlock={handleUnlock} />

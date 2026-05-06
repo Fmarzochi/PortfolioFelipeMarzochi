@@ -2,6 +2,9 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { setAudioVolume } from '../utils/audioEngine';
+import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
+
+// ... rest of imports
 
 // ---------------------------------------------------------------------------
 // Wallpaper definitions — inline CSS gradients avoid Tailwind purge issues
@@ -35,6 +38,10 @@ interface OSContextValue {
   // Focus / Do Not Disturb
   focusMode: boolean;
   toggleFocusMode: () => void;
+
+  // Performance
+  fps: number;
+  lowPerformance: boolean;
 }
 
 const OSContext = createContext<OSContextValue | null>(null);
@@ -48,21 +55,26 @@ export const OSProvider = ({ children }: { children: ReactNode }) => {
   const [wallpaperIndex, setWallpaperIndex] = useState(0);
   const [prevWallpaperIndex, setPrevWallpaperIndex] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
+  
+  const { fps, lowPerformance } = usePerformanceMonitor(35); // Limite de 35 FPS
 
   // Sync volume to audioEngine module — no window hack needed
   useEffect(() => {
     setAudioVolume(volume / 100);
   }, [volume]);
 
-  // Apply brightness to the document body
+  // Apply brightness and performance classes to the document body
   useEffect(() => {
     const safe = 30 + brightness * 0.7; // clamp: min 30%, max 100%
     document.body.style.filter = `brightness(${safe}%)`;
     document.body.style.transition = 'filter 0.1s ease-out';
-    return () => {
-      document.body.style.filter = 'none';
-    };
-  }, [brightness]);
+    
+    if (lowPerformance) {
+      document.body.classList.add('low-perf');
+    } else {
+      document.body.classList.remove('low-perf');
+    }
+  }, [brightness, lowPerformance]);
 
   const setVolume = useCallback((v: number) => {
     setVolumeState(Math.max(0, Math.min(100, v)));
@@ -94,6 +106,8 @@ export const OSProvider = ({ children }: { children: ReactNode }) => {
     cycleWallpaper,
     focusMode,
     toggleFocusMode,
+    fps,
+    lowPerformance,
   };
 
   return <OSContext.Provider value={value}>{children}</OSContext.Provider>;

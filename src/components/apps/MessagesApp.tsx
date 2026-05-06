@@ -77,7 +77,7 @@ export const MessagesApp = () => {
   return (
     <div className="flex flex-col md:flex-row h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
       {/* Sidebar de Conversas */}
-      <div className="w-full max-h-[35vh] md:max-h-none md:w-[260px] flex-shrink-0 pt-4 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="w-full max-h-[40dvh] md:max-h-none md:w-[260px] flex-shrink-0 pt-4 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="mb-4 flex items-center justify-between px-4">
           <h2 className="text-sm font-bold tracking-wide text-white/80">Mensagens</h2>
           <div className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-blue-500 transition-colors hover:bg-blue-400">
@@ -107,7 +107,11 @@ export const MessagesApp = () => {
       <div className="flex flex-1 flex-col relative" style={{ background: 'rgba(0,0,0,0.1)' }}>
         {/* Toast notification */}
         {toast && (
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-green-600/90 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300">
+          <div 
+            role="status"
+            aria-live="polite"
+            className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-green-600/90 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300"
+          >
             <CheckCheck size={13} />
             {toast}
           </div>

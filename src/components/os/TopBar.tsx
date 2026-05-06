@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Search, SlidersHorizontal, Moon } from 'lucide-react';
 import { useOSContext } from '../../contexts/OSContext';
 import { ControlCenter } from './ControlCenter';
@@ -18,7 +19,10 @@ export const TopBar = () => {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === ' ') {
+      const isSpace = (e.metaKey || e.ctrlKey) && e.key === ' ';
+      const isK = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k';
+
+      if (isSpace || isK) {
         e.preventDefault();
         setIsSpotlightOpen((v) => !v);
       }
@@ -52,16 +56,16 @@ export const TopBar = () => {
           ${anyFullScreen ? '-translate-y-full group-hover/topbar:translate-y-0' : 'translate-y-0'}
         `}
       >
-        <div className="flex items-center">
-          <img
-            src={signatureImg.src}
+        <div className="flex items-center relative h-5 w-32">
+          <Image
+            src={signatureImg}
             alt="Felipe Marzochi"
             draggable={false}
-            className="h-5 w-auto pointer-events-none"
+            fill
+            className="pointer-events-none object-contain"
             style={{
               filter: 'invert(1) brightness(12) contrast(3)',
               mixBlendMode: 'screen',
-              opacity: 1,
             }}
           />
         </div>
@@ -131,7 +135,7 @@ export const TopBar = () => {
           </span>
         </div>
 
-        <ControlCenter isOpen={isControlCenterOpen} />
+        <ControlCenter isOpen={isControlCenterOpen} onClose={() => setIsControlCenterOpen(false)} />
       </div>
 
       <SpotlightSearch isOpen={isSpotlightOpen} onClose={() => setIsSpotlightOpen(false)} />

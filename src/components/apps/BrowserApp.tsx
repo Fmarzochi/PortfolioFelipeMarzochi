@@ -1,9 +1,11 @@
 'use client';
 
 import { Brain, Target, Lightbulb, Users, CheckCircle2, Layers, Zap, Shield, Download, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import signatureImg from '../../assets/images/signature.png';
 import { useWindowManager } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { PROJECTS, Project } from '../../constants/projects';
 
 const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: string }) => (
   <svg
@@ -40,7 +42,7 @@ const WORK_STYLE = [
   { label: 'Integração sem atrito',             desc: 'APIs REST, webhooks e autenticação JWT com tratamento estruturado de erros e contratos bem definidos'                       },
 ];
 
-interface Project {
+interface ProjectItem {
   title: string;
   gradientClass: string;
   svgIllustration: React.ReactNode;
@@ -157,69 +159,6 @@ const CloudPipelineSVG = () => (
   </svg>
 );
 
-const PROJECTS: Project[] = [
-  {
-    title: 'DuAutomação Residencial',
-    gradientClass: 'from-blue-600 to-cyan-500',
-    svgIllustration: <DashboardSVG />,
-    dor: 'Ineficiência operacional e perda de receita devido a processos manuais de orçamento e falta de controle sobre ordens de serviço.',
-    solucao: 'Arquitetura ERP centralizada com Java e React.js, integrando gestão financeira, estoque e rastreamento em tempo real de fluxos de trabalho.',
-    resultado: 'Digitalização total do ciclo de vendas com geração instantânea de orçamentos, resultando em uma economia operacional estimada de R$ 24.000 anuais.',
-    stack: ['Java', 'React.js', 'PostgreSQL', 'REST API'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-  {
-    title: 'Laboratório Unilab',
-    gradientClass: 'from-teal-500 to-emerald-600',
-    svgIllustration: <MobilePawSVG />,
-    dor: 'Baixa autoridade digital e processos manuais de triagem que limitavam a captação de novos doadores de sangue.',
-    solucao: 'Desenvolvimento de plataforma institucional premium com Next.js, focada em UX mobile first e fluxos de agendamento automatizados.',
-    resultado: 'Digitalização completa da jornada do cliente, resultando em um aumento de 30% na captação de doadores e fortalecimento da marca online.',
-    stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-  {
-    title: "Career Scout AI",
-    gradientClass: 'from-violet-600 to-purple-700',
-    svgIllustration: <NetworkGraphSVG />,
-    dor: 'Ineficiência na triagem manual de grandes volumes de dados e análise de compatibilidade em processos seletivos.',
-    solucao: 'Agente inteligente autônomo com Python e Gemini AI para processamento semântico de dados, orquestrado via GitHub Actions para automação de alertas estratégicos.',
-    resultado: 'Filtragem automatizada de 50 oportunidades diárias, convertendo em média 10 vagas de alta relevância com scoring acima de 90% e descartando 40 itens irrelevantes.',
-    stack: ['Python', 'Gemini API', 'Gmail API', 'Google Sheets', 'GitHub Actions'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-  {
-    title: 'CalibraFlow: SaaS de Gestão de ISO',
-    gradientClass: 'from-amber-500 to-orange-600',
-    svgIllustration: <GaugeSVG />,
-    dor: 'Riscos de conformidade e desperdícios milionários no ecossistema Petrobras devido à gestão ineficiente de instrumentos sob as normas ISO 9001 e ISO 10012.',
-    solucao: 'Plataforma SaaS multi tenant para gestão estratégica de calibração, integrando rastreabilidade imutável e automação de conformidade para grandes prestadoras de serviço.',
-    resultado: 'Mitigação de desperdícios na ordem de milhões através do controle absoluto do ciclo de vida dos instrumentos e garantia de auditabilidade total em operações industriais críticas.',
-    stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-  {
-    title: 'Big Data ANS: Processamento em Escala',
-    gradientClass: 'from-sky-500 to-blue-700',
-    svgIllustration: <BarChartLineSVG />,
-    dor: 'Gargalos severos de processamento e latência crítica na análise de conformidade de milhões de registros contábeis da ANS.',
-    solucao: 'Engenharia de dados de alta performance com protocolo COPY nativo e FastAPI, permitindo a análise massiva de dados financeiros com latência zero.',
-    resultado: 'Garantia de visibilidade e governança sobre R$ 100 milhões anuais em registros contábeis, reduzindo o tempo de auditoria em 95% através de processamento em escala.',
-    stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-  {
-    title: 'Pipeline Transacional AWS',
-    gradientClass: 'from-yellow-500 to-orange-500',
-    svgIllustration: <CloudPipelineSVG />,
-    dor: 'Necessidade de processamento assíncrono resiliente para fluxos transacionais com alta concorrência e desacoplamento de serviços.',
-    solucao: 'Pipeline serverless com arquitetura orientada a eventos utilizando AWS SQS para mensageria, Lambda para processamento e DynamoDB para persistência escalável.',
-    resultado: 'Implementação 100% cloud native que garantiu o processamento imediato de transações simultâneas com uma redução de 60% nos custos de infraestrutura.',
-    stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
-    githubUrl: 'https://github.com/Fmarzochi',
-  },
-];
-
 export const BrowserApp = () => {
   const { openApp } = useWindowManager();
   const isMobile = useIsMobile();
@@ -244,12 +183,13 @@ export const BrowserApp = () => {
             <div className="mb-5 rounded-2xl p-4 ring-1 ring-white/10 shadow-2xl" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(40px) saturate(180%)' }}>
               <PortfolioIcon size={42} className="text-blue-500" />
             </div>
-            <div className="mb-4 flex items-center justify-center">
-              <img
-                src={signatureImg.src}
+            <div className="mb-4 flex items-center justify-center relative h-16 w-64 mx-auto">
+              <Image
+                src={signatureImg}
                 alt="Felipe Marzochi"
                 draggable={false}
-                className="h-auto w-[260px] md:w-[320px] pointer-events-none"
+                fill
+                className="pointer-events-none object-contain"
                 style={{ filter: 'invert(1) brightness(6) contrast(1.8)', mixBlendMode: 'screen', opacity: 0.92 }}
               />
             </div>
@@ -260,7 +200,7 @@ export const BrowserApp = () => {
                 </span>
               ))}
             </div>
-            <p className="max-w-md text-sm text-white/40 leading-relaxed">
+            <p className="max-w-md text-sm text-white/70 leading-relaxed">
               Arquiteturas escaláveis, Clean Code e interfaces focadas na experiência do usuário.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -346,63 +286,66 @@ export const BrowserApp = () => {
               <Layers size={16} className="text-orange-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-orange-400">Projetos Entregues</h2>
             </div>
-            <p className="text-xs text-white/35 mb-6">Problemas reais. Soluções sob medida. Resultados mensuráveis.</p>
+            <p className="text-xs text-white/65 mb-6">Problemas reais. Soluções sob medida. Resultados mensuráveis.</p>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              {PROJECTS.map((project) => (
-                <div key={project.title} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-                  <div className={`relative h-32 bg-gradient-to-br ${project.gradientClass} overflow-hidden flex-shrink-0`}>
-                    <div className="absolute inset-0">{project.svgIllustration}</div>
-                    <div className="absolute inset-0 bg-black/10" />
-                  </div>
-                  <div className="flex flex-col flex-1 p-4 gap-3">
-                    <h3 className="text-base font-bold text-white/90 leading-snug">{project.title}</h3>
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-red-400/80 block mb-1">Problema</span>
-                      <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
+              {PROJECTS.map((project, idx) => {
+                const SVGS = [<DashboardSVG key="1" />, <MobilePawSVG key="2" />, <NetworkGraphSVG key="3" />, <GaugeSVG key="4" />, <BarChartLineSVG key="5" />, <CloudPipelineSVG key="6" />];
+                return (
+                  <div key={project.title} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                    <div className={`relative h-32 bg-gradient-to-br ${project.gradient} overflow-hidden flex-shrink-0`}>
+                      <div className="absolute inset-0">{SVGS[idx]}</div>
+                      <div className="absolute inset-0 bg-black/10" />
                     </div>
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-blue-400/80 block mb-1">Solução</span>
-                      <p className="text-xs text-white/65 leading-relaxed">{project.solucao}</p>
-                    </div>
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-green-400/80 block mb-1">Resultado</span>
-                      <p className="text-xs text-white/65 leading-relaxed">{project.resultado}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
-                      {project.stack.map((tag) => (
-                        <span key={tag} className="rounded-md px-2 py-0.5 text-[10px] text-white/50" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)' }}>{tag}</span>
-                      ))}
-                    </div>
-                    {(project.githubUrl || project.demoUrl) && (
-                      <div className="flex gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={e => e.stopPropagation()}
-                            className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
-                          >
-                            <ExternalLink size={11} /> Ver no GitHub
-                          </a>
-                        )}
-                        {project.demoUrl && (
-                          <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={e => e.stopPropagation()}
-                            className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors"
-                          >
-                            <ExternalLink size={11} /> Ver Demo
-                          </a>
-                        )}
+                    <div className="flex flex-col flex-1 p-4 gap-3">
+                      <h3 className="text-base font-bold text-white/90 leading-snug">{project.title}</h3>
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-red-400/80 block mb-1">Problema</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{project.dor}</p>
                       </div>
-                    )}
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-blue-400/80 block mb-1">Solução</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{project.solucao}</p>
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-green-400/80 block mb-1">Resultado</span>
+                        <p className="text-xs text-white/65 leading-relaxed">{project.resultado}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
+                        {project.stack.map((tag) => (
+                          <span key={tag} className="rounded-md px-2 py-0.5 text-[10px] text-white/50" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)' }}>{tag}</span>
+                        ))}
+                      </div>
+                      {(project.github || project.demoUrl) && (
+                        <div className="flex gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
+                            >
+                              <ExternalLink size={11} /> Ver no GitHub
+                            </a>
+                          )}
+                          {project.demoUrl && (
+                            <a
+                              href={project.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors"
+                            >
+                              <ExternalLink size={11} /> Ver Demo
+                            </a>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

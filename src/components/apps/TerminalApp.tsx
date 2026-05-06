@@ -3,10 +3,19 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useWindowManager } from '../../store/useWindowManager';
 
+import { PROJECTS } from '../../constants/projects';
+
 interface CommandRecord {
   command: string;
   output: React.ReactNode;
 }
+
+const erp = PROJECTS.find(p => p.albumKey === 'erp')!;
+const unilab = PROJECTS.find(p => p.albumKey === 'unilab')!;
+const agent = PROJECTS.find(p => p.albumKey === 'agent')!;
+const calibra = PROJECTS.find(p => p.albumKey === 'calibra')!;
+const ans = PROJECTS.find(p => p.albumKey === 'ans')!;
+const aws = PROJECTS.find(p => p.albumKey === 'aws')!;
 
 const FILESYSTEM: Record<string, string[] | string> = {
   '/': ['projects/', 'skills/', 'about.txt', 'experience.txt', 'contact.txt'],
@@ -38,8 +47,8 @@ const FILE_CONTENT: Record<string, React.ReactNode> = {
   'experience.txt': (
     <div className="flex flex-col gap-1">
       <p><span className="text-violet-400">2026</span> · Dev Front End @ Conecta 360°</p>
-      <p><span className="text-violet-400">2022-Pres</span> · Dev Full Stack @ Freelance</p>
-      <p><span className="text-violet-400">2024-25</span> · Suporte Técnico @ Sec. Educação</p>
+      <p><span className="text-violet-400">2022:Pres</span> · Dev Full Stack @ Freelance</p>
+      <p><span className="text-violet-400">2024:25</span> · Suporte Técnico @ Sec. Educação</p>
     </div>
   ),
   'contact.txt': (
@@ -49,12 +58,12 @@ const FILE_CONTENT: Record<string, React.ReactNode> = {
       <p>GitHub: /Fmarzochi</p>
     </div>
   ),
-  'projects/duautomacao.md': <p><span className="text-blue-400 font-bold">DuAutomação:</span> ERP centralizado com economia de R$ 24k/ano.</p>,
-  'projects/unilab.md': <p><span className="text-blue-400 font-bold">Unilab:</span> 30% de aumento em captação de doadores.</p>,
-  'projects/careerscout.md': <p><span className="text-blue-400 font-bold">Scout AI:</span> Triagem de 50 vagas/dia via LLM.</p>,
-  'projects/calibraflow.md': <p><span className="text-blue-400 font-bold">CalibraFlow:</span> Gestão de conformidade Petrobras.</p>,
-  'projects/bigdata.md': <p><span className="text-blue-400 font-bold">ANS Big Data:</span> Governança de R$ 100M anuais.</p>,
-  'projects/pipeline.md': <p><span className="text-blue-400 font-bold">AWS Pipeline:</span> 60% de redução em custos de infra.</p>,
+  'projects/duautomacao.md': <p><span className="text-blue-400 font-bold">DuAutomação:</span> {erp.resultado}</p>,
+  'projects/unilab.md': <p><span className="text-blue-400 font-bold">Unilab:</span> {unilab.resultado}</p>,
+  'projects/careerscout.md': <p><span className="text-blue-400 font-bold">Scout AI:</span> {agent.resultado}</p>,
+  'projects/calibraflow.md': <p><span className="text-blue-400 font-bold">CalibraFlow:</span> {calibra.resultado}</p>,
+  'projects/bigdata.md': <p><span className="text-blue-400 font-bold">ANS Big Data:</span> {ans.resultado}</p>,
+  'projects/pipeline.md': <p><span className="text-blue-400 font-bold">AWS Pipeline:</span> {aws.resultado}</p>,
   'skills/frontend.md': <p>React.js · Next.js · TS · Tailwind · Framer</p>,
   'skills/backend.md': <p>Java 21 · Spring Boot · Node.js · APIs REST</p>,
   'skills/database.md': <p>PostgreSQL · MongoDB · Otimização de Performance</p>,
@@ -76,7 +85,11 @@ export const TerminalApp = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [history]);
-  const handleTerminalClick = () => inputRef.current?.focus();
+  
+  const handleTerminalClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevents click from leaking to OS
+    inputRef.current?.focus();
+  };
 
   const processCommand = useCallback((cmd: string) => {
     const rawInput = cmd.trim();

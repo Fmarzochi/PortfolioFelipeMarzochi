@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import { AppRegistry } from '../apps/AppRegistry';
 import { playSound } from '../../utils/audioEngine';
 import { useOSContext } from '../../contexts/OSContext';
+import { FocusTrap } from '../common/FocusTrap';
 import { 
   GlobeAltIcon, 
   BuildingOfficeIcon, 
@@ -84,7 +85,7 @@ const SwitcherCard = ({
       </div>
     </button>
     <div className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none">
-      <span className="text-[10px] text-white/25" aria-hidden="true">↑ fechar</span>
+      <span className="text-[10px] text-white/60" aria-hidden="true">↑ fechar</span>
     </div>
   </motion.div>
 );
@@ -103,6 +104,7 @@ export const IOSMobile = () => {
 
   const [dockMenu, setDockMenu] = useState<{ app: AppEntry; x: number; y: number } | null>(null);
   const dockPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartPos = useRef({ x: 0, y: 0 });
 
   const appDragControls = useDragControls();
   const iconRefs  = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -190,12 +192,18 @@ export const IOSMobile = () => {
   }, [homeApps, draggingId, previewTargetIdx]);
 
   const startDockPress = (app: AppEntry, x: number, y: number) => {
+    touchStartPos.current = { x, y };
     dockPressTimer.current = setTimeout(() => {
       setDockMenu({ app, x, y });
     }, 500);
   };
   const cancelDockPress = () => {
     if (dockPressTimer.current) clearTimeout(dockPressTimer.current);
+  };
+  const handleDockTouchMove = (e: React.TouchEvent) => {
+    const dx = Math.abs(e.touches[0].clientX - touchStartPos.current.x);
+    const dy = Math.abs(e.touches[0].clientY - touchStartPos.current.y);
+    if (dx > 10 || dy > 10) cancelDockPress();
   };
 
   const isHomeVisible = !activeAppId && !showSwitcher;
@@ -225,7 +233,7 @@ export const IOSMobile = () => {
       <div className="relative z-10 flex-1 flex flex-col justify-center px-4 pt-6 pb-2">
         <nav 
           ref={gridRef} 
-          className="grid grid-cols-3 gap-x-5 gap-y-9 px-4"
+          className="grid grid-cols-3 gap-x-4 sm:gap-x-5 gap-y-7 sm:gap-y-9 px-4 justify-items-center"
           aria-label="Grade de aplicativos"
           data-no-contextmenu="true"
         >
@@ -242,7 +250,7 @@ export const IOSMobile = () => {
               style={{ zIndex: draggingId === app.id ? 50 : 1, position: 'relative', touchAction: 'none' }}
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
-              className="flex flex-col items-center gap-[10px]"
+              className="flex flex-col items-center gap-[8px] sm:gap-[10px]"
               aria-label={`Abrir aplicativo ${app.title}`}
               onClick={() => {
                 if (!isHomeVisible || iconDragged.current) return;
@@ -272,11 +280,11 @@ export const IOSMobile = () => {
                 (e.nativeEvent as Event).stopImmediatePropagation();
               }}
             >
-              <div className={`app-icon relative h-[72px] w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}>
+              <div className={`app-icon relative h-[64px] w-[64px] sm:h-[72px] sm:w-[72px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}>
                 <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" aria-hidden="true" />
-                <app.icon className="h-[34px] w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} aria-hidden="true" />
+                <app.icon className="h-[30px] w-[30px] sm:h-[34px] sm:w-[34px] text-white drop-shadow-md relative z-10" strokeWidth={1.5} aria-hidden="true" />
               </div>
-              <span className="text-[11px] font-medium text-white/90 tracking-[0.01em] drop-shadow-md select-none text-center leading-tight max-w-[80px]">
+              <span className="text-[10px] sm:text-[11px] font-medium text-white/90 tracking-[0.01em] drop-shadow-md select-none text-center leading-tight max-w-[70px] sm:max-w-[80px]">
                 {app.title}
               </span>
             </motion.button>
@@ -295,6 +303,7 @@ export const IOSMobile = () => {
           <button
             onClick={() => setShowSwitcher(true)}
             aria-label={`Mostrar alternador de aplicativos. ${openApps.length} aberto${openApps.length > 1 ? 's' : ''}`}
+            aria-live="polite"
             className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs text-white/70 transition-colors"
               style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
           >
@@ -327,7 +336,7 @@ export const IOSMobile = () => {
                   startDockPress(app, e.touches[0].clientX, e.touches[0].clientY);
                 }}
                 onTouchEnd={cancelDockPress}
-                onTouchMove={cancelDockPress}
+                onTouchMove={handleDockTouchMove}
                 className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" aria-hidden="true" />
@@ -360,42 +369,44 @@ export const IOSMobile = () => {
             aria-modal="true"
             className="absolute inset-0 z-40 flex flex-col overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" aria-hidden="true" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(80,40,180,0.4),transparent)] pointer-events-none" aria-hidden="true" />
+            <FocusTrap isActive={!!activeAppId} onEscape={goHome}>
+              <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-[#110e2a] to-[#090912]" aria-hidden="true" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(80,40,180,0.4),transparent)] pointer-events-none" aria-hidden="true" />
 
-            <div
-              className="relative z-10 flex flex-col items-center shrink-0 cursor-grab pt-[env(safe-area-inset-top,12px)] pb-3"
-              onPointerDown={e => appDragControls.start(e)}
-              style={{ touchAction: 'none' }}
-              aria-hidden="true"
-            >
-              <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
-              <AnimatePresence>
-                {showDragHint && (
-                  <motion.span
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="mt-1.5 text-[10px] text-white/35 pointer-events-none"
-                  >
-                    ↓ arraste para fechar
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
+              <div
+                className="relative z-10 flex flex-col items-center shrink-0 cursor-grab pt-[env(safe-area-inset-top,12px)] pb-3"
+                onPointerDown={e => appDragControls.start(e)}
+                style={{ touchAction: 'none' }}
+                aria-hidden="true"
+              >
+                <div className="h-[5px] w-[48px] rounded-full bg-white/30 mt-2" />
+                <AnimatePresence>
+                  {showDragHint && (
+                    <motion.span
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-1.5 text-[10px] text-white/60 pointer-events-none"
+                    >
+                      ↓ arraste para fechar
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
 
-            <div className="relative flex-1 min-h-0 overflow-hidden">
-              <AppRegistry appId={activeAppId} />
-            </div>
+              <div className="relative flex-1 min-h-0 overflow-hidden">
+                <AppRegistry appId={activeAppId} />
+              </div>
 
-            <button
-              onClick={goHome}
-              aria-label="Voltar para a tela de início"
-              className="relative z-10 flex items-center justify-center h-8 shrink-0 cursor-pointer pb-[env(safe-area-inset-bottom,0px)]"
-            >
-              <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
-            </button>
+              <button
+                onClick={goHome}
+                aria-label="Voltar para a tela de início"
+                className="relative z-10 flex items-center justify-center h-8 shrink-0 cursor-pointer pb-[env(safe-area-inset-bottom,0px)]"
+              >
+                <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
+              </button>
+            </FocusTrap>
           </motion.div>
         )}
       </AnimatePresence>
@@ -412,29 +423,32 @@ export const IOSMobile = () => {
             role="listbox"
             aria-label="Alternador de aplicativos abertos"
           >
-            <div className="pt-[env(safe-area-inset-top,24px)] pb-3 flex justify-center">
-              <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">Apps Recentes</p>
-            </div>
+            <FocusTrap isActive={showSwitcher} onEscape={() => setShowSwitcher(false)}>
+              <div className="pt-[env(safe-area-inset-top,24px)] pb-3 flex justify-center">
+                <p className="text-xs font-semibold text-white/60 uppercase tracking-widest">Apps Recentes</p>
+              </div>
 
-            <div className="flex-1 flex items-center px-6 gap-4 overflow-x-auto pb-4">
-              {openApps.map(app => (
-                <SwitcherCard
-                  key={app.id}
-                  app={app}
-                  isActive={app.id === activeAppId}
-                  onTap={() => { setActiveAppId(app.id); setShowSwitcher(false); }}
-                  onClose={() => closeApp(app.id)}
-                />
-              ))}
-            </div>
+              <div className="flex-1 flex items-center px-6 gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
+                {openApps.map(app => (
+                  <div key={app.id} className="snap-center">
+                    <SwitcherCard
+                      app={app}
+                      isActive={app.id === activeAppId}
+                      onTap={() => { setActiveAppId(app.id); setShowSwitcher(false); }}
+                      onClose={() => closeApp(app.id)}
+                    />
+                  </div>
+                ))}
+              </div>
 
-            <button
-              onClick={() => setShowSwitcher(false)}
-              aria-label="Fechar alternador de aplicativos"
-              className="pb-[calc(env(safe-area-inset-bottom,0px)+20px)] flex justify-center cursor-pointer"
-            >
-              <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
-            </button>
+              <button
+                onClick={() => setShowSwitcher(false)}
+                aria-label="Fechar alternador de aplicativos"
+                className="pb-[calc(env(safe-area-inset-bottom,0px)+20px)] flex justify-center cursor-pointer"
+              >
+                <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
+              </button>
+            </FocusTrap>
           </motion.div>
         )}
       </AnimatePresence>
@@ -455,31 +469,33 @@ export const IOSMobile = () => {
             role="menu"
             aria-label={`Menu de contexto do aplicativo ${dockMenu.app.title}`}
           >
-            <div className="py-1">
-              <div className="px-3 py-2 text-[11px] font-bold text-white/40 uppercase tracking-wider truncate" aria-hidden="true">
-                {dockMenu.app.title}
+            <FocusTrap isActive={!!dockMenu} onEscape={() => setDockMenu(null)}>
+              <div className="py-1">
+                <div className="px-3 py-2 text-[11px] font-bold text-white/60 uppercase tracking-wider truncate" aria-hidden="true">
+                  {dockMenu.app.title}
+                </div>
+                <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
+                <button
+                  onClick={() => openApp(dockMenu.app)}
+                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
+                  role="menuitem"
+                >
+                  Abrir
+                </button>
+                <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
+                <button
+                  onClick={() => window.location.reload()}
+                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
+                  role="menuitem"
+                >
+                  Recarregar
+                </button>
               </div>
-              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
-              <button
-                onClick={() => openApp(dockMenu.app)}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
-                role="menuitem"
-              >
-                Abrir
-              </button>
-              <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
-              <button
-                onClick={() => window.location.reload()}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
-                role="menuitem"
-              >
-                Recarregar
-              </button>
-            </div>
+            </FocusTrap>
           </motion.div>
         )}
       </AnimatePresence>

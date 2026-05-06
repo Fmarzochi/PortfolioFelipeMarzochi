@@ -75,10 +75,19 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
   },
 ];
 
+import { PROJECTS } from '../../constants/projects';
+
+const erp = PROJECTS.find(p => p.albumKey === 'erp')!;
+const unilab = PROJECTS.find(p => p.albumKey === 'unilab')!;
+const agent = PROJECTS.find(p => p.albumKey === 'agent')!;
+const calibra = PROJECTS.find(p => p.albumKey === 'calibra')!;
+const ans = PROJECTS.find(p => p.albumKey === 'ans')!;
+const aws = PROJECTS.find(p => p.albumKey === 'aws')!;
+
 const CERTIFICATIONS = [
-  { name: 'Java Completo — Spring Boot, JPA, Hibernate', inst: 'Udemy', year: '2026' },
-  { name: 'JavaScript Completo — TypeScript, Node.js', inst: 'Udemy', year: '2025' },
-  { name: 'Oracle Next Education (ONE) — Full Stack', inst: 'Oracle / Alura', year: '2022' },
+  { name: 'Java Completo · Spring Boot, JPA, Hibernate', inst: 'Udemy', year: '2026' },
+  { name: 'JavaScript Completo · TypeScript, Node.js', inst: 'Udemy', year: '2025' },
+  { name: 'Oracle Next Education (ONE) · Full Stack', inst: 'Oracle / Alura', year: '2022' },
   { name: 'Bancos de Dados SQL e NoSQL', inst: 'Udemy', year: '2022' },
   { name: 'AWS Cloud Practitioner', inst: 'AWS', year: '2024' },
 ];
@@ -91,14 +100,14 @@ const FILESYSTEM: Record<string, string[]> = {
 
 const FILE_CONTENT: Record<string, React.ReactNode> = {
   'about.txt': <p>Engenheiro de Software com foco em sistemas escaláveis, aplicando SOLID e Clean Code.</p>,
-  'experience.txt': <p>4 anos de trajetória atuando como Full Stack (React/Next.js/Java/Node.js).</p>,
+  'experience.txt': <p>4 anos de trajetória atuando como Full Stack (React · Next.js · Java · Node.js).</p>,
   'contact.txt': <p>Email: fmarzochi@gmail.com | LinkedIn: /in/felipemarzochi</p>,
-  'projects/duautomacao.md': <p>Digitalização total do ciclo de vendas com ROI de R$ 24k/ano.</p>,
-  'projects/unilab.md': <p>Plataforma premium com aumento de 30% na captação de doadores.</p>,
-  'projects/careerscout.md': <p>Agente inteligente com Gemini AI para triagem estratégica de 50 vagas/dia.</p>,
-  'projects/calibraflow.md': <p>SaaS multi tenant para gestão ISO no ecossistema Petrobras.</p>,
-  'projects/bigdata.md': <p>Governança sobre R$ 100M anuais com ganho de 95% em eficiência de auditoria.</p>,
-  'projects/pipeline.md': <p>Arquitetura Cloud Native serverless com redução de 60% em infra.</p>,
+  'projects/duautomacao.md': <p>{erp.resultado}</p>,
+  'projects/unilab.md': <p>{unilab.resultado}</p>,
+  'projects/careerscout.md': <p>{agent.resultado}</p>,
+  'projects/calibraflow.md': <p>{calibra.resultado}</p>,
+  'projects/bigdata.md': <p>{ans.resultado}</p>,
+  'projects/pipeline.md': <p>{aws.resultado}</p>,
 };
 
 const HELP_TEXT = `

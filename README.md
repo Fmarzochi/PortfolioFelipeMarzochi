@@ -78,7 +78,6 @@ src/
 │       ├── ContextMenu.tsx     # Menu de contexto (clique direito / long-press)
 │       ├── ControlCenter.tsx   # Central de controle (volume, brilho, wallpaper)
 │       ├── Desktop.tsx         # Área de trabalho com crossfade de wallpaper
-│       ├── DynamicIsland.tsx   # Dynamic Island (mobile)
 │       ├── IOSMobile.tsx       # Layout completo iOS
 │       ├── LockScreen.tsx      # Tela de bloqueio
 │       ├── MacDock.tsx         # Dock com magnificação (macOS)
@@ -126,7 +125,6 @@ src/
 - **Tela de bloqueio** com desbloqueio por teclado (desktop) ou toque (mobile)
 - **Janelas arrastáveis e redimensionáveis** com física de molas via Framer Motion
 - **Dock com magnificação** ao passar o mouse (macOS)
-- **Dynamic Island** no topo da tela (mobile)
 - **Central de controle** com ajuste de volume, brilho e troca de wallpaper
 - **Spotlight Search** (Win + Espaço / ⌘ + Espaço) com busca entre os apps
 - **Menu de contexto** por clique direito (desktop) e long-press (mobile)

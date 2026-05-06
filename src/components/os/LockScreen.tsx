@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ArrowRight, ChevronUp, Fingerprint, Volume2, VolumeX } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import profileImg from '../../assets/images/profile.jpg';
@@ -43,7 +44,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
   const handleLogin = (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (authRef.current) return;
+    if (authRef.current || isAuthenticating) return;
     authRef.current = true;
     setIsAuthenticating(true);
     if (!isMuted) playSound('click');
@@ -54,15 +55,27 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
     }, 800);
   };
 
+  // Cleanup timers on unmount only
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      // Ignora se o foco estiver no input de senha para permitir digitação real
+      if (document.activeElement?.tagName === 'INPUT') return;
+      
       // Evita desbloqueio com teclas de navegação (Tab, Escape, etc)
       if (['Enter', ' ', 'Spacebar'].includes(e.key) || e.key.length === 1) {
         handleLogin();
       }
     };
     document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -132,10 +145,10 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, type: 'spring', damping: 22 }}
-          className="my-4 md:my-6"
+          className="my-4 md:my-6 relative"
         >
-          <img
-            src={signatureImg.src}
+          <Image
+            src={signatureImg}
             alt="Assinatura Felipe Marzochi"
             draggable={false}
             className="h-auto w-[220px] md:w-[290px] pointer-events-none"
@@ -144,6 +157,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               mixBlendMode: 'screen',
               opacity: 0.82,
             }}
+            priority
           />
         </motion.div>
 
@@ -155,13 +169,15 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           className="flex flex-col items-center"
         >
           {/* Avatar */}
-          <div className="mb-3 md:mb-4 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 p-[3px] shadow-2xl ring-4 ring-white/10">
-            <div className="h-20 w-20 md:h-28 md:w-28 overflow-hidden rounded-full">
-              <img
-                src={profileImg.src}
+          <div className="mb-3 md:mb-4 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 p-[3px] shadow-2xl ring-4 ring-white/10 relative overflow-hidden">
+            <div className="h-20 w-20 md:h-28 md:w-28 overflow-hidden rounded-full relative">
+              <Image
+                src={profileImg}
                 alt="Felipe Marzochi"
+                fill
                 className="h-full w-full object-cover"
                 draggable={false}
+                priority
               />
             </div>
           </div>
@@ -229,7 +245,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           >
             <ChevronUp size={20} className="text-white/35" />
           </motion.div>
-          <span className="text-[11px] text-white/30 tracking-wide">Deslize para cima</span>
+          <span className="text-[11px] text-white/65 tracking-wide">Deslize para cima</span>
         </motion.div>
       )}
     </div>

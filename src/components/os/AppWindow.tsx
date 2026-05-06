@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { X, Minus, Maximize2 } from 'lucide-react';
 import { useWindowManager, WindowState } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { FocusTrap } from '../common/FocusTrap';
 
 interface AppWindowProps {
   windowState: WindowState;
@@ -30,6 +31,10 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
   const isDraggingTitle = useRef(false);
   const dragStart = useRef({ mouseX: 0, mouseY: 0, winX: 0, winY: 0 });
 
+  const w = width ?? 860;
+  const h = height ?? 560;
+  const titleId = `window-title-${id}`;
+
   const onTitleMouseDown = useCallback((e: React.MouseEvent) => {
     if (isFullScreen || isMobile || e.button !== 0) return;
     e.preventDefault();
@@ -42,12 +47,12 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
       const nx = dragStart.current.winX + ev.clientX - dragStart.current.mouseX;
       const ny = dragStart.current.winY + ev.clientY - dragStart.current.mouseY;
       
-      // Clamping: prevent window from being lost outside viewport
-      const clampedX = Math.max(-(width / 2), Math.min(nx, window.innerWidth - 100));
+      const clampedX = Math.max(-(w / 2), Math.min(nx, window.innerWidth - 100));
       const clampedY = Math.max(TOPBAR_H, Math.min(ny, window.innerHeight - 100));
       
       updatePosition(id, clampedX, clampedY);
     };
+
     const onUp = () => {
       isDraggingTitle.current = false;
       document.removeEventListener('mousemove', onMove);
@@ -55,7 +60,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     };
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
-  }, [id, isFullScreen, isMobile, x, y, width, focusApp, updatePosition]);
+  }, [id, isFullScreen, isMobile, x, y, w, focusApp, updatePosition]);
 
   const startResize = useCallback((e: React.MouseEvent, edge: ResizeEdge) => {
     if (isFullScreen || isMobile || e.button !== 0) return;
@@ -63,7 +68,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     e.stopPropagation();
     focusApp(id);
 
-    const snap = { startX: e.clientX, startY: e.clientY, startW: width ?? 860, startH: height ?? 560, startLeft: x, startTop: y };
+    const snap = { startX: e.clientX, startY: e.clientY, startW: w, startH: h, startLeft: x, startTop: y };
 
     const onMove = (ev: MouseEvent) => {
       const dx = ev.clientX - snap.startX;
@@ -77,6 +82,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
 
       updatePositionAndSize(id, newX, newY, newW, newH);
     };
+
     const onUp = () => {
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onUp);
@@ -88,17 +94,16 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     document.body.style.userSelect = 'none';
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
-  }, [id, isFullScreen, isMobile, x, y, width, height, focusApp, updatePositionAndSize]);
+  }, [id, isFullScreen, isMobile, x, y, w, h, focusApp, updatePositionAndSize]);
 
   if (isMinimized) return null;
 
-  const w = width ?? 860;
-  const h = height ?? 560;
-  const titleId = `window-title-${id}`;
-
   return (
     <div
-      onPointerDown={() => focusApp(id)}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        focusApp(id);
+      }}
       role="dialog"
       aria-labelledby={titleId}
       aria-modal="false"
@@ -108,18 +113,18 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         left: isFullScreen ? 0 : x,
         top: isFullScreen ? 0 : y,
         width: isFullScreen ? '100vw' : w,
-        height: isFullScreen ? '100vh' : h,
+        height: isFullScreen ? '100dvh' : h,
       }}
       className={`flex flex-col overflow-hidden liquid-glass-window
         max-md:!fixed max-md:!inset-0 max-md:!w-screen max-md:!h-[100dvh] max-md:!rounded-none max-md:!top-0 max-md:!left-0
         ${isFullScreen ? '!rounded-none' : 'rounded-[14px]'}
+        ${isActive ? 'shadow-2xl ring-1 ring-white/20' : 'shadow-lg ring-1 ring-white/10'}
       `}
     >
       {!isFullScreen && (
         <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/32 to-transparent pointer-events-none z-10" aria-hidden="true" />
       )}
 
-      {/* Resize Handles - 10px areas for better ergonomics */}
       {!isFullScreen && !isMobile && (
         <>
           <div className="absolute inset-x-4 top-0 h-[10px] cursor-ns-resize z-30"    onMouseDown={(e) => startResize(e, 'n')} aria-hidden="true" />
@@ -185,7 +190,9 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         className="relative flex-1 overflow-hidden"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        {children}
+        <FocusTrap isActive={isActive} onEscape={() => closeApp(id)}>
+          {children}
+        </FocusTrap>
       </div>
     </div>
   );

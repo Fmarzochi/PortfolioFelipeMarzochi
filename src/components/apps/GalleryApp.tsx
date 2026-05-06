@@ -1,23 +1,11 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid, Github } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
-
-interface Project {
-  id: string;
-  title: string;
-  albumKey: string;
-  gradient: string;
-  tag: string;
-  dor: string;
-  solucao: string;
-  resultado: string;
-  stack: string[];
-  svg: React.ReactNode;
-  github?: string;
-}
+import { PROJECTS, Project } from '../../constants/projects';
 
 const DashboardSVG = () => (
   <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-40">
@@ -74,87 +62,6 @@ const CloudPipelineSVG = () => (
   </svg>
 );
 
-const PROJECTS: Project[] = [
-  {
-    id: '1',
-    albumKey: 'erp',
-    title: 'DuAutomação Residencial',
-    gradient: 'from-blue-600 to-cyan-500',
-    tag: 'Java · React.js · PostgreSQL',
-    dor: 'O cliente enfrentava estagnação no crescimento devido à dependência total de processos manuais exaustivos para emissão de orçamentos e uma visibilidade nula sobre o status real das ordens de serviço em campo.',
-    solucao: 'Desenvolvimento de um ecossistema ERP centralizado utilizando Java no back end e React.js no front end. A solução integra módulos de gestão financeira, controle dinâmico de inventário e um dashboard de monitoramento em tempo real para equipes técnicas.',
-    resultado: 'Transformação digital completa com geração automatizada de documentos e orçamentos em segundos. A automação gerou uma economia operacional direta estimada em R$ 24.000 anuais, permitindo o escalonamento do negócio sem aumento de head count.',
-    stack: ['Java', 'React.js', 'PostgreSQL', 'REST API'],
-    svg: <DashboardSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-  {
-    id: '2',
-    albumKey: 'unilab',
-    title: 'Laboratório Unilab',
-    gradient: 'from-teal-500 to-emerald-600',
-    tag: 'Next.js · Tailwind · Framer Motion',
-    dor: 'Limitações na captação de doadores de sangue e agendamentos devido à ausência de uma plataforma digital intuitiva. O fluxo anterior dependia de contatos telefônicos repetitivos e triagens manuais propensas a erros operacionais.',
-    solucao: 'Criação de uma aplicação web premium com Next.js e Tailwind CSS, priorizando a usabilidade mobile através de componentes de navegação por dedão e um sistema inteligente de triagem com lógica de negócio automatizada.',
-    resultado: 'Aumento real de 30% na captação de doadores e consolidação da autoridade digital da clínica. A jornada do usuário foi otimizada para ser concluída em poucos cliques, resultando em fluxos de trabalho mais limpos e eficientes.',
-    stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
-    svg: <MobilePawSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-  {
-    id: '3',
-    albumKey: 'agent',
-    title: "Career Scout AI",
-    gradient: 'from-violet-600 to-purple-700',
-    tag: 'Python · Gemini API · GitHub Actions',
-    dor: 'Ineficiência massiva no processo de busca ativa por oportunidades de carreira, onde a análise manual de centenas de listagens genéricas resultava em perda de tempo estratégico e fadiga cognitiva severa.',
-    solucao: 'Engenharia de um agente autônomo de elite em Python integrado à Gemini AI. O sistema realiza o processamento semântico profundo de requisitos técnicos e cultura organizacional, operando de forma contínua via GitHub Actions.',
-    resultado: 'Redução radical do ruído informativo: o agente analisa 50 vagas diariamente e entrega apenas 10 opções de alta relevância com scoring preditivo superior a 90%. O sistema atua como um filtro de inteligência que economiza horas de triagem manual.',
-    stack: ['Python', 'Gemini API', 'Gmail API', 'Google Sheets', 'GitHub Actions'],
-    svg: <NetworkGraphSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-  {
-    id: '4',
-    albumKey: 'calibra',
-    title: 'CalibraFlow: SaaS de Gestão de ISO',
-    gradient: 'from-amber-500 to-orange-600',
-    tag: 'Java 21 · Spring Boot · Docker · React',
-    dor: 'Riscos críticos de conformidade normativa nas ISO 9001 e ISO 10012 dentro do ecossistema Petrobras. A falta de rastreabilidade de instrumentos de medição gerava desperdícios milionários e ameaças à segurança industrial.',
-    solucao: 'Plataforma SaaS multi tenant robusta para gestão do ciclo de calibração. Implementa isolamento total de dados via Hibernate Filters e automação de alertas de vencimento através de tarefas agendadas no ecossistema Spring.',
-    resultado: 'Mitigação estratégica de falhas com economia na ordem de milhões em redução de desperdício de material e multas. Garantiu uma trilha de auditoria 100% digital e imutável para grandes prestadoras de serviço do setor industrial.',
-    stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
-    svg: <GaugeSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-  {
-    id: '5',
-    albumKey: 'ans',
-    title: 'Big Data ANS: Processamento em Escala',
-    gradient: 'from-sky-500 to-blue-700',
-    tag: 'Java 21 · FastAPI · Vue.js · PostgreSQL',
-    dor: 'Latência crítica e instabilidade no processamento analítico de milhões de registros contábeis da ANS. Sistemas convencionais falhavam ao tentar consolidar dados financeiros massivos para fins de auditoria e governança.',
-    solucao: 'Arquitetura de dados de alta disponibilidade unindo a velocidade do protocolo COPY nativo do PostgreSQL com uma camada de processamento assíncrono em FastAPI, permitindo a ingestão e análise de Big Data com eficiência extrema.',
-    resultado: 'Governança absoluta sobre R$ 100 milhões anuais em registros financeiros. A solução reduziu o tempo de auditoria complexa em 95%, entregando visualizações analíticas de 2,1 milhões de dados em poucos segundos.',
-    stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
-    svg: <BarChartLineSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-  {
-    id: '6',
-    albumKey: 'aws',
-    title: 'Pipeline Transacional AWS',
-    gradient: 'from-yellow-500 to-orange-500',
-    tag: 'Node.js · AWS SQS · Lambda · DynamoDB',
-    dor: 'Desafio de projetar um sistema transacional que suportasse picos de concorrência sem perda de dados, mantendo o custo de infraestrutura sob controle e o desacoplamento total entre produtores e consumidores de mensagens.',
-    solucao: 'Arquitetura event driven serverless em AWS utilizando SQS para enfileiramento resiliente, funções Lambda para processamento elástico e DynamoDB para persistência de baixa latência e alta disponibilidade operacional.',
-    resultado: 'Sistema 100% resiliente com escalabilidade infinita sob demanda. A modernização para um modelo cloud native resultou em uma redução estratégica de 60% nos custos fixos de servidor e manutenção tecnológica.',
-    stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
-    svg: <CloudPipelineSVG />,
-    github: 'https://github.com/Fmarzochi',
-  },
-];
-
 type View = 'all' | 'favorites' | string;
 
 const INITIAL_FAVORITES: string[] = [];
@@ -181,7 +88,7 @@ const PhotoCard = ({
     onClick={onClick}
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-    <div className="absolute inset-0 opacity-40">{project.svg}</div>
+    <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" />
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
     <button
       onClick={onToggleFav}
@@ -192,7 +99,7 @@ const PhotoCard = ({
     </button>
     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent pt-8 px-3 pb-2.5">
       <p className="text-[11px] font-semibold text-white leading-tight truncate">{project.title}</p>
-      <p className="text-[9px] text-white/55 mt-0.5 truncate">{project.tag}</p>
+      <p className="text-[9px] text-white/70 mt-0.5 truncate">{project.tag}</p>
     </div>
   </motion.div>
 );
@@ -217,7 +124,7 @@ const ProjectDetail = ({
     className="flex-1 flex flex-col overflow-hidden"
   >
     <div className={`relative w-full h-32 sm:h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
-      <div className="absolute inset-0 opacity-40">{project.svg}</div>
+      <Image src={project.image} alt={project.title} fill className="object-cover" sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 pr-20">
         <p className="text-[10px] text-white/60 mb-0.5 truncate">{project.tag}</p>
@@ -253,7 +160,7 @@ const ProjectDetail = ({
         </div>
       </div>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-2">Stack utilizada</p>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-2">Stack utilizada</p>
         <div className="flex flex-wrap gap-2">
           {project.stack.map((s) => (
             <span key={s} className="rounded-full px-3 py-1 text-[11px] text-white/60" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
@@ -293,7 +200,7 @@ const SidebarItem = ({
     )}
     <span className="text-[12px] font-medium truncate flex-1">{label}</span>
     {count !== undefined && (
-      <span className={`text-[10px] tabular-nums ${active ? 'text-white/70' : 'text-white/25'}`}>{count}</span>
+      <span className={`text-[10px] tabular-nums ${active ? 'text-white/70' : 'text-white/60'}`}>{count}</span>
     )}
   </button>
 );
@@ -364,7 +271,7 @@ export const GalleryApp = () => {
           <motion.aside initial={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }} animate={{ x: 0, width: isMobile ? 260 : 240, opacity: 1 }} exit={{ x: isMobile ? -260 : 0, width: isMobile ? 260 : 0, opacity: 0 }} transition={{ duration: 0.25, ease: 'easeInOut' }} className={`flex flex-col h-full overflow-hidden ${isMobile ? 'absolute left-0 top-0 z-30 shrink-0' : 'shrink-0'}`} style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
             <div className="flex-1 min-h-0 overflow-y-auto py-4 space-y-5 px-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/25 px-2 mb-2">Biblioteca</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">Biblioteca</p>
                 <div className="space-y-0.5">
                   <SidebarItem icon={<ImageIcon size={14} />} label="Todas as Fotos" active={view === 'all'} onClick={() => handleViewChange('all')} count={PROJECTS.length} />
                   <SidebarItem icon={<Heart size={14} />} label="Favoritos" active={view === 'favorites'} onClick={() => handleViewChange('favorites')} count={favorites.size} />
@@ -375,7 +282,7 @@ export const GalleryApp = () => {
                     return (
                       <button key={project.id} onClick={() => handleViewChange(project.albumKey)} className={`w-full flex items-center gap-3 rounded-xl p-2 text-left transition-colors ${isActive ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : ''}`}>
                         <div className={`relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${project.gradient}`}>
-                          <div className="absolute inset-0 opacity-55">{project.svg}</div>
+                          <Image src={project.image} alt={project.title} fill className="object-cover" sizes="64px" />
                           {favorites.has(project.id) && <div className="absolute top-0.5 right-0.5"><Heart size={7} className="text-red-400 fill-red-400" /></div>}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -387,7 +294,7 @@ export const GalleryApp = () => {
                 </div>
               </div>
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/25 px-2 mb-2">Projetos (Álbuns)</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/60 px-2 mb-2">Projetos (Álbuns)</p>
                 <div className="space-y-0.5">
                   {PROJECTS.map((project) => (
                     <SidebarItem key={project.id} icon={<LayoutGrid size={13} />} label={project.title} active={view === project.albumKey} onClick={() => handleViewChange(project.albumKey)} />
