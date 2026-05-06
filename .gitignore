@@ -248,6 +248,8 @@ captures/
 .cache/ai/
 embeddings/
 vector_store/
+MEMORY.md
+session_summary_*.md
 
 # =========================
 # ARQUIVOS TEMPORÁRIOS GERAIS E DIVERSOS
