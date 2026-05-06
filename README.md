@@ -117,7 +117,11 @@ src/
 
 - **Acessibilidade completa (A11y)** — Infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
 - **Navegação nativa por teclado** — Gerenciamento de foco e atalhos globais para operação inclusiva do sistema
+- **Otimização de Performance (Next/Image)** — Carregamento inteligente e conversão automática de ativos para WebP, garantindo performance extrema
+- **Normalização de zIndex** — Gerenciamento determinístico de camadas para janelas, prevenindo conflitos de profundidade no estado persistido
 - **UX Mobile Blindada** — Prevenção de gestos nativos de sistema (pull-to-refresh) e remoção de artefatos visuais do navegador (tap-highlight)
+- **Ergonomia de Desktop** — Janelas com travas de segurança (clamping) e áreas de redimensionamento otimizadas para precisão
+- **Arquitetura Centralizada de Ícones** — Registro único de recursos SVG para consistência visual e manutenção simplificada
 - **Áreas de toque otimizadas (Hit Targets)** — Botões e controles com área mínima de 44px, garantindo precisão em dispositivos móveis
 - **Tela de bloqueio** com desbloqueio por teclado (desktop) ou toque (mobile)
 - **Janelas arrastáveis e redimensionáveis** com física de molas via Framer Motion
