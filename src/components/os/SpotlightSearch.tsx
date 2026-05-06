@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, Compass, Image, BookOpen, Code2, MessageSquare, MapPin, ChevronRight } from 'lucide-react';
+import { Search, X, Compass, Image as LucideImage, BookOpen, Code2, MessageSquare, MapPin, ChevronRight } from 'lucide-react';
 import { useWindowManager } from '../../store/useWindowManager';
 
 interface SearchResult {
@@ -16,12 +16,12 @@ interface SearchResult {
 }
 
 const APPS = [
-  { id: 'safari',   title: 'Portfólio',          subtitle: 'Perfil profissional, projetos e contato', icon: <Compass size={16} />,      accent: 'text-blue-400',   gradient: 'from-blue-500 to-cyan-400' },
-  { id: 'skills',   title: 'Skills',             subtitle: 'Competências técnicas e certificações',  icon: <Code2 size={16} />,        accent: 'text-slate-400',  gradient: 'from-slate-500 to-slate-700' },
-  { id: 'photos',   title: 'Galeria de Projetos', subtitle: 'Estudos de caso dos projetos entregues', icon: <Image size={16} />,        accent: 'text-pink-400',   gradient: 'from-pink-400 to-violet-600' },
-  { id: 'finder',   title: 'Diplomas',           subtitle: 'Diplomas e certificações acadêmicas',    icon: <BookOpen size={16} />,     accent: 'text-amber-400',  gradient: 'from-amber-400 to-orange-500' },
-  { id: 'messages', title: 'Contato',            subtitle: 'WhatsApp, email e redes sociais',       icon: <MessageSquare size={16} />,accent: 'text-green-400',  gradient: 'from-green-500 to-emerald-600' },
-  { id: 'maps',     title: 'Experiência',         subtitle: 'Linha do tempo da carreira',             icon: <MapPin size={16} />,       accent: 'text-emerald-400',gradient: 'from-emerald-500 to-teal-500' },
+  { id: 'safari',   title: 'Portfólio',          subtitle: 'Perfil profissional, projetos e contato', icon: <Compass size={16} />,      accent: 'text-blue-400' },
+  { id: 'skills',   title: 'Skills',             subtitle: 'Competências técnicas e certificações',  icon: <Code2 size={16} />,        accent: 'text-slate-400' },
+  { id: 'photos',   title: 'Galeria de Projetos', subtitle: 'Estudos de caso dos projetos entregues', icon: <LucideImage size={16} />,        accent: 'text-pink-400' },
+  { id: 'finder',   title: 'Diplomas',           subtitle: 'Diplomas e certificações acadêmicas',    icon: <BookOpen size={16} />,     accent: 'text-amber-400' },
+  { id: 'messages', title: 'Contato',            subtitle: 'WhatsApp, email e redes sociais',       icon: <MessageSquare size={16} />,accent: 'text-green-400' },
+  { id: 'maps',     title: 'Experiência',         subtitle: 'Linha do tempo da carreira',             icon: <MapPin size={16} />,       accent: 'text-emerald-400' },
 ];
 
 const PROJECTS = [
@@ -34,16 +34,16 @@ const PROJECTS = [
 ];
 
 const SKILLS = [
-  { title: 'React.js / Hooks / Context API',     subtitle: 'Front End · 95%',   app: 'skills' },
-  { title: 'TypeScript',                         subtitle: 'Front End · 92%',   app: 'skills' },
-  { title: 'Next.js / SSR / SSG',               subtitle: 'Front End · 88%',   app: 'skills' },
-  { title: 'Java / OOP / Collections',           subtitle: 'Back End · 80%',    app: 'skills' },
-  { title: 'Spring Boot / JPA / Hibernate',      subtitle: 'Back End · 76%',    app: 'skills' },
-  { title: 'PostgreSQL / SQL Avançado',          subtitle: 'Banco de Dados · 85%', app: 'skills' },
-  { title: 'Docker / Containerização',           subtitle: 'DevOps · 78%',      app: 'skills' },
-  { title: 'AWS CloudFront / Cloud',             subtitle: 'DevOps · 70%',      app: 'skills' },
-  { title: 'SOLID / Clean Code',                 subtitle: 'Arquitetura · 87%', app: 'skills' },
-  { title: 'SaaS Multi tenant',                  subtitle: 'Arquitetura · 85%', app: 'skills' },
+  { title: 'React.js / Hooks / Context API',     subtitle: 'Front End',   app: 'skills' },
+  { title: 'TypeScript',                         subtitle: 'Front End',   app: 'skills' },
+  { title: 'Next.js / SSR / SSG',               subtitle: 'Front End',   app: 'skills' },
+  { title: 'Java / OOP / Collections',           subtitle: 'Back End',    app: 'skills' },
+  { title: 'Spring Boot / JPA / Hibernate',      subtitle: 'Back End',    app: 'skills' },
+  { title: 'PostgreSQL / SQL Avançado',          subtitle: 'Banco de Dados', app: 'skills' },
+  { title: 'Docker / Containerização',           subtitle: 'DevOps',      app: 'skills' },
+  { title: 'AWS CloudFront / Cloud',             subtitle: 'DevOps',      app: 'skills' },
+  { title: 'SOLID / Clean Code',                 subtitle: 'Arquitetura', app: 'skills' },
+  { title: 'SaaS Multi tenant',                  subtitle: 'Arquitetura', app: 'skills' },
 ];
 
 const CERTS = [
@@ -55,15 +55,8 @@ const CERTS = [
   { title: 'Python para Data Science e Machine Learning',            subtitle: 'Udemy · 2024',            app: 'finder' },
   { title: 'Docker: Fundamentos e Prática',                         subtitle: 'Udemy · 2024',            app: 'finder' },
   { title: 'AWS Cloud Practitioner',                                 subtitle: 'AWS · 2024',              app: 'finder' },
-  { title: 'React.js: Formação Completa',                           subtitle: 'Alura ONE · 2022',        app: 'finder' },
   { title: 'MBA em Engenharia de Software',                          subtitle: 'Fac. Metropolitana · 2023', app: 'finder' },
-  { title: 'Bacharelado em Análise e Desenvolvimento de Sistemas',   subtitle: 'Estácio · 2026',            app: 'finder' },
-  { title: 'Oracle Cloud Infrastructure Foundations',                subtitle: 'Oracle · 2022',           app: 'finder' },
-  { title: 'PostgreSQL: SQL Avançado',                              subtitle: 'Udemy · 2023',            app: 'finder' },
-  { title: 'Scrum Fundamentals Certified',                           subtitle: 'SCRUMstudy · 2023',       app: 'finder' },
-  { title: 'Formação Business Agility ONE',                          subtitle: 'Alura ONE · 2022',        app: 'finder' },
-  { title: 'HTML5 e CSS3: Completo',                                subtitle: 'Udemy · 2022',            app: 'finder' },
-  { title: 'Git e GitHub: Controle de Versão',                      subtitle: 'Udemy · 2022',            app: 'finder' },
+  { title: 'Bacharelado em ADS',                                     subtitle: 'Estácio · 2026',            app: 'finder' },
 ];
 
 interface Props {
@@ -96,60 +89,35 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
   const results = useMemo((): SearchResult[] => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-
     const out: SearchResult[] = [];
 
     APPS.filter((a) => a.title.toLowerCase().includes(q) || a.subtitle.toLowerCase().includes(q))
-      .forEach((a) =>
-        out.push({
-          id: `app-${a.id}`,
-          category: 'Aplicativos',
-          title: a.title,
-          subtitle: a.subtitle,
-          icon: <span className={a.accent}>{a.icon}</span>,
-          accent: a.accent,
-          action: () => { openApp(a.id, a.title); onClose(); },
-        }),
-      );
+      .forEach((a) => out.push({
+        id: `app-${a.id}`, category: 'Aplicativos', title: a.title, subtitle: a.subtitle,
+        icon: <span className={a.accent}>{a.icon}</span>, accent: a.accent,
+        action: () => { openApp(a.id, a.title); onClose(); }
+      }));
 
     PROJECTS.filter((p) => p.title.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q))
-      .forEach((p, i) =>
-        out.push({
-          id: `proj-${i}`,
-          category: 'Projetos',
-          title: p.title,
-          subtitle: p.subtitle,
-          icon: <span className={p.accent}><Image size={16} /></span>,
-          accent: p.accent,
-          action: () => { openApp(p.app, 'Galeria de Projetos'); onClose(); },
-        }),
-      );
+      .forEach((p, i) => out.push({
+        id: `proj-${i}`, category: 'Projetos', title: p.title, subtitle: p.subtitle,
+        icon: <span className={p.accent}><LucideImage size={16} /></span>, accent: p.accent,
+        action: () => { openApp(p.app, 'Galeria de Projetos'); onClose(); }
+      }));
 
     SKILLS.filter((s) => s.title.toLowerCase().includes(q) || s.subtitle.toLowerCase().includes(q))
-      .forEach((s, i) =>
-        out.push({
-          id: `skill-${i}`,
-          category: 'Skills',
-          title: s.title,
-          subtitle: s.subtitle,
-          icon: <span className="text-slate-400"><Code2 size={16} /></span>,
-          accent: 'text-slate-400',
-          action: () => { openApp(s.app, 'Skills'); onClose(); },
-        }),
-      );
+      .forEach((s, i) => out.push({
+        id: `skill-${i}`, category: 'Skills', title: s.title, subtitle: s.subtitle,
+        icon: <span className="text-slate-400"><Code2 size={16} /></span>, accent: 'text-slate-400',
+        action: () => { openApp(s.app, 'Skills'); onClose(); }
+      }));
 
     CERTS.filter((c) => c.title.toLowerCase().includes(q) || c.subtitle.toLowerCase().includes(q))
-      .forEach((c, i) =>
-        out.push({
-          id: `cert-${i}`,
-          category: 'Certificações',
-          title: c.title,
-          subtitle: c.subtitle,
-          icon: <span className="text-amber-400"><BookOpen size={16} /></span>,
-          accent: 'text-amber-400',
-          action: () => { openApp(c.app, 'Skills'); onClose(); },
-        }),
-      );
+      .forEach((c, i) => out.push({
+        id: `cert-${i}`, category: 'Certificações', title: c.title, subtitle: c.subtitle,
+        icon: <span className="text-amber-400"><BookOpen size={16} /></span>, accent: 'text-amber-400',
+        action: () => { openApp(c.app, 'Skills'); onClose(); }
+      }));
 
     return out;
   }, [query, openApp, onClose]);
@@ -182,110 +150,34 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[500] bg-black/40 backdrop-blur-sm"
-            onClick={onClose}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="fixed z-[600] left-1/2 top-[18%] -translate-x-1/2 w-full max-w-[600px] px-4"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="fixed inset-0 z-[500] bg-black/40 backdrop-blur-sm" onClick={onClose} />
+          <motion.div initial={{ opacity: 0, scale: 0.95, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: -10 }} transition={{ duration: 0.18, ease: 'easeOut' }} className="fixed z-[600] left-1/2 top-[18%] -translate-x-1/2 w-full max-w-[600px] px-4" onClick={(e) => e.stopPropagation()}>
             <div className="rounded-2xl overflow-hidden liquid-glass-spotlight">
-
               <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
                 <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
-                <input
-                  ref={inputRef}
-                  type="text"
-                  placeholder="Buscar projetos, skills, apps..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none"
-                  role="combobox"
-                  aria-autocomplete="list"
-                  aria-expanded={isOpen && results.length > 0}
-                  aria-haspopup="listbox"
-                  aria-controls="spotlight-results"
-                  aria-label="Campo de busca global"
-                />
-                {query && (
-                  <button 
-                    onClick={() => setQuery('')} 
-                    className="text-white/30 hover:text-white/60 transition-colors"
-                    aria-label="Limpar busca"
-                  >
-                    <X size={15} />
-                  </button>
-                )}
+                <input ref={inputRef} type="text" placeholder="Buscar projetos, skills, apps..." value={query} onChange={(e) => setQuery(e.target.value)} className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" role="combobox" aria-autocomplete="list" aria-expanded={isOpen && results.length > 0} aria-haspopup="listbox" aria-controls="spotlight-results" aria-label="Campo de busca global" />
+                {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label="Limpar busca"><X size={15} /></button>}
               </div>
-
-              <div 
-                className="max-h-[400px] overflow-y-auto" 
-                id="spotlight-results"
-                role="listbox"
-                aria-label="Resultados da busca"
-              >
-                {query.trim() === '' && (
-                  <div className="px-4 py-8 text-center text-sm text-white/25">
-                    Digite para buscar projetos, skills, apps ou certificações
+              <div className="max-h-[400px] overflow-y-auto" id="spotlight-results" role="listbox" aria-label="Resultados da busca">
+                {query.trim() === '' && <div className="px-4 py-8 text-center text-sm text-white/25">Digite para buscar projetos, skills, apps ou certificações</div>}
+                {query.trim() !== '' && results.length === 0 && <div className="px-4 py-8 text-center text-sm text-white/25">Nenhum resultado para &quot;{query}&quot;</div>}
+                {[...grouped.entries()].map(([category, items]) => (
+                  <div key={category}>
+                    <div className="px-4 pt-3 pb-1"><p className="text-[10px] font-bold uppercase tracking-widest text-white/25">{category}</p></div>
+                    {items.map((result) => {
+                      const flatIdx = flatResults.indexOf(result);
+                      const isActive = flatIdx === activeIdx;
+                      return (
+                        <button key={result.id} onClick={result.action} className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors" style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }} onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}>
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>{result.icon}</div>
+                          <div className="min-w-0 flex-1"><p className="text-[13px] font-medium text-white/90 truncate">{result.title}</p><p className="text-[11px] text-white/35 truncate">{result.subtitle}</p></div>
+                          {isActive && <ChevronRight size={14} className="text-white/30 shrink-0" />}
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
-
-                {query.trim() !== '' && results.length === 0 && (
-                  <div className="px-4 py-8 text-center text-sm text-white/25">
-                    Nenhum resultado para &quot;{query}&quot;
-                  </div>
-                )}
-
-                {[...grouped.entries()].map(([category, items]) => {
-                  return (
-                    <div key={category}>
-                      <div className="px-4 pt-3 pb-1">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-white/25">{category}</p>
-                      </div>
-                      {items.map((result) => {
-                        const flatIdx = flatResults.indexOf(result);
-                        const isActive = flatIdx === activeIdx;
-                        return (
-                          <button
-                            key={result.id}
-                            onClick={result.action}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors"
-                            style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }}
-                            onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
-                            onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}
-                          >
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>
-                              {result.icon}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-[13px] font-medium text-white/90 truncate">{result.title}</p>
-                              <p className="text-[11px] text-white/35 truncate">{result.subtitle}</p>
-                            </div>
-                            {isActive && <ChevronRight size={14} className="text-white/30 shrink-0" />}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-
-                {results.length > 0 && (
-                  <div className="px-4 py-2.5 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <p className="text-[10px] text-white/20 text-center">
-                      ↑↓ navegar · Enter abrir · Esc fechar
-                    </p>
-                  </div>
-                )}
+                ))}
+                {results.length > 0 && <div className="px-4 py-2.5 mt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}><p className="text-[10px] text-white/20 text-center">↑↓ navegar · Enter abrir · Esc fechar</p></div>}
               </div>
             </div>
           </motion.div>

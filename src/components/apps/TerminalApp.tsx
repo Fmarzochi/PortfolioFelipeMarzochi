@@ -1,232 +1,241 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useWindowManager } from '../../store/useWindowManager';
 
 interface CommandRecord {
   command: string;
   output: React.ReactNode;
 }
 
+const FILESYSTEM: Record<string, string[] | string> = {
+  '/': ['projects/', 'skills/', 'about.txt', 'experience.txt', 'contact.txt'],
+  '/projects': [
+    'duautomacao.md',
+    'unilab.md',
+    'careerscout.md',
+    'calibraflow.md',
+    'bigdata.md',
+    'pipeline.md'
+  ],
+  '/skills': [
+    'frontend.md',
+    'backend.md',
+    'database.md',
+    'devops.md',
+    'architecture.md'
+  ]
+};
+
+const FILE_CONTENT: Record<string, React.ReactNode> = {
+  'about.txt': (
+    <p className="leading-relaxed">
+      Engenheiro de Software com foco em arquiteturas front end escaláveis utilizando React.js e Next.js.<br/>
+      Especialista com MBA em Engenharia de Software e sólida base em Análise de Sistemas.<br/>
+      Trabalho na construção de sistemas resilientes e performáticos, aplicando rigor técnico e excelência em UX.
+    </p>
+  ),
+  'experience.txt': (
+    <div className="flex flex-col gap-1">
+      <p><span className="text-violet-400">2026</span> · Dev Front End @ Conecta 360°</p>
+      <p><span className="text-violet-400">2022-Pres</span> · Dev Full Stack @ Freelance</p>
+      <p><span className="text-violet-400">2024-25</span> · Suporte Técnico @ Sec. Educação</p>
+    </div>
+  ),
+  'contact.txt': (
+    <div className="flex flex-col gap-1 text-blue-300">
+      <p>Email: fmarzochi@gmail.com</p>
+      <p>LinkedIn: /in/felipemarzochi</p>
+      <p>GitHub: /Fmarzochi</p>
+    </div>
+  ),
+  'projects/duautomacao.md': <p><span className="text-blue-400 font-bold">DuAutomação:</span> ERP centralizado com economia de R$ 24k/ano.</p>,
+  'projects/unilab.md': <p><span className="text-blue-400 font-bold">Unilab:</span> 30% de aumento em captação de doadores.</p>,
+  'projects/careerscout.md': <p><span className="text-blue-400 font-bold">Scout AI:</span> Triagem de 50 vagas/dia via LLM.</p>,
+  'projects/calibraflow.md': <p><span className="text-blue-400 font-bold">CalibraFlow:</span> Gestão de conformidade Petrobras.</p>,
+  'projects/bigdata.md': <p><span className="text-blue-400 font-bold">ANS Big Data:</span> Governança de R$ 100M anuais.</p>,
+  'projects/pipeline.md': <p><span className="text-blue-400 font-bold">AWS Pipeline:</span> 60% de redução em custos de infra.</p>,
+  'skills/frontend.md': <p>React.js · Next.js · TS · Tailwind · Framer</p>,
+  'skills/backend.md': <p>Java 21 · Spring Boot · Node.js · APIs REST</p>,
+  'skills/database.md': <p>PostgreSQL · MongoDB · Otimização de Performance</p>,
+  'skills/devops.md': <p>Docker · CI/CD · AWS (SQS, Lambda, S3)</p>,
+  'skills/architecture.md': <p>SOLID · Clean Code · SaaS Multi tenant · Scrum</p>,
+};
+
 export const TerminalApp = () => {
   const [input, setInput] = useState('');
+  const [currentDir, setCurrentDir] = useState('/');
   const [history, setHistory] = useState<CommandRecord[]>([
-    {
-      command: '',
-      output: (
-        <div className="text-gray-400">
-          Boas vindas ao Marzochi OS Terminal v1.0.0
-          <br />
-          Digite <span className="text-green-400">'help'</span> para ver os comandos disponíveis.
-        </div>
-      ),
-    },
+    { command: '', output: <div className="text-gray-400">Marzochi OS Shell v2.1.0 · Digite 'help' para começar.</div> }
   ]);
+  const [cmdHistory, setCmdHistory] = useState<string[]>([]);
+  const [historyIdx, setHistoryIdx] = useState(-1);
+  
+  const { openApp } = useWindowManager();
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Mantém o scroll sempre no final quando um novo comando é inserido
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [history]);
+  const handleTerminalClick = () => inputRef.current?.focus();
 
-  // Mantém o foco no input se o usuário clicar em qualquer lugar do terminal
-  const handleTerminalClick = () => {
-    inputRef.current?.focus();
-  };
+  const processCommand = useCallback((cmd: string) => {
+    const rawInput = cmd.trim();
+    if (!rawInput) return;
 
-  const processCommand = (cmd: string) => {
-    const trimmedCmd = cmd.trim().toLowerCase();
+    setCmdHistory(prev => [rawInput, ...prev].slice(0, 50));
+    setHistoryIdx(-1);
+
+    const parts = rawInput.split(' ');
+    const command = parts[0].toLowerCase();
+    const args = parts.slice(1);
     let output: React.ReactNode = '';
 
-    switch (trimmedCmd) {
+    const getFullPath = (path: string) => {
+      if (path === '/') return '/';
+      if (path === '..') return '/';
+      const cleanPath = path.replace(/\/$/, '');
+      if (cleanPath.startsWith('/')) return cleanPath;
+      return currentDir === '/' ? `/${cleanPath}` : `${currentDir}/${cleanPath}`;
+    };
+
+    switch (command) {
       case 'help':
         output = (
-          <div className="flex flex-col gap-1 text-gray-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-gray-300">
             {[
-              ['whoami',     'Identidade e perfil profissional'],
-              ['about',      'Sobre o desenvolvedor'],
-              ['skills',     'Stack técnica completa'],
-              ['projects',   'Projetos entregues'],
-              ['experience', 'Trajetória profissional'],
-              ['certs',      'Certificações (50+)'],
-              ['contact',    'Formas de contato'],
-              ['stack',      'Tecnologias por categoria'],
-              ['sudo',       '???'],
-              ['clear',      'Limpar histórico'],
-            ].map(([cmd, desc]) => (
-              <p key={cmd}><span className="text-green-400 font-bold min-w-[100px] inline-block">{cmd}</span> · {desc}</p>
+              ['ls [dir]',   'Listar arquivos'],
+              ['cd [dir]',   'Mudar diretório'],
+              ['cat [file]', 'Ler arquivo'],
+              ['open [app]', 'Abrir aplicativo'],
+              ['pwd',        'Caminho atual'],
+              ['whoami',     'Identidade'],
+              ['clear',      'Limpar tela'],
+            ].map(([c, d]) => (
+              <p key={c}><span className="text-green-400 font-bold w-24 inline-block">{c}</span> {d}</p>
             ))}
+            <p className="col-span-full text-xs text-gray-500 mt-2">Dica: Tente 'open photos' ou 'cd projects && ls'.</p>
           </div>
         );
         break;
-      case 'whoami':
-        output = (
-          <div className="flex flex-col gap-0.5">
-            <p className="text-green-400 font-bold">Felipe Marzochi</p>
-            <p>Desenvolvedor de Software · Full Stack</p>
-            <p className="text-gray-400">Americana, SP · Remoto · CLT + Freelance</p>
-            <p className="text-gray-400">fmarzochi@gmail.com · github.com/Fmarzochi</p>
-          </div>
-        );
+
+      case 'ls': {
+        const target = args[0] ? getFullPath(args[0]) : currentDir;
+        const entries = FILESYSTEM[target];
+        if (entries && Array.isArray(entries)) {
+          output = (
+            <div className="flex flex-wrap gap-x-6">
+              {entries.map(e => <span key={e} className={e.endsWith('/') ? 'text-blue-400 font-bold' : 'text-gray-300'}>{e}</span>)}
+            </div>
+          );
+        } else {
+          output = <p className="text-red-400">ls: diretório não encontrado: {args[0]}</p>;
+        }
         break;
-      case 'about':
-        output = (
-          <p className="leading-relaxed">
-            Full Stack developer especializado em React.js, TypeScript e Next.js no front end,<br/>
-            com foco em arquitetura Java com Spring Boot e JPA no back end.<br/>
-            Formação anterior em Medicina Veterinária · diagnosticar antes de agir é um hábito.<br/>
-            Aplico SOLID, Clean Code e arquitetura em camadas do levantamento de requisitos ao deploy.
-          </p>
-        );
+      }
+
+      case 'cd': {
+        const target = args[0] || '/';
+        const newPath = getFullPath(target);
+        if (FILESYSTEM[newPath]) {
+          setCurrentDir(newPath);
+          return;
+        }
+        output = <p className="text-red-400">cd: {target}: diretório inexistente</p>;
         break;
-      case 'skills':
-        output = (
-          <div className="flex flex-col gap-1 text-blue-300">
-            <p className="text-white/50 mb-1">── Stack completa ──</p>
-            <p>Front End    → React.js · TypeScript · Next.js · Tailwind CSS · Redux</p>
-            <p>Back End     → Java · Spring Boot · Node.js · APIs REST · JWT</p>
-            <p>Banco        → PostgreSQL · MongoDB · MySQL · SQL Avançado</p>
-            <p>DevOps       → Git · Docker · CI/CD · AWS CloudFront · GitHub Actions</p>
-            <p>Arquitetura  → SOLID · Clean Code · SaaS Multi tenant · Scrum</p>
-          </div>
-        );
+      }
+
+      case 'cat': {
+        if (!args[0]) { output = 'cat: especifique um arquivo'; break; }
+        const fileName = args[0];
+        const path = currentDir === '/' ? fileName : `${currentDir.substring(1)}/${fileName}`;
+        output = FILE_CONTENT[path] || <p className="text-red-400">cat: {fileName}: arquivo não encontrado</p>;
         break;
-      case 'stack':
-        output = (
-          <div className="flex flex-col gap-2">
-            {[
-              { label: 'FRONT END',    items: 'React.js · TypeScript · Next.js · Tailwind CSS · Redux · Framer Motion',      color: 'text-blue-400'   },
-              { label: 'BACK END',     items: 'Java 21 · Spring Boot · JPA · Hibernate · Node.js · Express · JWT',           color: 'text-green-400'  },
-              { label: 'BANCO',        items: 'PostgreSQL · MongoDB · MySQL · SQL Avançado · Hibernate Filters',              color: 'text-yellow-400' },
-              { label: 'DEVOPS',       items: 'Git · Docker · CI/CD · AWS (SQS, Lambda, CloudFront, DynamoDB)',              color: 'text-orange-400' },
-              { label: 'ARQUITETURA',  items: 'SOLID · Clean Code · Design Patterns · SaaS Multi tenant · Scrum · Kanban',   color: 'text-violet-400' },
-            ].map(({ label, items, color }) => (
-              <div key={label}>
-                <span className={`${color} font-bold text-xs`}>{label}</span>
-                <p className="text-gray-300 text-xs ml-2">{items}</p>
-              </div>
-            ))}
-          </div>
-        );
+      }
+
+      case 'open': {
+        const appName = args[0]?.toLowerCase();
+        const appMap: Record<string, string> = {
+          'portfolio': 'safari', 'safari': 'safari',
+          'projects': 'photos', 'photos': 'photos', 'galeria': 'photos',
+          'skills': 'skills', 'terminal': 'terminal',
+          'finder': 'finder', 'diplomas': 'finder',
+          'contacts': 'contacts', 'contatos': 'contacts',
+          'maps': 'maps', 'experiencia': 'maps',
+          'messages': 'messages', 'contato': 'messages'
+        };
+        const appId = appMap[appName];
+        if (appId) {
+          openApp(appId, appName);
+          output = `Abrindo ${appName}...`;
+        } else {
+          output = <p className="text-yellow-400">Uso: open [portfolio|projects|skills|finder|maps|contacts]</p>;
+        }
         break;
-      case 'projects':
-        output = (
-          <div className="flex flex-col gap-1.5">
-            <p className="text-white/50 mb-1">── Projetos entregues ──</p>
-            {[
-              ['DuAutomação Residencial',              'Java · React.js · PostgreSQL'],
-              ['Laboratório Unilab',                   'Next.js · Tailwind CSS · Framer Motion'],
-              ["Career Scout AI",                      'Python · Gemini API · GitHub Actions'],
-              ['CalibraFlow: SaaS de Gestão de ISO',  'Java 21 · Spring Boot · Docker'],
-              ['Big Data ANS: Processamento em Escala', 'Java · FastAPI · Vue.js · PostgreSQL'],
-              ['Pipeline Transacional AWS',            'Node.js · SQS · Lambda · DynamoDB'],
-            ].map(([name, stack]) => (
-              <p key={name}><span className="text-green-400">▸</span> <span className="text-white/80">{name}</span> <span className="text-gray-500">· {stack}</span></p>
-            ))}
-          </div>
-        );
-        break;
-      case 'experience':
-        output = (
-          <div className="flex flex-col gap-1.5">
-            <p className="text-white/50 mb-1">── Trajetória profissional ──</p>
-            {[
-              ['Jan/2026 · Atual', 'Dev Front End · Conecta 360°',         'CLT · Remoto'],
-              ['Jan/2022 · Atual', 'Dev Full Stack · Freelance / Autônomo', 'Autônomo'],
-              ['Set/2024 · Ago/2025', 'Suporte Técnico · Sec. da Educação', 'Estágio'],
-              ['Abr/2024 · Jun/2024', 'Dev Front End · DuAutomações',      'Freelance'],
-            ].map(([period, role, type]) => (
-              <p key={role}><span className="text-violet-400">{period}</span> · <span className="text-white/80">{role}</span> <span className="text-gray-500">({type})</span></p>
-            ))}
-          </div>
-        );
-        break;
-      case 'certs':
-        output = (
-          <div className="flex flex-col gap-1">
-            <p className="text-white/50 mb-1">── Certificações principais (50+) · abra o app Diplomas para ver todos ──</p>
-            {[
-              'Java Completo: Spring Boot, JPA, Hibernate · Udemy 2026',
-              'JavaScript Completo: TypeScript, Node.js · Udemy 2025',
-              'Oracle Next Education (ONE): Full Stack · Oracle / Alura 2022',
-              'Bancos de Dados SQL e NoSQL · Udemy 2022',
-              'AWS Cloud Practitioner · 2024',
-              'Python para Data Science · Udemy 2024',
-              'Web Front end Fundamentos · Udemy 2025',
-              'Docker · Udemy 2024',
-            ].map(cert => (
-              <p key={cert} className="text-gray-300"><span className="text-amber-400">✓</span> {cert}</p>
-            ))}
-          </div>
-        );
-        break;
-      case 'contact':
-        output = (
-          <div className="flex flex-col gap-1">
-            <p><span className="text-green-400">Email     </span> fmarzochi@gmail.com</p>
-            <p><span className="text-green-400">WhatsApp  </span> +55 (19) 98234-1110</p>
-            <p><span className="text-green-400">LinkedIn  </span> linkedin.com/in/felipemarzochi</p>
-            <p><span className="text-green-400">GitHub    </span> github.com/Fmarzochi</p>
-          </div>
-        );
-        break;
-      case 'sudo':
-        output = <p className="text-red-400">Permissão negada. Este incidente será reportado.</p>;
-        break;
-      case 'clear':
-        setHistory([]);
-        return;
-      case '':
-        output = '';
-        break;
-      default:
-        output = <p className="text-red-400">Comando não encontrado: &apos;{cmd}&apos;. Digite &apos;help&apos; para ver os comandos.</p>;
+      }
+
+      case 'whoami': output = 'Felipe Marzochi · Engenheiro de Software Full Stack'; break;
+      case 'pwd': output = currentDir; break;
+      case 'clear': setHistory([]); return;
+      default: output = <p className="text-red-400">Comando não encontrado: {command}. Digite 'help'.</p>;
     }
 
-    setHistory((prev) => [...prev, { command: cmd, output }]);
-  };
+    setHistory(prev => [...prev, { command: rawInput, output }]);
+  }, [currentDir, openApp]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       processCommand(input);
       setInput('');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIdx < cmdHistory.length - 1) {
+        const next = historyIdx + 1;
+        setHistoryIdx(next);
+        setInput(cmdHistory[next]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIdx > 0) {
+        const next = historyIdx - 1;
+        setHistoryIdx(next);
+        setInput(cmdHistory[next]);
+      } else {
+        setHistoryIdx(-1);
+        setInput('');
+      }
     }
   };
 
   return (
     <div
-      className="h-full w-full overflow-y-auto p-4 font-mono text-[14px] text-gray-200" style={{ background: 'rgba(10,10,12,0.92)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+      className="h-full w-full overflow-y-auto p-4 font-mono text-[13px] leading-relaxed text-gray-200"
+      style={{ background: 'rgba(10,10,12,0.95)', backdropFilter: 'blur(40px)' }}
       onClick={handleTerminalClick}
     >
       <div className="flex flex-col gap-2">
-        {history.map((record, index) => (
-          <div key={index} className="flex flex-col gap-1">
+        {history.map((record, i) => (
+          <div key={i} className="flex flex-col gap-0.5">
             {record.command && (
               <div className="flex items-center gap-2">
-                <span className="text-green-500 font-bold">felipe@marzochi-tech:~$</span>
+                <span className="text-green-500 font-bold">felipe@marzochi-tech:{currentDir === '/' ? '~' : currentDir}$</span>
                 <span>{record.command}</span>
               </div>
             )}
-            <div className="ml-4">{record.output}</div>
+            <div className={record.command ? 'ml-4 opacity-90' : ''}>{record.output}</div>
           </div>
         ))}
       </div>
-
       <div className="mt-2 flex items-center gap-2">
-        <span className="text-green-500 font-bold">felipe@marzochi-tech:~$</span>
+        <span className="text-green-500 font-bold">felipe@marzochi-tech:{currentDir === '/' ? '~' : currentDir}$</span>
         <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-          spellCheck={false}
-          autoComplete="off"
-          className="flex-1 bg-transparent text-gray-200 outline-none ring-0 placeholder:text-gray-600"
+          ref={inputRef} type="text" value={input}
+          onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown}
+          autoFocus spellCheck={false} autoComplete="off"
+          className="flex-1 bg-transparent outline-none ring-0"
+          aria-label="Input do terminal"
         />
       </div>
-      <div ref={bottomRef} className="h-4 w-full" />
+      <div ref={bottomRef} className="h-4" />
     </div>
   );
 };

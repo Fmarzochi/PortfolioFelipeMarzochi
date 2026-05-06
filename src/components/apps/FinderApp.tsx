@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { FileText, Search, LayoutGrid, List, Clock, Award, Briefcase, GraduationCap, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ---------------------------------------------------------------------------
-// Categorias de certificados — ordenadas do MAIS AVANÇADO ao mais básico
-// ---------------------------------------------------------------------------
 type CategoryKey =
   | 'formacao_academica'
   | 'mba'
@@ -24,11 +22,8 @@ type CategoryKey =
 interface CertFile {
   id: string;
   name: string;
-  /** Caminho relativo dentro de /public/certificados/ */
   path: string;
-  /** Se existe um "Verso" correspondente */
   versoPath?: string;
-  /** Ano de emissão / conclusão */
   year?: string;
 }
 
@@ -40,9 +35,6 @@ interface Category {
   files: CertFile[];
 }
 
-// ---------------------------------------------------------------------------
-// Dados dos certificados — APENAS frentes (verso disponível via toggle)
-// ---------------------------------------------------------------------------
 const CATEGORIES: Category[] = [
   {
     key: 'formacao_academica',
@@ -217,18 +209,12 @@ const CATEGORIES: Category[] = [
   },
 ];
 
-// ---------------------------------------------------------------------------
-// Ícone da sidebar por tipo
-// ---------------------------------------------------------------------------
 const SIDEBAR_ICONS: Record<Category['icon'], typeof Award> = {
   award: Award,
   briefcase: Briefcase,
   graduation: GraduationCap,
 };
 
-// ---------------------------------------------------------------------------
-// Componente
-// ---------------------------------------------------------------------------
 export const FinderApp = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>('formacao_academica');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -237,18 +223,14 @@ export const FinderApp = () => {
   const [showVerso, setShowVerso] = useState(false);
 
   const activeData = CATEGORIES.find((c) => c.key === activeCategory)!;
-
-  // Filtro de busca
   const filteredFiles = searchQuery
     ? activeData.files.filter((f) => f.name.toLowerCase().includes(searchQuery.toLowerCase()))
     : activeData.files;
 
-  // Total de certificados
   const totalCerts = CATEGORIES.reduce((sum, cat) => sum + cat.files.length, 0);
 
   return (
     <div className="flex flex-col md:flex-row h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
-      {/* Sidebar */}
       <div className="w-full max-h-[35vh] md:max-h-none md:w-[220px] flex-shrink-0 pt-4 overflow-y-auto" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">
           Certificados ({totalCerts})
@@ -261,15 +243,10 @@ export const FinderApp = () => {
                 key={cat.key}
                 onClick={() => { setActiveCategory(cat.key); setSearchQuery(''); }}
                 className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
-                  activeCategory === cat.key
-                    ? 'bg-blue-500/90 text-white'
-                    : 'hover:bg-white/10'
+                  activeCategory === cat.key ? 'bg-blue-500/90 text-white' : 'hover:bg-white/10'
                 }`}
               >
-                <IconComp
-                  size={16}
-                  className={activeCategory === cat.key ? 'text-white' : 'text-blue-400'}
-                />
+                <IconComp size={16} className={activeCategory === cat.key ? 'text-white' : 'text-blue-400'} />
                 <span className="truncate">{cat.label}</span>
                 <span className="ml-auto text-[10px] text-white/40">{cat.files.length}</span>
               </button>
@@ -278,71 +255,40 @@ export const FinderApp = () => {
         </nav>
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Toolbar */}
         <div className="flex h-12 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-3">
             <h2 className="text-sm font-semibold tracking-wide">{activeData.label}</h2>
-            <span className="text-[10px] text-white/40">
-              {filteredFiles.length} {filteredFiles.length === 1 ? 'certificado' : 'certificados'}
-            </span>
+            <span className="text-[10px] text-white/40">{filteredFiles.length} certificados</span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="flex rounded-md" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 transition-colors ${viewMode === 'grid' ? 'bg-white/20' : 'hover:bg-white/10'} rounded-l-md`}
-              >
-                <LayoutGrid size={14} />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 transition-colors ${viewMode === 'list' ? 'bg-white/20' : 'hover:bg-white/10'} rounded-r-md`}
-              >
-                <List size={14} />
-              </button>
+              <button onClick={() => setViewMode('grid')} className={`p-1.5 transition-colors ${viewMode === 'grid' ? 'bg-white/20' : 'hover:bg-white/10'} rounded-l-md`}><LayoutGrid size={14} /></button>
+              <button onClick={() => setViewMode('list')} className={`p-1.5 transition-colors ${viewMode === 'list' ? 'bg-white/20' : 'hover:bg-white/10'} rounded-r-md`}><List size={14} /></button>
             </div>
             <div className="flex items-center rounded-[10px] px-2 py-1 focus-within:outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <Search size={14} className="text-white/40" />
-              <input
-                type="text"
-                placeholder="Buscar"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="ml-2 w-20 md:w-28 bg-transparent text-sm outline-none placeholder:text-white/30"
-              />
+              <input type="text" placeholder="Buscar" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="ml-2 w-20 md:w-28 bg-transparent text-sm outline-none placeholder:text-white/30" aria-label="Buscar certificados" />
             </div>
           </div>
         </div>
 
-        {/* Files Area */}
         <div className="flex-1 overflow-y-auto p-2 md:p-4">
           {filteredFiles.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-sm text-white/30">
-              Nenhum certificado encontrado
-            </div>
+            <div className="flex h-full items-center justify-center text-sm text-white/30">Nenhum certificado encontrado</div>
           ) : viewMode === 'grid' ? (
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {filteredFiles.map((file) => (
-                <div
-                  key={file.id}
-                  onClick={() => { setPreviewFile(file); setShowVerso(false); }}
-                  className="group flex cursor-pointer flex-col items-center gap-1.5 rounded-lg p-2 transition-colors hover:bg-white/10"
-                >
-                  {/* Thumbnail */}
+                <div key={file.id} onClick={() => { setPreviewFile(file); setShowVerso(false); }} className="group flex cursor-pointer flex-col items-center gap-1.5 rounded-lg p-2 transition-colors hover:bg-white/10">
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[10px]" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <img
-                      src={`/certificados/${file.path}`}
-                      alt={file.name}
-                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                      loading="lazy"
+                    <Image
+                      src={`/certificados/${file.path}`} alt={file.name} fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                      className="object-cover transition-transform group-hover:scale-105"
                     />
                   </div>
-                  <span className="w-full truncate text-center text-[11px] font-medium text-white/80">
-                    {file.name}
-                  </span>
+                  <span className="w-full truncate text-center text-[11px] font-medium text-white/80">{file.name}</span>
                 </div>
               ))}
             </div>
@@ -355,21 +301,13 @@ export const FinderApp = () => {
               </div>
               <div className="mt-1 flex flex-col gap-0.5">
                 {filteredFiles.map((file) => (
-                  <div
-                    key={file.id}
-                    onClick={() => { setPreviewFile(file); setShowVerso(false); }}
-                    className="flex cursor-pointer items-center rounded-md py-2 hover:bg-white/10"
-                  >
+                  <div key={file.id} onClick={() => { setPreviewFile(file); setShowVerso(false); }} className="flex cursor-pointer items-center rounded-md py-2 hover:bg-white/10">
                     <div className="flex flex-1 items-center gap-3 px-4">
                       <FileText size={16} className="text-red-400 fill-red-500/20 flex-shrink-0" />
                       <span className="truncate text-sm font-medium text-white/90">{file.name}</span>
                     </div>
-                    <div className="hidden md:block w-20 text-right text-xs text-white/40 pr-2">
-                      {file.year ?? '—'}
-                    </div>
-                    <div className="hidden md:block w-28 text-right text-xs text-white/40 pr-4">
-                      {file.versoPath ? '✓ Disponível' : '—'}
-                    </div>
+                    <div className="hidden md:block w-20 text-right text-xs text-white/40 pr-2">{file.year ?? '—'}</div>
+                    <div className="hidden md:block w-28 text-right text-xs text-white/40 pr-4">{file.versoPath ? '✓ Disponível' : '—'}</div>
                   </div>
                 ))}
               </div>
@@ -378,66 +316,36 @@ export const FinderApp = () => {
         </div>
       </div>
 
-      {/* Preview Modal — abre ao clicar num certificado */}
       <AnimatePresence>
         {previewFile && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(12px)' }}
             onClick={() => setPreviewFile(null)}
+            role="dialog" aria-modal="true" aria-label={`Visualização do certificado ${previewFile.name}`}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative flex max-h-[90%] max-w-[95%] md:max-w-[80%] flex-col items-center rounded-2xl p-3 md:p-4" style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}
+              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              className="relative flex max-h-[90%] max-w-[95%] md:max-w-[80%] flex-col items-center rounded-2xl p-3 md:p-4" 
+              style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header do Modal */}
               <div className="mb-3 flex w-full items-center justify-between">
                 <div className="flex flex-col gap-0.5 pr-4 min-w-0">
-                  <h3 className="truncate text-xs md:text-sm font-semibold text-white/80">
-                    {previewFile.name}
-                  </h3>
-                  {previewFile.year && (
-                    <span className="text-[10px] text-white/40 flex items-center gap-1">
-                      <Clock size={10} /> Emitido em {previewFile.year}
-                    </span>
-                  )}
+                  <h3 className="truncate text-xs md:text-sm font-semibold text-white/80">{previewFile.name}</h3>
+                  {previewFile.year && <span className="text-[10px] text-white/40 flex items-center gap-1"><Clock size={10} /> Emitido em {previewFile.year}</span>}
                 </div>
                 <div className="flex items-center gap-2">
                   {previewFile.versoPath && (
-                    <button
-                      onClick={() => setShowVerso(!showVerso)}
-                      className={`rounded-[8px] px-3 py-1 text-[11px] font-semibold transition-colors ${
-                        showVerso
-                          ? 'bg-blue-500 text-white'
-                          : 'text-white/60 hover:text-white/80'
-                      }`}
-                      style={!showVerso ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' } : {}}
-                    >
-                      {showVerso ? 'Frente' : 'Verso'}
-                    </button>
+                    <button onClick={() => setShowVerso(!showVerso)} className={`rounded-[8px] px-3 py-1 text-[11px] font-semibold transition-colors ${showVerso ? 'bg-blue-500 text-white' : 'text-white/60 hover:text-white/80'}`} style={!showVerso ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' } : {}}>{showVerso ? 'Frente' : 'Verso'}</button>
                   )}
-                  <button
-                    onClick={() => setPreviewFile(null)}
-                    className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
-                  >
-                    <X size={14} />
-                  </button>
+                  <button onClick={() => setPreviewFile(null)} aria-label="Fechar visualização" className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}><X size={14} /></button>
                 </div>
               </div>
-
-              {/* Imagem do Certificado */}
-              <div className="flex-1 overflow-auto">
-                <img
+              <div className="flex-1 overflow-auto relative w-full h-full min-h-[300px]">
+                <Image
                   src={`/certificados/${showVerso && previewFile.versoPath ? previewFile.versoPath : previewFile.path}`}
-                  alt={previewFile.name}
-                  className="max-h-[70vh] w-auto rounded-lg object-contain shadow-lg"
-                  draggable={false}
+                  alt={previewFile.name} fill className="object-contain" draggable={false} priority
                 />
               </div>
             </motion.div>

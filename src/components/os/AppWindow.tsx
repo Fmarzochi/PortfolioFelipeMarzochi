@@ -16,6 +16,7 @@ type ResizeEdge = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 
 const MIN_W = 400;
 const MIN_H = 300;
+const TOPBAR_H = 28;
 
 const CURSORS: Record<ResizeEdge, string> = {
   n: 'ns-resize', ne: 'nesw-resize', e: 'ew-resize', se: 'nwse-resize',
@@ -38,10 +39,14 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
 
     const onMove = (ev: MouseEvent) => {
       if (!isDraggingTitle.current) return;
-      updatePosition(id,
-        dragStart.current.winX + ev.clientX - dragStart.current.mouseX,
-        dragStart.current.winY + ev.clientY - dragStart.current.mouseY,
-      );
+      const nx = dragStart.current.winX + ev.clientX - dragStart.current.mouseX;
+      const ny = dragStart.current.winY + ev.clientY - dragStart.current.mouseY;
+      
+      // Clamping: prevent window from being lost outside viewport
+      const clampedX = Math.max(-(width / 2), Math.min(nx, window.innerWidth - 100));
+      const clampedY = Math.max(TOPBAR_H, Math.min(ny, window.innerHeight - 100));
+      
+      updatePosition(id, clampedX, clampedY);
     };
     const onUp = () => {
       isDraggingTitle.current = false;
@@ -50,7 +55,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     };
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
-  }, [id, isFullScreen, isMobile, x, y, focusApp, updatePosition]);
+  }, [id, isFullScreen, isMobile, x, y, width, focusApp, updatePosition]);
 
   const startResize = useCallback((e: React.MouseEvent, edge: ResizeEdge) => {
     if (isFullScreen || isMobile || e.button !== 0) return;
@@ -68,7 +73,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
       if (edge.includes('e')) newW = Math.max(MIN_W, snap.startW + dx);
       if (edge.includes('s')) newH = Math.max(MIN_H, snap.startH + dy);
       if (edge.includes('w')) { newW = Math.max(MIN_W, snap.startW - dx); newX = snap.startLeft + (snap.startW - newW); }
-      if (edge.includes('n')) { newH = Math.max(MIN_H, snap.startH - dy); newY = snap.startTop + (snap.startH - newH); }
+      if (edge.includes('n')) { newH = Math.max(MIN_H, snap.startH - dy); newY = Math.max(TOPBAR_H, snap.startTop + (snap.startH - newH)); }
 
       updatePositionAndSize(id, newX, newY, newW, newH);
     };
@@ -89,12 +94,13 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
 
   const w = width ?? 860;
   const h = height ?? 560;
+  const titleId = `window-title-${id}`;
 
   return (
     <div
       onPointerDown={() => focusApp(id)}
       role="dialog"
-      aria-label={`Janela do aplicativo ${title}`}
+      aria-labelledby={titleId}
       aria-modal="false"
       style={{
         position: 'absolute',
@@ -113,16 +119,17 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/32 to-transparent pointer-events-none z-10" aria-hidden="true" />
       )}
 
+      {/* Resize Handles - 10px areas for better ergonomics */}
       {!isFullScreen && !isMobile && (
         <>
-          <div className="absolute inset-x-3 top-0 h-[5px] cursor-ns-resize z-30"    onMouseDown={(e) => startResize(e, 'n')} aria-hidden="true" />
-          <div className="absolute inset-x-3 bottom-0 h-[5px] cursor-ns-resize z-30"  onMouseDown={(e) => startResize(e, 's')} aria-hidden="true" />
-          <div className="absolute inset-y-3 left-0 w-[5px] cursor-ew-resize z-30"   onMouseDown={(e) => startResize(e, 'w')} aria-hidden="true" />
-          <div className="absolute inset-y-3 right-0 w-[5px] cursor-ew-resize z-30"  onMouseDown={(e) => startResize(e, 'e')} aria-hidden="true" />
-          <div className="absolute top-0 left-0 h-4 w-4 cursor-nwse-resize z-30"   onMouseDown={(e) => startResize(e, 'nw')} aria-hidden="true" />
-          <div className="absolute top-0 right-0 h-4 w-4 cursor-nesw-resize z-30"  onMouseDown={(e) => startResize(e, 'ne')} aria-hidden="true" />
-          <div className="absolute bottom-0 left-0 h-4 w-4 cursor-nesw-resize z-30" onMouseDown={(e) => startResize(e, 'sw')} aria-hidden="true" />
-          <div className="absolute bottom-0 right-0 h-4 w-4 cursor-nwse-resize z-30" onMouseDown={(e) => startResize(e, 'se')} aria-hidden="true" />
+          <div className="absolute inset-x-4 top-0 h-[10px] cursor-ns-resize z-30"    onMouseDown={(e) => startResize(e, 'n')} aria-hidden="true" />
+          <div className="absolute inset-x-4 bottom-0 h-[10px] cursor-ns-resize z-30"  onMouseDown={(e) => startResize(e, 's')} aria-hidden="true" />
+          <div className="absolute inset-y-4 left-0 w-[10px] cursor-ew-resize z-30"   onMouseDown={(e) => startResize(e, 'w')} aria-hidden="true" />
+          <div className="absolute inset-y-4 right-0 w-[10px] cursor-ew-resize z-30"  onMouseDown={(e) => startResize(e, 'e')} aria-hidden="true" />
+          <div className="absolute top-0 left-0 h-6 w-6 cursor-nwse-resize z-30"   onMouseDown={(e) => startResize(e, 'nw')} aria-hidden="true" />
+          <div className="absolute top-0 right-0 h-6 w-6 cursor-nesw-resize z-30"  onMouseDown={(e) => startResize(e, 'ne')} aria-hidden="true" />
+          <div className="absolute bottom-0 left-0 h-6 w-6 cursor-nesw-resize z-30" onMouseDown={(e) => startResize(e, 'sw')} aria-hidden="true" />
+          <div className="absolute bottom-0 right-0 h-6 w-6 cursor-nwse-resize z-30" onMouseDown={(e) => startResize(e, 'se')} aria-hidden="true" />
         </>
       )}
 
@@ -167,7 +174,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
           </button>
         </div>
 
-        <div className="pointer-events-none text-[13px] font-semibold tracking-wide text-white/70" id={`window-title-${id}`}>
+        <div className="pointer-events-none text-[13px] font-semibold tracking-wide text-white/70" id={titleId}>
           {title}
         </div>
 

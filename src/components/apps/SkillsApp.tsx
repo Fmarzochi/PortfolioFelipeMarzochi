@@ -21,12 +21,12 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     tag: 'FRONT',
     color: 'text-blue-400',
     skills: [
-      { name: 'React.js / Hooks / Context API', level: 95 },
-      { name: 'TypeScript', level: 92 },
-      { name: 'Next.js / SSR / SSG', level: 88 },
-      { name: 'JavaScript ES6+', level: 94 },
-      { name: 'HTML5 / CSS3 / Tailwind CSS', level: 91 },
-      { name: 'Redux / Zustand', level: 82 },
+      { name: 'React.js / Hooks / Context API', level: 86 },
+      { name: 'TypeScript', level: 82 },
+      { name: 'Next.js / SSR / SSG', level: 80 },
+      { name: 'JavaScript ES6+', level: 85 },
+      { name: 'HTML5 / CSS3 / Tailwind CSS', level: 88 },
+      { name: 'Redux / Zustand', level: 74 },
     ],
   },
   {
@@ -34,11 +34,11 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     tag: 'BACK ',
     color: 'text-green-400',
     skills: [
-      { name: 'Node.js / Express', level: 83 },
-      { name: 'Java / OOP / Collections', level: 80 },
-      { name: 'Spring Boot / JPA / Hibernate', level: 76 },
-      { name: 'APIs REST / Webhooks', level: 88 },
-      { name: 'JWT / Autenticação & Autorização', level: 76 },
+      { name: 'Node.js / Express', level: 75 },
+      { name: 'Java / OOP / Collections', level: 68 },
+      { name: 'Spring Boot / JPA / Hibernate', level: 65 },
+      { name: 'APIs REST / Webhooks', level: 82 },
+      { name: 'JWT / Autenticação & Autorização', level: 72 },
     ],
   },
   {
@@ -46,9 +46,9 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     tag: 'DATA ',
     color: 'text-yellow-400',
     skills: [
-      { name: 'PostgreSQL / SQL Avançado', level: 85 },
-      { name: 'MongoDB / NoSQL', level: 78 },
-      { name: 'MySQL / Oracle DB', level: 80 },
+      { name: 'PostgreSQL / SQL Avançado', level: 78 },
+      { name: 'MongoDB / NoSQL', level: 70 },
+      { name: 'MySQL / Oracle DB', level: 72 },
     ],
   },
   {
@@ -56,10 +56,10 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     tag: 'DEVOP',
     color: 'text-purple-400',
     skills: [
-      { name: 'Git / GitHub / Code Review', level: 90 },
-      { name: 'Docker / Containerização', level: 78 },
-      { name: 'CI/CD / Pipelines', level: 75 },
-      { name: 'AWS CloudFront / Serviços Cloud', level: 70 },
+      { name: 'Git / GitHub / Code Review', level: 86 },
+      { name: 'Docker / Containerização', level: 68 },
+      { name: 'CI/CD / Pipelines', level: 62 },
+      { name: 'AWS Services / Cloud', level: 58 },
     ],
   },
   {
@@ -67,10 +67,10 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     tag: 'ARCH ',
     color: 'text-cyan-400',
     skills: [
-      { name: 'Arquitetura em Camadas / SOLID', level: 87 },
-      { name: 'SaaS Multi tenant', level: 85 },
-      { name: 'Clean Code / Design Patterns', level: 86 },
-      { name: 'Scrum / Kanban', level: 88 },
+      { name: 'Arquitetura em Camadas / SOLID', level: 80 },
+      { name: 'SaaS Multi tenant', level: 76 },
+      { name: 'Clean Code / Design Patterns', level: 84 },
+      { name: 'Scrum / Kanban', level: 82 },
     ],
   },
 ];
@@ -124,17 +124,23 @@ const HELP_TEXT = `
 const BAR_WIDTH = 16;
 const SkillBar = ({ name, level, color }: { name: string; level: number; color: string }) => {
   const [animated, setAnimated] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       let step = 0;
-      const interval = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         step++;
         setAnimated(Math.min(level, Math.round((level / 30) * step)));
-        if (step >= 30) clearInterval(interval);
+        if (step >= 30 && intervalRef.current) clearInterval(intervalRef.current);
       }, 15);
-      return () => clearInterval(interval);
     }, 200);
-    return () => clearTimeout(timeout);
+    
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [level]);
 
   const filled = Math.round((animated / 100) * BAR_WIDTH);

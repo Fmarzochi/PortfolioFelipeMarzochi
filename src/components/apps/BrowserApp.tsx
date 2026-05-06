@@ -29,7 +29,7 @@ const PROFILE_TRAITS = [
   { label: 'Excelência Técnica',  icon: CheckCircle2, color: 'text-blue-400',   evidence: 'MBA em Engenharia de Software aplicado em arquiteturas resilientes e entregas de alta qualidade sem retrabalho'           },
   { label: 'Escalabilidade Real',  icon: Target,       color: 'text-violet-400', evidence: 'Ingestão de 2,1 milhões de registros em segundos através de otimização nativa de banco de dados'            },
   { label: 'Eficiência Operacional', icon: Lightbulb,    color: 'text-cyan-400',   evidence: 'Desenvolvimento do sistema DuAutomação que eliminou processos manuais e elevou a lucratividade do cliente'                },
-  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Formação em Medicina Veterinária treinou o diagnóstico antes da ação · mesma mentalidade aplicada ao software'             },
+  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Engenharia aplicada com rigor analítico focado no diagnóstico preciso de problemas complexos'             },
   { label: 'Colaboração em Equipe',    icon: Users,        color: 'text-pink-400',   evidence: 'Code review, pair programming e documentação compartilhada em equipes multidisciplinares CLT e freelance'               },
 ];
 
@@ -298,7 +298,7 @@ export const BrowserApp = () => {
               Especialista com MBA em Engenharia de Software e sólida base em Análise de Sistemas. Aplico os princípios SOLID e Clean Code para construir soluções sustentáveis, atuando desde o desenho técnico inicial até a entrega contínua em produção sob metodologias ágeis.
             </p>
             <p className="text-sm text-white/60 leading-relaxed">
-              Minha transição da Medicina Veterinária trouxe uma disciplina analítica única: o rigor no diagnóstico antes da execução. No desenvolvimento de software, isso se traduz em identificar a raiz dos problemas complexos e estruturar soluções validadas que sustentam o crescimento do negócio.
+              Minha trajetória profissional é pautada pelo rigor analítico focado no diagnóstico preciso de problemas complexos, estruturando soluções validadas que sustentam o crescimento do negócio.
             </p>
           </div>
 

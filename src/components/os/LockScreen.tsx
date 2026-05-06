@@ -18,11 +18,15 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const authRef = useRef(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setTime(new Date());
     const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -43,15 +47,21 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
     authRef.current = true;
     setIsAuthenticating(true);
     if (!isMuted) playSound('click');
-    setTimeout(() => {
+    
+    timeoutRef.current = setTimeout(() => {
       if (!isMuted) playSound('boot');
       onUnlock();
     }, 800);
   };
 
   useEffect(() => {
-    const handler = () => handleLogin();
-    document.addEventListener('keydown', handler, { once: true });
+    const handler = (e: KeyboardEvent) => {
+      // Evita desbloqueio com teclas de navegação (Tab, Escape, etc)
+      if (['Enter', ' ', 'Spacebar'].includes(e.key) || e.key.length === 1) {
+        handleLogin();
+      }
+    };
+    document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -162,7 +172,9 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
 
           {/* Password Input */}
           <form onSubmit={handleLogin} className="relative flex w-[min(85vw,220px)] md:w-[min(90vw,256px)] items-center">
+            <label htmlFor="lock-password" lang="pt-br" className="sr-only">Senha de acesso</label>
             <input
+              id="lock-password"
               type="password"
               placeholder="Digite a senha..."
               value={password}
@@ -171,11 +183,12 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               className="w-full rounded-full bg-white/10 py-2 md:py-2.5 pl-4 md:pl-5 pr-9 md:pr-10 text-xs md:text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/40 focus:bg-white/18 focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50"
             />
             {isAuthenticating ? (
-              <div className="absolute right-3 flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white/20 border-t-white" />
+              <div className="absolute right-3 flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white/20 border-t-white" aria-hidden="true" />
             ) : (
               <button
                 type="submit"
                 className="absolute right-2 flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10"
+                aria-label="Entrar"
               >
                 <ArrowRight size={16} className="text-white/60 hover:text-white" />
               </button>

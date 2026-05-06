@@ -2,25 +2,19 @@
 
 import { useState, useEffect } from 'react';
 
-// 768px é o breakpoint padrão para tablets/mobiles
 export const useIsMobile = (breakpoint = 768) => {
-  const [isMobile, setIsMobile] = useState(false);
+  // Inicializa com null para evitar mismatch no SSR (flash do desktop no mobile)
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Função que verifica a largura atual da tela
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < breakpoint);
-    };
-
-    // Executa a verificação assim que o componente é montado no cliente
+    const checkScreenSize = () => setIsMobile(window.innerWidth < breakpoint);
+    
     checkScreenSize();
-
-    // Adiciona um "ouvinte" para que o React atualize o estado toda vez que você redimensionar a janela
     window.addEventListener('resize', checkScreenSize);
-
-    // Limpa o evento quando o componente for desmontado para economizar memória
+    
     return () => window.removeEventListener('resize', checkScreenSize);
   }, [breakpoint]);
 
-  return isMobile;
+  // Fallback seguro durante a hidratação: assume false até o useEffect rodar
+  return isMobile ?? false;
 };
