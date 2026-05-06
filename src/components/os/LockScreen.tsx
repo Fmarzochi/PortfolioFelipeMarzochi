@@ -113,7 +113,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             transition={{ delay: 0.35 }}
             className="mt-2 text-[11px] md:text-xs text-white/28 tracking-wide text-center px-8"
           >
-            Um portfólio diferente — explore como um sistema operacional
+            Um portfólio diferente · explore como um sistema operacional
           </motion.p>
         </div>
 

@@ -4,11 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 
 const BOOT_LOGS = [
   '[  OK  ] Inicializando perfil de desenvolvedor...',
-  '[  OK  ] Front-end: React.js, TypeScript, Next.js, Tailwind CSS...',
-  '[  OK  ] Back-end: Node.js, Java, Spring Boot, APIs REST, JWT...',
+  '[  OK  ] Front End: React.js, TypeScript, Next.js, Tailwind CSS...',
+  '[  OK  ] Back End: Node.js, Java, Spring Boot, APIs REST, JWT...',
   '[  OK  ] Banco de Dados: PostgreSQL, MongoDB, MySQL, SQL Avançado...',
   '[  OK  ] DevOps: Git, GitHub, Docker, CI/CD, AWS CloudFront...',
-  '[  OK  ] Arquitetura: SaaS Multi-tenant, SOLID, Clean Code, Scrum...',
+  '[  OK  ] Arquitetura: SaaS Multi tenant, SOLID, Clean Code, Scrum...',
   '[  OK  ] 50+ certificados verificados. Stack pronto para produção.',
 ];
 
@@ -16,7 +16,7 @@ interface Skill { name: string; level: number; }
 
 const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[] }[] = [
   {
-    label: 'Front-End',
+    label: 'Front End',
     tag: 'FRONT',
     color: 'text-blue-400',
     skills: [
@@ -29,7 +29,7 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     ],
   },
   {
-    label: 'Back-End',
+    label: 'Back End',
     tag: 'BACK ',
     color: 'text-green-400',
     skills: [
@@ -68,7 +68,7 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
     color: 'text-cyan-400',
     skills: [
       { name: 'Arquitetura em Camadas / SOLID', level: 87 },
-      { name: 'SaaS Multi-tenant', level: 85 },
+      { name: 'SaaS Multi tenant', level: 85 },
       { name: 'Clean Code / Design Patterns', level: 86 },
       { name: 'Scrum / Kanban', level: 88 },
       { name: 'Testes Unitários / TDD', level: 78 },
@@ -88,11 +88,11 @@ const CERTIFICATIONS = [
 ];
 
 const SKILL_DESCRIPTIONS: Record<string, string> = {
-  'FRONT': 'Especialidade principal: interfaces modernas com React.js, TypeScript e Next.js. Foco em componentização, performance e acessibilidade.',
-  'BACK ': 'Transição ativa para backend: Node.js, Java com Spring Boot, APIs REST robustas com autenticação JWT e tratamento estruturado de erros.',
-  'DATA ': 'Modelagem relacional com PostgreSQL, queries complexas, índices e otimização. Experiência com MongoDB para aplicações de alta escala.',
-  'DEVOP': 'Git/GitHub como ferramenta central, Docker para containerização, CI/CD automatizado e deploy em AWS CloudFront e serviços cloud.',
-  'ARCH ': 'Aplicação de SOLID e Clean Code do back ao front. Arquitetura em camadas, SaaS multi-tenant, design patterns e metodologias ágeis.',
+  'FRONT': 'Criação de ecossistemas digitais escaláveis com React.js e Next.js. Foco total em performance extrema, componentização inteligente e experiência de uso fluida.',
+  'BACK ': 'Arquitetura de sistemas de alto desempenho com Node.js e Java Spring Boot. Implementação de APIs seguras com JWT e fluxos de dados resilientes.',
+  'DATA ': 'Especialista em modelagem relacional e otimização de performance. Experiência prática em PostgreSQL e MongoDB para cenários de alta disponibilidade.',
+  'DEVOP': 'Automação de infraestrutura e cultura de entrega contínua. Domínio de Docker, CI CD e orquestração de deploys seguros em nuvem.',
+  'ARCH ': 'Visão sistêmica aplicada do back ao front end. Expertise em SaaS multi tenant, padrões SOLID e metodologias que garantem código limpo e sustentável.',
 };
 
 const buildGroupOutput = (tag: string): string => {

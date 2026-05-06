@@ -13,19 +13,19 @@ interface Message {
 const initialMessages: Message[] = [
   {
     id: '1',
-    text: 'Olá! Bem-vindo ao meu canal de comunicação.',
+    text: 'Olá! Boas vindas ao meu canal de comunicação.',
     sender: 'felipe',
     time: '10:00'
   },
   {
     id: '2',
-    text: 'Sinta-se à vontade para explorar a arquitetura e o código-fonte.',
+    text: 'Sinta-se à vontade para explorar a arquitetura e o código fonte.',
     sender: 'felipe',
     time: '10:01'
   },
   {
     id: '3',
-    text: 'Se quiser bater um papo sobre desenvolvimento, alta performance ou oportunidades, é só mandar uma mensagem abaixo!',
+    text: 'Se quiser bater um papo sobre engenharia de software, sistemas de alta escala ou oportunidades, é só mandar uma mensagem abaixo!',
     sender: 'felipe',
     time: '10:01'
   }
@@ -176,7 +176,7 @@ export const MessagesApp = () => {
                 disabled={!messageText.trim()}
                 className="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold text-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
               >
-                <Mail size={14} /> E-mail
+                <Mail size={14} /> Email
               </button>
               <button
                 onClick={handleSendWhatsApp}

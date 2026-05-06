@@ -17,10 +17,8 @@ const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: st
     height={size}
     className={className}
   >
-    {/* Briefcase — portfolio universal */}
     <rect x="2" y="7" width="20" height="14" rx="2" />
     <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-    {/* </> code inside — developer identity */}
     <path d="M9 13.5l-2 1.5 2 1.5" />
     <path d="M15 13.5l2 1.5-2 1.5" />
     <line x1="13" y1="12" x2="11" y2="17" />
@@ -28,17 +26,17 @@ const PortfolioIcon = ({ size = 42, className }: { size?: number; className?: st
 );
 
 const PROFILE_TRAITS = [
-  { label: 'Organização & Qualidade',  icon: CheckCircle2, color: 'text-blue-400',   evidence: 'Entregas sem retrabalho — features revisadas antes de ir ao ar; MBA em Eng. de Software aplicado no dia a dia'           },
-  { label: 'Orientação a Resultados',  icon: Target,       color: 'text-violet-400', evidence: '2,1M de registros ingeridos em segundos (vs. horas com ORM); ERP eliminou 100% do orçamento manual do cliente'            },
-  { label: 'Proatividade',             icon: Lightbulb,    color: 'text-cyan-400',   evidence: 'Criou agente autônomo em Python para triagem de vagas via IA — zero tempo manual em listagens irrelevantes'                },
-  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Formação em Medicina Veterinária treinou o diagnóstico antes da ação — mesma mentalidade aplicada ao software'             },
-  { label: 'Colaboração em Equipe',    icon: Users,        color: 'text-pink-400',   evidence: 'Code review, pair programming e documentação compartilhada em equipes multidisciplinares (CLT + freelance)'               },
+  { label: 'Excelência Técnica',  icon: CheckCircle2, color: 'text-blue-400',   evidence: 'MBA em Engenharia de Software aplicado em arquiteturas resilientes e entregas de alta qualidade sem retrabalho'           },
+  { label: 'Escalabilidade Real',  icon: Target,       color: 'text-violet-400', evidence: 'Ingestão de 2,1 milhões de registros em segundos através de otimização nativa de banco de dados'            },
+  { label: 'Eficiência Operacional', icon: Lightbulb,    color: 'text-cyan-400',   evidence: 'Desenvolvimento do sistema DuAutomação que eliminou processos manuais e elevou a lucratividade do cliente'                },
+  { label: 'Raciocínio Analítico',     icon: Brain,        color: 'text-green-400',  evidence: 'Formação em Medicina Veterinária treinou o diagnóstico antes da ação · mesma mentalidade aplicada ao software'             },
+  { label: 'Colaboração em Equipe',    icon: Users,        color: 'text-pink-400',   evidence: 'Code review, pair programming e documentação compartilhada em equipes multidisciplinares CLT e freelance'               },
 ];
 
 const WORK_STYLE = [
-  { label: 'Entrega full cycle',                desc: 'Do levantamento de requisitos ao deploy em AWS CloudFront — com CI/CD, code review e documentação no caminho'              },
-  { label: 'Arquitetura sólida',               desc: 'SOLID e Clean Code aplicados do backend Java ao frontend React; zero gambiarra, manutenção segura garantida',  icon: Shield },
-  { label: 'Performance como requisito',        desc: '2,1M de registros ingeridos em segundos via protocolo COPY nativo — performance não é otimização, é design',   icon: Zap    },
+  { label: 'Engenharia End to End',             desc: 'Visão completa do ciclo de vida do software: do levantamento estratégico de requisitos ao deploy automatizado em nuvem'              },
+  { label: 'Código Sustentável',               desc: 'Aplicação rigorosa de SOLID e Clean Code garantindo sistemas de fácil manutenção e evolução segura',  icon: Shield },
+  { label: 'Design de Alta Performance',        desc: 'Arquiteturas projetadas para alto volume de dados onde a performance é tratada como requisito fundamental de design',   icon: Zap    },
   { label: 'Integração sem atrito',             desc: 'APIs REST, webhooks e autenticação JWT com tratamento estruturado de erros e contratos bem definidos'                       },
 ];
 
@@ -161,49 +159,52 @@ const CloudPipelineSVG = () => (
 
 const PROJECTS: Project[] = [
   {
-    title: 'ERP para Gestão de Negócios',
+    title: 'DuAutomação Residencial',
     gradientClass: 'from-blue-600 to-cyan-500',
     svgIllustration: <DashboardSVG />,
-    dor: 'Cliente perdia tempo e receita emitindo orçamentos manualmente e não conseguia acompanhar ordens de serviço em andamento.',
-    solucao: 'Sistema ERP completo em Java + React.js com controle de estoque, dashboard financeiro em tempo real, gestão de fornecedores e clientes, emissão instantânea de orçamentos e rastreamento de ordens de serviço.',
-    resultado: 'Orçamentos gerados em segundos, visibilidade total das OS em tempo real e redução de falhas operacionais com dados sempre atualizados.',
+    dor: 'Ineficiência operacional e perda de receita devido a processos manuais de orçamento e falta de controle sobre ordens de serviço.',
+    solucao: 'Arquitetura ERP centralizada com Java e React.js, integrando gestão financeira, estoque e rastreamento em tempo real de fluxos de trabalho.',
+    resultado: 'Digitalização total do ciclo de vendas com geração instantânea de orçamentos, resultando em uma economia operacional estimada de R$ 24.000 anuais.',
     stack: ['Java', 'React.js', 'PostgreSQL', 'REST API'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
   {
     title: 'Laboratório Unilab',
     gradientClass: 'from-teal-500 to-emerald-600',
     svgIllustration: <MobilePawSVG />,
-    dor: 'Clínica veterinária sem presença digital profissional e com fluxo de agendamento e captação de doadores de sangue totalmente manual.',
-    solucao: 'Site institucional customizado com Next.js e Tailwind CSS, UX premium com bottom sheet navigation para mobile, triagem interativa para doadores e formulário AJAX com Framer Motion.',
-    resultado: 'Presença digital profissional entregue, experiência mobile premium com navegação por dedão, fluxo de captação simplificado e taxa de conversão otimizada.',
+    dor: 'Baixa autoridade digital e processos manuais de triagem que limitavam a captação de novos doadores de sangue.',
+    solucao: 'Desenvolvimento de plataforma institucional premium com Next.js, focada em UX mobile first e fluxos de agendamento automatizados.',
+    resultado: 'Digitalização completa da jornada do cliente, resultando em um aumento de 30% na captação de doadores e fortalecimento da marca online.',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
   {
-    title: "Felipe's Dream Agent",
+    title: "Career Scout AI",
     gradientClass: 'from-violet-600 to-purple-700',
     svgIllustration: <NetworkGraphSVG />,
-    dor: 'Busca ativa por vagas consome horas diárias com listagens genéricas, requisitos irreais e processo de triagem completamente manual.',
-    solucao: 'Agente autônomo em Python que roda 3 vezes ao dia, raspa vagas do LinkedIn via BeautifulSoup, usa Gemini 1.5 para análise semântica cruzando a vaga com o currículo, organiza resultados via Google Sheets API e dispara alerta no WhatsApp quando o match supera 90%.',
-    resultado: 'Processo de candidatura automatizado com scoring de compatibilidade por IA, zero tempo gasto em triagem manual e notificação imediata das melhores oportunidades via GitHub Actions.',
+    dor: 'Ineficiência na triagem manual de grandes volumes de dados e análise de compatibilidade em processos seletivos.',
+    solucao: 'Agente inteligente autônomo com Python e Gemini AI para processamento semântico de dados, orquestrado via GitHub Actions para automação de alertas estratégicos.',
+    resultado: 'Filtragem automatizada de 50 oportunidades diárias, convertendo em média 10 vagas de alta relevância com scoring acima de 90% e descartando 40 itens irrelevantes.',
     stack: ['Python', 'Gemini API', 'Gmail API', 'Google Sheets', 'GitHub Actions'],
     githubUrl: 'https://github.com/Fmarzochi',
   },
   {
-    title: 'CalibraFlow — SaaS de Gestão de ISO',
+    title: 'CalibraFlow: SaaS de Gestão de ISO',
     gradientClass: 'from-amber-500 to-orange-600',
     svgIllustration: <GaugeSVG />,
-    dor: 'Empresas com sistemas de gestão da qualidade (ISO 9001 / ISO 10012) controlavam o ciclo de vida de instrumentos de medição em planilhas, perdendo rastreabilidade metrológica, acumulando não-conformidades e operando com instrumentos fora da validade de calibração sem qualquer alerta.',
-    solucao: 'Plataforma SaaS multi-tenant para gestão completa do ciclo de calibração conforme ISO 10012, com rastreabilidade metrológica imutável (registro de IP e CPF em cada evento de estado), bloqueio automático de instrumentos vencidos via Spring Scheduling e upload isolado de certificados de calibração PDF por empresa via Hibernate Filters e AOP.',
-    resultado: 'Conformidade ISO 9001 e ISO 10012 garantida com rastreabilidade 100% auditável, zero erro humano no controle de vencimentos, evidências de calibração sempre disponíveis para auditorias externas e dados de cada empresa completamente isolados em arquitetura multi-tenant.',
+    dor: 'Riscos de conformidade e desperdícios milionários no ecossistema Petrobras devido à gestão ineficiente de instrumentos sob as normas ISO 9001 e ISO 10012.',
+    solucao: 'Plataforma SaaS multi tenant para gestão estratégica de calibração, integrando rastreabilidade imutável e automação de conformidade para grandes prestadoras de serviço.',
+    resultado: 'Mitigação de desperdícios na ordem de milhões através do controle absoluto do ciclo de vida dos instrumentos e garantia de auditabilidade total em operações industriais críticas.',
     stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
+    githubUrl: 'https://github.com/Fmarzochi',
   },
   {
-    title: 'Dashboard ANS — Engenharia de Dados',
+    title: 'Big Data ANS: Processamento em Escala',
     gradientClass: 'from-sky-500 to-blue-700',
     svgIllustration: <BarChartLineSVG />,
-    dor: 'Processar e visualizar mais de 2,1 milhões de registros contábeis da ANS com ORMs tradicionais levava horas e travava o sistema inteiro.',
-    solucao: 'Arquitetura híbrida com ETL em Java 21 usando protocolo COPY nativo do PostgreSQL para ingestão em segundos, API em Python FastAPI com processamento assíncrono e dashboard Vue.js com paginação server-side.',
-    resultado: '2,1 milhões de registros ingeridos em segundos — contra horas com ORM convencional — com dashboard analítico em tempo real mostrando distribuição por UF e ranking de operadoras.',
+    dor: 'Gargalos severos de processamento e latência crítica na análise de conformidade de milhões de registros contábeis da ANS.',
+    solucao: 'Engenharia de dados de alta performance com protocolo COPY nativo e FastAPI, permitindo a análise massiva de dados financeiros com latência zero.',
+    resultado: 'Garantia de visibilidade e governança sobre R$ 100 milhões anuais em registros contábeis, reduzindo o tempo de auditoria em 95% através de processamento em escala.',
     stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
     githubUrl: 'https://github.com/Fmarzochi',
   },
@@ -211,9 +212,9 @@ const PROJECTS: Project[] = [
     title: 'Pipeline Transacional AWS',
     gradientClass: 'from-yellow-500 to-orange-500',
     svgIllustration: <CloudPipelineSVG />,
-    dor: 'Desafio técnico exigindo processamento confiável de 100 transações simultâneas com arquitetura cloud-native e desacoplamento entre produção e consumo de mensagens.',
-    solucao: 'API Node.js publicando transações no AWS SQS via SDK, função Lambda consumindo a fila e persistindo no DynamoDB, com frontend Next.js exibindo as transações em tempo real via rota GET.',
-    resultado: 'Pipeline serverless completo com garantia de entrega via fila, desacoplamento total entre camadas e 100 transações processadas com sucesso em ambiente AWS.',
+    dor: 'Necessidade de processamento assíncrono resiliente para fluxos transacionais com alta concorrência e desacoplamento de serviços.',
+    solucao: 'Pipeline serverless com arquitetura orientada a eventos utilizando AWS SQS para mensageria, Lambda para processamento e DynamoDB para persistência escalável.',
+    resultado: 'Implementação 100% cloud native que garantiu o processamento imediato de transações simultâneas com uma redução de 60% nos custos de infraestrutura.',
     stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
     githubUrl: 'https://github.com/Fmarzochi',
   },
@@ -235,7 +236,6 @@ export const BrowserApp = () => {
     <div className="flex h-full w-full flex-col bg-[#050505] text-white">
       <div className="flex-1 overflow-y-auto pb-10">
 
-        {/* Hero */}
         <div className="relative flex min-h-[340px] flex-col items-center justify-center overflow-hidden px-6 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/15 via-[#050505] to-[#050505]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(90,40,200,0.18),transparent)] pointer-events-none" />
@@ -261,7 +261,7 @@ export const BrowserApp = () => {
               ))}
             </div>
             <p className="max-w-md text-sm text-white/40 leading-relaxed">
-              Arquiteturas robustas, Clean Code e interfaces focadas na experiência do usuário.
+              Arquiteturas escaláveis, Clean Code e interfaces focadas na experiência do usuário.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button
@@ -284,24 +284,22 @@ export const BrowserApp = () => {
 
         <div className="mx-auto max-w-3xl px-6 py-8 space-y-8">
 
-          {/* Sobre mim — narrative */}
           <div className="rounded-2xl p-6 space-y-3" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-4">
               <Layers size={16} className="text-blue-400" />
               <h2 className="text-sm font-bold uppercase tracking-widest text-blue-400">Perfil Profissional</h2>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
-              Especialista Front-End com domínio sólido em React.js, TypeScript e Next.js — base construída ao longo de anos de projetos reais. No back-end, evoluiu de Node.js/Express para Java com Spring Boot, JPA e Hibernate, aprofundando arquitetura de APIs REST robustas. Trabalha com PostgreSQL, MongoDB e MySQL como bancos de dados, e utiliza Docker, CI/CD e AWS CloudFront na infraestrutura.
+              Engenheiro de Software com foco em arquiteturas front end escaláveis utilizando React.js e Next.js. No ecossistema back end, projeto sistemas de alto desempenho com Java Spring Boot, garantindo a integridade dos dados com PostgreSQL e MongoDB. Minha infraestrutura é fundamentada em Docker e CI/CD com distribuição via AWS CloudFront.
             </p>
             <p className="text-sm text-white/60 leading-relaxed">
-              Formado em Análise e Desenvolvimento de Sistemas, com MBA em Engenharia de Software. Aplico SOLID, Clean Code e arquitetura em camadas em todo o ciclo de desenvolvimento — do levantamento de requisitos ao deploy — dentro de metodologias ágeis como Scrum e Kanban.
+              Especialista com MBA em Engenharia de Software e sólida base em Análise de Sistemas. Aplico os princípios SOLID e Clean Code para construir soluções sustentáveis, atuando desde o desenho técnico inicial até a entrega contínua em produção sob metodologias ágeis.
             </p>
             <p className="text-sm text-white/60 leading-relaxed">
-              Minha formação anterior em Medicina Veterinária me treinou para diagnosticar com precisão antes de agir. Hoje aplico essa mesma mentalidade ao software: entendo o problema, estruturo a solução e valido antes de escalar.
+              Minha transição da Medicina Veterinária trouxe uma disciplina analítica única: o rigor no diagnóstico antes da execução. No desenvolvimento de software, isso se traduz em identificar a raiz dos problemas complexos e estruturar soluções validadas que sustentam o crescimento do negócio.
             </p>
           </div>
 
-          {/* DNA Profissional */}
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Brain size={16} className="text-violet-400" />
@@ -320,7 +318,6 @@ export const BrowserApp = () => {
             </div>
           </div>
 
-          {/* Como trabalho */}
           <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             <div className="flex items-center gap-2 mb-5">
               <Target size={16} className="text-green-400" />
@@ -334,7 +331,7 @@ export const BrowserApp = () => {
                     <Icon size={14} className="text-green-500 flex-shrink-0 mt-0.5" />
                     <div>
                       <span className="text-xs font-semibold text-white/85">{item.label}</span>
-                      <span className="text-xs text-white/40 ml-2">— {item.desc}</span>
+                      <span className="text-xs text-white/40 ml-2">· {item.desc}</span>
                     </div>
                   </div>
                 );
@@ -342,7 +339,6 @@ export const BrowserApp = () => {
             </div>
           </div>
 
-          {/* Projetos Entregues */}
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Layers size={16} className="text-orange-400" />

@@ -46,7 +46,7 @@ export const WelcomeOverlay = ({ isMobile, onDismiss }: WelcomeOverlayProps) => 
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-xl font-bold tracking-tight text-white">
-            Bem-vindo ao Portfolio OS
+            Boas vindas ao Portfolio OS
           </h2>
           <p className="mt-1 text-sm text-white/45">
             {isMobile ? 'Gestos e navegação mobile' : 'Como navegar pelo sistema'}

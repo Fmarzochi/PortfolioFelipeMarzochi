@@ -15,12 +15,12 @@ const GitHubIcon = () => (
 );
 
 const INFO_ITEMS = [
-  { label: 'Cargo',       value: 'Desenvolvedor de Software · Full Stack'     },
-  { label: 'Empresa',     value: 'Conecta 360° · Freelance / Autônomo'        },
+  { label: 'Cargo',       value: 'Engenheiro de Software · Full Stack'        },
+  { label: 'Foco',        value: 'Arquiteturas Escaláveis e UX Premium'       },
   { label: 'Localização', value: 'Americana, SP · Remoto'                     },
-  { label: 'Formação',    value: 'ADS · MBA em Engenharia de Software'        },
-  { label: 'Stack',       value: 'React · TypeScript · Java · Spring Boot'    },
-  { label: 'E-mail',      value: 'fmarzochi@gmail.com', isEmail: true         },
+  { label: 'Formação',    value: 'Análise e Desenvolvimento de Sistemas · MBA em Engenharia de Software' },
+  { label: 'Stack',       value: 'React · Next.js · Node.js · Java Spring Boot' },
+  { label: 'Email',       value: 'fmarzochi@gmail.com', isEmail: true         },
 ];
 
 const ACTIONS = [
@@ -28,10 +28,10 @@ const ACTIONS = [
     label: 'WhatsApp',
     Icon: MessageCircle,
     color: 'bg-[#25D366]/15 text-[#25D366] hover:bg-[#25D366]/25 ring-[#25D366]/20',
-    onClick: () => window.open('https://wa.me/5519982341110?text=Olá Felipe, vi seu portfólio!', '_blank', 'noopener,noreferrer'),
+    onClick: () => window.open('https://wa.me/5519982341110?text=Olá Felipe, vi seu portfólio de Engenharia de Software e gostaria de conversar!', '_blank', 'noopener,noreferrer'),
   },
   {
-    label: 'E-mail',
+    label: 'Email',
     Icon: Mail,
     color: 'bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 ring-blue-500/20',
     onClick: () => window.open('mailto:fmarzochi@gmail.com?subject=Contato via Portfólio', '_blank'),
@@ -60,7 +60,7 @@ export const ContactsApp = () => (
       </div>
 
       <h2 className="text-xl font-bold tracking-tight text-white">Felipe Marzochi</h2>
-      <p className="mt-1 text-sm text-white/45 text-center">Desenvolvedor de Software · Full Stack</p>
+      <p className="mt-1 text-sm text-white/45 text-center">Engenheiro de Software · Full Stack</p>
 
       {/* Action buttons */}
       <div className="mt-6 grid grid-cols-4 gap-2 w-full">
