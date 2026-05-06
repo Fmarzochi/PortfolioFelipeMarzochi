@@ -26,6 +26,35 @@ Todo o estado do sistema vive no `localStorage` via Zustand — sem nenhum banco
 
 ---
 
+## Screenshots
+
+### Desktop Experience
+
+<p align="center">
+  <img src="public/screenshots/01-login-screen.png" width="45%" alt="Login Screen" />
+  <img src="public/screenshots/02-welcome-screen.png" width="45%" alt="Welcome Overlay" />
+</p>
+<p align="center">
+  <img src="public/screenshots/03-portfolio-app.png" width="45%" alt="Portfolio App" />
+  <img src="public/screenshots/04-gallery-app.png" width="45%" alt="Gallery App" />
+</p>
+<p align="center">
+  <img src="public/screenshots/05-skills-app.png" width="45%" alt="Skills App" />
+  <img src="public/screenshots/06-finder-app.png" width="45%" alt="Finder App" />
+</p>
+<p align="center">
+  <img src="public/screenshots/07-contacts-app.png" width="45%" alt="Contacts App" />
+</p>
+
+### Mobile Experience (iOS Style)
+
+<p align="center">
+  <img src="public/screenshots/08-mobile-view-1.png" width="30%" alt="Mobile View 1" />
+  <img src="public/screenshots/09-mobile-view-2.png" width="30%" alt="Mobile View 2" />
+</p>
+
+---
+
 ## Arquitetura
 
 ```
