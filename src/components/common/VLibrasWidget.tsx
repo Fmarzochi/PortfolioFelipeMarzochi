@@ -1,6 +1,5 @@
 'use client';
 
-import Script from 'next/script';
 import { useEffect } from 'react';
 
 declare global {
@@ -32,22 +31,23 @@ export const VLibrasWidget = () => {
     container.appendChild(pluginWrapper);
     document.body.appendChild(container);
 
-    return () => {
-      if (document.body.contains(container)) {
-        document.body.removeChild(container);
+    // Script é injetado APÓS os elementos existirem no DOM,
+    // eliminando a race condition que ocorre em produção.
+    const script = document.createElement('script');
+    script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.VLibras) {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.body.contains(container)) document.body.removeChild(container);
+      if (document.body.contains(script)) document.body.removeChild(script);
     };
   }, []);
 
-  return (
-    <Script
-      src="https://vlibras.gov.br/app/vlibras-plugin.js"
-      strategy="afterInteractive"
-      onLoad={() => {
-        if (typeof window !== 'undefined' && window.VLibras) {
-          new window.VLibras.Widget('https://vlibras.gov.br/app');
-        }
-      }}
-    />
-  );
+  return null;
 };
