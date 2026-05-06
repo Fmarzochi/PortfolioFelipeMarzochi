@@ -34,7 +34,7 @@ export class AppErrorBoundary extends Component<Props, State> {
           </div>
           <h2 className="text-lg font-bold text-white/90">Kernel Panic · {this.props.appName}</h2>
           <p className="mt-2 max-w-[240px] text-xs text-white/50 leading-relaxed">
-            Ocorreu uma falha inesperada na execução deste módulo. A integridade do Marzochi OS permanece preservada.
+            Ocorreu uma falha inesperada na execução deste módulo. A integridade do sistema permanece preservada.
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}

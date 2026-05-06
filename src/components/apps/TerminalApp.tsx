@@ -75,7 +75,7 @@ export const TerminalApp = () => {
   const [input, setInput] = useState('');
   const [currentDir, setCurrentDir] = useState('/');
   const [history, setHistory] = useState<CommandRecord[]>([
-    { command: '', output: <div className="text-gray-400">Marzochi OS Shell v2.1.0 · Digite 'help' para começar.</div> }
+    { command: '', output: <div className="text-gray-400">Marzochi Shell v2.1.0 · Digite 'help' para começar.</div> }
   ]);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);

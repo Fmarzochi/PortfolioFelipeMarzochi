@@ -93,7 +93,7 @@ export const WelcomeOverlay = ({ isMobile, onDismiss }: WelcomeOverlayProps) => 
           {/* Header */}
           <div className="mb-6 text-center">
             <h2 className="text-xl font-bold tracking-tight text-white" id="welcome-title">
-              Boas vindas ao Marzochi OS
+              Portfólio Felipe Marzochi
             </h2>
             <p className="mt-1 text-sm text-white/60">
               {isMobile ? 'Gestos e navegação mobile' : 'Como navegar pelo sistema'}

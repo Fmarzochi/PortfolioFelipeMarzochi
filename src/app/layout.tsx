@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio-felipe-marzochi.vercel.app'), // Substitua pela sua URL final se for diferente
-  title: 'Felipe Marzochi · Engenheiro de Software Sênior',
+  title: 'Portfólio Felipe Marzochi',
   description: 'Portfólio de Felipe Marzochi · Engenheiro de Software especializado em arquiteturas escaláveis (React · Next.js · Java · Cloud). Web OS interativo no browser.',
   keywords: [
     'Felipe Marzochi',
@@ -33,15 +33,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    title: 'Felipe Marzochi · Software Engineering Portfolio',
+    title: 'Portfólio Felipe Marzochi · Software Engineering',
     description: 'Explore um sistema operacional interativo no browser. Arquiteturas de alta performance com React, Next.js e Java.',
-    siteName: 'Marzochi OS',
+    siteName: 'Portfólio Felipe Marzochi',
     images: [
       {
         url: '/screenshots/01-login-screen.png',
         width: 1200,
         height: 630,
-        alt: 'Marzochi OS · Web OS Interface',
+        alt: 'Portfólio Felipe Marzochi · Web OS Interface',
       },
     ],
   },
