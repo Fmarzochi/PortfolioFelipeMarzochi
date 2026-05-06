@@ -267,6 +267,7 @@ export const BrowserApp = () => {
               <button
                 onClick={openGallery}
                 className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] rounded-[8px]"
+                aria-label="Ver galeria de projetos completa"
               >
                 Ver Portfólio
               </button>
@@ -274,8 +275,9 @@ export const BrowserApp = () => {
                 href="/cv/CV_FELIPE_MARZOCHI.pdf"
                 download="CV_Felipe_Marzochi.pdf"
                 className="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:ring-white/40" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
+                aria-label="Fazer download do currículo em PDF"
               >
-                <Download size={14} />
+                <Download size={14} aria-hidden="true" />
                 Download CV
               </a>
             </div>

@@ -213,9 +213,8 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
           >
             <div className="rounded-2xl overflow-hidden liquid-glass-spotlight">
 
-              {/* Search input */}
               <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
-                <Search size={18} className="text-white/40 shrink-0" />
+                <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
                 <input
                   ref={inputRef}
                   type="text"
@@ -223,16 +222,31 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded={isOpen && results.length > 0}
+                  aria-haspopup="listbox"
+                  aria-controls="spotlight-results"
+                  aria-label="Campo de busca global"
                 />
                 {query && (
-                  <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors">
+                  <button 
+                    onClick={() => setQuery('')} 
+                    className="text-white/30 hover:text-white/60 transition-colors"
+                    aria-label="Limpar busca"
+                  >
                     <X size={15} />
                   </button>
                 )}
               </div>
 
               {/* Results */}
-              <div className="max-h-[400px] overflow-y-auto">
+              <div 
+                className="max-h-[400px] overflow-y-auto" 
+                id="spotlight-results"
+                role="listbox"
+                aria-label="Resultados da busca"
+              >
                 {query.trim() === '' && (
                   <div className="px-4 py-8 text-center text-sm text-white/25">
                     Digite para buscar projetos, skills, apps ou certificações

@@ -34,6 +34,9 @@ export const WelcomeOverlay = ({ isMobile, onDismiss }: WelcomeOverlayProps) => 
       className="fixed inset-0 z-[500] flex items-center justify-center p-6"
       style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(12px)' }}
       onClick={onDismiss}
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="welcome-title"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 24 }}
@@ -45,7 +48,7 @@ export const WelcomeOverlay = ({ isMobile, onDismiss }: WelcomeOverlayProps) => 
       >
         {/* Header */}
         <div className="mb-6 text-center">
-          <h2 className="text-xl font-bold tracking-tight text-white">
+          <h2 className="text-xl font-bold tracking-tight text-white" id="welcome-title">
             Boas vindas ao Portfolio OS
           </h2>
           <p className="mt-1 text-sm text-white/45">

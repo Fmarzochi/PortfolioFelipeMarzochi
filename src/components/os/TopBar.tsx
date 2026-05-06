@@ -88,6 +88,7 @@ export const TopBar = () => {
             rel="noopener noreferrer"
             className="flex items-center justify-center transition-colors hover:text-[#0A66C2]"
             title="LinkedIn"
+            aria-label="Acessar perfil no LinkedIn"
           >
             <LinkedInIcon />
           </a>
@@ -98,35 +99,48 @@ export const TopBar = () => {
             rel="noopener noreferrer"
             className="flex items-center justify-center transition-colors hover:text-white"
             title="GitHub"
+            aria-label="Acessar perfil no GitHub"
           >
             <GitHubIcon />
           </a>
 
           {focusMode && (
-            <span title="Foco ativado">
+            <span title="Foco ativado" aria-label="Modo foco está ativado">
               <Moon size={13} className="fill-indigo-400 text-indigo-400" />
             </span>
           )}
 
-          <div className="h-3 w-px bg-white/20" />
+          <div className="h-3 w-px bg-white/20" aria-hidden="true" />
 
-          <span title="Spotlight (⌘ Espaço)">
+          <button
+            onClick={() => setIsSpotlightOpen((v) => !v)}
+            title="Spotlight (⌘ Espaço)"
+            aria-label="Abrir busca global"
+            className="flex items-center justify-center"
+          >
             <Search
               size={14}
               className={`cursor-pointer transition-colors ${isSpotlightOpen ? 'text-blue-400' : 'hover:text-white'}`}
-              onClick={() => setIsSpotlightOpen((v) => !v)}
             />
-          </span>
+          </button>
 
-          <SlidersHorizontal
-            size={14}
-            className={`cursor-pointer transition-colors ${
-              isControlCenterOpen ? 'text-blue-400' : 'hover:text-white'
-            }`}
+          <button
             onClick={() => setIsControlCenterOpen(!isControlCenterOpen)}
-          />
+            aria-label="Abrir central de controle"
+            className="flex items-center justify-center"
+          >
+            <SlidersHorizontal
+              size={14}
+              className={`cursor-pointer transition-colors ${
+                isControlCenterOpen ? 'text-blue-400' : 'hover:text-white'
+              }`}
+            />
+          </button>
 
-          <span className="cursor-pointer hover:text-white transition-colors tabular-nums text-white/90">
+          <span 
+            className="cursor-pointer hover:text-white transition-colors tabular-nums text-white/90"
+            aria-label={`Horário atual: ${time ? formatTime(time) : ''}`}
+          >
             {time ? formatTime(time) : '···'}
           </span>
         </div>

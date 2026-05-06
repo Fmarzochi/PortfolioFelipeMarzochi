@@ -182,10 +182,10 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             )}
           </form>
 
-          {/* Touch ID */}
-          <div
+          <button
             className="mt-6 md:mt-8 flex flex-col items-center gap-3 cursor-pointer group"
             onClick={() => handleLogin()}
+            aria-label="Desbloquear sistema"
           >
             <motion.div
               whileTap={{ scale: 0.88 }}
@@ -193,12 +193,12 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
               transition={{ type: 'spring', stiffness: 400, damping: 18 }}
               className="flex h-[72px] w-[72px] md:h-[84px] md:w-[84px] items-center justify-center rounded-full bg-white/8 ring-2 ring-white/15 group-hover:bg-white/15 group-hover:ring-white/30 transition-all"
             >
-              <Fingerprint size={40} className="text-white/55 group-hover:text-white/80 transition-colors" strokeWidth={1.2} />
+              <Fingerprint size={40} className="text-white/55 group-hover:text-white/80 transition-colors" strokeWidth={1.2} aria-hidden="true" />
             </motion.div>
             <span className="text-[11px] md:text-xs font-medium text-white/40 group-hover:text-white/60 transition-colors text-center px-2">
               {isTouchDevice ? 'Toque para entrar' : 'Clique ou pressione qualquer tecla'}
             </span>
-          </div>
+          </button>
         </motion.div>
       </div>
 

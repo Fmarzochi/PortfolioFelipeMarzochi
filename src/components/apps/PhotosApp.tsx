@@ -72,17 +72,22 @@ export const PhotosApp = () => {
         {/* Toolbar da Galeria */}
         <div className="flex h-14 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-4">
-            <Sidebar size={18} className="text-white/60 cursor-pointer hover:text-white" />
+            <Sidebar size={18} className="text-white/60 cursor-pointer hover:text-white" aria-hidden="true" />
             <h2 className="text-sm font-semibold tracking-wide">
               {activeFilter === 'all' ? 'Todas as Fotos' : activeFilter}
             </h2>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center rounded-[10px] px-2 py-1" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
-              <Search size={14} className="text-white/40" />
-              <input type="text" placeholder="Buscar fotos..." className="ml-2 w-32 bg-transparent text-sm outline-none placeholder:text-white/30" />
+            <div className="flex items-center rounded-[10px] px-2.5 py-1" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <Search size={14} className="text-white/40 shrink-0" aria-hidden="true" />
+              <input 
+                type="text" 
+                placeholder="Buscar fotos..." 
+                className="ml-2 w-32 bg-transparent text-sm outline-none placeholder:text-white/30" 
+                aria-label="Buscar fotos na galeria"
+              />
             </div>
-            <Plus size={18} className="text-white/60 cursor-pointer hover:text-white" />
+            <Plus size={18} className="text-white/60 cursor-pointer hover:text-white" aria-hidden="true" />
           </div>
         </div>
 

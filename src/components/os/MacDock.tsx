@@ -182,9 +182,12 @@ export const MacDock = () => {
           style={{ transform: anyFullScreen && !dockHovered ? 'translateY(100%)' : 'translateY(0)' }}
           onMouseLeave={() => anyFullScreen && setDockHovered(false)}
         >
-          <div className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none">
+          <nav 
+            className="liquid-glass-dock relative flex items-end gap-2 px-4 pt-3 pb-2.5 rounded-[22px] select-none"
+            aria-label="Aplicativos principais"
+          >
 
-            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" />
+            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-full pointer-events-none" aria-hidden="true" />
 
             {DOCK_ITEMS.map((item) => (
               <motion.div
@@ -195,13 +198,25 @@ export const MacDock = () => {
                 onClick={() => { closeDockMenu(); handleClick(item); }}
                 onContextMenu={e => handleContextMenu(e, item)}
                 className="group relative flex flex-col items-center cursor-pointer"
+                role="button"
+                aria-label={`Abrir aplicativo ${item.title}`}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick(item);
+                  }
+                }}
               >
                 <div className={`app-icon relative h-12 w-12 bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}>
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" />
-                  <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} />
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/12 pointer-events-none" aria-hidden="true" />
+                  <item.icon className="h-[22px] w-[22px] text-white relative z-10" strokeWidth={1.5} aria-hidden="true" />
                 </div>
 
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[10px] px-3 py-1 text-xs font-medium text-white/95 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out liquid-glass-context-menu">
+                <div 
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-[10px] px-3 py-1 text-xs font-medium text-white/95 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out liquid-glass-context-menu"
+                  aria-hidden="true"
+                >
                   {item.title}
                 </div>
 
@@ -211,10 +226,11 @@ export const MacDock = () => {
                       ? 'bg-white/80 shadow-[0_0_4px_rgba(255,255,255,0.6)]'
                       : 'bg-transparent'
                   }`}
+                  aria-hidden="true"
                 />
               </motion.div>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
     </>
