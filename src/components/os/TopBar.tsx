@@ -27,7 +27,6 @@ export const TopBar = () => {
   const { windows } = useWindowManager();
   const { focusMode } = useOSContext();
 
-  /* Global shortcut: Cmd+Space / Ctrl+Space */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === ' ') {
@@ -64,7 +63,6 @@ export const TopBar = () => {
           ${anyFullScreen ? '-translate-y-full group-hover/topbar:translate-y-0' : 'translate-y-0'}
         `}
       >
-        {/* ── Left: Signature ──────────────────────────────────────────────── */}
         <div className="flex items-center">
           <img
             src={signatureImg.src}
@@ -79,7 +77,6 @@ export const TopBar = () => {
           />
         </div>
 
-        {/* ── Right: Social Links + Status Icons + Clock ───────────────────── */}
         <div className="flex items-center gap-3 text-white/78">
 
           <a

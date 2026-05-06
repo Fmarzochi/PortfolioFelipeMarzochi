@@ -77,7 +77,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { openApp } = useWindowManager();
 
-  /* Focus input when opening */
   useEffect(() => {
     if (isOpen) {
       setQuery('');
@@ -86,7 +85,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
     }
   }, [isOpen]);
 
-  /* Close on Escape */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -95,14 +93,12 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
     return () => document.removeEventListener('keydown', handler);
   }, [onClose]);
 
-  /* Build results */
   const results = useMemo((): SearchResult[] => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
 
     const out: SearchResult[] = [];
 
-    /* Apps */
     APPS.filter((a) => a.title.toLowerCase().includes(q) || a.subtitle.toLowerCase().includes(q))
       .forEach((a) =>
         out.push({
@@ -116,7 +112,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
         }),
       );
 
-    /* Projects */
     PROJECTS.filter((p) => p.title.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q))
       .forEach((p, i) =>
         out.push({
@@ -130,7 +125,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
         }),
       );
 
-    /* Skills */
     SKILLS.filter((s) => s.title.toLowerCase().includes(q) || s.subtitle.toLowerCase().includes(q))
       .forEach((s, i) =>
         out.push({
@@ -144,7 +138,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
         }),
       );
 
-    /* Certs */
     CERTS.filter((c) => c.title.toLowerCase().includes(q) || c.subtitle.toLowerCase().includes(q))
       .forEach((c, i) =>
         out.push({
@@ -161,7 +154,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
     return out;
   }, [query, openApp, onClose]);
 
-  /* Keyboard navigation */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -175,7 +167,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
 
   useEffect(() => { setActiveIdx(0); }, [query]);
 
-  /* Group results by category */
   const grouped = useMemo(() => {
     const map = new Map<string, SearchResult[]>();
     results.forEach((r) => {
@@ -185,14 +176,12 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
     return map;
   }, [results]);
 
-  /* Flat index for keyboard nav */
   const flatResults = useMemo(() => [...grouped.values()].flat(), [grouped]);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -202,7 +191,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
             onClick={onClose}
           />
 
-          {/* Spotlight panel */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -240,7 +228,6 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                 )}
               </div>
 
-              {/* Results */}
               <div 
                 className="max-h-[400px] overflow-y-auto" 
                 id="spotlight-results"

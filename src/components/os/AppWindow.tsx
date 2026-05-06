@@ -109,7 +109,6 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         ${isFullScreen ? '!rounded-none' : 'rounded-[14px]'}
       `}
     >
-      {/* Specular highlight */}
       {!isFullScreen && (
         <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/32 to-transparent pointer-events-none z-10" aria-hidden="true" />
       )}

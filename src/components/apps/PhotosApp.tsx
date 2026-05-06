@@ -32,7 +32,6 @@ export const PhotosApp = () => {
 
   return (
     <div className="flex h-full w-full text-white/90" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)' }}>
-      {/* Sidebar de Álbuns */}
       <div className="w-[200px] flex-shrink-0 pt-4" style={{ background: 'rgba(28,28,30,0.6)', backdropFilter: 'blur(40px) saturate(180%)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-white/40">
           Biblioteca
@@ -67,9 +66,7 @@ export const PhotosApp = () => {
         </nav>
       </div>
 
-      {/* Área Principal - Grid de Fotos */}
       <div className="flex flex-1 flex-col overflow-hidden" style={{ background: 'transparent' }}>
-        {/* Toolbar da Galeria */}
         <div className="flex h-14 items-center justify-between px-4" style={{ background: 'rgba(28,28,30,0.72)', backdropFilter: 'blur(40px) saturate(180%)', borderBottom: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 1px 0 rgba(0,0,0,0.3)' }}>
           <div className="flex items-center gap-4">
             <Sidebar size={18} className="text-white/60 cursor-pointer hover:text-white" aria-hidden="true" />
@@ -91,17 +88,14 @@ export const PhotosApp = () => {
           </div>
         </div>
 
-        {/* Grid de Imagens */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {filteredPhotos.map((photo) => (
               <div key={photo.id} className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl transition-transform hover:scale-[1.02] hover:z-10 hover:shadow-2xl" style={{ border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-                {/* Background simulando a imagem */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${photo.gradient} opacity-80 transition-opacity group-hover:opacity-100 flex items-center justify-center`}>
                   {photo.icon}
                 </div>
 
-                {/* Overlay de informações — sempre visível */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
                   <p className="truncate text-sm font-semibold text-white drop-shadow-md">{photo.title}</p>
                   <p className="text-xs text-white/65">{photo.project}</p>
