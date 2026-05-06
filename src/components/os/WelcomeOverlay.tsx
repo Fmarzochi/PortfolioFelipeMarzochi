@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, MousePointer2, Move, ChevronDown, Fingerprint, Layers, GripHorizontal, ArrowRight } from 'lucide-react';
+import { Search, MousePointer2, Move, ChevronDown, Fingerprint, Layers, GripHorizontal, ArrowRight, Download, Smartphone } from 'lucide-react';
 import { FocusTrap } from '../common/FocusTrap';
 
 interface WelcomeOverlayProps {
@@ -10,22 +10,63 @@ interface WelcomeOverlayProps {
   onDismiss: () => void;
 }
 
-const DESKTOP_TIPS = [
-  { icon: MousePointer2, label: 'Clique nos ícones do dock para abrir os apps' },
-  { icon: Search,        label: 'Ctrl + K (Win/Linux) ou Cmd + Espaço (Mac) abre o Spotlight' },
-  { icon: Move,          label: 'Arraste as janelas pelo título' },
-  { icon: MousePointer2, label: 'Botão direito abre menu de contexto' },
-];
-
-const MOBILE_TIPS = [
-  { icon: Fingerprint,   label: 'Toque nos ícones para abrir apps' },
-  { icon: ChevronDown,   label: 'Arraste para baixo para fechar um app' },
-  { icon: GripHorizontal,label: 'Segure e arraste para reordenar ícones' },
-  { icon: Layers,        label: 'Dock inferior: Contato, LinkedIn e GitHub' },
-];
-
 export const WelcomeOverlay = ({ isMobile, onDismiss }: WelcomeOverlayProps) => {
-  const tips = isMobile ? MOBILE_TIPS : DESKTOP_TIPS;
+  const [canInstall, setCanInstall] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setCanInstall(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    
+    // Check if already in standalone mode
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setCanInstall(false);
+    }
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setCanInstall(false);
+    }
+    setDeferredPrompt(null);
+  };
+
+  const DESKTOP_TIPS = [
+    { icon: MousePointer2, label: 'Clique nos ícones do dock para abrir os apps' },
+    { icon: Search,        label: 'Ctrl + K (Win/Linux) ou Cmd + Espaço (Mac) abre o Spotlight' },
+    { icon: Move,          label: 'Arraste as janelas pelo título' },
+  ];
+
+  const MOBILE_TIPS = [
+    { icon: Fingerprint,   label: 'Toque nos ícones para abrir apps' },
+    { icon: ChevronDown,   label: 'Arraste para baixo para fechar um app' },
+    { icon: Layers,        label: 'Dock inferior: Contato, LinkedIn e GitHub' },
+  ];
+
+  const tips = isMobile ? [...MOBILE_TIPS] : [...DESKTOP_TIPS];
+
+  // Adiciona a dica de PWA se for instalável
+  if (canInstall) {
+    tips.push({ 
+      icon: isMobile ? Smartphone : Download, 
+      label: isMobile ? 'Instale para usar em tela cheia (estilo App)' : 'Instale como App para acesso rápido na barra de tarefas' 
+    });
+  } else {
+    // Dica padrão de contexto se não for instalável/já instalado
+    tips.push(isMobile 
+      ? { icon: GripHorizontal, label: 'Segure e arraste para reordenar ícones' }
+      : { icon: MousePointer2,  label: 'Botão direito abre menu de contexto' }
+    );
+  }
 
   return (
     <motion.div
