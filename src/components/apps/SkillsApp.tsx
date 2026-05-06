@@ -1,15 +1,16 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useWindowManager } from '../../store/useWindowManager';
 
 const BOOT_LOGS = [
-  '[  OK  ] Inicializando perfil de desenvolvedor...',
+  '[  OK  ] Inicializando perfil de engenheiro...',
   '[  OK  ] Front End: React.js, TypeScript, Next.js, Tailwind CSS...',
   '[  OK  ] Back End: Node.js, Java, Spring Boot, APIs REST, JWT...',
   '[  OK  ] Banco de Dados: PostgreSQL, MongoDB, MySQL, SQL Avançado...',
   '[  OK  ] DevOps: Git, GitHub, Docker, CI/CD, AWS CloudFront...',
   '[  OK  ] Arquitetura: SaaS Multi tenant, SOLID, Clean Code, Scrum...',
-  '[  OK  ] 50+ certificados verificados. Stack pronto para produção.',
+  '[  OK  ] 50+ certificados verificados. Shell pronto para execução.',
 ];
 
 interface Skill { name: string; level: number; }
@@ -59,7 +60,6 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
       { name: 'Docker / Containerização', level: 78 },
       { name: 'CI/CD / Pipelines', level: 75 },
       { name: 'AWS CloudFront / Serviços Cloud', level: 70 },
-      { name: 'Oracle Cloud OCI', level: 68 },
     ],
   },
   {
@@ -71,86 +71,69 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
       { name: 'SaaS Multi tenant', level: 85 },
       { name: 'Clean Code / Design Patterns', level: 86 },
       { name: 'Scrum / Kanban', level: 88 },
-      { name: 'Testes Unitários / TDD', level: 78 },
     ],
   },
 ];
 
 const CERTIFICATIONS = [
-  { name: 'Java Completo — Spring Boot, JPA, Hibernate, MySQL, MongoDB', inst: 'Udemy', year: '2026 (em curso)' },
-  { name: 'JavaScript Completo — TypeScript, Node.js, MongoDB, OOP, MVC', inst: 'Udemy', year: '2025' },
-  { name: 'JavaScript & TypeScript — Node, Express, React, Redux, Design Patterns', inst: 'Udemy', year: '2025' },
-  { name: 'Web Front-end Fundamentos — HTML, CSS, JavaScript + Projetos', inst: 'Udemy', year: '2025' },
-  { name: 'Oracle Next Education (ONE) — Desenvolvedor Full Stack', inst: 'Oracle / Alura', year: '2022' },
-  { name: 'Formação Business Agility', inst: 'Oracle / Alura', year: '2022' },
-  { name: 'Git e GitHub', inst: 'Oracle / Alura', year: '2022' },
+  { name: 'Java Completo — Spring Boot, JPA, Hibernate', inst: 'Udemy', year: '2026' },
+  { name: 'JavaScript Completo — TypeScript, Node.js', inst: 'Udemy', year: '2025' },
+  { name: 'Oracle Next Education (ONE) — Full Stack', inst: 'Oracle / Alura', year: '2022' },
   { name: 'Bancos de Dados SQL e NoSQL', inst: 'Udemy', year: '2022' },
+  { name: 'AWS Cloud Practitioner', inst: 'AWS', year: '2024' },
 ];
 
-const SKILL_DESCRIPTIONS: Record<string, string> = {
-  'FRONT': 'Criação de ecossistemas digitais escaláveis com React.js e Next.js. Foco total em performance extrema, componentização inteligente e experiência de uso fluida.',
-  'BACK ': 'Arquitetura de sistemas de alto desempenho com Node.js e Java Spring Boot. Implementação de APIs seguras com JWT e fluxos de dados resilientes.',
-  'DATA ': 'Especialista em modelagem relacional e otimização de performance. Experiência prática em PostgreSQL e MongoDB para cenários de alta disponibilidade.',
-  'DEVOP': 'Automação de infraestrutura e cultura de entrega contínua. Domínio de Docker, CI CD e orquestração de deploys seguros em nuvem.',
-  'ARCH ': 'Visão sistêmica aplicada do back ao front end. Expertise em SaaS multi tenant, padrões SOLID e metodologias que garantem código limpo e sustentável.',
+const FILESYSTEM: Record<string, string[]> = {
+  '/': ['projects/', 'skills/', 'about.txt', 'experience.txt', 'contact.txt'],
+  '/projects': ['duautomacao.md', 'unilab.md', 'careerscout.md', 'calibraflow.md', 'bigdata.md', 'pipeline.md'],
+  '/skills': ['frontend.md', 'backend.md', 'database.md', 'devops.md', 'architecture.md']
 };
 
-const buildGroupOutput = (tag: string): string => {
-  const group = SKILL_GROUPS.find(g => g.tag === tag);
-  if (!group) return '';
-  const separator = '──────────────────────────────';
-  const lines = [
-    `→ ${group.label}`,
-    separator,
-    ...group.skills.map(sk => `  ${sk.level}% ${sk.name}`),
-    separator,
-    SKILL_DESCRIPTIONS[tag] ?? '',
-  ];
-  return lines.join('\n');
-};
-
-const VALID_COMMANDS = ['help', 'skills', 'certs', 'certifications', 'frontend', 'front', 'backend', 'back', 'devops', 'database', 'db', 'arch', 'arquitetura', 'clear', '1', '2'];
-
-const findSimilarCommand = (cmd: string): string | null => {
-  if (cmd.length < 2) return null;
-  // Prefix match
-  const prefixMatch = VALID_COMMANDS.find(c => c.startsWith(cmd) || cmd.startsWith(c.substring(0, Math.min(4, c.length))));
-  if (prefixMatch && prefixMatch !== cmd) return prefixMatch;
-  // Contains match
-  const contains = VALID_COMMANDS.find(c => c.includes(cmd) || cmd.includes(c));
-  if (contains && contains !== cmd) return contains;
-  return null;
+const FILE_CONTENT: Record<string, React.ReactNode> = {
+  'about.txt': <p>Engenheiro de Software com foco em sistemas escaláveis, aplicando SOLID e Clean Code.</p>,
+  'experience.txt': <p>4 anos de trajetória atuando como Full Stack (React/Next.js/Java/Node.js).</p>,
+  'contact.txt': <p>Email: fmarzochi@gmail.com | LinkedIn: /in/felipemarzochi</p>,
+  'projects/duautomacao.md': <p>Digitalização total do ciclo de vendas com ROI de R$ 24k/ano.</p>,
+  'projects/unilab.md': <p>Plataforma premium com aumento de 30% na captação de doadores.</p>,
+  'projects/careerscout.md': <p>Agente inteligente com Gemini AI para triagem estratégica de 50 vagas/dia.</p>,
+  'projects/calibraflow.md': <p>SaaS multi tenant para gestão ISO no ecossistema Petrobras.</p>,
+  'projects/bigdata.md': <p>Governança sobre R$ 100M anuais com ganho de 95% em eficiência de auditoria.</p>,
+  'projects/pipeline.md': <p>Arquitetura Cloud Native serverless com redução de 60% em infra.</p>,
 };
 
 const HELP_TEXT = `
-  Comandos disponíveis:
+  Comandos do Sistema:
   ─────────────────────────────────
-  help          → Exibe esta ajuda
-  skills        → Ver competências técnicas
+  ls [dir]      → Listar arquivos
+  cd [dir]      → Navegar em diretórios
+  cat [file]    → Ler conteúdo de arquivo
+  open [app]    → Abrir aplicativo do OS
+  
+  Filtros de Interface:
+  ─────────────────────────────────
+  skills        → Ver todas habilidades
   certs         → Ver certificações
-  frontend      → Filtrar habilidades Front-End
-  backend       → Filtrar habilidades Back-End
-  devops        → Filtrar DevOps & Cloud
+  frontend      → Filtrar Front End
+  backend       → Filtrar Back End
+  devops        → Filtrar DevOps
   database      → Filtrar Banco de Dados
   arch          → Filtrar Arquitetura
-  clear         → Limpar histórico do terminal
+  clear         → Limpar terminal
   ─────────────────────────────────`.trim();
 
 const BAR_WIDTH = 16;
 const SkillBar = ({ name, level, color }: { name: string; level: number; color: string }) => {
   const [animated, setAnimated] = useState(0);
-
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const steps = 30;
       let step = 0;
       const interval = setInterval(() => {
         step++;
-        setAnimated(Math.min(level, Math.round((level / steps) * step)));
-        if (step >= steps) clearInterval(interval);
-      }, 18);
+        setAnimated(Math.min(level, Math.round((level / 30) * step)));
+        if (step >= 30) clearInterval(interval);
+      }, 15);
       return () => clearInterval(interval);
-    }, Math.random() * 300);
+    }, 200);
     return () => clearTimeout(timeout);
   }, [level]);
 
@@ -171,104 +154,86 @@ export const SkillsApp = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [activeTab, setActiveTab] = useState<'skills' | 'certs'>('skills');
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
-
-  // Terminal state
+  
   const [cmdInput, setCmdInput] = useState('');
-  const [cmdHistory, setCmdHistory] = useState<{ text: string; type: 'input' | 'output' | 'error' }[]>([]);
+  const [currentDir, setCurrentDir] = useState('/');
+  const [cmdHistory, setCmdHistory] = useState<{ text: string | React.ReactNode; type: 'input' | 'output' | 'error' }[]>([]);
+  
+  const { openApp } = useWindowManager();
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
-      if (i < BOOT_LOGS.length) {
-        setBootLog((prev) => [...prev, BOOT_LOGS[i]]);
-        i++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => setShowPrompt(true), 400);
-      }
-    }, 80);
+      if (i < BOOT_LOGS.length) { setBootLog(p => [...p, BOOT_LOGS[i]]); i++; }
+      else { clearInterval(interval); setTimeout(() => setShowPrompt(true), 400); }
+    }, 60);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [cmdHistory]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [cmdHistory]);
 
-  const processCommand = (raw: string) => {
-    const cmd = raw.trim().toLowerCase();
-    if (!cmd) return;
-
+  const processCommand = useCallback((raw: string) => {
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+    
+    const parts = trimmed.split(' ');
+    const command = parts[0].toLowerCase();
+    const args = parts.slice(1);
+    
     const inputLine = { text: `$ ${raw}`, type: 'input' as const };
+    let output: { text: string | React.ReactNode; type: 'output' | 'error' } | null = null;
 
-    const navigate = (tab: 'skills' | 'certs', group?: string) => {
-      setActiveTab(tab);
-      if (group !== undefined) setActiveGroup(group);
+    const getFullPath = (path: string) => {
+      if (path === '/') return '/';
+      if (path === '..') return '/';
+      const clean = path.replace(/\/$/, '');
+      if (clean.startsWith('/')) return clean;
+      return currentDir === '/' ? `/${clean}` : `${currentDir}/${clean}`;
     };
 
-    let output: { text: string; type: 'output' | 'error' } | null = null;
-
-    switch (cmd) {
-      case 'help':
-        output = { text: HELP_TEXT, type: 'output' };
-        break;
-      case 'skills':
-      case '1':
-        navigate('skills', null as unknown as string);
-        setActiveGroup(null);
-        output = { text: '→ Exibindo todas as competências técnicas', type: 'output' };
-        break;
-      case 'certs':
-      case 'certifications':
-      case '2':
-        navigate('certs');
-        output = { text: `→ Exibindo ${CERTIFICATIONS.length} certificações`, type: 'output' };
-        break;
-      case 'frontend':
-      case 'front':
-        navigate('skills');
-        setActiveGroup('FRONT');
-        output = { text: buildGroupOutput('FRONT'), type: 'output' };
-        break;
-      case 'backend':
-      case 'back':
-        navigate('skills');
-        setActiveGroup('BACK ');
-        output = { text: buildGroupOutput('BACK '), type: 'output' };
-        break;
-      case 'devops':
-        navigate('skills');
-        setActiveGroup('DEVOP');
-        output = { text: buildGroupOutput('DEVOP'), type: 'output' };
-        break;
-      case 'database':
-      case 'db':
-        navigate('skills');
-        setActiveGroup('DATA ');
-        output = { text: buildGroupOutput('DATA '), type: 'output' };
-        break;
-      case 'arch':
-      case 'arquitetura':
-        navigate('skills');
-        setActiveGroup('ARCH ');
-        output = { text: buildGroupOutput('ARCH '), type: 'output' };
-        break;
-      case 'clear':
-        setCmdHistory([]);
-        return;
-      default: {
-        const similar = findSimilarCommand(cmd);
-        const hint = similar
-          ? ` Você quis dizer "${similar}"? Digite help para a lista completa.`
-          : ' Digite help para ver os comandos disponíveis.';
-        output = { text: `Comando não encontrado: "${raw}".${hint}`, type: 'error' };
+    switch (command) {
+      case 'help': output = { text: HELP_TEXT, type: 'output' }; break;
+      case 'skills': setActiveTab('skills'); setActiveGroup(null); output = { text: '→ Exibindo dashboard de competências', type: 'output' }; break;
+      case 'certs': setActiveTab('certs'); output = { text: '→ Exibindo certificações principais', type: 'output' }; break;
+      case 'frontend': setActiveTab('skills'); setActiveGroup('FRONT'); output = { text: '→ Filtrando: Front End', type: 'output' }; break;
+      case 'backend': setActiveTab('skills'); setActiveGroup('BACK '); output = { text: '→ Filtrando: Back End', type: 'output' }; break;
+      case 'devops': setActiveTab('skills'); setActiveGroup('DEVOP'); output = { text: '→ Filtrando: DevOps', type: 'output' }; break;
+      case 'database': setActiveTab('skills'); setActiveGroup('DATA '); output = { text: '→ Filtrando: Banco de Dados', type: 'output' }; break;
+      case 'arch': setActiveTab('skills'); setActiveGroup('ARCH '); output = { text: '→ Filtrando: Arquitetura', type: 'output' }; break;
+      
+      case 'ls': {
+        const target = args[0] ? getFullPath(args[0]) : currentDir;
+        const entries = FILESYSTEM[target];
+        output = entries ? { text: entries.join('  '), type: 'output' } : { text: `ls: ${args[0]}: diretório não encontrado`, type: 'error' };
         break;
       }
+      case 'cd': {
+        const next = getFullPath(args[0] || '/');
+        if (FILESYSTEM[next]) { setCurrentDir(next); output = null; }
+        else output = { text: `cd: ${args[0]}: diretório inexistente`, type: 'error' };
+        break;
+      }
+      case 'cat': {
+        if (!args[0]) { output = { text: 'cat: especifique um arquivo', type: 'error' }; break; }
+        const path = currentDir === '/' ? args[0] : `${currentDir.substring(1)}/${args[0]}`;
+        output = FILE_CONTENT[path] ? { text: FILE_CONTENT[path], type: 'output' } : { text: `cat: ${args[0]}: arquivo não encontrado`, type: 'error' };
+        break;
+      }
+      case 'open': {
+        const map: Record<string, string> = { 'portfolio': 'safari', 'projects': 'photos', 'skills': 'skills', 'finder': 'finder' };
+        const id = map[args[0]?.toLowerCase()];
+        if (id) { openApp(id, args[0]); output = { text: `Abrindo ${args[0]}...`, type: 'output' }; }
+        else output = { text: 'open: aplicativo não encontrado', type: 'error' };
+        break;
+      }
+      case 'clear': setCmdHistory([]); return;
+      default: output = { text: `Comando não encontrado: "${command}". Digite help.`, type: 'error' };
     }
 
-    setCmdHistory((prev) => [...prev, inputLine, ...(output ? [output] : [])]);
-  };
+    setCmdHistory(prev => [...prev, inputLine, ...(output ? [output] : [])]);
+  }, [currentDir, openApp]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -276,150 +241,66 @@ export const SkillsApp = () => {
     setCmdInput('');
   };
 
-  const visibleGroups = activeGroup
-    ? SKILL_GROUPS.filter((g) => g.tag === activeGroup)
-    : SKILL_GROUPS;
+  const visibleGroups = activeGroup ? SKILL_GROUPS.filter(g => g.tag === activeGroup) : SKILL_GROUPS;
 
   return (
-    <div className="h-full w-full font-mono text-sm text-gray-300 select-text flex flex-col" style={{ background: 'rgba(10,10,12,0.92)', backdropFilter: 'blur(40px)' }}>
-
+    <div className="h-full w-full font-mono text-sm text-gray-300 flex flex-col" style={{ background: 'rgba(10,10,12,0.92)', backdropFilter: 'blur(40px)' }}>
       <div className="flex-1 min-h-0 overflow-y-auto p-4 md:p-6">
-        {/* Boot log */}
         <div className="mb-5 space-y-[3px] text-[11px] md:text-xs text-gray-500">
-          {bootLog.map((log, i) => (
-            <div key={i}>{log}</div>
-          ))}
+          {bootLog.map((log, i) => <div key={i}>{log}</div>)}
         </div>
 
         {showPrompt && (
           <div className="animate-in fade-in duration-500 space-y-6">
-
-            {/* Prompt line */}
             <div className="flex items-center gap-1 flex-wrap">
               <span className="text-green-500 font-bold">visitante@felipe-marzochi</span>
               <span className="text-white">:</span>
-              <span className="text-blue-400 font-bold">~/skills</span>
+              <span className="text-blue-400 font-bold">{currentDir === '/' ? '~' : currentDir}</span>
               <span className="text-white">$ ./ver_curriculo.sh --full-stack</span>
             </div>
 
-            {/* Header neofetch-style */}
             <div className="flex flex-col sm:flex-row gap-5 sm:gap-10 rounded-lg p-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="text-blue-500 font-bold leading-none hidden sm:block text-[11px]">
-                <pre>{`
- ███████╗███╗   ███╗
- ██╔════╝████╗ ████║
- █████╗  ██╔████╔██║
- ██╔══╝  ██║╚██╔╝██║
- ██║     ██║ ╚═╝ ██║
- ╚═╝     ╚═╝     ╚═╝`}</pre>
+                <pre>{` ███████╗███╗   ███╗\n ██╔════╝████╗ ████║\n █████╗  ██╔████╔██║\n ██╔══╝  ██║╚██╔╝██║\n ██║     ██║ ╚═╝ ██║\n ╚═╝     ╚═╝     ╚═╝`}</pre>
               </div>
               <div className="space-y-1.5 text-xs md:text-sm flex-1">
                 <div><span className="text-blue-400 font-semibold w-28 inline-block">Nome:</span>Felipe Marzochi</div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Perfil:</span>Desenvolvedor Full Stack</div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Foco atual:</span>Especialista Front-End (React · TS · Next.js) evoluindo para Java/Spring Boot</div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Localização:</span>Americana, SP</div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Idiomas:</span>Português (nativo) · Inglês (intermediário)</div>
-                <div className="pt-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                  <span className="text-blue-400 font-semibold w-28 inline-block">Formação:</span>
-                  <span className="text-gray-300">Análise e Desenvolvimento de Sistemas · MBA Eng. Software</span>
-                </div>
-                <div><span className="text-blue-400 font-semibold w-28 inline-block">Certificados:</span><span className="text-green-400 font-bold">50+</span> verificados</div>
-                <div className="pt-2">
-                  <a
-                    href="/cv/CV_FELIPE_MARZOCHI.pdf"
-                    download="CV_Felipe_Marzochi.pdf"
-                    className="inline-flex items-center gap-2 rounded border border-green-500/40 bg-green-500/10 px-3 py-1 text-xs text-green-400 transition-colors hover:bg-green-500/20 hover:text-green-300"
-                  >
-                    <span>⬇</span> $ download cv.pdf
-                  </a>
-                </div>
+                <div><span className="text-blue-400 font-semibold w-28 inline-block">Perfil:</span>Engenheiro de Software</div>
+                <div><span className="text-blue-400 font-semibold w-28 inline-block">Foco:</span>Sistemas de alta performance e UX premium</div>
+                <div className="pt-2"><a href="/cv/CV_FELIPE_MARZOCHI.pdf" download className="inline-flex items-center gap-2 rounded border border-green-500/40 bg-green-500/10 px-3 py-1 text-xs text-green-400 transition-colors hover:bg-green-500/20"><span>⬇</span> $ download cv.pdf</a></div>
               </div>
             </div>
 
-            {/* Tab selector */}
             <div className="flex gap-4 text-xs pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <button
-                onClick={() => { setActiveTab('skills'); setActiveGroup(null); }}
-                className={`transition-colors pb-1 border-b-2 ${activeTab === 'skills' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-              >
-                [1] Competências Técnicas
-              </button>
-              <button
-                onClick={() => setActiveTab('certs')}
-                className={`transition-colors pb-1 border-b-2 flex items-center gap-1.5 ${activeTab === 'certs' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-              >
-                [2] Certificações
-                <span className="inline-flex items-center rounded-full bg-green-500/20 px-1.5 py-0.5 text-[9px] font-bold text-green-400 ring-1 ring-green-500/30">
-                  50+
-                </span>
-              </button>
+              <button onClick={() => { setActiveTab('skills'); setActiveGroup(null); }} className={`transition-colors pb-1 border-b-2 ${activeTab === 'skills' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}>[1] Competências Técnicas</button>
+              <button onClick={() => setActiveTab('certs')} className={`transition-colors pb-1 border-b-2 flex items-center gap-1.5 ${activeTab === 'certs' ? 'border-blue-500 text-blue-400 font-bold' : 'border-transparent text-gray-500 hover:text-gray-300'}`}>[2] Certificações <span className="rounded-full bg-green-500/20 px-1.5 py-0.5 text-[9px] font-bold text-green-400 ring-1 ring-green-500/30">50+</span></button>
             </div>
 
-            {/* Skills tab */}
-            {activeTab === 'skills' && (
+            {activeTab === 'skills' ? (
               <div className="space-y-5 animate-in fade-in duration-300">
-                {activeGroup && (
-                  <div className="flex items-center gap-2 text-[11px] text-white/40">
-                    <span>Filtro ativo:</span>
-                    <span className="text-blue-400">{SKILL_GROUPS.find(g => g.tag === activeGroup)?.label}</span>
-                    <button onClick={() => setActiveGroup(null)} className="text-white/30 hover:text-white/60 ml-1">[limpar]</button>
-                  </div>
-                )}
+                {activeGroup && <div className="flex items-center gap-2 text-[11px] text-white/40"><span>Filtro:</span><span className="text-blue-400">{SKILL_GROUPS.find(g => g.tag === activeGroup)?.label}</span><button onClick={() => setActiveGroup(null)} className="text-white/30 hover:text-white/60 ml-1">[limpar]</button></div>}
                 {visibleGroups.map((group) => (
-                  <div key={group.tag}>
-                    <div className={`text-[11px] font-bold uppercase tracking-widest ${group.color} mb-2 opacity-70`}>
-                      ── {group.label} {'─'.repeat(40)}
-                    </div>
-                    <div className="space-y-1.5 pl-2">
-                      {group.skills.map((sk) => (
-                        <SkillBar key={sk.name} name={sk.name} level={sk.level} color={group.color} />
-                      ))}
-                    </div>
-                  </div>
+                  <div key={group.tag}><div className={`text-[11px] font-bold uppercase tracking-widest ${group.color} mb-2 opacity-70`}>── {group.label} {'─'.repeat(40)}</div><div className="space-y-1.5 pl-2">{group.skills.map((sk) => (<SkillBar key={sk.name} name={sk.name} level={sk.level} color={group.color} />))}</div></div>
                 ))}
               </div>
-            )}
-
-            {/* Certifications tab */}
-            {activeTab === 'certs' && (
+            ) : (
               <div className="space-y-2 animate-in fade-in duration-300">
-                <div className="flex items-center gap-2 text-[11px] text-gray-500 mb-3 p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  <span className="text-green-400 text-base">✓</span>
-                  <span>{CERTIFICATIONS.length} certificações principais listadas abaixo · <span className="text-blue-400 cursor-default">abra o app Diplomas</span> para ver todos os 50+ certificados escaneados</span>
-                </div>
+                <div className="flex items-center gap-2 text-[11px] text-gray-500 mb-3 p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}><span className="text-green-400 text-base">✓</span><span>Principais certificados listados abaixo · <span className="text-blue-400">abra o app Diplomas</span> para ver todos</span></div>
                 {CERTIFICATIONS.map((cert, i) => (
-                  <div key={i} className="flex gap-3 items-start text-xs md:text-sm border-l-2 border-blue-500/30 pl-3 py-1">
-                    <span className="text-blue-500 font-bold flex-shrink-0">✓</span>
-                    <div className="flex-1">
-                      <span className="text-gray-200">{cert.name}</span>
-                      <span className="text-gray-500 ml-2">| {cert.inst} | {cert.year}</span>
-                    </div>
-                  </div>
+                  <div key={i} className="flex gap-3 items-start text-xs md:text-sm border-l-2 border-blue-500/30 pl-3 py-1"><span className="text-blue-500 font-bold flex-shrink-0">✓</span><div className="flex-1"><span className="text-gray-200">{cert.name}</span><span className="text-gray-500 ml-2">| {cert.inst} | {cert.year}</span></div></div>
                 ))}
-                <div className="mt-4 text-[11px] text-gray-600 italic">
-                  + 42 certificados adicionais — Java, SQL, Python, Oracle Cloud, Agile, Data Science...
-                </div>
               </div>
             )}
 
-            {/* Terminal command history */}
             {cmdHistory.length > 0 && (
-              <div className="space-y-1 pt-4 text-xs" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              <div className="space-y-1 pt-4 text-xs border-t border-white/5">
                 {cmdHistory.map((line, i) => (
-                  <div
-                    key={i}
-                    className={`whitespace-pre-wrap leading-relaxed ${
-                      line.type === 'input' ? 'text-green-400' :
-                      line.type === 'error' ? 'text-red-400' :
-                      'text-gray-400'
-                    }`}
-                  >
+                  <div key={i} className={`whitespace-pre-wrap ${line.type === 'input' ? 'text-green-400' : line.type === 'error' ? 'text-red-400' : 'text-gray-300'}`}>
                     {line.text}
                   </div>
                 ))}
               </div>
             )}
-
             <div ref={bottomRef} />
           </div>
         )}
@@ -430,22 +311,11 @@ export const SkillsApp = () => {
           <form onSubmit={handleSubmit} className="flex items-center gap-1 flex-wrap">
             <span className="text-green-500 font-bold text-xs">visitante@felipe-marzochi</span>
             <span className="text-white text-xs">:</span>
-            <span className="text-blue-400 font-bold text-xs">~/skills</span>
+            <span className="text-blue-400 font-bold text-xs">{currentDir === '/' ? '~' : currentDir}</span>
             <span className="text-white text-xs">$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={cmdInput}
-              onChange={(e) => setCmdInput(e.target.value)}
-              placeholder="digite help para ver os comandos"
-              className="flex-1 min-w-[120px] bg-transparent text-xs text-gray-200 outline-none placeholder-gray-600 caret-green-400"
-              autoComplete="off"
-              spellCheck={false}
-            />
+            <input ref={inputRef} type="text" value={cmdInput} onChange={(e) => setCmdInput(e.target.value)} placeholder="digite help para ver os comandos" className="flex-1 min-w-[120px] bg-transparent text-xs text-gray-200 outline-none border-none ring-0 p-0 caret-green-400" autoComplete="off" spellCheck={false} />
           </form>
-          <p className="mt-1.5 text-[10px] text-gray-700">
-            help · skills · certs · frontend · backend · devops · database · arch · clear
-          </p>
+          <p className="mt-1.5 text-[10px] text-gray-700">help · skills · certs · frontend · backend · devops · database · arch · ls · cd · cat · clear</p>
         </div>
       )}
     </div>
