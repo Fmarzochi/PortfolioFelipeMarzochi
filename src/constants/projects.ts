@@ -11,6 +11,7 @@ export interface Project {
   github?: string;
   demoUrl?: string;
   gradient: string;
+  objectPosition?: string;
 }
 
 export const PROJECTS: Project[] = [
@@ -105,5 +106,6 @@ export const PROJECTS: Project[] = [
     image: '/projects/caroll-psicanalise.png',
     github: 'https://github.com/Fmarzochi',
     demoUrl: 'https://carollpsicanalise.vercel.app',
+    objectPosition: 'top',
   },
 ];

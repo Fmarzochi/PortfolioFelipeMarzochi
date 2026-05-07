@@ -300,7 +300,7 @@ export const BrowserApp = () => {
                 return (
                   <div key={project.id} className="flex flex-col rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
                     <div className={`relative h-32 bg-gradient-to-br ${project.gradient} overflow-hidden flex-shrink-0`}>
-                      <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                      <Image src={project.image} alt={project.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" style={{ objectPosition: project.objectPosition ?? 'center' }} />
                       <div className="absolute inset-0 bg-black/20" />
                     </div>
                     <div className="flex flex-col flex-1 p-4 gap-3">

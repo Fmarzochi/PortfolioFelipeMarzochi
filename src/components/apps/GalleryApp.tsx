@@ -95,7 +95,7 @@ const PhotoCard = ({
     onClick={onClick}
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
-    <Image src={project.image} alt={displayTitle} fill className="object-cover" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
+    <Image src={project.image} alt={displayTitle} fill className="object-cover" style={{ objectPosition: project.objectPosition ?? 'center' }} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
     <button
       onClick={onToggleFav}
@@ -152,7 +152,7 @@ const ProjectDetail = ({
     className="flex-1 flex flex-col overflow-hidden"
   >
     <div className={`relative w-full h-32 sm:h-40 shrink-0 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
-      <Image src={project.image} alt={displayTitle} fill className="object-cover" sizes="100vw" />
+      <Image src={project.image} alt={displayTitle} fill className="object-cover" style={{ objectPosition: project.objectPosition ?? 'center' }} sizes="100vw" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 pr-20">
         <p className="text-[10px] text-white/60 mb-0.5 truncate">{project.tag}</p>
