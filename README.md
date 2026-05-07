@@ -161,6 +161,8 @@ src/
 | [Framer Motion](https://www.framer.com/motion/) | 11 | Animações, física de molas, drag & drop |
 | [Zustand](https://zustand-demo.pmnd.rs/) | 4 | Estado global do OS e gerenciador de janelas |
 | [Lucide React](https://lucide.dev/) | 0.360 | Ícones do sistema |
+| [i18n — Context API](https://react.dev/reference/react/createContext) | — | Internacionalização PT · EN · ES com detecção automática por IP e `navigator.language` |
+| [ipapi.co](https://ipapi.co/) | — | Geolocalização por IP para detecção de cidade, país e idioma preferido |
 | [Acessibilidade](https://www.w3.org/WAI/standards-guidelines/wcag/) | WCAG 2.1 | Padrões semânticos ARIA e navegação inclusiva |
 | [VLibras](https://vlibras.gov.br/) | MCTIC/UFPB | Tradução automática do conteúdo para Libras via widget oficial do governo brasileiro |
 
