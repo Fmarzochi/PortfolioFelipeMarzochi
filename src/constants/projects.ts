@@ -92,4 +92,17 @@ export const PROJECTS: Project[] = [
     image: '/projects/pipeline.png',
     github: 'https://github.com/Fmarzochi',
   },
+  {
+    id: '7',
+    albumKey: 'caroll',
+    title: 'Caroll Buratto · Psicanalista Clínica',
+    gradient: 'from-purple-500 to-rose-500',
+    tag: 'Next.js · Node.js · PostgreSQL · Docker',
+    dor: 'A profissional precisava de uma presença digital completa que fosse além de um site institucional. Ausência de sistema para gestão de pacientes, controle financeiro, fluxo de caixa, agenda integrada e blog — tudo gerenciado de forma manual e descentralizada.',
+    solucao: 'Desenvolvimento de uma plataforma web personalizada com Next.js no frontend e Node.js no backend, integrando vitrine institucional, agendamento de sessões, blog, gestão de pacientes, controle financeiro com fluxo de caixa e área administrativa com autenticação. Banco de dados PostgreSQL containerizado em Docker.',
+    resultado: 'Plataforma completa em produção com os 9 anos de experiência da profissional digitalmente posicionados. Eliminação total do controle manual com centralização de todo o negócio em um único sistema web sob medida.',
+    stack: ['Next.js', 'Node.js', 'PostgreSQL', 'Docker', 'TypeScript', 'Tailwind CSS'],
+    image: '/projects/caroll-psicanalise.png',
+    demoUrl: 'https://carollpsicanalise.vercel.app',
+  },
 ];

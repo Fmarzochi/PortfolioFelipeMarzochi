@@ -222,6 +222,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
         solucao: 'Arquitetura event driven serverless em AWS utilizando SQS para enfileiramento resiliente, funções Lambda para processamento elástico e DynamoDB para persistência de baixa latência e alta disponibilidade operacional.',
         resultado: 'Sistema 100% resiliente com escalabilidade infinita sob demanda. A modernização para um modelo cloud native resultou em uma redução estratégica de 60% nos custos fixos de servidor e manutenção tecnológica.',
       },
+      '7': {
+        title: 'Caroll Buratto · Psicanalista Clínica',
+        tag: 'Next.js · Node.js · PostgreSQL · Docker',
+        dor: 'A profissional precisava de uma presença digital completa que fosse além de um site institucional. Ausência de sistema para gestão de pacientes, controle financeiro, fluxo de caixa, agenda integrada e blog — tudo gerenciado de forma manual e descentralizada.',
+        solucao: 'Desenvolvimento de uma plataforma web personalizada com Next.js no frontend e Node.js no backend, integrando vitrine institucional, agendamento de sessões, blog, gestão de pacientes, controle financeiro com fluxo de caixa e área administrativa com autenticação. Banco de dados PostgreSQL containerizado em Docker.',
+        resultado: 'Plataforma completa em produção com os 9 anos de experiência da profissional digitalmente posicionados. Eliminação total do controle manual com centralização de todo o negócio em um único sistema web sob medida.',
+      },
     },
   },
 
@@ -358,6 +365,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
         solucao: 'A serverless event-driven architecture on AWS using SQS for resilient queuing, Lambda for elastic processing, and DynamoDB for low-latency, high-availability persistence.',
         resultado: '100% resilient system with infinite on-demand scalability. Migration to a cloud-native model achieved a 60% reduction in fixed server and maintenance costs.',
       },
+      '7': {
+        title: 'Caroll Buratto · Clinical Psychoanalyst',
+        tag: 'Next.js · Node.js · PostgreSQL · Docker',
+        dor: 'The professional needed a complete digital presence beyond a simple institutional website. No system for patient management, financial control, cash flow tracking, integrated scheduling, or blog — everything handled manually and in a decentralized way.',
+        solucao: 'Development of a custom web platform with Next.js on the frontend and Node.js on the backend, integrating an institutional showcase, session scheduling, blog, patient management, financial control with cash flow tracking, and a protected admin area with authentication. PostgreSQL database containerized with Docker.',
+        resultado: 'Full platform live in production with 9 years of the professional\'s expertise digitally positioned. Complete elimination of manual control with all business operations centralized in a single bespoke web system.',
+      },
     },
   },
 
@@ -493,6 +507,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
         dor: 'El desafío de diseñar un sistema transaccional que soportara picos de concurrencia sin pérdida de datos, manteniendo el costo de infraestructura bajo control y el desacoplamiento total entre productores y consumidores de mensajes.',
         solucao: 'Arquitectura event driven serverless en AWS utilizando SQS para encolamiento resiliente, funciones Lambda para procesamiento elástico y DynamoDB para persistencia de baja latencia y alta disponibilidad operacional.',
         resultado: 'Sistema 100% resiliente con escalabilidad infinita bajo demanda. La modernización a un modelo cloud native resultó en una reducción estratégica del 60% en costos fijos de servidor y mantenimiento tecnológico.',
+      },
+      '7': {
+        title: 'Caroll Buratto · Psicoanalista Clínica',
+        tag: 'Next.js · Node.js · PostgreSQL · Docker',
+        dor: 'La profesional necesitaba una presencia digital completa más allá de un sitio institucional. Sin sistema para gestión de pacientes, control financiero, flujo de caja, agenda integrada o blog — todo gestionado de forma manual y descentralizada.',
+        solucao: 'Desarrollo de una plataforma web personalizada con Next.js en el frontend y Node.js en el backend, integrando vitrina institucional, agendamiento de sesiones, blog, gestión de pacientes, control financiero con flujo de caja y área administrativa con autenticación. Base de datos PostgreSQL en contenedor Docker.',
+        resultado: 'Plataforma completa en producción con los 9 años de experiencia de la profesional posicionados digitalmente. Eliminación total del control manual con centralización de todo el negocio en un único sistema web a medida.',
       },
     },
   },
