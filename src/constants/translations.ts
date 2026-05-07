@@ -180,6 +180,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       close: 'fechar',
     },
     projects: {
+      '8': {
+        title: 'Conecta 360° · SaaS de RH e NR-1',
+        tag: 'React.js · TypeScript · Node.js · Next.js',
+        dor: 'Empresas brasileiras conviviam com a complexidade crescente da conformidade com a NR-1 (PGR/GRO) sem suporte tecnológico adequado. A gestão manual de riscos psicossociais, ausência de dashboards de KPIs e processos descentralizados de RH geravam exposição regulatória e decisões estratégicas baseadas em dados imprecisos.',
+        solucao: 'Liderança técnica do front-end de uma plataforma SaaS completa para gestão de RH e conformidade NR-1. A arquitetura de componentes foi estruturada do zero com React.js e TypeScript, com integração robusta de APIs REST, autenticação e controle granular de permissões por perfil. Backend em Node.js com arquitetura de microsserviços e infraestrutura containerizada em Docker.',
+        resultado: 'Plataforma em produção ativa com arquitetura escalável, Clean Code e componentes reutilizáveis que reduzem o tempo de evolução do produto. A centralização digital da operação de conformidade NR-1 elimina o risco de não conformidade regulatória, posicionando as empresas clientes com rastreabilidade total e monitoramento inteligente de KPIs em tempo real.',
+      },
       '1': {
         title: 'DuAutomação Residencial',
         tag: 'Java · React.js · PostgreSQL',
@@ -323,6 +330,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       close: 'close',
     },
     projects: {
+      '8': {
+        title: 'Conecta 360° · HR & NR-1 SaaS',
+        tag: 'React.js · TypeScript · Node.js · Next.js',
+        dor: 'Brazilian companies faced growing complexity in NR-1 (PGR/GRO) compliance without adequate technological support. Manual management of psychosocial risks, absence of KPI dashboards, and decentralized HR processes created regulatory exposure and strategic decisions based on inaccurate data.',
+        solucao: 'Technical leadership of the front-end for a full SaaS platform for HR management and NR-1 compliance. The component architecture was built from scratch with React.js and TypeScript, featuring robust REST API integration, authentication, and granular role-based permission control. Node.js backend with microservices architecture and Docker-containerized infrastructure.',
+        resultado: 'Active production platform with scalable architecture, Clean Code, and reusable components that reduce product evolution time. The digital centralization of NR-1 compliance eliminates regulatory non-conformity risk, giving client companies full traceability and real-time intelligent KPI monitoring.',
+      },
       '1': {
         title: 'DuAutomação Residencial',
         tag: 'Java · React.js · PostgreSQL',
@@ -466,6 +480,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
       close: 'cerrar',
     },
     projects: {
+      '8': {
+        title: 'Conecta 360° · SaaS de RRHH y NR-1',
+        tag: 'React.js · TypeScript · Node.js · Next.js',
+        dor: 'Las empresas brasileñas convivían con la creciente complejidad del cumplimiento de la NR-1 (PGR/GRO) sin soporte tecnológico adecuado. La gestión manual de riesgos psicosociales, la ausencia de dashboards de KPIs y los procesos descentralizados de RRHH generaban exposición regulatoria y decisiones estratégicas basadas en datos imprecisos.',
+        solucao: 'Liderazgo técnico del front-end de una plataforma SaaS completa para gestión de RRHH y conformidad NR-1. La arquitectura de componentes fue estructurada desde cero con React.js y TypeScript, con integración robusta de APIs REST, autenticación y control granular de permisos por perfil. Backend en Node.js con arquitectura de microservicios e infraestructura en contenedores Docker.',
+        resultado: 'Plataforma en producción activa con arquitectura escalable, Clean Code y componentes reutilizables que reducen el tiempo de evolución del producto. La centralización digital de la operación de conformidad NR-1 elimina el riesgo de incumplimiento regulatorio, posicionando a las empresas clientes con trazabilidad total y monitoreo inteligente de KPIs en tiempo real.',
+      },
       '1': {
         title: 'DuAutomação Residencial',
         tag: 'Java · React.js · PostgreSQL',

@@ -16,6 +16,20 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    id: '8',
+    albumKey: 'conecta',
+    title: 'Conecta 360° · SaaS de RH e NR-1',
+    gradient: 'from-slate-900 to-amber-500',
+    tag: 'React.js · TypeScript · Node.js · Next.js',
+    dor: 'Empresas brasileiras conviviam com a complexidade crescente da conformidade com a NR-1 (PGR/GRO) sem suporte tecnológico adequado. A gestão manual de riscos psicossociais, ausência de dashboards de KPIs e processos descentralizados de RH geravam exposição regulatória e decisões estratégicas baseadas em dados imprecisos.',
+    solucao: 'Liderança técnica do front-end de uma plataforma SaaS completa para gestão de RH e conformidade NR-1. A arquitetura de componentes foi estruturada do zero com React.js e TypeScript, com integração robusta de APIs REST, autenticação e controle granular de permissões por perfil. Backend em Node.js com arquitetura de microsserviços e infraestrutura containerizada em Docker.',
+    resultado: 'Plataforma em produção ativa com arquitetura escalável, Clean Code e componentes reutilizáveis que reduzem o tempo de evolução do produto. A centralização digital da operação de conformidade NR-1 elimina o risco de não conformidade regulatória, posicionando as empresas clientes com rastreabilidade total e monitoramento inteligente de KPIs em tempo real.',
+    stack: ['React.js', 'TypeScript', 'Next.js', 'Node.js', 'Tailwind CSS', 'Docker', 'REST API'],
+    image: '/projects/conecta360.jpeg',
+    github: 'https://github.com/Fmarzochi',
+    objectPosition: 'top',
+  },
+  {
     id: '1',
     albumKey: 'erp',
     title: 'DuAutomação Residencial',
