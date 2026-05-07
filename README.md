@@ -74,6 +74,11 @@ src/
 │   │   ├── PhotosApp.tsx       # Galeria de Projetos
 │   │   ├── SkillsApp.tsx       # Terminal interativo de habilidades
 │   │   └── TerminalApp.tsx     # Terminal do sistema
+│   ├── common/             # Utilitários e componentes compartilhados
+│   │   ├── AppErrorBoundary.tsx # Error boundary global da aplicação
+│   │   ├── FocusTrap.tsx        # Armadilha de foco para modais e dialogs
+│   │   ├── IconRegistry.tsx     # Registro central de ícones SVG do sistema
+│   │   └── VLibrasWidget.tsx    # Plugin VLibras (MCTIC/UFPB) para Libras
 │   └── os/                 # Infraestrutura do sistema operacional
 │       ├── AppWindow.tsx       # Janela arrastável e redimensionável
 │       ├── ContextMenu.tsx     # Menu de contexto (clique direito / long-press)
@@ -85,7 +90,11 @@ src/
 │       ├── SpotlightSearch.tsx # Busca global (Win + Espaço / ⌘ + Espaço)
 │       ├── TopBar.tsx          # Barra de menu superior (macOS)
 │       └── WebOS.tsx           # Orquestrador principal do sistema
+├── constants/
+│   ├── projects.ts         # Dados dos projetos (metadados, stack, imagens)
+│   └── translations.ts     # Dicionário i18n completo (PT · EN · ES)
 ├── contexts/
+│   ├── LanguageContext.tsx # Detecção automática de idioma e provider i18n
 │   └── OSContext.tsx       # Estado global do OS (volume, brilho, wallpaper)
 ├── hooks/
 │   ├── useContextMenu.ts   # Lógica de long-press e clique direito
