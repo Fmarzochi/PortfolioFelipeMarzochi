@@ -103,6 +103,7 @@ export const PROJECTS: Project[] = [
     resultado: 'Implementação de uma plataforma completa em produção, consolidando digitalmente os 9 anos de experiência da profissional em um ecossistema moderno e centralizado. O sistema eliminou processos manuais, otimizou a gestão operacional e concentrou todas as áreas do negócio em uma solução web personalizada.',
     stack: ['Next.js', 'Node.js', 'PostgreSQL', 'Docker', 'TypeScript', 'Tailwind CSS'],
     image: '/projects/caroll-psicanalise.png',
+    github: 'https://github.com/Fmarzochi',
     demoUrl: 'https://carollpsicanalise.vercel.app',
   },
 ];
