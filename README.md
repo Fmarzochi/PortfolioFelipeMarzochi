@@ -122,6 +122,21 @@ src/
 
 ---
 
+## Projetos
+
+| # | Projeto | Stack Principal |
+|---|---------|----------------|
+| 1 | **Conecta 360° · SaaS de RH e NR-1** | React.js · TypeScript · Node.js · Next.js · Kubernetes · AWS |
+| 2 | **DuAutomação Residencial** | Java · React.js · PostgreSQL |
+| 3 | **Laboratório Unilab** | Next.js · Tailwind CSS · Framer Motion |
+| 4 | **Career Scout AI** | Python · Gemini API · GitHub Actions |
+| 5 | **CalibraFlow: SaaS de Gestão de ISO** | Java 21 · Spring Boot · Docker · React |
+| 6 | **Big Data ANS: Processamento em Escala** | Java 21 · FastAPI · Vue.js · PostgreSQL |
+| 7 | **Pipeline Transacional AWS** | Node.js · AWS SQS · Lambda · DynamoDB |
+| 8 | **Caroll Buratto · Psicanalista Clínica** | Next.js · Node.js · PostgreSQL · Docker |
+
+---
+
 ## Funcionalidades do Sistema
 
 - **Acessibilidade completa (A11y)** — Infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
@@ -165,6 +180,14 @@ src/
 | [ipapi.co](https://ipapi.co/) | — | Geolocalização por IP para detecção de cidade, país e idioma preferido |
 | [Acessibilidade](https://www.w3.org/WAI/standards-guidelines/wcag/) | WCAG 2.1 | Padrões semânticos ARIA e navegação inclusiva |
 | [VLibras](https://vlibras.gov.br/) | MCTIC/UFPB | Tradução automática do conteúdo para Libras via widget oficial do governo brasileiro |
+
+---
+
+## Funcionalidades Recentes
+
+- **8 projetos reais na galeria** — cada projeto com foto real, DOR/Solução/Resultado e stack detalhada
+- **Internacionalização completa (PT · EN · ES)** — detecção automática por IP e `navigator.language` com fallback para português
+- **Conecta 360° em destaque** — SaaS de RH e NR-1 com liderança técnica de front-end, posicionado como primeiro projeto
 
 ---
 
