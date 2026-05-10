@@ -4,8 +4,8 @@ import { Mail, MessageCircle } from 'lucide-react';
 import { LinkedInIcon, GitHubIcon } from '../common/IconRegistry';
 
 const INFO_ITEMS = [
-  { label: 'Cargo',       value: 'Engenheiro de Software · Full Stack'        },
-  { label: 'Foco',        value: 'Arquiteturas Escaláveis e UX Premium'       },
+  { label: 'Cargo',       value: 'Dev. de Software (Front-end) · Tech Lead'   },
+  { label: 'Foco',        value: 'React.js · TypeScript · Java Spring Boot'   },
   { label: 'Localização', value: 'Americana, SP · Remoto'                     },
   { label: 'Formação',    value: 'Análise e Desenvolvimento de Sistemas · MBA em Engenharia de Software' },
   { label: 'Stack',       value: 'React · Next.js · Node.js · Java Spring Boot' },
@@ -48,7 +48,7 @@ export const ContactsApp = () => (
       </div>
 
       <h2 className="text-xl font-bold tracking-tight text-white">Felipe Marzochi</h2>
-      <p className="mt-1 text-sm text-white/45 text-center">Engenheiro de Software · Full Stack</p>
+      <p className="mt-1 text-sm text-white/45 text-center">Dev. de Software · Tech Lead | Front-end</p>
 
       <div className="mt-6 grid grid-cols-4 gap-2 w-full">
         {ACTIONS.map(({ label, Icon, color, onClick }) => (

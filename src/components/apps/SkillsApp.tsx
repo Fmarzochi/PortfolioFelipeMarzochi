@@ -85,8 +85,10 @@ const ans = PROJECTS.find(p => p.albumKey === 'ans')!;
 const aws = PROJECTS.find(p => p.albumKey === 'aws')!;
 
 const CERTIFICATIONS = [
-  { name: 'Java Completo · Spring Boot, JPA, Hibernate', inst: 'Udemy', year: '2026' },
-  { name: 'JavaScript Completo · TypeScript, Node.js', inst: 'Udemy', year: '2025' },
+  { name: 'Java Completo · Spring Boot, JPA, Hibernate, MySQL, MongoDB', inst: 'Udemy', year: '2026' },
+  { name: 'JavaScript Completo · TypeScript, Node.js, MongoDB, OOP, MVC', inst: 'Udemy', year: '2025' },
+  { name: 'Javascript e TypeScript · Node, Express, React, Redux, Design Patterns', inst: 'Udemy', year: '2025' },
+  { name: 'Web Front-end Fundamentos · HTML, CSS, JavaScript + Projetos', inst: 'Udemy', year: '2025' },
   { name: 'Oracle Next Education (ONE) · Full Stack', inst: 'Oracle / Alura', year: '2022' },
   { name: 'Bancos de Dados SQL e NoSQL', inst: 'Udemy', year: '2022' },
   { name: 'AWS Cloud Practitioner', inst: 'AWS', year: '2024' },

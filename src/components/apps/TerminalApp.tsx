@@ -46,9 +46,9 @@ const FILE_CONTENT: Record<string, React.ReactNode> = {
   ),
   'experience.txt': (
     <div className="flex flex-col gap-1">
-      <p><span className="text-violet-400">2026</span> · Dev Front End @ Conecta 360°</p>
-      <p><span className="text-violet-400">2022:Pres</span> · Dev Full Stack @ Freelance</p>
-      <p><span className="text-violet-400">2024:25</span> · Suporte Técnico @ Sec. Educação</p>
+      <p><span className="text-violet-400">2026</span> · Dev Front End / Tech Lead @ Conecta 360°</p>
+      <p><span className="text-violet-400">2022:Pres</span> · Dev Front End · Remoto</p>
+      <p><span className="text-violet-400">2024:25</span> · Suporte Técnico (Estágio) @ Sec. Educação</p>
     </div>
   ),
   'contact.txt': (
