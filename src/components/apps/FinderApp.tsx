@@ -340,23 +340,23 @@ export const FinderApp = () => {
             <FocusTrap isActive={!!previewFile} onEscape={() => setPreviewFile(null)}>
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-                className="relative flex max-h-[90%] max-w-[95%] md:max-w-[80%] flex-col items-center rounded-2xl p-3 md:p-4" 
+                className="relative flex w-[94vw] md:w-[760px] flex-col rounded-2xl p-3 md:p-4"
                 style={{ background: 'rgba(22,22,26,0.85)', backdropFilter: 'blur(52px) saturate(180%)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(255,255,255,0.06)' }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="mb-3 flex w-full items-center justify-between">
+                <div className="mb-3 flex w-full items-center justify-between flex-shrink-0">
                   <div className="flex flex-col gap-0.5 pr-4 min-w-0">
                     <h3 className="truncate text-xs md:text-sm font-semibold text-white/80">{previewFile.name}</h3>
                     {previewFile.year && <span className="text-[10px] text-white/60 flex items-center gap-1"><Clock size={10} /> Emitido em {previewFile.year}</span>}
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     {previewFile.versoPath && (
                       <button onClick={() => setShowVerso(!showVerso)} className={`rounded-[8px] px-3 py-1 text-[11px] font-semibold transition-colors ${showVerso ? 'bg-blue-500 text-white' : 'text-white/60 hover:text-white/80'}`} style={!showVerso ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' } : {}}>{showVerso ? 'Frente' : 'Verso'}</button>
                     )}
                     <button onClick={() => setPreviewFile(null)} aria-label={t.finder.closePreview} className="flex h-7 w-7 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}><X size={14} /></button>
                   </div>
                 </div>
-                <div className="flex-1 overflow-auto relative w-full h-full min-h-[300px]">
+                <div className="relative w-full aspect-[4/3]">
                   <Image
                     src={`/certificados/${showVerso && previewFile.versoPath ? previewFile.versoPath : previewFile.path}`}
                     alt={previewFile.name} fill className="object-contain" draggable={false} priority
