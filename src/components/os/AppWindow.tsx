@@ -57,9 +57,11 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
       isDraggingTitle.current = false;
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('mouseleave', onUp);
     };
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
+    document.addEventListener('mouseleave', onUp);
   }, [id, isFullScreen, isMobile, x, y, w, focusApp, updatePosition]);
 
   const startResize = useCallback((e: React.MouseEvent, edge: ResizeEdge) => {
@@ -86,6 +88,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     const onUp = () => {
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('mouseleave', onUp);
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
     };
@@ -94,6 +97,7 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
     document.body.style.userSelect = 'none';
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
+    document.addEventListener('mouseleave', onUp);
   }, [id, isFullScreen, isMobile, x, y, w, h, focusApp, updatePositionAndSize]);
 
   if (isMinimized) return null;
@@ -104,9 +108,9 @@ export const AppWindow = ({ windowState, children, isActive }: AppWindowProps) =
         e.stopPropagation();
         focusApp(id);
       }}
-      role="dialog"
+      role="region"
       aria-labelledby={titleId}
-      aria-modal="false"
+      aria-roledescription="janela"
       style={{
         position: 'absolute',
         zIndex,

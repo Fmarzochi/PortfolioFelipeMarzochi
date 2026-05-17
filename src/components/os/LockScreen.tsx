@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { ArrowRight, ChevronUp, Fingerprint, Volume2, VolumeX } from 'lucide-react';
 import { playSound } from '../../utils/audioEngine';
 import { useLanguage } from '../../contexts/LanguageContext';
-import profileImg from '../../assets/images/profile.jpg';
-import signatureImg from '../../assets/images/signature.png';
+import profileImg from '../../assets/images/profile.webp';
+import signatureImg from '../../assets/images/signature.webp';
 
 interface LockScreenProps {
   onUnlock: () => void;

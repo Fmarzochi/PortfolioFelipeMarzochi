@@ -7,7 +7,7 @@ import { useOSContext } from '../../contexts/OSContext';
 import { ControlCenter } from './ControlCenter';
 import { SpotlightSearch } from './SpotlightSearch';
 import { useWindowManager } from '../../store/useWindowManager';
-import signatureImg from '../../assets/images/signature.png';
+import signatureImg from '../../assets/images/signature.webp';
 import { LinkedInIcon, GitHubIcon } from '../common/IconRegistry';
 
 export const TopBar = () => {
@@ -106,7 +106,7 @@ export const TopBar = () => {
             onClick={() => setIsSpotlightOpen((v) => !v)}
             title="Spotlight (⌘ Espaço)"
             aria-label="Abrir busca global"
-            className="flex items-center justify-center"
+            className="flex items-center justify-center outline-none focus-visible:ring-1 focus-visible:ring-blue-500 rounded-sm"
           >
             <Search
               size={14}
@@ -117,7 +117,7 @@ export const TopBar = () => {
           <button
             onClick={() => setIsControlCenterOpen(!isControlCenterOpen)}
             aria-label="Abrir central de controle"
-            className="flex items-center justify-center"
+            className="flex items-center justify-center outline-none focus-visible:ring-1 focus-visible:ring-blue-500 rounded-sm"
           >
             <SlidersHorizontal
               size={14}

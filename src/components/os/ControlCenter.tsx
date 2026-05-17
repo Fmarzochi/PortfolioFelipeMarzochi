@@ -18,7 +18,6 @@ export const ControlCenter = ({ isOpen, onClose }: ControlCenterProps) => {
   } = useOSContext();
 
   const handleSliderDrag = (
-// ... rest of method
     e: React.PointerEvent<HTMLDivElement>,
     setter: (v: number) => void
   ) => {

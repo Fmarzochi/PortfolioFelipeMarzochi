@@ -2,7 +2,7 @@
 
 import { Brain, Target, Lightbulb, Users, CheckCircle2, Layers, Zap, Shield, Download, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
-import signatureImg from '../../assets/images/signature.png';
+import signatureImg from '../../assets/images/signature.webp';
 import { useWindowManager } from '../../store/useWindowManager';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useLanguage } from '../../contexts/LanguageContext';

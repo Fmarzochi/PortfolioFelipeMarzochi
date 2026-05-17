@@ -29,11 +29,11 @@ type DockMenu = { item: DockItem; x: number; y: number } | null;
 
 export const MacDock = () => {
   const { openApp, closeApp, focusApp, windows } = useWindowManager();
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [dockMenu, setDockMenu] = useState<DockMenu>(null);
   const [dockHovered, setDockHovered] = useState(false);
 
-  const skillsLabel = lang === 'es' ? 'Habilidades' : 'Skills';
+  const skillsLabel = 'Skills';
 
   const DOCK_ITEMS: DockItem[] = [
     { id: 'safari',   title: t.apps.safari,   icon: GlobeAltIcon,       gradient: 'from-blue-500 to-cyan-500'                  },
@@ -106,7 +106,7 @@ export const MacDock = () => {
                   }
                   closeDockMenu();
                 }}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors outline-none focus:bg-white/12"
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
@@ -115,7 +115,7 @@ export const MacDock = () => {
               <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => window.location.reload()}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors outline-none focus:bg-white/12"
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >

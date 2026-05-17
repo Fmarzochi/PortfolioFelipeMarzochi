@@ -26,6 +26,7 @@ const APPS = [
 ];
 
 const PROJECTS = [
+  { title: 'Everything Gemini Code (EGC) · AI OS', subtitle: 'Python · TypeScript · SQLite · Agent Orchestration', app: 'photos', accent: 'text-blue-400' },
   { title: 'DuAutomação Residencial',            subtitle: 'Java · React.js · PostgreSQL · REST API',              app: 'photos', accent: 'text-blue-400'   },
   { title: 'Laboratório Unilab',                 subtitle: 'Next.js · Tailwind CSS · Framer Motion',               app: 'photos', accent: 'text-teal-400'   },
   { title: "Career Scout AI",                    subtitle: 'Python · Gemini API · GitHub Actions',                 app: 'photos', accent: 'text-violet-400' },

@@ -9,7 +9,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio-felipe-marzochi.vercel.app'), // Substitua pela sua URL final se for diferente
+  metadataBase: new URL('https://portfolio-felipe-marzochi.vercel.app'),
   title: 'Portfólio Felipe Marzochi',
   description: 'Portfólio de Felipe Marzochi · Engenheiro de Software especializado em arquiteturas escaláveis (React · Next.js · Java · Cloud). Web OS interativo no browser.',
   keywords: [
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: 'Portfólio Felipe Marzochi',
     images: [
       {
-        url: '/screenshots/01-login-screen.png',
+        url: '/screenshots/01-login-screen.webp',
         width: 1200,
         height: 630,
         alt: 'Portfólio Felipe Marzochi · Web OS Interface',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Felipe Marzochi · Engenheiro de Software',
     description: 'Web OS interativo construído com Next.js e rigor técnico.',
-    images: ['/screenshots/01-login-screen.png'],
+    images: ['/screenshots/01-login-screen.webp'],
   },
   robots: {
     index: true,

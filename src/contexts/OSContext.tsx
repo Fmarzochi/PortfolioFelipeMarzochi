@@ -4,7 +4,6 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 import { setAudioVolume } from '../utils/audioEngine';
 import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
 
-// ... rest of imports
 
 // ---------------------------------------------------------------------------
 // Wallpaper definitions — inline CSS gradients avoid Tailwind purge issues

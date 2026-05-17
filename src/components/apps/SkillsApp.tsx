@@ -77,6 +77,7 @@ const SKILL_GROUPS: { label: string; color: string; tag: string; skills: Skill[]
 
 import { PROJECTS } from '../../constants/projects';
 
+const egc = PROJECTS.find(p => p.albumKey === 'egc')!;
 const erp = PROJECTS.find(p => p.albumKey === 'erp')!;
 const unilab = PROJECTS.find(p => p.albumKey === 'unilab')!;
 const agent = PROJECTS.find(p => p.albumKey === 'agent')!;
@@ -96,7 +97,7 @@ const CERTIFICATIONS = [
 
 const FILESYSTEM: Record<string, string[]> = {
   '/': ['projects/', 'skills/', 'about.txt', 'experience.txt', 'contact.txt'],
-  '/projects': ['duautomacao.md', 'unilab.md', 'careerscout.md', 'calibraflow.md', 'bigdata.md', 'pipeline.md'],
+  '/projects': ['egc.md', 'duautomacao.md', 'unilab.md', 'careerscout.md', 'calibraflow.md', 'bigdata.md', 'pipeline.md'],
   '/skills': ['frontend.md', 'backend.md', 'database.md', 'devops.md', 'architecture.md']
 };
 
@@ -104,6 +105,7 @@ const FILE_CONTENT: Record<string, React.ReactNode> = {
   'about.txt': <p>Engenheiro de Software com foco em sistemas escaláveis, aplicando SOLID e Clean Code.</p>,
   'experience.txt': <p>4 anos de trajetória atuando como Full Stack (React · Next.js · Java · Node.js).</p>,
   'contact.txt': <p>Email: fmarzochi@gmail.com | LinkedIn: /in/felipemarzochi</p>,
+  'projects/egc.md': <p>{egc.resultado}</p>,
   'projects/duautomacao.md': <p>{erp.resultado}</p>,
   'projects/unilab.md': <p>{unilab.resultado}</p>,
   'projects/careerscout.md': <p>{agent.resultado}</p>,

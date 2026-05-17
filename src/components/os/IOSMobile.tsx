@@ -8,6 +8,7 @@ import { playSound } from '../../utils/audioEngine';
 import { useOSContext } from '../../contexts/OSContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { FocusTrap } from '../common/FocusTrap';
+import { useIconReorder } from '../../hooks/useIconReorder';
 import {
   GlobeAltIcon,
   BuildingOfficeIcon,
@@ -80,9 +81,9 @@ const SwitcherCard = ({
 
 export const IOSMobile = () => {
   const { wallpaperStyle, wallpaperIndex, prevWallpaperStyle } = useOSContext();
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
 
-  const skillsLabel = lang === 'es' ? 'Habilidades' : 'Skills';
+  const skillsLabel = 'Skills';
 
   const DEFAULT_HOME_APPS: AppEntry[] = useMemo(() => [
     { id: 'maps',   title: t.apps.maps,   icon: BuildingOfficeIcon, gradient: 'from-emerald-500 via-green-400 to-teal-400'  },
@@ -91,40 +92,35 @@ export const IOSMobile = () => {
     { id: 'photos', title: t.apps.photos, icon: PhotoIcon,          gradient: 'from-pink-500 via-purple-500 to-violet-600'  },
     { id: 'finder', title: t.apps.finder, icon: AcademicCapIcon,    gradient: 'from-amber-400 via-orange-400 to-orange-500' },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [lang]);
+  ], []);
 
   const DOCK_APPS: AppEntry[] = useMemo(() => [
     { id: 'messages', title: t.apps.messages, icon: WhatsAppIcon, gradient: 'from-[#25D366] via-[#1ebe5d] to-[#128C7E]'                                        },
     { id: 'linkedin', title: 'LinkedIn',       icon: LinkedInIcon, gradient: 'from-[#0A66C2] to-[#0077B5]', href: 'https://www.linkedin.com/in/felipemarzochi/' },
     { id: 'github',   title: 'GitHub',         icon: GitHubIcon,   gradient: 'from-[#24292e] to-[#040d21]',  href: 'https://github.com/Fmarzochi'                },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [lang]);
+  ], []);
 
   const ALL_APPS = useMemo(() => [...DEFAULT_HOME_APPS, ...DOCK_APPS], [DEFAULT_HOME_APPS, DOCK_APPS]);
 
-  const [homeApps, setHomeApps] = useState<AppEntry[]>([]);
+  const {
+    items: homeApps, setItems: setHomeApps,
+    draggingId, setDraggingId,
+    previewTargetIdx, setPreviewTargetIdx,
+    showDragHint, setShowDragHint,
+    iconRefs, gridRef, iconDragged,
+    captureRects, getTargetIdx
+  } = useIconReorder<AppEntry>(DEFAULT_HOME_APPS);
 
-  useEffect(() => {
-    setHomeApps([...DEFAULT_HOME_APPS]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang]);
   const [openApps, setOpenApps]   = useState<AppEntry[]>([]);
   const [activeAppId, setActiveAppId] = useState<string | null>(null);
   const [showSwitcher, setShowSwitcher] = useState(false);
-
-  const [draggingId, setDraggingId] = useState<string | null>(null);
-  const [previewTargetIdx, setPreviewTargetIdx] = useState<number | null>(null);
-  const [showDragHint, setShowDragHint] = useState(false);
 
   const [dockMenu, setDockMenu] = useState<{ app: AppEntry; x: number; y: number } | null>(null);
   const dockPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartPos = useRef({ x: 0, y: 0 });
 
   const appDragControls = useDragControls();
-  const iconRefs  = useRef<Record<string, HTMLButtonElement | null>>({});
-  const capturedRects = useRef<Record<string, DOMRect>>({});
-  const gridRef   = useRef<HTMLElement | null>(null);
-  const iconDragged = useRef(false);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -176,24 +172,7 @@ export const IOSMobile = () => {
     setActiveAppId(prev => prev === appId ? null : prev);
   }, []);
 
-  const captureRects = useCallback(() => {
-    for (const [id, el] of Object.entries(iconRefs.current)) {
-      if (el) capturedRects.current[id] = el.getBoundingClientRect();
-    }
-  }, []);
 
-  const getTargetIdx = useCallback((draggedId: string, info: PanInfo): number => {
-    const rect = capturedRects.current[draggedId];
-    if (!rect || !gridRef.current) return -1;
-    const cx = rect.left + rect.width / 2 + info.offset.x;
-    const cy = rect.top  + rect.height / 2 + info.offset.y;
-    const grid = gridRef.current.getBoundingClientRect();
-    const cols = 3;
-    const numRows = Math.ceil(homeApps.length / cols);
-    const col = Math.max(0, Math.min(cols - 1, Math.floor((cx - grid.left) / (grid.width / cols))));
-    const row = Math.max(0, Math.min(numRows - 1, Math.floor((cy - grid.top) / (grid.height / numRows))));
-    return row * cols + col;
-  }, [homeApps.length]);
 
   const displayApps = useMemo(() => {
     if (!draggingId || previewTargetIdx === null) return homeApps;

@@ -10,6 +10,7 @@ interface CommandRecord {
   output: React.ReactNode;
 }
 
+const egc = PROJECTS.find(p => p.albumKey === 'egc')!;
 const erp = PROJECTS.find(p => p.albumKey === 'erp')!;
 const unilab = PROJECTS.find(p => p.albumKey === 'unilab')!;
 const agent = PROJECTS.find(p => p.albumKey === 'agent')!;
@@ -20,6 +21,7 @@ const aws = PROJECTS.find(p => p.albumKey === 'aws')!;
 const FILESYSTEM: Record<string, string[] | string> = {
   '/': ['projects/', 'skills/', 'about.txt', 'experience.txt', 'contact.txt'],
   '/projects': [
+    'egc.md',
     'duautomacao.md',
     'unilab.md',
     'careerscout.md',
@@ -58,6 +60,7 @@ const FILE_CONTENT: Record<string, React.ReactNode> = {
       <p>GitHub: /Fmarzochi</p>
     </div>
   ),
+  'projects/egc.md': <p><span className="text-blue-400 font-bold">EGC OS:</span> {egc.resultado}</p>,
   'projects/duautomacao.md': <p><span className="text-blue-400 font-bold">DuAutomação:</span> {erp.resultado}</p>,
   'projects/unilab.md': <p><span className="text-blue-400 font-bold">Unilab:</span> {unilab.resultado}</p>,
   'projects/careerscout.md': <p><span className="text-blue-400 font-bold">Scout AI:</span> {agent.resultado}</p>,
