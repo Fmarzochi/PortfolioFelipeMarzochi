@@ -180,9 +180,9 @@ export const TRANSLATIONS: Translations = {
     '9': {
       title: 'Everything Gemini Code (EGC)',
       tag: 'Python · TypeScript · SQLite · Node.js · Bash · Tkinter',
-      dor: 'A ausência de uma arquitetura de engenharia rigorosa para agentes de IA limita o uso profissional de assistentes de código, resultando em execuções fragmentadas, falta de observabilidade e perda de contexto em fluxos de trabalho complexos.',
-      solucao: 'Engenharia de um ecossistema operacional e fabric de orquestração de runtime para o Gemini. Implementa uma arquitetura de fila determinística, malha de memória persistente e um Plano de Controle GUI em Tkinter para monitoramento em tempo real de uma força de trabalho agentica.',
-      resultado: 'Transformação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades prontas para produção. O sistema garante estabilidade, segurança através do AgentShield e observabilidade total através de um dashboard de comando centralizado.',
+      dor: 'Assistentes de IA para código operam como caixas-pretas isoladas: o contexto se perde entre sessões, as execuções não são auditáveis e não há como orquestrar múltiplos agentes em fluxos de trabalho complexos. Isso inviabiliza o uso profissional dessas ferramentas em ambientes que exigem rastreabilidade, governança e resultados consistentes.',
+      solucao: 'Sistema operacional completo construído sobre o Gemini, com fila de execução determinística, malha de memória persistente (Memory Mesh), camada de segurança em runtime (AgentShield) e um Plano de Controle gráfico em Tkinter que permite despachar, monitorar e auditar uma frota de agentes em tempo real.',
+      resultado: 'Plataforma com 62 agentes especializados e 228 habilidades reutilizáveis prontas para produção. Eleva o uso do Gemini de janelas de chat isoladas para um sistema de engenharia auditável, com contexto preservado entre execuções, segurança em runtime e observabilidade total via dashboard centralizado.',
     },
     '8': {
       title: 'Conecta 360° · SaaS de RH e NR-1',

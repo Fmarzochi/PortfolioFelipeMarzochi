@@ -182,9 +182,9 @@ div[vw].vlibras-container {
 }
 
 /* VLIBRAS NUCLEAR FIX - MÁXIMO Z-INDEX POSSÍVEL */
-.vlibras-forced-visible, 
-[vw], 
-.vw-plugin-wrapper, 
+.vlibras-forced-visible,
+[vw],
+.vw-plugin-wrapper,
 .vw-access-button,
 div[vw].enabled {
   z-index: 2147483647 !important;
@@ -193,4 +193,45 @@ div[vw].enabled {
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+}
+
+/* VLibras tooltip/balão de acesso — força texto branco legível,
+   fundo sólido e sem corte (problema observado: texto fica transparente
+   na 2ª linha e cortado em algumas páginas). Mantém o conteúdo intacto,
+   só padroniza a aparência do balão. */
+[vw] .vpw-tooltip,
+[vw] .vpw-tooltip *,
+[vw] .vw-tooltip,
+[vw] .vw-tooltip *,
+[vw] [class*="tooltip"],
+[vw] [class*="tooltip"] *,
+[vw-access-button] + *,
+.vpw-tooltip,
+.vpw-tooltip * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  background-image: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+  font-weight: 500 !important;
+}
+
+[vw] .vpw-tooltip,
+[vw] .vw-tooltip,
+[vw] [class*="tooltip"],
+.vpw-tooltip {
+  background: rgba(20, 20, 22, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  max-width: 260px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
 }
