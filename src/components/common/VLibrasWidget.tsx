@@ -4,11 +4,15 @@ import { useEffect } from 'react';
 import Script from 'next/script';
 
 export const VLibrasWidget = () => {
+  const vwProps = { vw: 'true' } as Record<string, string>;
+  const accessButtonProps = { 'vw-access-button': 'true' } as Record<string, string>;
+  const wrapperProps = { 'vw-plugin-wrapper': 'true' } as Record<string, string>;
+
   return (
     <>
-      <div vw="true" className="enabled">
-        <div vw-access-button="true" className="active"></div>
-        <div vw-plugin-wrapper="true">
+      <div {...vwProps} className="enabled">
+        <div {...accessButtonProps} className="active"></div>
+        <div {...wrapperProps}>
           <div className="vw-plugin-top-wrapper"></div>
         </div>
       </div>
