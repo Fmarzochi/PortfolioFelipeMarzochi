@@ -402,3 +402,4 @@ jwt_keys/
 # Ambientes isolados adicionais
 .env.staging
 .env.preview
+everything-gemini/
