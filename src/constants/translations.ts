@@ -125,6 +125,7 @@ export const TRANSLATIONS: Translations = {
     result: 'Resultado',
     stackUsed: 'Stack utilizada',
     viewOnGithub: 'Ver no GitHub',
+    viewDemo: 'Ver Site',
     addToFav: 'Adicionar aos favoritos',
     removeFromFav: 'Remover dos favoritos',
     favorited: 'Favoritado',

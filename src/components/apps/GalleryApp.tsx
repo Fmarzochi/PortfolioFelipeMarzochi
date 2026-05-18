@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid, Github } from 'lucide-react';
+import { PanelLeft, Search, Plus, X, Heart, Image as ImageIcon, LayoutGrid, Github, ExternalLink } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { PROJECTS, Project } from '../../constants/projects';
@@ -137,6 +137,7 @@ const ProjectDetail = ({
     favorited: string;
     favorite: string;
     viewOnGithub: string;
+    viewDemo: string;
     problem: string;
     solution: string;
     result: string;
@@ -167,12 +168,20 @@ const ProjectDetail = ({
       </button>
     </div>
     <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-      {project.github && (
-        <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full text-[11px] text-white/60 hover:text-white transition-all" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
-          <Github size={13} />
-          {labels.viewOnGithub}
-        </a>
-      )}
+      <div className="flex flex-wrap gap-2">
+        {project.github && (
+          <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full text-[11px] text-white/60 hover:text-white transition-all" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+            <Github size={13} />
+            {labels.viewOnGithub}
+          </a>
+        )}
+        {project.demoUrl && (
+          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full text-[11px] text-white/60 hover:text-white transition-all" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+            <ExternalLink size={13} />
+            {labels.viewDemo}
+          </a>
+        )}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-[10px] p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
           <span className="text-[10px] font-bold uppercase tracking-widest text-red-400">{labels.problem}</span>
@@ -287,6 +296,7 @@ export const GalleryApp = () => {
     favorited: t.gallery.favorited,
     favorite: t.gallery.favorite,
     viewOnGithub: t.gallery.viewOnGithub,
+    viewDemo: t.gallery.viewDemo,
     problem: t.gallery.problem,
     solution: t.gallery.solution,
     result: t.gallery.result,

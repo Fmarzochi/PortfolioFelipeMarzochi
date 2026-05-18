@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['React.js', 'TypeScript', 'Next.js', 'Node.js', 'Tailwind CSS', 'Docker', 'AWS', 'Kubernetes', 'GitHub Actions'],
     image: '/projects/conecta360.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/conecta-360rh',
     objectPosition: 'top',
   },
   {
@@ -54,7 +54,8 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Java', 'React.js', 'PostgreSQL', 'REST API'],
     image: '/projects/du-automacao-residencial.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/Catch-Up-Technologies/duautomacoes',
+    demoUrl: 'https://duautomacoes-frontend.onrender.com/',
   },
   {
     id: '2',
@@ -67,7 +68,8 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion'],
     image: '/projects/unilab.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/Fmarzochi/unilab',
+    demoUrl: 'https://unilab-nu.vercel.app/',
   },
   {
     id: '3',
@@ -93,7 +95,7 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Docker', 'JWT/Auth0', 'React'],
     image: '/projects/calibraflow.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/Fmarzochi/CalibraFlow',
   },
   {
     id: '5',
@@ -106,7 +108,7 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Java 21', 'Spring Boot', 'Python', 'FastAPI', 'Vue.js', 'PostgreSQL', 'Docker'],
     image: '/projects/big-data-ans.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/Fmarzochi/DesafioIntuitiveCare',
   },
   {
     id: '6',
@@ -116,10 +118,10 @@ export const PROJECTS: Project[] = [
     tag: 'Node.js · AWS SQS · Lambda · DynamoDB',
     dor: 'A fragmentação de assistentes de IA e a falta de uma infraestrutura de orquestração rigorosa impedem a aplicação da inteligência artificial em ambientes de engenharia de alta complexidade. A ausência de determinismo, a volatilidade de contexto e a opacidade na execução tornam os fluxos de trabalho imprevisíveis e difíceis de escalar profissionalmente.',
     solucao: 'Desenvolvimento de um ecossistema operacional robusto e um fabric de orquestração de runtime para o Gemini. A arquitetura centraliza a governança através de filas determinísticas, persistência de contexto via Memory Mesh e um Plano de Controle GUI de baixa latência em Tkinter, permitindo a gestão e monitoramento em tempo real de frotas de agentes cognitivos.',
-    resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
+    resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solution estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Node.js', 'AWS SQS', 'AWS Lambda', 'DynamoDB', 'Next.js'],
     image: '/projects/pipeline.webp',
-    github: 'https://github.com/Fmarzochi',
+    github: 'https://github.com/Fmarzochi/APIConvemDesafio',
   },
   {
     id: '7',
@@ -132,8 +134,8 @@ export const PROJECTS: Project[] = [
     resultado: 'Consolidação do ecossistema Gemini em uma plataforma de engenharia gerenciada com 62 agentes especializados e 228 habilidades escaláveis. A solução estabelece novos padrões de estabilidade, segurança avançada via AgentShield e observabilidade total, elevando a orquestração de IA de simples janelas de chat para sistemas de engenharia de produção.',
     stack: ['Next.js', 'Node.js', 'PostgreSQL', 'Docker', 'TypeScript', 'Tailwind CSS'],
     image: '/projects/caroll-psicanalise.webp',
-    github: 'https://github.com/Fmarzochi',
-    demoUrl: 'https://carollpsicanalise.vercel.app',
+    github: 'https://github.com/Fmarzochi/ca-psicanalise',
+    demoUrl: 'https://carollpsicanalise.vercel.app/',
     objectPosition: 'top',
   },
 ];
