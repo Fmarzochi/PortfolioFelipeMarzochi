@@ -32,26 +32,26 @@ Todo o estado do sistema vive no `localStorage` via Zustand — sem nenhum banco
 ### Desktop Experience
 
 <p align="center">
-  <img src="public/screenshots/01-login-screen.png" width="45%" alt="Login Screen" />
-  <img src="public/screenshots/02-welcome-screen.png" width="45%" alt="Welcome Overlay" />
+  <img src="public/screenshots/01-login-screen.webp" width="45%" alt="Login Screen" />
+  <img src="public/screenshots/02-welcome-screen.webp" width="45%" alt="Welcome Overlay" />
 </p>
 <p align="center">
-  <img src="public/screenshots/03-portfolio-app.png" width="45%" alt="Portfolio App" />
-  <img src="public/screenshots/04-gallery-app.png" width="45%" alt="Gallery App" />
+  <img src="public/screenshots/03-portfolio-app.webp" width="45%" alt="Portfolio App" />
+  <img src="public/screenshots/04-gallery-app.webp" width="45%" alt="Gallery App" />
 </p>
 <p align="center">
-  <img src="public/screenshots/05-skills-app.png" width="45%" alt="Skills App" />
-  <img src="public/screenshots/06-finder-app.png" width="45%" alt="Finder App" />
+  <img src="public/screenshots/05-skills-app.webp" width="45%" alt="Skills App" />
+  <img src="public/screenshots/06-finder-app.webp" width="45%" alt="Finder App" />
 </p>
 <p align="center">
-  <img src="public/screenshots/07-contacts-app.png" width="45%" alt="Contacts App" />
+  <img src="public/screenshots/07-contacts-app.webp" width="45%" alt="Contacts App" />
 </p>
 
 ### Mobile Experience (iOS Style)
 
 <p align="center">
-  <img src="public/screenshots/08-mobile-view-1.png" width="30%" alt="Mobile View 1" />
-  <img src="public/screenshots/09-mobile-view-2.png" width="30%" alt="Mobile View 2" />
+  <img src="public/screenshots/08-mobile-view-1.webp" width="30%" alt="Mobile View 1" />
+  <img src="public/screenshots/09-mobile-view-2.webp" width="30%" alt="Mobile View 2" />
 </p>
 
 ---
@@ -71,10 +71,10 @@ src/
 │   │   ├── GalleryApp.tsx      # Galeria de projetos detalhada
 │   │   ├── MapsApp.tsx         # Localização e experiência profissional
 │   │   ├── MessagesApp.tsx     # Contato via WhatsApp e e-mail
-│   │   ├── PhotosApp.tsx       # Galeria de Projetos
 │   │   ├── SkillsApp.tsx       # Terminal interativo de habilidades
 │   │   └── TerminalApp.tsx     # Terminal do sistema
 │   ├── common/             # Utilitários e componentes compartilhados
+│   │   ├── AccessibilityIcon.tsx # Ícone de acessibilidade reutilizável
 │   │   ├── AppErrorBoundary.tsx # Error boundary global da aplicação
 │   │   ├── FocusTrap.tsx        # Armadilha de foco para modais e dialogs
 │   │   ├── IconRegistry.tsx     # Registro central de ícones SVG do sistema
@@ -97,8 +97,10 @@ src/
 │   ├── LanguageContext.tsx # Detecção automática de idioma e provider i18n
 │   └── OSContext.tsx       # Estado global do OS (volume, brilho, wallpaper)
 ├── hooks/
-│   ├── useContextMenu.ts   # Lógica de long-press e clique direito
-│   └── useIsMobile.ts      # Detecção de dispositivo
+│   ├── useContextMenu.ts       # Lógica de long-press e clique direito
+│   ├── useIconReorder.ts       # Reordenação de ícones no layout iOS
+│   ├── useIsMobile.ts          # Detecção de dispositivo
+│   └── usePerformanceMonitor.ts # Monitor de performance da aplicação
 ├── store/
 │   └── useWindowManager.ts # Gerenciador de janelas via Zustand (posição, z-index, tamanho)
 └── utils/
@@ -116,7 +118,7 @@ src/
 | **Skills** | Terminal | Terminal interativo com minhas habilidades técnicas |
 | **Maps** | Maps | Localização e trajetória profissional |
 | **Messages** | iMessage | Contato direto via WhatsApp ou e-mail |
-| **Photos** | Photos | Galeria de Projetos com métricas de impacto |
+| **Gallery** | Photos | Galeria de Projetos com métricas de impacto |
 | **Contacts** | Contacts | Informações profissionais completas |
 | **Terminal** | Terminal | Terminal do sistema operacional |
 
