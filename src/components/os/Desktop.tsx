@@ -5,6 +5,8 @@ import { useWindowManager } from '../../store/useWindowManager';
 import { AppWindow } from './AppWindow';
 import { AppRegistry } from '../apps/AppRegistry';
 import { useOSContext } from '../../contexts/OSContext';
+import { AccessibilityIcon } from '../common/AccessibilityIcon';
+import { AccessibilityPanel } from '../common/AccessibilityPanel';
 
 export const Desktop = () => {
   const { windows, openApp } = useWindowManager();
@@ -42,6 +44,9 @@ export const Desktop = () => {
         className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ${focusMode ? 'opacity-100' : 'opacity-0'}`}
         style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(1px)' }}
       />
+
+      <AccessibilityIcon />
+      <AccessibilityPanel />
 
       {(() => {
         const maxZIndex = Math.max(0, ...windows.filter(w => w.isOpen && !w.isMinimized).map(w => w.zIndex));

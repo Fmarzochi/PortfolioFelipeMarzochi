@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { VLibrasWidget } from '../components/common/VLibrasWidget';
 import { LanguageProvider } from '../contexts/LanguageContext';
+import { AccessibilityProvider } from '../contexts/AccessibilityContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -84,10 +85,32 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} overflow-hidden bg-black text-white selection:bg-blue-500/30`}>
-        <LanguageProvider>
-          {children}
-          <VLibrasWidget />
-        </LanguageProvider>
+        {/* SVG filter definitions for color blindness modes */}
+        <svg className="a11y-filters-svg" aria-hidden="true" focusable="false">
+          <defs>
+            <filter id="a11y-deuteranopia" colorInterpolationFilters="linearRGB">
+              <feColorMatrix type="matrix" values="0.367 0.861 -0.228 0 0  0.280 0.673 0.047 0 0  -0.012 0.043 0.969 0 0  0 0 0 1 0" />
+            </filter>
+            <filter id="a11y-protanopia" colorInterpolationFilters="linearRGB">
+              <feColorMatrix type="matrix" values="0.152 1.052 -0.205 0 0  0.115 0.786 0.099 0 0  -0.004 -0.048 1.052 0 0  0 0 0 1 0" />
+            </filter>
+            <filter id="a11y-tritanopia" colorInterpolationFilters="linearRGB">
+              <feColorMatrix type="matrix" values="1.256 -0.077 -0.179 0 0  -0.078 0.931 0.148 0 0  0.005 0.691 0.304 0 0  0 0 0 1 0" />
+            </filter>
+          </defs>
+        </svg>
+
+        {/* Skip to content — visible on first Tab press */}
+        <a href="#main-content" className="skip-to-content">
+          Pular para o conteúdo
+        </a>
+
+        <AccessibilityProvider>
+          <LanguageProvider>
+            {children}
+            <VLibrasWidget />
+          </LanguageProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

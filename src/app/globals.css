@@ -150,3 +150,56 @@
 div[vw] {
   z-index: 2147483647 !important;
 }
+
+/* ── Accessibility color modes ───────────────────────────────────────────── */
+
+.a11y-filters-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.a11y-high-contrast body {
+  filter: contrast(1.5) brightness(1.08) !important;
+}
+
+.a11y-grayscale body {
+  filter: grayscale(1) !important;
+}
+
+.a11y-deuteranopia body {
+  filter: url(#a11y-deuteranopia) !important;
+}
+
+.a11y-protanopia body {
+  filter: url(#a11y-protanopia) !important;
+}
+
+.a11y-tritanopia body {
+  filter: url(#a11y-tritanopia) !important;
+}
+
+/* Skip to content ── visible only on keyboard focus */
+.skip-to-content {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+  padding: 12px 24px;
+  background: #4f46e5;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: 0 0 12px 12px;
+  text-decoration: none;
+  transition: top 0.15s ease;
+  white-space: nowrap;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid #facc15;
+  outline-offset: 2px;
+}
