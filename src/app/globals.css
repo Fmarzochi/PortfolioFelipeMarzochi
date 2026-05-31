@@ -147,68 +147,6 @@
   }
 }
 
-/* Force VLibras to be on top of the Web OS layers */
-div[vw].enabled {
-  z-index: 999999 !important;
-  display: block !important;
-}
-.vw-plugin-wrapper {
-  z-index: 999999 !important;
-}
-
-/* VLIBRAS OVERRIDE - FORCE VISIBILITY ON TOP OF ALL OS LAYERS */
-div[vw].vlibras-container {
-  position: fixed !important;
-  right: 0 !important;
-  bottom: 20px !important;
-  z-index: 9999999 !important;
-  display: block !important;
-  pointer-events: auto !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.vw-plugin-wrapper {
-  z-index: 9999999 !important;
-}
-
-.vw-plugin-top-wrapper {
-  display: flex !important;
-}
-
-/* Garante que o botão de acesso não seja escondido por filtros de brilho ou glassmorphism do body */
-[vw-access-button] {
-  z-index: 9999999 !important;
-}
-
-/* VLIBRAS NUCLEAR FIX - MÁXIMO Z-INDEX POSSÍVEL */
-.vlibras-forced-visible,
-[vw],
-.vw-plugin-wrapper,
-.vw-access-button,
-div[vw].enabled {
+div[vw] {
   z-index: 2147483647 !important;
-  position: fixed !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* VLibras — esconde imagens vazadas do widget cujo asset externo
-   (vlibras.gov.br) não carrega, expondo o alt text bruto
-   "Conteúdo acessível em Libras usando o VLibras" + broken image icon
-   ao lado do botão. O botão de acesso continua intacto (é estilizado
-   via CSS background, não via <img>). */
-[vw] img[alt*="acessível"],
-[vw] img[alt*="acessivel"],
-[vw] img[alt*="VLibras"],
-[vw] img[alt*="Libras"],
-[vw] figure,
-[vw] figcaption {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  opacity: 0 !important;
 }
