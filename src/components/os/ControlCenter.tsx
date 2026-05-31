@@ -128,7 +128,8 @@ export const ControlCenter = ({ isOpen, onClose }: ControlCenterProps) => {
               <span className="text-xs font-medium">Fundo: {WALLPAPERS[wallpaperIndex].label}</span>
               <button
                 onClick={cycleWallpaper}
-                className="rounded-lg px-3 py-1.5 text-[11px] font-semibold text-white/80 transition-colors"
+                aria-label={`Mudar fundo para ${WALLPAPERS[(wallpaperIndex + 1) % WALLPAPERS.length].label}`}
+                className="rounded-lg px-3 py-1.5 text-[11px] font-semibold text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
                 style={{ background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.15)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.2)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}

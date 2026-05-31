@@ -106,7 +106,8 @@ export const MacDock = () => {
                   }
                   closeDockMenu();
                 }}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors outline-none focus:bg-white/12"
+                aria-label={isRunning(dockMenu.item.id) ? `Fechar ${dockMenu.item.title}` : `Abrir ${dockMenu.item.title}`}
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset"
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >
@@ -115,7 +116,8 @@ export const MacDock = () => {
               <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
               <button
                 onClick={() => window.location.reload()}
-                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors outline-none focus:bg-white/12"
+                aria-label="Recarregar página"
+                className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset"
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
               >

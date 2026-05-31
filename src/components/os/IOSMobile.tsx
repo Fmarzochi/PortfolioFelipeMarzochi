@@ -66,7 +66,7 @@ const SwitcherCard = ({
     </div>
     <button
       onClick={e => { e.stopPropagation(); onClose(); }}
-      className="absolute top-0 right-0 h-11 w-11 flex items-center justify-center z-10"
+      className="absolute top-0 right-0 h-11 w-11 flex items-center justify-center z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-full"
       aria-label={`Fechar ${app.title}`}
     >
       <div className="h-6 w-6 rounded-full bg-black/60 ring-1 ring-white/20 flex items-center justify-center">
@@ -243,7 +243,7 @@ export const IOSMobile = () => {
               style={{ zIndex: draggingId === app.id ? 50 : 1, position: 'relative', touchAction: 'none' }}
               animate={{ scale: draggingId === app.id ? 1.13 : 1 }}
               transition={{ layout: { type: 'spring', stiffness: 380, damping: 28 } }}
-              className="flex flex-col items-center gap-[8px] sm:gap-[10px]"
+              className="flex flex-col items-center gap-[8px] sm:gap-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 rounded-2xl"
               aria-label={`Abrir aplicativo ${app.title}`}
               onClick={() => {
                 if (!isHomeVisible || iconDragged.current) return;
@@ -297,7 +297,7 @@ export const IOSMobile = () => {
             onClick={() => setShowSwitcher(true)}
             aria-label={`Mostrar alternador de aplicativos. ${openApps.length} ${openApps.length > 1 ? t.ios.appsOpenPlural : t.ios.appsOpenSingular}`}
             aria-live="polite"
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs text-white/70 transition-colors"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs text-white/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
               style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
           >
             <span>{openApps.length} {openApps.length > 1 ? t.ios.appsOpenPlural : t.ios.appsOpenSingular}</span>
@@ -330,7 +330,7 @@ export const IOSMobile = () => {
                 }}
                 onTouchEnd={cancelDockPress}
                 onTouchMove={handleDockTouchMove}
-                className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer`}
+                className={`app-icon relative h-[60px] w-[60px] bg-gradient-to-br ${app.gradient} flex items-center justify-center overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2`}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-white/28 via-transparent to-black/10 pointer-events-none" aria-hidden="true" />
                 <app.icon className="h-7 w-7 text-white drop-shadow-md relative z-10" strokeWidth={1.5} aria-hidden="true" />
@@ -395,7 +395,7 @@ export const IOSMobile = () => {
               <button
                 onClick={goHome}
                 aria-label="Voltar para a tela de início"
-                className="relative z-10 flex items-center justify-center h-8 shrink-0 cursor-pointer pb-[env(safe-area-inset-bottom,0px)]"
+                className="relative z-10 flex items-center justify-center h-8 shrink-0 cursor-pointer pb-[env(safe-area-inset-bottom,0px)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-full"
               >
                 <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
               </button>
@@ -438,7 +438,7 @@ export const IOSMobile = () => {
               <button
                 onClick={() => setShowSwitcher(false)}
                 aria-label="Fechar alternador de aplicativos"
-                className="pb-[calc(env(safe-area-inset-bottom,0px)+20px)] flex justify-center cursor-pointer"
+                className="pb-[calc(env(safe-area-inset-bottom,0px)+20px)] flex justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-full"
               >
                 <div className="h-[5px] w-32 rounded-full bg-white/25" aria-hidden="true" />
               </button>
@@ -471,7 +471,8 @@ export const IOSMobile = () => {
                 <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
                 <button
                   onClick={() => openApp(dockMenu.app)}
-                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                  aria-label={`Abrir ${dockMenu.app.title}`}
+                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset"
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                   role="menuitem"
@@ -481,7 +482,8 @@ export const IOSMobile = () => {
                 <div className="h-px" style={{ background: 'rgba(255,255,255,0.1)' }} aria-hidden="true" />
                 <button
                   onClick={() => window.location.reload()}
-                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors"
+                  aria-label="Recarregar página"
+                  className="flex w-full items-center px-3 py-2.5 text-left text-[13px] text-white/85 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset"
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}
                   role="menuitem"

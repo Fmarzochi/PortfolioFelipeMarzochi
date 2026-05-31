@@ -55,7 +55,7 @@ export const ContactsApp = () => (
           <button
             key={label}
             onClick={onClick}
-            className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 ring-1 transition-colors border border-white/10 ${color}`}
+            className={`flex flex-col items-center gap-1.5 rounded-2xl p-3 ring-1 transition-colors border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 ${color}`}
             aria-label={label}
           >
             <Icon className="w-5 h-5" />
@@ -69,7 +69,7 @@ export const ContactsApp = () => (
           <div key={label} className="flex items-start gap-3 px-4 py-3">
             <span className="w-24 flex-shrink-0 text-[11px] text-white/60 uppercase tracking-wide pt-px">{label}</span>
             {isEmail ? (
-              <a href={`mailto:${value}`} className="text-sm text-blue-400 hover:text-blue-300 transition-colors break-all">{value}</a>
+              <a href={`mailto:${value}`} aria-label={`Enviar email para ${value}`} className="text-sm text-blue-400 hover:text-blue-300 transition-colors break-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-sm">{value}</a>
             ) : (
               <span className="text-sm text-white/70 leading-snug">{value}</span>
             )}

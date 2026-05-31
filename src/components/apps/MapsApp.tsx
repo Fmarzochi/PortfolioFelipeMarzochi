@@ -121,7 +121,7 @@ const SidebarItem = ({
   <button
     data-id={exp.id}
     onClick={onClick}
-    className={`flex w-full items-start gap-2.5 rounded-xl p-2.5 transition-all text-left outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+    className={`flex w-full items-start gap-2.5 rounded-xl p-2.5 transition-all text-left outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent ${
       isSelected ? 'bg-blue-600/20 ring-1 ring-blue-500/40' : 'hover:bg-white/5'
     }`}
   >
@@ -169,7 +169,7 @@ const DetailCard = ({ selected, expanded, onToggleExpanded }: DetailCardProps) =
       </div>
       <button
         onClick={onToggleExpanded}
-        className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
+        className="flex-shrink-0 flex items-center gap-1 text-[11px] text-blue-400 hover:text-blue-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent rounded"
       >
         {expanded ? <><ChevronUp size={13} />Menos</> : <><ChevronDown size={13} />Detalhes</>}
       </button>
@@ -286,9 +286,13 @@ export const MapsApp = () => {
               animate={{ scale: selected.id === exp.id ? 1.35 : 1 }}
               whileHover={{ scale: selected.id === exp.id ? 1.4 : 1.2 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              className="absolute cursor-pointer group"
+              className="absolute cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent rounded-full"
               style={{ left: `${exp.location.x}%`, top: `${exp.location.y}%`, transform: 'translate(-50%,-50%)' }}
               onClick={() => handleSelect(exp)}
+              tabIndex={0}
+              role="button"
+              aria-label={`${exp.role} — ${exp.company}`}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(exp); } }}
             >
               <div className="relative">
                 <div className={`h-4 w-4 rounded-full ${exp.color} ring-4 ring-blue-500/20 shadow-[0_0_14px_rgba(59,130,246,0.5)] ${exp.status === 'current' ? 'animate-pulse' : ''} group-hover:ring-8 transition-all`} />

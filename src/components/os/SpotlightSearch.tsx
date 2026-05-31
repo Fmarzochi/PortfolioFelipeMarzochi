@@ -151,7 +151,7 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                 <div className="flex items-center gap-3 px-4 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
                   <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
                   <input ref={inputRef} type="text" placeholder="Buscar projetos, skills, apps..." value={query} onChange={(e) => setQuery(e.target.value)} className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" role="combobox" aria-autocomplete="list" aria-expanded={isOpen && results.length > 0} aria-haspopup="listbox" aria-controls="spotlight-results" aria-label="Campo de busca global" aria-activedescendant={results[activeIdx] ? results[activeIdx].id : undefined} />
-                  {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors" aria-label="Limpar busca"><X size={15} /></button>}
+                  {query && <button onClick={() => setQuery('')} className="text-white/30 hover:text-white/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-sm" aria-label="Limpar busca"><X size={15} /></button>}
                 </div>
                 <div className="max-h-[400px] overflow-y-auto" id="spotlight-results" role="listbox" aria-label="Resultados da busca">
                   {query.trim() === '' && <div className="px-4 py-8 text-center text-sm text-white/25">Digite para buscar projetos, skills, apps ou certificações</div>}
@@ -163,7 +163,7 @@ export const SpotlightSearch = ({ isOpen, onClose }: Props) => {
                         const flatIdx = flatResults.indexOf(result);
                         const isActive = flatIdx === activeIdx;
                         return (
-                          <button key={result.id} onClick={result.action} className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors" style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }} onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}>
+                          <button key={result.id} onClick={result.action} className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset" style={{ background: isActive ? 'rgba(59,130,246,0.22)' : '' }} onMouseEnter={e => { setActiveIdx(flatIdx); if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = ''; }}>
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/5 ring-1 ring-white/8`}>{result.icon}</div>
                             <div className="min-w-0 flex-1"><p className="text-[13px] font-medium text-white/90 truncate">{result.title}</p><p className="text-[11px] text-white/65 truncate">{result.subtitle}</p></div>
                             {isActive && <ChevronRight size={14} className="text-white/30 shrink-0" />}

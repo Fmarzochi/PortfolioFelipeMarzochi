@@ -208,7 +208,7 @@ export const BrowserApp = () => {
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <button
                 onClick={openGallery}
-                className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] rounded-[8px]"
+                className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-blue-500 hover:shadow-[0_0_20px_rgba(37,99,235,0.3)] rounded-[8px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
                 aria-label="Ver galeria de projetos completa"
               >
                 {t.browser.viewPortfolio}
@@ -216,7 +216,7 @@ export const BrowserApp = () => {
               <a
                 href="/cv/CV_FELIPE_MARZOCHI.pdf"
                 download="CV_Felipe_Marzochi.pdf"
-                className="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:ring-white/40" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
+                className="flex items-center gap-2 rounded-[8px] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:ring-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                 aria-label="Fazer download do currículo em PDF"
               >
                 <Download size={14} aria-hidden="true" />
@@ -330,9 +330,10 @@ export const BrowserApp = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={e => e.stopPropagation()}
-                              className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
+                              aria-label={`Ver ${t.projects[project.id]?.title ?? project.title} no GitHub`}
+                              className="flex items-center gap-1.5 rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-white/60 hover:text-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                             >
-                              <ExternalLink size={11} /> {t.browser.viewOnGithub}
+                              <ExternalLink size={11} aria-hidden="true" /> {t.browser.viewOnGithub}
                             </a>
                           )}
                           {project.demoUrl && (
@@ -341,9 +342,10 @@ export const BrowserApp = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={e => e.stopPropagation()}
-                              className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors"
+                              aria-label={`Ver demo de ${t.projects[project.id]?.title ?? project.title}`}
+                              className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-[11px] font-medium text-blue-400 ring-1 ring-blue-500/20 hover:bg-blue-600/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
                             >
-                              <ExternalLink size={11} /> {t.browser.viewDemo}
+                              <ExternalLink size={11} aria-hidden="true" /> {t.browser.viewDemo}
                             </a>
                           )}
                         </div>

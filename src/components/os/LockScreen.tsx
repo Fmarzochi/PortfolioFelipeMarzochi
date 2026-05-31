@@ -87,7 +87,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
       {/* ── Mute toggle ──────────────────────────────────────────────────── */}
       <button
         onClick={() => setIsMuted(v => !v)}
-        className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/8 ring-1 ring-white/15 hover:bg-white/15 transition-all"
+        className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/8 ring-1 ring-white/15 hover:bg-white/15 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
         title={isMuted ? t.lock.muteOn : t.lock.muteOff}
       >
         {isMuted ? <VolumeX size={14} className="text-white/50" /> : <Volume2 size={14} className="text-white/50" />}
@@ -205,7 +205,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
             ) : (
               <button
                 type="submit"
-                className="absolute right-2 flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10"
+                className="absolute right-2 flex h-7 w-7 items-center justify-center rounded-full transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1"
                 aria-label={t.lock.enter}
               >
                 <ArrowRight size={16} className="text-white/60 hover:text-white" />
@@ -214,7 +214,7 @@ export const LockScreen = ({ onUnlock }: LockScreenProps) => {
           </form>
 
           <button
-            className="mt-6 md:mt-8 flex flex-col items-center gap-3 cursor-pointer group"
+            className="mt-6 md:mt-8 flex flex-col items-center gap-3 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-full"
             onClick={() => handleLogin()}
             aria-label={t.lock.unlockSystem}
           >

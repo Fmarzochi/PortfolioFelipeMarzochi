@@ -91,6 +91,8 @@ export const ContextMenu = () => {
           exit={{ opacity: 0, scale: 0.95, y: -4 }}
           transition={{ duration: 0.12, ease: 'easeOut' }}
           style={{ top: safeY, left: safeX }}
+          role="menu"
+          aria-label="Menu de contexto"
           className="fixed z-[9999] min-w-[220px] overflow-hidden rounded-xl liquid-glass-context-menu"
         >
           <div className="py-1">
@@ -102,7 +104,8 @@ export const ContextMenu = () => {
                 <button
                   key={index}
                   onClick={item.action}
-                  className={`flex w-full items-center gap-2.5 px-3 py-[7px] text-left text-[13px] transition-colors ${'danger' in item && item.danger ? 'text-red-400 hover:bg-red-500/15 hover:text-red-300' : 'text-white/85 hover:text-white'}`}
+                  role="menuitem"
+                  className={`flex w-full items-center gap-2.5 px-3 py-[7px] text-left text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-inset ${'danger' in item && item.danger ? 'text-red-400 hover:bg-red-500/15 hover:text-red-300' : 'text-white/85 hover:text-white'}`}
                   style={!('danger' in item && item.danger) ? { ['--tw-hover-bg' as string]: 'rgba(255,255,255,0.12)' } : undefined}
                   onMouseEnter={e => { if (!('danger' in item && item.danger)) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = ''; }}

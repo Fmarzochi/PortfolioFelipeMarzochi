@@ -76,7 +76,7 @@ export const TopBar = () => {
             href="https://www.linkedin.com/in/felipemarzochi/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center transition-colors hover:text-[#0A66C2]"
+            className="flex items-center justify-center transition-colors hover:text-[#0A66C2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-sm"
             title="LinkedIn"
             aria-label="Acessar perfil no LinkedIn"
           >
@@ -87,7 +87,7 @@ export const TopBar = () => {
             href="https://github.com/Fmarzochi"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center transition-colors hover:text-white"
+            className="flex items-center justify-center transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 rounded-sm"
             title="GitHub"
             aria-label="Acessar perfil no GitHub"
           >
