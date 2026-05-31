@@ -37,6 +37,7 @@ export interface Translations {
     result: string;
     stackUsed: string;
     viewOnGithub: string;
+    viewDemo: string;
     addToFav: string;
     removeFromFav: string;
     favorited: string;
