@@ -78,7 +78,7 @@ export const TerminalApp = () => {
   const [input, setInput] = useState('');
   const [currentDir, setCurrentDir] = useState('/');
   const [history, setHistory] = useState<CommandRecord[]>([
-    { command: '', output: <div className="text-gray-400">Marzochi Shell v2.1.0 · Digite 'help' para começar.</div> }
+    { command: '', output: <div className="text-gray-400">Marzochi Shell v2.1.0 · Digite &apos;help&apos; para começar.</div> }
   ]);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
@@ -129,7 +129,7 @@ export const TerminalApp = () => {
             ].map(([c, d]) => (
               <p key={c}><span className="text-green-400 font-bold w-24 inline-block">{c}</span> {d}</p>
             ))}
-            <p className="col-span-full text-xs text-gray-500 mt-2">Dica: Tente 'open photos' ou 'cd projects && ls'.</p>
+            <p className="col-span-full text-xs text-gray-500 mt-2">Dica: Tente &apos;open photos&apos; ou &apos;cd projects &amp;&amp; ls&apos;.</p>
           </div>
         );
         break;
@@ -192,7 +192,7 @@ export const TerminalApp = () => {
       case 'whoami': output = 'Felipe Marzochi · Engenheiro de Software Full Stack'; break;
       case 'pwd': output = currentDir; break;
       case 'clear': setHistory([]); return;
-      default: output = <p className="text-red-400">Comando não encontrado: {command}. Digite 'help'.</p>;
+      default: output = <p className="text-red-400">Comando não encontrado: {command}. Digite &apos;help&apos;.</p>;
     }
 
     setHistory(prev => [...prev, { command: rawInput, output }]);

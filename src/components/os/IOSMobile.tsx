@@ -23,8 +23,7 @@ import {
 type AppEntry = {
   id: string;
   title: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   gradient: string;
   href?: string;
 };
