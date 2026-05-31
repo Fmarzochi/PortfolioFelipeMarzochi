@@ -2,7 +2,7 @@
 
 # Portfolio Felipe Marzochi
 
-### Web OS — Um sistema operacional interativo no browser
+### Web OS: Um sistema operacional interativo no browser
 
 [![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
@@ -14,6 +14,7 @@
 [![Zustand](https://img.shields.io/badge/Zustand_4-433E38?style=for-the-badge&logo=react&logoColor=white)](https://zustand-demo.pmnd.rs/)
 [![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)](https://lucide.dev/)
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+[![CI](https://github.com/Fmarzochi/PortfolioFelipeMarzochi/actions/workflows/ci.yml/badge.svg)](https://github.com/Fmarzochi/PortfolioFelipeMarzochi/actions/workflows/ci.yml)
 
 </div>
 
@@ -21,9 +22,9 @@
 
 ## Sobre o Projeto
 
-Construí este portfólio com uma proposta diferente: em vez de uma página estática com seções empilhadas, desenvolvi um **sistema operacional completo rodando no browser**. A experiência simula um OS real — com tela de bloqueio, janelas arrastáveis, dock com magnificação, apps funcionais e dois layouts adaptativos: **macOS no desktop** e **iOS no mobile**.
+Construí este portfólio com uma proposta diferente: em vez de uma página estática com seções empilhadas, desenvolvi um **sistema operacional completo rodando no browser**. A experiência simula um OS real, com tela de bloqueio, janelas arrastáveis, dock com magnificação, apps funcionais e dois layouts adaptativos: **macOS no desktop** e **iOS no mobile**.
 
-Todo o estado do sistema vive no `localStorage` via Zustand — sem nenhum banco de dados, sem servidor de estado externo. O browser é o hardware.
+Todo o estado do sistema vive no `localStorage` via Zustand, sem nenhum banco de dados e sem servidor de estado externo. O browser é o hardware.
 
 ---
 
@@ -74,32 +75,34 @@ src/
 │   │   ├── SkillsApp.tsx       # Terminal interativo de habilidades
 │   │   └── TerminalApp.tsx     # Terminal do sistema
 │   ├── common/             # Utilitários e componentes compartilhados
-│   │   ├── AccessibilityIcon.tsx # Ícone de acessibilidade reutilizável
-│   │   ├── AppErrorBoundary.tsx # Error boundary global da aplicação
-│   │   ├── FocusTrap.tsx        # Armadilha de foco para modais e dialogs
-│   │   ├── IconRegistry.tsx     # Registro central de ícones SVG do sistema
-│   │   └── VLibrasWidget.tsx    # Plugin VLibras (MCTIC/UFPB) para Libras
+│   │   ├── AccessibilityIcon.tsx  # Botão ISA que abre o painel de acessibilidade
+│   │   ├── AccessibilityPanel.tsx # Painel com filtros de daltonismo, fonte e VLibras
+│   │   ├── AppErrorBoundary.tsx   # Error boundary global da aplicação
+│   │   ├── FocusTrap.tsx          # Armadilha de foco para modais e dialogs
+│   │   ├── IconRegistry.tsx       # Registro central de ícones SVG do sistema
+│   │   └── VLibrasWidget.tsx      # Plugin VLibras (MCTIC/UFPB) para Libras
 │   └── os/                 # Infraestrutura do sistema operacional
 │       ├── AppWindow.tsx       # Janela arrastável e redimensionável
 │       ├── ContextMenu.tsx     # Menu de contexto (clique direito / long-press)
 │       ├── ControlCenter.tsx   # Central de controle (volume, brilho, wallpaper)
-│       ├── Desktop.tsx         # Área de trabalho com crossfade de wallpaper
+│       ├── Desktop.tsx         # Area de trabalho com crossfade de wallpaper
 │       ├── IOSMobile.tsx       # Layout completo iOS
 │       ├── LockScreen.tsx      # Tela de bloqueio
 │       ├── MacDock.tsx         # Dock com magnificação (macOS)
-│       ├── SpotlightSearch.tsx # Busca global (Win + Espaço / ⌘ + Espaço)
+│       ├── SpotlightSearch.tsx # Busca global (Win + Espaço / Cmd + Espaço)
 │       ├── TopBar.tsx          # Barra de menu superior (macOS)
 │       └── WebOS.tsx           # Orquestrador principal do sistema
 ├── constants/
 │   ├── projects.ts         # Dados dos projetos (metadados, stack, imagens)
 │   └── translations.ts     # Dicionário i18n completo (PT · EN · ES)
 ├── contexts/
-│   ├── LanguageContext.tsx # Detecção automática de idioma e provider i18n
-│   └── OSContext.tsx       # Estado global do OS (volume, brilho, wallpaper)
+│   ├── AccessibilityContext.tsx # Estado global de acessibilidade (modo de cor, fonte)
+│   ├── LanguageContext.tsx      # Detecção automática de idioma e provider i18n
+│   └── OSContext.tsx            # Estado global do OS (volume, brilho, wallpaper)
 ├── hooks/
-│   ├── useContextMenu.ts       # Lógica de long-press e clique direito
-│   ├── useIconReorder.ts       # Reordenação de ícones no layout iOS
-│   ├── useIsMobile.ts          # Detecção de dispositivo
+│   ├── useContextMenu.ts        # Lógica de long-press e clique direito
+│   ├── useIconReorder.ts        # Reordenação de ícones no layout iOS
+│   ├── useIsMobile.ts           # Detecção de dispositivo
 │   └── usePerformanceMonitor.ts # Monitor de performance da aplicação
 ├── store/
 │   └── useWindowManager.ts # Gerenciador de janelas via Zustand (posição, z-index, tamanho)
@@ -128,42 +131,45 @@ src/
 
 | # | Projeto | Stack Principal |
 |---|---------|----------------|
-| 1 | **Conecta 360° · SaaS de RH e NR-1** | React.js · TypeScript · Node.js · Next.js · Kubernetes · AWS |
-| 2 | **DuAutomação Residencial** | Java · React.js · PostgreSQL |
-| 3 | **Laboratório Unilab** | Next.js · Tailwind CSS · Framer Motion |
-| 4 | **Career Scout AI** | Python · Gemini API · GitHub Actions |
-| 5 | **CalibraFlow: SaaS de Gestão de ISO** | Java 21 · Spring Boot · Docker · React |
-| 6 | **Big Data ANS: Processamento em Escala** | Java 21 · FastAPI · Vue.js · PostgreSQL |
-| 7 | **Pipeline Transacional AWS** | Node.js · AWS SQS · Lambda · DynamoDB |
-| 8 | **Caroll Buratto · Psicanalista Clínica** | Next.js · Node.js · PostgreSQL · Docker |
+| 1 | **Everything Gemini Code (EGC)** | Python · TypeScript · SQLite · Node.js · Bash · Tkinter · Gemini API · Docker |
+| 2 | **Conecta 360° · SaaS de RH e NR-1** | React.js · TypeScript · Next.js · Node.js · Docker · AWS · Kubernetes · GitHub Actions |
+| 3 | **DuAutomação Residencial** | Java · React.js · PostgreSQL · REST API |
+| 4 | **Laboratório Unilab** | Next.js · React · Tailwind CSS · Framer Motion |
+| 5 | **Career Scout AI** | Python · Gemini API · Gmail API · Google Sheets · GitHub Actions |
+| 6 | **CalibraFlow: SaaS de Gestão de ISO** | Java 21 · Spring Boot · PostgreSQL · Docker · JWT/Auth0 · React |
+| 7 | **Big Data ANS: Processamento em Escala** | Java 21 · Spring Boot · Python · FastAPI · Vue.js · PostgreSQL · Docker |
+| 8 | **Pipeline Transacional AWS** | Node.js · AWS SQS · AWS Lambda · DynamoDB · Next.js |
+| 9 | **Caroll Buratto · Psicanalista Clínica** | Next.js · Node.js · PostgreSQL · Docker · TypeScript · Tailwind CSS |
 
 ---
 
 ## Funcionalidades do Sistema
 
-- **Acessibilidade completa (A11y)** — Infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
-- **VLibras (MCTIC/UFPB)** — Plugin oficial do governo brasileiro para tradução do conteúdo em Língua Brasileira de Sinais (Libras), disponível em toda a aplicação via widget flutuante
-- **Badge de inclusão na tela de bloqueio** — Indicador visual "100% Acessível · Libras" exibido ao usuário desde o primeiro contato com o sistema
-- **Navegação nativa por teclado** — Gerenciamento de foco e atalhos globais para operação inclusiva do sistema
-- **Fotos reais nos cards de projetos** — Cada card do portfólio (Browser e Gallery) exibe a foto real do projeto com gradiente como fallback e overlay para preservar legibilidade
-- **Otimização de Performance (Next/Image)** — Carregamento inteligente e conversão automática de ativos para WebP, com atributo `sizes` calibrado por breakpoint para cada grade responsiva
-- **Normalização de zIndex** — Gerenciamento determinístico de camadas para janelas, prevenindo conflitos de profundidade no estado persistido
-- **UX Mobile Blindada** — Prevenção de gestos nativos de sistema (pull-to-refresh) e remoção de artefatos visuais do navegador (tap-highlight)
-- **Ergonomia de Desktop** — Janelas com travas de segurança (clamping) e áreas de redimensionamento otimizadas para precisão
-- **Arquitetura Centralizada de Ícones** — Registro único de recursos SVG para consistência visual e manutenção simplificada
-- **Áreas de toque otimizadas (Hit Targets)** — Botões e controles com área mínima de 44px, garantindo precisão em dispositivos móveis
+- **Acessibilidade completa (A11y)**: infraestrutura semântica com roles e labels para suporte total a leitores de tela (VoiceOver/TalkBack)
+- **Painel de acessibilidade visual**: filtros de daltonismo (deuteranopia, protanopia, tritanopia), escala de cinza, alto contraste e controle de tamanho de fonte, com preferências salvas no localStorage
+- **Skip to content (WCAG 2.4.1)**: link invisível que aparece ao pressionar Tab e leva o foco direto ao conteúdo principal, pulando a navegação do OS
+- **VLibras (MCTIC/UFPB)**: plugin oficial do governo brasileiro para tradução do conteúdo em Língua Brasileira de Sinais (Libras), acessível pelo painel de acessibilidade e pelo widget flutuante
+- **Badge de inclusão na tela de bloqueio**: indicador visual "100% Acessível · Libras" exibido ao usuário desde o primeiro contato com o sistema
+- **Navegação completa por teclado (Tab)**: todos os componentes do OS e dos apps com tabIndex, focus-visible rings e handlers de Enter/Space para operação sem mouse
+- **Fotos reais nos cards de projetos**: cada card do portfólio (Browser e Gallery) exibe a foto real do projeto com gradiente como fallback e overlay para preservar legibilidade
+- **Otimização de Performance (Next/Image)**: carregamento inteligente e conversão automática de ativos para WebP, com atributo `sizes` calibrado por breakpoint para cada grade responsiva
+- **Normalização de zIndex**: gerenciamento determinístico de camadas para janelas, prevenindo conflitos de profundidade no estado persistido
+- **UX Mobile Blindada**: prevenção de gestos nativos de sistema (pull-to-refresh) e remoção de artefatos visuais do navegador (tap-highlight)
+- **Ergonomia de Desktop**: janelas com travas de segurança (clamping) e áreas de redimensionamento otimizadas para precisão
+- **Arquitetura Centralizada de Ícones**: registro único de recursos SVG para consistência visual e manutenção simplificada
+- **Áreas de toque otimizadas (Hit Targets)**: botões e controles com área mínima de 44px, garantindo precisão em dispositivos móveis
 - **Tela de bloqueio** com desbloqueio por teclado (desktop) ou toque (mobile)
 - **Janelas arrastáveis e redimensionáveis** com física de molas via Framer Motion
 - **Dock com magnificação** ao passar o mouse (macOS)
 - **Central de controle** com ajuste de volume, brilho e troca de wallpaper
-- **Spotlight Search** (Win + Espaço / ⌘ + Espaço) com busca entre os apps
+- **Spotlight Search** (Win + Espaço / Cmd + Espaço) com busca entre os apps
 - **Menu de contexto** por clique direito (desktop) e long-press (mobile)
-- **Ícones móveis no estilo iOS** — drag livre com snap de retorno à posição original
+- **Ícones móveis no estilo iOS** com drag livre e snap de retorno à posição original
 - **Crossfade de wallpaper** animado ao trocar o plano de fundo
 - **Múltiplas janelas** abertas simultaneamente com gerenciamento de z-index
-- **Persistência de estado** — posição e tamanho das janelas salvas no `localStorage`
-- **Layout adaptativo** — iOS no mobile, macOS no desktop (sem media queries manuais)
-- **Glassmorphism nativo Apple** — todas as superfícies do sistema e dos apps com vidro fosco fiel ao iOS/macOS
+- **Persistência de estado**: posição e tamanho das janelas salvas no `localStorage`
+- **Layout adaptativo**: iOS no mobile, macOS no desktop (sem media queries manuais)
+- **Glassmorphism nativo Apple**: todas as superfícies do sistema e dos apps com vidro fosco fiel ao iOS/macOS
 
 ---
 
@@ -175,11 +181,12 @@ src/
 | [React](https://react.dev/) | 18 | UI e gerenciamento de estado local |
 | [TypeScript](https://www.typescriptlang.org/) | 5 | Tipagem estática em todo o projeto |
 | [Tailwind CSS](https://tailwindcss.com/) | 3 | Estilização utilitária |
-| [Framer Motion](https://www.framer.com/motion/) | 11 | Animações, física de molas, drag & drop |
+| [Framer Motion](https://www.framer.com/motion/) | 11 | Animações, física de molas, drag e drop |
 | [Zustand](https://zustand-demo.pmnd.rs/) | 4 | Estado global do OS e gerenciador de janelas |
 | [Lucide React](https://lucide.dev/) | 0.360 | Ícones do sistema |
-| [i18n — Context API](https://react.dev/reference/react/createContext) | — | Internacionalização PT · EN · ES com detecção automática por IP e `navigator.language` |
-| [ipapi.co](https://ipapi.co/) | — | Geolocalização por IP para detecção de cidade, país e idioma preferido |
+| [vlibras-nextjs](https://www.npmjs.com/package/vlibras-nextjs) | 1.1 | Integração do VLibras com Next.js App Router |
+| [i18n via Context API](https://react.dev/reference/react/createContext) | - | Internacionalização PT · EN · ES com detecção automática por IP e navigator.language |
+| [ipapi.co](https://ipapi.co/) | - | Geolocalização por IP para detecção de cidade, país e idioma preferido |
 | [Acessibilidade](https://www.w3.org/WAI/standards-guidelines/wcag/) | WCAG 2.1 | Padrões semânticos ARIA e navegação inclusiva |
 | [VLibras](https://vlibras.gov.br/) | MCTIC/UFPB | Tradução automática do conteúdo para Libras via widget oficial do governo brasileiro |
 
@@ -187,9 +194,14 @@ src/
 
 ## Funcionalidades Recentes
 
-- **8 projetos reais na galeria** — cada projeto com foto real, DOR/Solução/Resultado e stack detalhada
-- **Internacionalização completa (PT · EN · ES)** — detecção automática por IP e `navigator.language` com fallback para português
-- **Conecta 360° em destaque** — SaaS de RH e NR-1 com liderança técnica de front-end, posicionado como primeiro projeto
+- **Painel de acessibilidade visual**: 6 modos de cor (normal, alto contraste, deuteranopia, protanopia, tritanopia, escala de cinza) com filtros SVG calibrados e controle de tamanho de fonte A- / A / A+
+- **Skip to content (WCAG 2.4.1)**: link de teclado que aparece no primeiro Tab e ancora o foco no conteúdo principal
+- **VLibras integrado ao painel**: acesso ao widget de Libras a partir do painel de acessibilidade, além do botão flutuante nativo
+- **Navegação por Tab em todos os componentes**: todos os apps e componentes do OS receberam tabIndex, focus-visible e handlers de teclado
+- **CI com GitHub Actions**: pipeline de type-check, lint e build em cada push na branch main
+- **8 projetos reais na galeria**: cada projeto com foto real, DOR/Solução/Resultado e stack detalhada
+- **Internacionalização completa (PT · EN · ES)**: detecção automática por IP e navigator.language com fallback para português
+- **Conecta 360° em destaque**: SaaS de RH e NR-1 com liderança técnica de front-end, posicionado como primeiro projeto
 
 ---
 
@@ -229,13 +241,16 @@ npm start
 
 # Lint do projeto
 npm run lint
+
+# Type check
+npx tsc --noEmit
 ```
 
 ---
 
 ## Deploy
 
-O projeto é deployado automaticamente na [Vercel](https://vercel.com/) a cada push na branch `main`. O `package-lock.json` é mantido no repositório para garantir builds determinísticos.
+O projeto é deployado automaticamente na [Vercel](https://vercel.com/) a cada push na branch `main`. O pipeline de CI no GitHub Actions executa type-check, lint e build antes do deploy. O `package-lock.json` é mantido no repositório para garantir builds determinísticos.
 
 ---
 
