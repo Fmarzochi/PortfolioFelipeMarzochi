@@ -361,6 +361,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
         solucao: 'A serverless event-driven architecture on AWS using SQS for resilient queuing, Lambda for elastic processing, and DynamoDB for low-latency, high-availability persistence.',
         resultado: '100% resilient system with infinite on-demand scalability. Migration to a cloud-native model achieved a 60% reduction in fixed server and maintenance costs.',
       },
+      '9': {
+        title: 'EGC · Extended Global Context',
+        tag: 'Node.js · TypeScript · MCP · SQLite · Markdown',
+        dor: 'AI coding assistants suffer from total amnesia between sessions: every new chat window or tool switch wipes out technical decisions, preferences, and the history of what was already tried and failed. Developers lose the first minutes of every session re-explaining project context, and every re-explanation burns tokens for nothing.',
+        solucao: 'I built EGC (Extended Global Context), an open source, local-first runtime with two MCP servers: egc-memory, which persists decisions, preferences, and project state in Markdown and SQLite on your own machine, and egc-guardian, which validates commands and blocks writes to sensitive paths before execution. No cloud, no subscription, works across 20+ AI tools (Claude Code, Cursor, Copilot, Gemini CLI, and more).',
+        resultado: 'Open source project with 29 external contributors, documentation in 11 languages, and a Product Hunt launch. Cuts re-context tokens from about 1,500 to about 200 per session, a roughly 87% drop. I am also the author of the open Agent Memory Interchange (AMI) specification, which standardizes portable memory across AI agents.',
+      },
     },
   },
 
@@ -497,6 +504,13 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
         dor: 'El desafío de diseñar un sistema transaccional que soportara picos de concurrencia sin pérdida de datos, manteniendo el costo de infraestructura bajo control y el desacoplamiento total entre productores y consumidores de mensajes.',
         solucao: 'Arquitectura event driven serverless en AWS utilizando SQS para encolamiento resiliente, funciones Lambda para procesamiento elástico y DynamoDB para persistencia de baja latencia y alta disponibilidad operacional.',
         resultado: 'Sistema 100% resiliente con escalabilidad infinita bajo demanda. La modernización a un modelo cloud native resultó en una reducción estratégica del 60% en costos fijos de servidor y mantenimiento tecnológico.',
+      },
+      '9': {
+        title: 'EGC · Extended Global Context',
+        tag: 'Node.js · TypeScript · MCP · SQLite · Markdown',
+        dor: 'Los asistentes de IA para código sufren amnesia total entre sesiones: cada nueva ventana de chat o cambio de herramienta borra decisiones técnicas, preferencias y el historial de lo que ya se intentó y falló. El desarrollador pierde los primeros minutos de cada sesión reexplicando el contexto del proyecto, y cada reexplicación consume tokens pagados en vano.',
+        solucao: 'Creé EGC (Extended Global Context), un runtime open source local-first con dos servidores MCP: egc-memory, que persiste decisiones, preferencias y el estado del proyecto en Markdown y SQLite en la propia máquina, y egc-guardian, que valida comandos y bloquea escrituras en rutas sensibles antes de la ejecución. Funciona sin nube, sin suscripción, integrado con más de 20 herramientas de IA (Claude Code, Cursor, Copilot, Gemini CLI, entre otras).',
+        resultado: 'Proyecto open source con 29 colaboradores externos, documentación en 11 idiomas y lanzamiento en Product Hunt. Reduce el consumo de tokens de recontextualización de cerca de 1.500 a cerca de 200 por sesión, una caída de aproximadamente 87%. También soy autor de la especificación abierta Agent Memory Interchange (AMI), que estandariza la memoria portátil entre agentes de IA.',
       },
     },
   },
