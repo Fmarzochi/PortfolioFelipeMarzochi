@@ -18,7 +18,7 @@ export const PROJECTS: Project[] = [
   { 
     id: '9',
     albumKey: 'egc',
-    title: 'Everything Gemini Code (EGC)',
+    title: 'EGC · Extended Global Context',
     gradient: 'from-blue-600 via-indigo-600 to-purple-600',
     tag: 'Node.js · TypeScript · MCP · SQLite · Markdown',
     dor: 'Assistentes de IA para código sofrem de amnésia total entre sessões: cada nova janela de chat ou troca de ferramenta apaga decisões técnicas, preferências e o histórico do que já foi tentado e falhou. O desenvolvedor perde os primeiros minutos de cada sessão reexplicando o contexto do projeto, e cada reexplicação consome tokens pagos à toa.',
