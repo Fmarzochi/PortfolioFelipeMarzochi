@@ -131,7 +131,7 @@ src/
 
 | # | Projeto | Stack Principal |
 |---|---------|----------------|
-| 1 | **Everything Gemini Code (EGC)** | Python · TypeScript · SQLite · Node.js · Bash · Tkinter · Gemini API · Docker |
+| 1 | **EGC · Extended Global Context** | Node.js · TypeScript · MCP · SQLite · Markdown · Bash |
 | 2 | **Conecta 360° · SaaS de RH e NR-1** | React.js · TypeScript · Next.js · Node.js · Docker · AWS · Kubernetes · GitHub Actions |
 | 3 | **DuAutomação Residencial** | Java · React.js · PostgreSQL · REST API |
 | 4 | **Laboratório Unilab** | Next.js · React · Tailwind CSS · Framer Motion |
